@@ -1,5 +1,8 @@
 var githubhook = require('githubhook');
-var githubEvents = githubhook({/* options */});
+var githubEvents = githubhook({
+	port: process.env.PORT || 3420,
+	secret: 'k1b1b0t@kibibit'
+});
 var github = require('octonode');
 
 //var ghrepo = client.repo('pksunkara/hub');
