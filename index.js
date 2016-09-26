@@ -109,6 +109,7 @@ app.use(favicon(path.join(__dirname,
  */
 app.post('*', function(req, res) {
   console.log('got a post request!');
+  res.status(200);
 });
 
 /** =============
