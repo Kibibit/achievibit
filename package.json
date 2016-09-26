@@ -1,0 +1,15 @@
+{
+  "name": "achievibit",
+  "version": "1.0.0",
+  "description": "achievement system for github's PRs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "neilkalman@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "githubhook": "^1.6.1",
+    "octonode": "^0.7.6"
+  }
+}
