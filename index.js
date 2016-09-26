@@ -108,7 +108,7 @@ app.use(favicon(path.join(__dirname,
  *   set the routes for our server's API
  */
 app.post('*', function(req, res) {
-  console.log('got a post request!', req);
+  console.log('got a post request!');
 });
 
 /** =============
