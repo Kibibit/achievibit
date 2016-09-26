@@ -4,7 +4,8 @@
   "description": "achievement system for github's PRs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "neilkalman@gmail.com",
   "license": "ISC",
