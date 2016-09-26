@@ -107,10 +107,10 @@ app.use(favicon(path.join(__dirname,
  *   = ================
  *   set the routes for our server's API
  */
-app.post('*', function(req, res) {
+app.post('*', jsonParser, function(req, res) {
   console.log('got a post request about ' + req.header('X-GitHub-Event'));
-  if (req.header('X-GitHub-Event') === 'pull_request' && req.body.action === 'opened') {
-    console.log('new pull request opened on ' + req.body.repo.name + ' called ' + req.body.head.ref);
+  if (req.header('X-GitHub-Event') === 'pull_request' && req.payload.action === 'opened') {
+    console.log('new pull request opened on ' + req.payload.repo.name + ' called ' + req.payload.head.ref);
   }
   res.json({
     message: 'b33p b33p! got your notification, githubot!'
