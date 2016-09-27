@@ -16,6 +16,7 @@
     "express": "^4.14.0",
     "githubhook": "^1.6.1",
     "helmet": "^2.2.0",
+    "ngrok": "^2.2.3",
     "octonode": "^0.7.6",
     "scribe-js": "^2.0.4",
     "serve-favicon": "^2.3.0",
