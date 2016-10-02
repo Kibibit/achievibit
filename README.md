@@ -89,7 +89,7 @@ function activeReviewer(pullRequestData, creator, reviewers) {
     if (reviewer.reviewedPullRequests === 50) {
       reviewer.reward({
         name: 'nitpicker',
-        short: 'It\'s not personal, Sonny. It's strictly business',
+        short: 'It\'s not personal, Sonny. It\'s strictly business',
         description: 'you reviewed 50 merged pull requests!',
         avatar: 'url_to_img'
       });
