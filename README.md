@@ -86,14 +86,14 @@ some achievements examples:
 ```javascript
 function activeReviewer(pullRequestData, creator, reviewers) {
   _.forEach(reviewers, function(reviewer) {
-    if (reviewer.reviewedPullRequests === 50) {
+    if (reviewer.reviewedPullRequests >= 50) {
       reviewer.reward({
         name: 'nitpicker',
         short: 'It\'s not personal, Sonny. It\'s strictly business',
         description: 'you reviewed 50 merged pull requests!',
         avatar: 'url_to_img'
       });
-    } else if (reviewer.reviewedPullRequests === 100) {
+    } else if (reviewer.reviewedPullRequests >= 100) {
       reviewer.reward({
         name: 'niggler',
         short: 'A person who bitches about stupid details (and a way to get away with saying nigger)',
