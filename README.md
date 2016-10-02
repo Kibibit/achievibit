@@ -66,8 +66,8 @@ so, if a user had 5 PR opened and merged while achievibit was collecting data, h
   "abandonedPullRequests": 3,
   "reviewedPullRequests": 2,
   "achievements": [
-    "blah": "<obj>",
-    "blah2": "<obj2>",
+    "achiev_id",
+    "achiev_id2",
   ]
 }
 ```
@@ -90,14 +90,15 @@ function activeReviewer(pullRequestData, creator, reviewers) {
       reviewer.reward({
         name: 'nitpicker',
         short: 'It\'s not personal, Sonny. It's strictly business',
-        description: 'you reviewed 50 merged pull requests!'
-        avatar:
+        description: 'you reviewed 50 merged pull requests!',
+        avatar: 'url_to_img'
       });
     } else if (reviewer.reviewedPullRequests === 100) {
       reviewer.reward({
         name: 'niggler',
         short: 'A person who bitches about stupid details (and a way to get away with saying nigger)',
-        description: 'you reviewed 100 merged pull requests!'
+        description: 'you reviewed 100 merged pull requests!',
+        avatar: 'url_to_img'
       });
     }
   });
