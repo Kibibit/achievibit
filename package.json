@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Kibibit/achievibit.git"
+  },
   "author": "neilkalman@gmail.com",
   "license": "ISC",
   "dependencies": {
