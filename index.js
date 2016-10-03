@@ -10,7 +10,6 @@ var express = require('express'), // call express
     logo = require('./printLogo'),
     request = require('request'),
     gulp = require('gulp'),
-    createFileStreamService = require('./app/createFileSteamService'),
     eventManager = require('./eventManager'),
     ngrok = require('ngrok');
 var app = express(); // define our app using express
