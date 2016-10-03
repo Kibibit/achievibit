@@ -14,8 +14,8 @@ var express = require('express'), // call express
     eventManager = require('./eventManager'),
     ngrok = require('ngrok');
 var app = express(); // define our app using express
-var scribe = require('scribe-js')(); // used for logs
-var console = process.console;
+//var scribe = require('scribe-js')(); // used for logs
+//var console = process.console;
 
 var publicFolder = __dirname + '/public';
 
@@ -44,8 +44,8 @@ var jsonParser = bodyParser.json();
  *   don't log at all (TODO: make an exception for basic stuff
  *   like: listening on port: XXXX)
  */
-app.use(scribe.express.logger());
-app.use('/logs', scribe.webPanel());
+//app.use(scribe.express.logger());
+//app.use('/logs', scribe.webPanel());
 
 /** ================
  *   = STATIC FILES =
