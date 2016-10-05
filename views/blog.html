@@ -135,10 +135,12 @@
                             {% endif %}
                             {% if user.organizations and user.organizations.length > 0 %}
                                 {% for organization in user.organizations %}
+                                    <a href="/{{organization.username}}">
                                     <div style="display: inline-block">
                                         <img src="{{organization.avatar}}" height="35" width="35">
-                                        <div>{{organization.name}}</div>
+                                        <div>{{organization.username}}</div>
                                     </div>
+                                    </a>
                                 {% endfor %}
                             {% endif %}
                         </div>
