@@ -17,7 +17,7 @@ var express = require('express'), // call express
     ngrok = require('ngrok');
 
 var monk = require('monk');
-var url = process.env.MONGOLAB_URI || 'mongodb://thatkookooguy:56784321@ds015325.mlab.com:15325/achievibit';
+var url = process.env.MONGOLAB_URI;
 var db = monk(url);
 var app = express(); // define our app using express
 //var scribe = require('scribe-js')(); // used for logs
