@@ -90,7 +90,7 @@ app.post('*', jsonParser, function(req, res) {
 });
 
 app.get('/download/extension', function(req, res) {
-  var file = __dirname + '/achievibit-chrome-extension.crx';
+  var file = __dirname + '/public/achievibit-chrome-extension.crx';
   res.download(file);
 });
 
