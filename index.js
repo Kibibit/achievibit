@@ -23,6 +23,8 @@ var app = express(); // define our app using express
 //var scribe = require('scribe-js')(); // used for logs
 //var console = process.console;
 
+var io = {};
+
 var publicFolder = __dirname + '/public';
 
 var token = '';
@@ -82,7 +84,7 @@ app.use(favicon(path.join(__dirname,
 app.post('*', jsonParser, function(req, res) {
   console.log('got a post about ' + req.header('X-GitHub-Event'));
 
-  eventManager.notifyAchievements(req.header('X-GitHub-Event'), req.body);
+  eventManager.notifyAchievements(req.header('X-GitHub-Event'), req.body, io);
 
   res.json({
     message: 'b33p b33p! got your notification, githubot!'
@@ -145,10 +147,16 @@ app.get('/', function(req, res) {
  *   = SERVER =
  *   = ========
  */
-app.listen(config.port, function() {
+var server = app.listen(config.port, function() {
   logo();
   console.info('Server listening at port ' +
     colors.bgBlue.white.bold(' ' + config.port + ' '));
+});
+var io = require('socket.io').listen(server);
+
+// Emit welcome message on connection
+io.on('connection', function(socket) {
+    console.log('user connected!');
 });
 
 

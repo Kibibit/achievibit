@@ -45,7 +45,7 @@ var EventManager = function() {
     // using `this` in the setTimeout functions will refer to those funtions, not the Radio class
     var self = this;
     
-    self.notifyAchievements = function(githubEvent, eventData) {
+    self.notifyAchievements = function(githubEvent, eventData, io) {
         /**
          * NEW REPO CONNECTED!!!
          */
@@ -264,7 +264,7 @@ var EventManager = function() {
                 });
 
                 alreadyReturned.comments = true;
-                dataReady(id);
+                dataReady(id, io);
             });
             ghpr.commits(function(err, commits) {
                 if (err) throw err;
@@ -282,7 +282,7 @@ var EventManager = function() {
                 });
 
                 alreadyReturned.commits = true;
-                dataReady(id);
+                dataReady(id, io);
             });
             ghpr.comments(function(err, inlineComments) {
                 if (err) throw err;
@@ -307,7 +307,7 @@ var EventManager = function() {
                 });
 
                 alreadyReturned.inlineComments = true;
-                dataReady(id);
+                dataReady(id, io);
             });
 
             ghpr.files(function(err, files) {
@@ -322,7 +322,7 @@ var EventManager = function() {
                 });
 
                 alreadyReturned.files = true;
-                dataReady(id);
+                dataReady(id, io);
             });
         }
 
@@ -440,11 +440,11 @@ var EventManager = function() {
                     '] ' +
                     body);
             }
-            dataReady(id);
+            dataReady(id, io);
         });
     }
 
-    function dataReady(id) {
+    function dataReady(id, io) {
         if (alreadyReturned &&
             alreadyReturned.comments &&
             alreadyReturned.commits &&
@@ -504,6 +504,7 @@ var EventManager = function() {
                             }
 
                             achievementObject.grantedOn = new Date().getTime();
+                            io.sockets.emit(username,achievementObject);
                             grantedAchievements[username].push(achievementObject);
                         } else {
                             console.error(achievementObject.name || achievementFilename +
