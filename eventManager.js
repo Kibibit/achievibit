@@ -47,6 +47,30 @@ var EventManager = function() {
     
     self.notifyAchievements = function(githubEvent, eventData) {
         /**
+         * NEW REPO CONNECTED!!!
+         */
+        if (_.isEqual(githubEvent, 'ping')) {
+            var repo = {
+                name: eventData.repository.name,
+                fullname: eventData.repository.full_name,
+                url: eventData.repository.html_url
+            };
+
+            if (_.isEqual(eventData.repository.owner.type, 'Organization')) {
+                repo.organization = {
+                    username: eventData.repository.owner.login,
+                    url: eventData.repository.owner.html_url,
+                    avatar: eventData.repository.owner.avatar_url,
+                    organization: true
+                };
+            }
+
+            var repos = db.get('repos');
+            repos.index( { fullname: 1 }, { unique: true, sparse: true } );
+            repos.insert(repo);
+        }
+
+        /**
          * INIT PULL REQUEST DATA
          * This will allow us to notify the achievements if something changed
          * in case some achievements want to deal with changing things.
@@ -448,6 +472,12 @@ var EventManager = function() {
                 users.insert(reviewer);
                 //addOrganization(reviewer.username, pullRequests[id].organization);
             });
+
+            console.log('adding repo to database');
+
+            var repos = db.get('repos');
+            repos.index( { fullname: 1 }, { unique: true, sparse: true } );
+            repos.insert(pullRequests[id].repository);
 
             console.log('~~== CHECKING ACHIEVEMENTS ==~~');
 
