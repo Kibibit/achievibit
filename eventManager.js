@@ -4,6 +4,17 @@ var _ = require('lodash');
 var github = require('octonode');
 var client = github.client();
 var request = require('request');
+var url = process.env.MONGOLAB_URI || 'mongodb://thatkookooguy:56784321@ds015325.mlab.com:15325/achievibit';
+var mongo = require('mongodb');
+var monk = require('monk');
+var schema = require('js-schema');
+var db = monk(url);
+var achievements = require('require-all')({
+  dirname     :  __dirname + '/achievements',
+  filter      :  /(.+achievement)\.js$/,
+  excludeDirs :  /^\.(git|svn)$/,
+  recursive   : true
+});
 var alreadyReturned = {
     comments: false,
     commits: false,
@@ -11,6 +22,19 @@ var alreadyReturned = {
     inlineComments: false,
     files: false
 };
+
+var Achievement = schema({
+  avatar : String,
+  name : String,
+  short : String,
+  description : String,
+  relatedPullRequest: String
+});
+
+var Treasure = schema({
+  name : String,
+  gem : [String, Number, Boolean]
+});
 
 var pullRequests = {};
 
@@ -34,8 +58,13 @@ var EventManager = function() {
             _.isEqual(eventData.action, 'opened')) { //_.isEqual(eventData.action, 'reopened')
             /////
             var id = eventData.repository.full_name + '/' + eventData.number;
-            pullRequests[id] = {
-                _id: id,
+
+            //var pullRequests = db.get('pullRequests');
+            if (!pullRequests[id]) {
+                pullRequests[id] = {};
+            }
+            _.merge(pullRequests[id], {
+                id: id,
                 url: eventData.pull_request.html_url,
                 number: eventData.number,
                 title: eventData.pull_request.title,
@@ -50,14 +79,14 @@ var EventManager = function() {
                     fullname: eventData.repository.full_name,
                     url: eventData.repository.html_url
                 }
-            };
+            });
 
             if (_.isEqual(eventData.repository.owner.type, 'Organization')) {
                 pullRequests[id].organization = {
-                    name: eventData.repository.owner.login,
+                    username: eventData.repository.owner.login,
                     url: eventData.repository.owner.html_url,
                     avatar: eventData.repository.owner.avatar_url,
-
+                    organization: true
                 };
             }
 
@@ -328,6 +357,9 @@ var EventManager = function() {
             (_.isEqual(eventData.action, 'unassigned') || _.isEqual(eventData.action, 'assigned'))) {
             /////
             var id = eventData.repository.full_name + '/' + eventData.number;
+            if (!pullRequests[id]) {
+                pullRequests[id] = {};
+            }
             var assignees = eventData.pull_request.assignees;
             pullRequests[id].reviewers = [];
             for (var i = 0; i < assignees.length; i++) {
@@ -344,6 +376,9 @@ var EventManager = function() {
     }
 
     function getNewFileFromPatch(patch) {
+        if (!patch) {
+            return;
+        }
         return patch.split('\n').filter(function(line) {
             return !line.startsWith('-') && !line.startsWith('@') && line.indexOf('No newline at end of file') === -1;
         }).map(function(line) {
@@ -366,7 +401,7 @@ var EventManager = function() {
             var index = alreadyReturned.reactions.indexOf(false);
             alreadyReturned.reactions[index] = true;
             if (response.statusCode == 200) {
-                console.log('GOT REACTIONS FOR: ' + comment.apiUrl);
+
                 var reactions = JSON.parse(body);
                 comment.reactions = [];
                 _.forEach(reactions, function(reaction) {
@@ -392,9 +427,93 @@ var EventManager = function() {
             _.every(alreadyReturned.reactions) &&
             alreadyReturned.inlineComments &&
             alreadyReturned.files) {
-            console.log('WE HAVE A PULL REQUEST READY!');
+
             console.log('~~== PULL REQUEST MERGED! ==~~');
-            console.log('UPDATE extra fields', JSON.stringify(pullRequests[id], null, 2));
+
+            // add creator to database
+            console.log('adding users to database');
+            var users = db.get('users');
+            users.index( { username: 1 }, { unique: true, sparse: true } );
+            users.insert(pullRequests[id].creator);
+
+            // add organization to database
+            console.log('adding organization to database');
+            if (pullRequests[id].organization) {
+                users.insert(pullRequests[id].organization);
+                //addOrganization(pullRequests[id].creator.username, pullRequests[id].organization);
+            }
+
+            // add reviewers to database
+            _.forEach(pullRequests[id].reviewers, function(reviewer) {
+                users.insert(reviewer);
+                //addOrganization(reviewer.username, pullRequests[id].organization);
+            });
+
+            console.log('~~== CHECKING ACHIEVEMENTS ==~~');
+
+            var grantedAchievements = {};
+
+            // check for achievements
+            _.forEach(achievements, function(achievement, achievementFilename) {
+                var shall = {
+                    grant: function(username, achievementObject) {
+                        if (!_.isString(username)) {
+                            console.error(achievementFilename +
+                                ': grant should get a username');
+                            return;
+                        }
+                        if (!_.isObject(achievementObject)) {
+                            console.error(achievementFilename +
+                                ': grant should get an object');
+                            return;
+                        }
+                        if (Achievement(achievementObject)) {
+
+                            if (!grantedAchievements[username]) {
+                                grantedAchievements[username] = [];
+                            }
+
+                            achievementObject.grantedOn = new Date().getTime();
+                            grantedAchievements[username].push(achievementObject);
+                        } else {
+                            console.error(achievementObject.name || achievementFilename +
+                                ': didn\'t get the correct structure. see documentation');
+                        }
+                    },
+                    pass: function(username, treasure) {
+                        if (Treasure(treasure)) {
+                            var treasures = {};
+                            treasures[treasure.name] = treasure;
+                            users.find({ username: username }).then(function(user) {
+                                console.log(user);
+                            });
+                            users.update({ username: username }, {
+                                treasures: treasures
+                            });
+                        }
+                    },
+                    retrieve: function(username) {
+                        if (!_.isString(username) || !_.isString(achievementName)) {
+                            console.error('retrieve expects a username and achievement name');
+                            return;
+                        }
+                        return users.find({ username: username });
+                    }
+                };
+                achievement.check && achievement.check(pullRequests[id], shall);
+
+                _.forEach(grantedAchievements, function(achievements, username) {
+                    users.findOne({ username: username }).then(function(user) {
+                        if (!user.achievements) {
+                            user.achievements = [];
+                        }
+                        var userAchievements = user.achievements;
+                        userAchievements = _.uniqBy(userAchievements.concat(achievements), 'name');
+                        user.achievements = userAchievements
+                        users.update(user._id, user);
+                    });
+                });
+            });
         }
     }
 
@@ -404,6 +523,38 @@ var EventManager = function() {
             url: githubUser.html_url,
             avatar: githubUser.avatar_url
         };
+    }
+
+    function addOrganization(username, organizationUsername) {
+        var users = db.get('users');
+
+        users.findOne({ username: username }).then(function(user) {
+            users.findOne({ username: organizationUsername, organization: true }).then(function(organization) {
+                if (!user.organizations) {
+                    user.organizations = [];
+                }
+                var organizations = user.organizations;
+                organizations = _.uniqBy(organizations.concat([{
+                    username: organization.username,
+                    avatar: organization.avatar,
+                    url: organization.url
+                }]), 'username');
+                user.organizations = organizations
+                users.update(user._id, user);
+
+                if (organization.users) {
+                    organization.users = [];
+                }
+                var users = organization.users;
+                users = _.uniqBy(users.concat([{
+                    username: user.username,
+                    avatar: user.avatar,
+                    url: user.url
+                }]), 'username');
+                organization.users = users
+                users.update(organization._id, organization);
+            });
+        });
     }
     
 };

@@ -11,7 +11,14 @@ var express = require('express'), // call express
     request = require('request'),
     gulp = require('gulp'),
     eventManager = require('./eventManager'),
+    cons = require('consolidate'),
+    moment = require('moment'),
+    _ = require('lodash'),
     ngrok = require('ngrok');
+
+var monk = require('monk');
+var url = process.env.MONGOLAB_URI || 'mongodb://thatkookooguy:56784321@ds015325.mlab.com:15325/achievibit';
+var db = monk(url);
 var app = express(); // define our app using express
 //var scribe = require('scribe-js')(); // used for logs
 //var console = process.console;
@@ -19,7 +26,13 @@ var app = express(); // define our app using express
 var publicFolder = __dirname + '/public';
 
 var token = '';
-var url = process.env.MONGOLAB_URI;
+
+// assign the swig engine to .html files
+app.engine('html', cons.swig);
+
+// set .html as the default extension
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
 
 // hook helmet to our express app. This adds some protection to each communication with the server
 // read more at https://github.com/helmetjs/helmet
@@ -76,13 +89,50 @@ app.post('*', jsonParser, function(req, res) {
   });
 });
 
+app.get('/:username', function(req, res) {
+  var users = db.get('users');
+  users.findOne({ username: req.params.username }).then(function(user) {
+    if (!user) {
+      res.redirect(301, '/');
+      return;
+    }
+    var byDate = _.sortBy(user.achievements, ['grantedOn']);
+    _.forEach(byDate, function(achievement) {
+      achievement.grantedOn = moment(achievement.grantedOn).fromNow();
+    });
+    res.render('blog' , {
+      user: user,
+      achievements: byDate
+    });
+  }, function() {
+    res.redirect(301, '/');
+  });
+});
+
+app.get('/raw/:username', function(req, res) {
+  var users = db.get('users');
+  users.findOne({ username: req.params.username }).then(function(user) {
+    if (!user) {
+      res.status(204).send('no user found');
+      return;
+    }
+    // var byDate = _.sortBy(user.achievements, ['grantedOn']);
+    // _.forEach(byDate, function(achievement) {
+    //   achievement.grantedOn = moment(achievement.grantedOn).fromNow();
+    // });
+    res.json(user);
+  }, function() {
+    res.status(500).send('something went wrong');
+  });
+});
+
 /** =============
  *   = FRONT-END =
  *   = ===========
  *   Main 'catch-all' route to send users to frontend
  */
 /* NOTE(thatkookooguy): has to be registered after API ROUTES */
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(path.join(publicFolder + '/index.html'));
 });
 
