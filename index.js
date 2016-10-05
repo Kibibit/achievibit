@@ -89,6 +89,11 @@ app.post('*', jsonParser, function(req, res) {
   });
 });
 
+app.get('/extension', function(req, res) {
+  var file = __dirname + '/achievibit-chrome-extension.crx';
+  res.download(file);
+});
+
 app.get('/:username', function(req, res) {
   var users = db.get('users');
   users.findOne({ username: req.params.username }).then(function(user) {
