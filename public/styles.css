@@ -1,3 +1,7 @@
+.achievibit a {
+  color: #6b66ff;
+}
+
 .achievement {
     display: inline-block;
     border-radius: 5px;
@@ -6,12 +10,24 @@
     border: #efefef 1px solid;
     margin: 5px;
     width: 355px;
+    color: black;
 }
 
 .achievement .achievement-title {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+}
+
+.user-mini-card {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  color: black;
+}
+
+.user-mini-card img {
+  margin-right: 10px;
 }
 
 .achievibit .mdl-card__media {

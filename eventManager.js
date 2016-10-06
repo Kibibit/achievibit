@@ -81,7 +81,7 @@ var EventManager = function() {
         if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'opened')) { //_.isEqual(eventData.action, 'reopened')
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
 
             //var pullRequests = db.get('pullRequests');
             if (!pullRequests[id]) {
@@ -138,7 +138,7 @@ var EventManager = function() {
                 eventData.pull_request.created_at)
             ) {
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
             pullRequests[id]
                 .labels.push(eventData.label.name);
 
@@ -150,7 +150,7 @@ var EventManager = function() {
         } else if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'labeled')) {
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
             if (!_.isObject(pullRequests[id].history.labels)) {
                 pullRequests[id].history.labels = {
                     added: 0,
@@ -172,7 +172,7 @@ var EventManager = function() {
         if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'unlabeled')) {
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
             if (!_.isObject(pullRequests[id].history.labels)) {
                 pullRequests[id].history.labels = {
                     added: 0,
@@ -212,7 +212,7 @@ var EventManager = function() {
             // first, get some additional data:
             //  * comments
             //  * reactions
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
 
             // if by any chance we missed creating the pull request,
             // create it here (means we won't have history)
@@ -335,7 +335,7 @@ var EventManager = function() {
         if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'edited')) {
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
             if (eventData.changes.title) {
                 var oldTitle = pullRequests[id].title;
 
@@ -380,7 +380,7 @@ var EventManager = function() {
         if (_.isEqual(githubEvent, 'pull_request') &&
             (_.isEqual(eventData.action, 'unassigned') || _.isEqual(eventData.action, 'assigned'))) {
             /////
-            var id = eventData.repository.full_name + '/' + eventData.number;
+            var id = getPullRequestId(eventData);
             if (!pullRequests[id]) {
                 pullRequests[id] = {};
             }
@@ -452,24 +452,29 @@ var EventManager = function() {
             alreadyReturned.inlineComments &&
             alreadyReturned.files) {
 
+            var allUsersUsernames = [];
+
             console.log('~~== PULL REQUEST MERGED! ==~~');
 
             // add creator to database
             console.log('adding users to database');
-            var users = db.get('users');
-            users.index( { username: 1 }, { unique: true, sparse: true } );
-            users.insert(pullRequests[id].creator);
+            var _users = db.get('users');
+            _users.index( { username: 1 }, { unique: true, sparse: true } );
+            _users.insert(pullRequests[id].creator);
+            allUsersUsernames.push({ username: pullRequests[id].creator.username });
 
             // add organization to database
             console.log('adding organization to database');
             if (pullRequests[id].organization) {
-                users.insert(pullRequests[id].organization);
+                _users.insert(pullRequests[id].organization);
+                allUsersUsernames.push({ username: pullRequests[id].organization.username });
                 //addOrganization(pullRequests[id].creator.username, pullRequests[id].organization);
             }
 
             // add reviewers to database
             _.forEach(pullRequests[id].reviewers, function(reviewer) {
-                users.insert(reviewer);
+                _users.insert(reviewer);
+                allUsersUsernames.push({ username: reviewer.username });
                 //addOrganization(reviewer.username, pullRequests[id].organization);
             });
 
@@ -481,69 +486,145 @@ var EventManager = function() {
 
             console.log('~~== CHECKING ACHIEVEMENTS ==~~');
 
-            var grantedAchievements = {};
+            _users.find({$or: allUsersUsernames}).then(function(users) {
+                if (!users) {
+                    console.error('couldn\'t find users', allUsersUsernames);
+                    return;
+                }
 
-            // check for achievements
-            _.forEach(achievements, function(achievement, achievementFilename) {
-                var shall = {
-                    grant: function(username, achievementObject) {
-                        if (!_.isString(username)) {
-                            console.error(achievementFilename +
-                                ': grant should get a username');
-                            return;
-                        }
-                        if (!_.isObject(achievementObject)) {
-                            console.error(achievementFilename +
-                                ': grant should get an object');
-                            return;
-                        }
-                        if (Achievement(achievementObject)) {
+                var organization = _.remove(users, 'organization')[0];
 
-                            if (!grantedAchievements[username]) {
-                                grantedAchievements[username] = [];
-                            }
-
-                            achievementObject.grantedOn = new Date().getTime();
-                            io.sockets.emit(username,achievementObject);
-                            grantedAchievements[username].push(achievementObject);
-                        } else {
-                            console.error(achievementObject.name || achievementFilename +
-                                ': didn\'t get the correct structure. see documentation');
-                        }
-                    },
-                    pass: function(username, treasure) {
-                        if (Treasure(treasure)) {
-                            var treasures = {};
-                            treasures[treasure.name] = treasure;
-                            users.find({ username: username }).then(function(user) {
-                                console.log(user);
-                            });
-                            users.update({ username: username }, {
-                                treasures: treasures
-                            });
-                        }
-                    },
-                    retrieve: function(username) {
-                        if (!_.isString(username) || !_.isString(achievementName)) {
-                            console.error('retrieve expects a username and achievement name');
-                            return;
-                        }
-                        return users.find({ username: username });
+                _.forEach(users, function(user) {
+                    if (!_.isArray(user.organizations)) {
+                        user.organizations = [];
                     }
-                };
-                achievement.check && achievement.check(pullRequests[id], shall);
 
-                _.forEach(grantedAchievements, function(achievements, username) {
-                    users.findOne({ username: username }).then(function(user) {
+                    if (!_.find(user.organizations, { username: organization.username })) {
+                        user.organizations.push({
+                            username: organization.username,
+                            url: organization.url,
+                            avatar: organization.avatar
+                        });
+                    }
+
+                    if (!_.isArray(organization.users)) {
+                        organization.users = [];
+                    }
+
+                    if (!_.find(organization.users, { username: user.username })) {
+                        organization.users.push({
+                            username: user.username,
+                            url: user.url,
+                            avatar: user.avatar
+                        });
+                    }
+                });
+
+                var grantedAchievements = {};
+
+                // check for achievements
+                _.forEach(achievements, function(achievement, achievementFilename) {
+                    var shall = {
+                        grant: function(username, achievementObject) {
+                            if (!_.isString(username)) {
+                                console.error(achievementFilename +
+                                    ': grant should get a username');
+                                return;
+                            }
+                            if (!_.isObject(achievementObject)) {
+                                console.error(achievementFilename +
+                                    ': grant should get an object');
+                                return;
+                            }
+                            if (Achievement(achievementObject)) {
+
+                                if (!grantedAchievements[username]) {
+                                    grantedAchievements[username] = [];
+                                }
+
+                                achievementObject.grantedOn = new Date().getTime();
+                                io.sockets.emit(username,achievementObject);
+                                grantedAchievements[username].push(achievementObject);
+                            } else {
+                                console.error(achievementObject.name || achievementFilename +
+                                    ': didn\'t get the correct structure. see documentation');
+                            }
+                        },
+                        pass: function(username, treasure) {
+                            if (Treasure(treasure)) {
+                                var treasures = {};
+                                treasures[treasure.name] = treasure;
+                                _users.find({ username: username }).then(function(user) {
+                                    console.log(user);
+                                });
+                                _users.update({ username: username }, {
+                                    treasures: treasures
+                                });
+                            }
+                        },
+                        retrieve: function(username) {
+                            if (!_.isString(username) || !_.isString(achievementName)) {
+                                console.error('retrieve expects a username and achievement name');
+                                return;
+                            }
+                            return _users.find({ username: username });
+                        }
+                    };
+                    achievement.check && achievement.check(pullRequests[id], shall);
+
+                });
+
+                _.forEach(users, function(user) {
+                    if (grantedAchievements[user.username]) {
+
                         if (!user.achievements) {
                             user.achievements = [];
                         }
+
                         var userAchievements = user.achievements;
-                        userAchievements = _.uniqBy(userAchievements.concat(achievements), 'name');
-                        user.achievements = userAchievements
-                        users.update(user._id, user);
+                        userAchievements = _.uniqBy(userAchievements.concat(grantedAchievements[user.username]), 'name');
+                        user.achievements = userAchievements;
+                    }
+
+                    if (pullRequests[id].repository) {
+                        if (!user.repos) {
+                            user.repos = [];
+                        }
+
+                        if (!_.find(user.repos, { fullname: pullRequests[id].repository.fullname })) {
+                            user.repos.push(pullRequests[id].repository);
+                        }
+                    }
+
+                    console.log('updating user: ' + user.username);
+                    _users.update(user._id, user, undefined, function(err) {
+                        console.log('USER ' + user.username + 'UPDATE CALLBACK');
+                        console.error(err);
                     });
                 });
+
+                if (pullRequests[id].repository) {
+                    if (!organization.repos) {
+                        organization.repos = [];
+                    }
+
+                    if (!_.find(organization.repos, { fullname: pullRequests[id].repository.fullname })) {
+                        organization.repos.push(pullRequests[id].repository);
+                    }
+                }
+
+                _users.update(organization._id, organization, undefined, function(err) {
+                    console.log('USER ' + user.username + 'UPDATE CALLBACK');
+                    console.error(err);
+                });
+
+                alreadyReturned = {
+                    comments: false,
+                    commits: false,
+                    reactions: [],
+                    inlineComments: false,
+                    files: false
+                };
             });
         }
     }
@@ -556,36 +637,8 @@ var EventManager = function() {
         };
     }
 
-    function addOrganization(username, organizationUsername) {
-        var users = db.get('users');
-
-        users.findOne({ username: username }).then(function(user) {
-            users.findOne({ username: organizationUsername, organization: true }).then(function(organization) {
-                if (!user.organizations) {
-                    user.organizations = [];
-                }
-                var organizations = user.organizations;
-                organizations = _.uniqBy(organizations.concat([{
-                    username: organization.username,
-                    avatar: organization.avatar,
-                    url: organization.url
-                }]), 'username');
-                user.organizations = organizations
-                users.update(user._id, user);
-
-                if (organization.users) {
-                    organization.users = [];
-                }
-                var users = organization.users;
-                users = _.uniqBy(users.concat([{
-                    username: user.username,
-                    avatar: user.avatar,
-                    url: user.url
-                }]), 'username');
-                organization.users = users
-                users.update(organization._id, organization);
-            });
-        });
+    function getPullRequestId(eventData) {
+        return eventData.repository.full_name + '/pull/' + eventData.number;
     }
     
 };

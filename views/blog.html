@@ -113,6 +113,7 @@
                             {% endif %}
                             {% if achievements and achievements.length > 0 %}
                                 {% for achievement in achievements %}
+                                    <a href="https://www.github.com/{{ achievement.relatedPullRequest }}" target="_blank">
                                     <div class="achievement" style="display: inline-block">
                                         <div class="achievement-title">
                                             <img src="{{achievement.avatar}}" height="35" width="35">
@@ -121,6 +122,27 @@
                                         <div style="font-size: 70%;">{{achievement.short}}</div>
                                         <div>{{achievement.description}}</div>
                                     </div>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
+                    <div class="mdl-cell mdl-cell--8-col" id="organizations">
+                        <h2 class="mdl-card__title-text">Repositories</h2>
+                        <div class="mdl-card__supporting-text no-left-padding">
+                            {% if !user.repos or user.repos.length === 0 %}
+                                <p><strong>No associated GitHub repositories on achievibit</strong></p>
+                            {% endif %}
+                            {% if user.repos and user.repos.length > 0 %}
+                                {% for repo in user.repos %}
+                                    <a href="{{ repo.url }}">
+                                    <div class="user-mini-card">
+                                        <img src="images/repo.png" height="35" width="35">
+                                        <div>{{ repo.fullname }}</div>
+                                    </div>
+                                    </a>
                                 {% endfor %}
                             {% endif %}
                         </div>
@@ -136,7 +158,7 @@
                             {% if user.organizations and user.organizations.length > 0 %}
                                 {% for organization in user.organizations %}
                                     <a href="/{{organization.username}}">
-                                    <div style="display: inline-block">
+                                    <div class="user-mini-card">
                                         <img src="{{organization.avatar}}" height="35" width="35">
                                         <div>{{organization.username}}</div>
                                     </div>
@@ -177,18 +199,20 @@
                     </div>
                 </div>
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
-                    <div class="mdl-cell mdl-cell--8-col" id="achievements">
-                        <h2 class="mdl-card__title-text">Related Repositories</h2>
+                    <div class="mdl-cell mdl-cell--8-col" id="organizations">
+                        <h2 class="mdl-card__title-text">Repositories</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% if user.repositories and user.repositories.length === 0 %}
-                                <p><strong>No repositories yet</strong></p>
+                            {% if !user.repos or user.repos.length === 0 %}
+                                <p><strong>No associated GitHub repositories on achievibit</strong></p>
                             {% endif %}
-                            {% if user.repositories and user.repositories.length > 0 %}
-                                {% for repository in user.repositories %}
-                                    <div style="display: inline-block">
-                                        <img src="{{user.avatar}}" height="35" width="35">
-                                        <div>{{repository.fullname}}</div>
+                            {% if user.repos and user.repos.length > 0 %}
+                                {% for repo in user.repos %}
+                                    <a href="{{ repo.url }}">
+                                    <div class="user-mini-card">
+                                        <img src="images/repo.png" height="35" width="35">
+                                        <div>{{ repo.fullname }}</div>
                                     </div>
+                                    </a>
                                 {% endfor %}
                             {% endif %}
                         </div>
@@ -203,10 +227,12 @@
                             {% endif %}
                             {% if user.users and user.users.length > 0 %}
                                 {% for _user in user.users %}
-                                    <div style="display: inline-block">
-                                        <img src="{{organization.avatar}}" height="35" width="35">
-                                        <div>{{_user.name}}</div>
-                                    </div>
+                                    <a href="/{{ _user.username }}">
+                                        <div class="user-mini-card">
+                                            <img src="{{ _user.avatar }}" height="35" width="35">
+                                            <div>{{ _user.username }}</div>
+                                        </div>
+                                    </a>
                                 {% endfor %}
                             {% endif %}
                         </div>
