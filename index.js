@@ -140,7 +140,20 @@ app.get('/raw/:username', function(req, res) {
  */
 /* NOTE(thatkookooguy): has to be registered after API ROUTES */
 app.get('/', function(req, res) {
-  res.sendFile(path.join(publicFolder + '/index.html'));
+  var users = db.get('users');
+  var repos = db.get('repos');
+  users.find({}).then(function(allUsers) {
+    repos.find({}).then(function(allRepos) {
+      var allOrganizations = _.remove(allUsers, 'organization');
+
+      res.render('index' , {
+        users: allUsers,
+        organizations: allOrganizations,
+        repos: allRepos
+      });
+    });
+  });
+  //res.sendFile(path.join(publicFolder + '/index.html'));
 });
 
 /** ==========
