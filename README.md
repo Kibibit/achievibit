@@ -1,4 +1,7 @@
-# achievibit
+## achievibit
+<img src="https://achievibit.herokuapp.com/images/favicon.png" width="150">
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+------
 github hook system to integrate achievements for repositories
 
 ## how to use
