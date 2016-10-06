@@ -6,6 +6,17 @@ github hook system to integrate achievements for repositories
 
 ## how to use
 
+achievibit needs to be integrated into each enabled repository via a webhook.
+
+1. Go to your main repository page
+2. click on ***Settings***
+3. on the sidebar, click on ***Webhooks***
+4. click on ***add webhook***
+5. paste achievibit's url (`achievibit.herokuapp.com`) into the ***payload url***
+6. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request`
+
+**Maybe sometime later we'll also support repo achievements. open an issue if you're interested :-)**
+
 ## how to clone your own server
 
 ## how to create new achievements
@@ -23,7 +34,8 @@ here is a general structure of the data collected about a pull request:
   "description": "testing some status changes events in `github`'s **webhooks**.",
   "creator": {
     "username": "Thatkookooguy",
-    "url": "https://api.github.com/users/Thatkookooguy"
+    "url": "<github_user_url>"
+    avatar: "<github_avatar_url>"
   },
   "createdOn": "2016-10-02T08:09:33Z",
   "milestone": "01. Create a kickass **code editor** for remote programming",
