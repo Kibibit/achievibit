@@ -15,11 +15,11 @@
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo"><img src="images/favicon.png" width="50" height="50"></a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="#"><i class="material-icons">search</i></a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
+        <li><a href="#">Search&nbsp;<i class="material-icons">search</i></a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -72,7 +72,7 @@
             <p class="light center">
               We also have a Chrome Extension that will integrate achievements right into GitHub's profiles
             </p>
-            <a href="/downloads/extension" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
+            <a href="/download/extension" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
           </div>
         </div>
 
@@ -110,40 +110,68 @@
         <div class="col s12 center">
           <h3><i class="mdi-content-send brown-text"></i></h3>
           <h4>These repositories have achievibit integreated</h4>
-          {% if repos and repos.length > 0 %}
-          {% for repo in repos %}
-          <a href="{{ repo.url }}">
-            <div class="user-mini-card">
-              <img src="images/repo.png" height="35" width="35">
-              <div>{{ repo.fullname }}</div>
-            </div>
-          </a>
-          {% endfor %}
-          {% endif %}
-
-
-          {% if users and users.length > 0 %}
-          {% for _user in users %}
-          <a href="/{{ _user.username }}">
+          <div class="list-container">
+            {% if repos and repos.length > 0 %}
+            {% for repo in repos %}
+            <a href="{{ repo.url }}">
               <div class="user-mini-card">
-                  <img src="{{ _user.avatar }}" height="35" width="35">
-                  <div>{{ _user.username }}</div>
+                <img src="images/repo.png" height="35" width="35">
+                <div>{{ repo.fullname }}</div>
               </div>
-          </a>
-          {% endfor %}
-          {% endif %}
+            </a>
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
 
+    </div>
+  </div>
 
-          {% if organizations and organizations.length > 0 %}
-          {% for organization in organizations %}
-          <a href="/{{organization.username}}">
-            <div class="user-mini-card">
-                <img src="{{organization.avatar}}" height="35" width="35">
-                <div>{{organization.username}}</div>
-            </div>
-          </a>
-          {% endfor %}
-          {% endif %}
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>{{ users.length }} users working on achievements!</h4>
+          <div class="list-container">
+            {% if users and users.length > 0 %}
+            {% for _user in users %}
+            <a href="/{{ _user.username }}">
+                <div class="user-mini-card">
+                    <img src="{{ _user.avatar }}" height="35" width="35">
+                    <div>{{ _user.username }}</div>
+                </div>
+            </a>
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>{{ organizations.length }} organizations that use achievibit</h4>
+          <div class="list-container">
+            {% if organizations and organizations.length > 0 %}
+            {% for organization in organizations %}
+            <a href="/{{organization.username}}">
+              <div class="user-mini-card">
+                  <img src="{{organization.avatar}}" height="35" width="35">
+                  <div>{{organization.username}}</div>
+              </div>
+            </a>
+            {% endfor %}
+            {% endif %}
+          </div>
         </div>
       </div>
 
@@ -155,7 +183,7 @@
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <h5 class="header col s12 light">Join now and start achieving</h5>
         </div>
       </div>
     </div>
@@ -166,34 +194,32 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <h5 class="white-text">kibibit</h5>
+          <p class="grey-text text-lighten-4">
+            kibibit is an open source team of software developers, trying
+            to make the world easier piece by piece.
+
+            <strong>you're more than welcome to contribute!</strong>
+          </p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
+          <h5 class="white-text">Sharing the love</h5>
           <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
+            <li><a class="white-text" href="https://heroku.com/">Heroku</a></li>
+            <li><a class="white-text" href="https://mlab.com/">mLab</a></li>
+            <li><a class="white-text" href="https://getmdl.io/">Material lite</a></li>
+            <li><a class="white-text" href="http://materializecss.com">Materialize</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      <!-- Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a> -->
       </div>
     </div>
   </footer>
