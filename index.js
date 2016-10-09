@@ -76,6 +76,17 @@ app.use(express.static(publicFolder));
 app.use(favicon(path.join(__dirname,
     'public', 'assets', 'images', 'favicon.ico')));
 
+app.post('sendFakeAchievementNotification/:username', jsonParser, function(req, res) {
+  if (req.body.secret === process.env.FAKE_SECRET) {
+    req.body.secret = undefined;
+    io.sockets.emit(req.params.username, req.body);
+  }
+
+  res.json({
+    message: 'b33p b33p! faked a socket.io update'
+  });
+});
+
 /** ==================
  *   = ROUTES FOR API =
  *   = ================
