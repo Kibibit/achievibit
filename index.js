@@ -120,7 +120,7 @@ app.get('/:username', function(req, res) {
       res.redirect(301, '/');
       return;
     }
-    var byDate = _.sortBy(user.achievements, ['grantedOn']);
+    var byDate = _.reverse(_.sortBy(user.achievements, ['grantedOn']));
     _.forEach(byDate, function(achievement) {
       achievement.grantedOn = moment(achievement.grantedOn).fromNow();
     });
