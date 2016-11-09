@@ -31,7 +31,7 @@
     "ngrok": "^2.2.3",
     "node-rest-client": "^2.0.1",
     "octonode": "^0.7.6",
-    "request": "^2.75.0",
+    "request": "^2.76.0",
     "require-all": "^2.0.0",
     "scribe-js": "^2.0.4",
     "serve-favicon": "^2.3.0",
