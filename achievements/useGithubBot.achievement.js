@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-var doubleReview = {
+var githubBot = {
 	name: 'use github bot',
 	check: function(pullRequest, shall) {
 		if (pullRequest.commits &&
@@ -22,4 +22,4 @@ var doubleReview = {
 	}
 };
 
-module.exports = doubleReview;
+module.exports = githubBot;
