@@ -115,7 +115,8 @@ app.get('/download/extension', function(req, res) {
 
 app.get('/:username', function(req, res) {
   var users = db.get('users');
-  users.findOne({ username: req.params.username }).then(function(user) {
+  var username = decodeURIComponent(req.params.username);
+  users.findOne({ username: username }).then(function(user) {
     if (!user) {
       res.redirect(301, '/');
       return;
@@ -135,7 +136,8 @@ app.get('/:username', function(req, res) {
 
 app.get('/raw/:username', function(req, res) {
   var users = db.get('users');
-  users.findOne({ username: req.params.username }).then(function(user) {
+  var username = decodeURIComponent(req.params.username);
+  users.findOne({ username: username }).then(function(user) {
     if (!user) {
       res.status(204).send('no user found');
       return;
