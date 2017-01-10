@@ -12,7 +12,7 @@ achievibit needs to be integrated into each enabled repository via a webhook.
 2. click on ***Settings***
 3. on the sidebar, click on ***Webhooks***
 4. click on ***add webhook***
-5. paste achievibit's url (`achievibit.herokuapp.com`) into the ***payload url***
+5. paste achievibit's url (`http://achievibit.herokuapp.com`) into the ***payload url***
 6. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request`
 
 **Maybe sometime later we'll also support repo achievements. open an issue if you're interested :-)**
