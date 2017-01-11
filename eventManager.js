@@ -462,12 +462,14 @@ var EventManager = function() {
             _users.index( { username: 1 }, { unique: true, sparse: true } );
             _users.insert(pullRequests[id].creator);
             allUsersUsernames.push({ username: pullRequests[id].creator.username });
+            console.log('adding user: ' + pullRequests[id].creator.username);
 
             // add organization to database
             console.log('adding organization to database');
             if (pullRequests[id].organization) {
                 _users.insert(pullRequests[id].organization);
                 allUsersUsernames.push({ username: pullRequests[id].organization.username });
+                console.log('adding user (organization): ' + pullRequests[id].organization.username);
                 //addOrganization(pullRequests[id].creator.username, pullRequests[id].organization);
             }
 
@@ -475,10 +477,11 @@ var EventManager = function() {
             _.forEach(pullRequests[id].reviewers, function(reviewer) {
                 _users.insert(reviewer);
                 allUsersUsernames.push({ username: reviewer.username });
+                console.log('adding user: ' + reviewer.username);
                 //addOrganization(reviewer.username, pullRequests[id].organization);
             });
 
-            console.log('adding repo to database');
+            console.log('adding repo to database: ' + pullRequests[id].repository);
 
             var repos = db.get('repos');
             repos.index( { fullname: 1 }, { unique: true, sparse: true } );
@@ -545,6 +548,7 @@ var EventManager = function() {
                                 achievementObject.grantedOn = new Date().getTime();
                                 io.sockets.emit(username,achievementObject);
                                 grantedAchievements[username].push(achievementObject);
+                                console.log(username + ' got a new achievement! ' + achievementObject.name);
                             } else {
                                 console.error(achievementObject.name || achievementFilename +
                                     ': didn\'t get the correct structure. see documentation');
