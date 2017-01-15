@@ -14,10 +14,13 @@ var express = require('express'), // call express
     cons = require('consolidate'),
     moment = require('moment'),
     _ = require('lodash'),
+    nconf = require('nconf'),
     ngrok = require('ngrok');
 
+var async = require('async');
 var monk = require('monk');
-var url = process.env.MONGOLAB_URI;
+nconf.argv().env();
+var url = nconf.get('databaseUrl');
 var db = monk(url);
 var app = express(); // define our app using express
 //var scribe = require('scribe-js')(); // used for logs
@@ -27,7 +30,7 @@ var io = {};
 
 var publicFolder = __dirname + '/public';
 
-var token = '';
+var token = nconf.get('ngrokToken');
 
 // assign the swig engine to .html files
 app.engine('html', cons.swig);
@@ -115,23 +118,52 @@ app.get('/download/extension', function(req, res) {
 
 app.get('/:username', function(req, res) {
   var users = db.get('users');
+  var repos = db.get('repos');
   var username = decodeURIComponent(req.params.username);
-  users.findOne({ username: username }).then(function(user) {
-    if (!user) {
-      res.redirect(301, '/');
-      return;
+  async.waterfall([
+    function(callback) {
+        users.findOne({ username: username }).then(function(user) {
+            if (!user) {
+                callback(username + ' user not found');
+              return;
+            }
+            var byDate = _.reverse(_.sortBy(user.achievements, ['grantedOn']));
+            _.forEach(byDate, function(achievement) {
+              achievement.grantedOn = moment(achievement.grantedOn).fromNow();
+            });
+            callback(null, {
+              user: user,
+              achievements: byDate
+            });
+          }, function() {
+            callback('request failed for some reason');
+          });
+    },
+    function(pageObject, callback) {
+        if (!pageObject) {
+            callback('failed to get user');
+            return;
+        }
+
+        var repoFullnameArray = [];
+        _.forEach(pageObject.user.repos, function(repoFullname) {
+            repoFullnameArray.push({ fullname: repoFullname });
+        });
+
+        repos.find({$or: repoFullnameArray}).then(function(userRepos) {
+            pageObject.user.repos = userRepos;
+
+            callback(null, pageObject);
+        });
     }
-    var byDate = _.reverse(_.sortBy(user.achievements, ['grantedOn']));
-    _.forEach(byDate, function(achievement) {
-      achievement.grantedOn = moment(achievement.grantedOn).fromNow();
-    });
-    res.render('blog' , {
-      user: user,
-      achievements: byDate
-    });
-  }, function() {
-    res.redirect(301, '/');
-  });
+  ], function (err, pageData) {
+    if (err) {
+        res.redirect(301, '/');
+        return;
+    }
+
+    res.render('blog' , pageData);
+});
 });
 
 app.get('/raw/:username', function(req, res) {

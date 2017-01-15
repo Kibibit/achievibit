@@ -6,6 +6,9 @@ var schema = require('js-schema');
 var async = require("async");
 var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
+var nconf = require('nconf');
+
+nconf.argv().env();
 
 // require all the achievement files
 var achievements = require('require-all')({
@@ -16,8 +19,8 @@ var achievements = require('require-all')({
 });
 
 var client = github.client({
-  username: process.env.GITHUB_USER,
-  password: process.env.GITHUB_PASSWORD
+  username: nconf.get('githubUser'),
+  password: nconf.get('githubPassword')
 });
 
 // OUR SCHEMAS!
@@ -544,18 +547,33 @@ var EventManager = function() {
                             if (Treasure(treasure)) {
                                 var treasures = {};
                                 treasures[treasure.name] = treasure;
-                                achievibitDB.findItem('users', { username: username }).then(function(user) {
-                                    console.log(user);
+                                achievibitDB.findItem('users', { username: username }).then(function(users) {
+                                    console.log('trying to update user with treasures!');
+                                    var userTreasures = users[0].treasures;
+                                    treasures = _.assign(userTreasures, treasures);
+                                    //users[0].treasures = treasures;
+
+                                    var dataObject = {};
+
+                                    dataObject['treasuresTest.testyTest'] = treasure;
+
+                                    achievibitDB.updatePartially('users', { username: username }, dataObject);
                                 });
-                                achievibitDB.updateItem('users', { username: username }, { treasures: treasures });
+                            } else {
+                              console.log('Treasure problems:');
+                              console.log(Treasure.errors(treasure));
                             }
                         },
-                        retrieve: function(username) {
-                            if (!_.isString(username) || !_.isString(achievementName)) {
-                                console.error('retrieve expects a username and achievement name');
+                        retrieve: function(username, treasureName) {
+                            if (!_.isString(username) || !_.isString(treasureName)) {
+                                console.error('retrieve expects a username and a treasure name');
                                 return;
                             }
-                            return achievibitDB.findItem('users', { username: username });
+                            return achievibitDB.findItem('users', { username: username }).then(function(users) {
+                              var user = users[0];
+                              var foundTreasure = user && user.treasures && user.treasures[treasureName];
+                              return foundTreasure ? user.treasures[treasureName] : null;
+                            });
                         }
                     };
                     achievement.check && achievement.check(pullRequests[id], shall);
@@ -585,7 +603,9 @@ var EventManager = function() {
                     }
 
                     console.log('updating user: ' + user.username);
-                    achievibitDB.updateItem('users', user._id, user);
+                    achievibitDB.updatePartialArray('users', user._id, {
+                      'repos': pullRequests[id].repository.fullname
+                    });
                 });
 
                 if (pullRequests[id].repository) {
@@ -598,7 +618,9 @@ var EventManager = function() {
                     }
                 }
 
-                achievibitDB.updateItem('users', organization._id, organization);
+                achievibitDB.updatePartialArray('users', organization._id, {
+                  'repos': pullRequests[id].repository.fullname
+                });
             });
     }
 };
