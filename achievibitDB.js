@@ -1,8 +1,11 @@
 var _ = require('lodash');
 var mongo = require('mongodb');
 var monk = require('monk');
+var nconf = require('nconf');
 
-var url = process.env.MONGOLAB_URI;
+nconf.argv().env();
+
+var url = nconf.get('databaseUrl');
 var db = monk(url);
 
 var collections = {
@@ -17,6 +20,8 @@ initCollections();
 achievibitDB.insertItem = insertItem;
 achievibitDB.updateItem = updateItem;
 achievibitDB.findItem = findItem;
+achievibitDB.updatePartially = updatePartially;
+achievibitDB.updatePartialArray = updatePartialArray;
 
 module.exports = achievibitDB;
 
@@ -36,6 +41,26 @@ function updateItem(collection, identityObject, updateWith) {
   }
 
   return collections[collection].update(identityObject, updateWith);
+}
+
+function updatePartially(collection, identityObject, updatePartial) {
+  if (_.isNil(collection) || _.isNil(identityObject) || _.isNil(updatePartial)) {
+    return;
+  }
+
+  return collections[collection].update(identityObject, {
+    $set: updatePartial
+  });
+}
+
+function updatePartialArray(collection, identityObject, updatePartial) {
+  if (_.isNil(collection) || _.isNil(identityObject) || _.isNil(updatePartial)) {
+    return;
+  }
+
+  return collections[collection].update(identityObject, {
+    $addToSet: updatePartial
+  });
 }
 
 function findItem(collection, identityObject) {
