@@ -20,6 +20,8 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 1. clone achievibit locally (we prefer using [ungit](https://github.com/FredrikNoren/ungit)
 2. run `npm install` to install all dependencies
 3. run the following command, replacing all the urls we got in the **prerequisites** step `node index.js --databaseUrl "<mongodb-url>" --ngrokToken "<ngrok-token>"`
+>You can also set global variables with the same names to set those permenantly. In Unixy environments: `export ngrokToken="<ngrok-token>"` || In Windows **powershell**: `$env:ngrokToken="<ngrok-token>"`
+
 4. if everything worked, you should see the `achievibit` logo, and an ngrok url under it.
 5. follow the instructions in the [`README.MD`](/README.MD) file to connect a test repository to your local achievibit (replace the url with your ngrok url). Make sure **Content type** is set to **application\json**
 > ![connect repo](/screenshots/connect-to-repo.png)
