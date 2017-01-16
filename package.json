@@ -24,6 +24,7 @@
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.7",
     "helmet": "^3.1.0",
+    "http-auth": "^3.1.1",
     "js-schema": "^1.0.1",
     "lodash": "^4.16.6",
     "moment": "^2.15.2",

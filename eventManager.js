@@ -6,6 +6,7 @@ var schema = require('js-schema');
 var async = require("async");
 var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
+var console = require('./consoleService')('GITHUB-EVENTS', ['blue', 'inverse'], process.console);
 var nconf = require('nconf');
 
 nconf.argv().env();
