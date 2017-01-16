@@ -21,6 +21,7 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 2. run `npm install` to install all dependencies
 3. run the following command, replacing all the urls we got in the **prerequisites** step `node index.js --databaseUrl "<mongodb-url>" --ngrokToken "<ngrok-token>"`
 4. if everything worked, you should see the `achievibit` logo, and an ngrok url under it.
-5. follow the instructions in the [`README.MD`](/README.MD) file to connect a test repository to your local achievibit (replace the url with your ngrok url)
+5. follow the instructions in the [`README.MD`](/README.MD) file to connect a test repository to your local achievibit (replace the url with your ngrok url). Make sure **Content type** is set to **application\json**
+> ![connect repo](/screenshots/connect-to-repo.png)
 6. check that the achievement works on your database (your user got your achievement on your test repository).
 if your achievement requires interaction with another user, talk to one of the developers and we'll help test it (reviewing a test pull request, etc.).
