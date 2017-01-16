@@ -10,21 +10,33 @@ var express = require('express'), // call express
     logo = require('./printLogo'),
     request = require('request'),
     gulp = require('gulp'),
-    eventManager = require('./eventManager'),
     cons = require('consolidate'),
     moment = require('moment'),
     _ = require('lodash'),
     nconf = require('nconf'),
     ngrok = require('ngrok');
 
+var auth = require('http-auth'); // @see https://github.com/gevorg/http-auth
+var scribe = require('scribe-js')(); // used for logs
 var async = require('async');
 var monk = require('monk');
 nconf.argv().env();
 var url = nconf.get('databaseUrl');
 var db = monk(url);
 var app = express(); // define our app using express
-//var scribe = require('scribe-js')(); // used for logs
-//var console = process.console;
+
+// use scribe.js for logging
+var console = require('./consoleService')('SERVER', ['magenta', 'inverse'], process.console);
+var eventManager = require('./eventManager');
+
+var basicAuth = auth.basic({
+        realm: "achievibit ScribeJS WebPanel"
+    }, function (username, password, callback) {
+        var logsUsername = nconf.get('logsUsername') ? nconf.get('logsUsername') + '' : '';
+        var logsPassword = nconf.get('logsPassword') ? nconf.get('logsPassword') + '' : '';
+        callback(username === logsUsername && password === logsPassword);
+    }
+);
 
 var io = {};
 
@@ -61,8 +73,13 @@ var jsonParser = bodyParser.json();
  *   don't log at all (TODO: make an exception for basic stuff
  *   like: listening on port: XXXX)
  */
-//app.use(scribe.express.logger());
-//app.use('/logs', scribe.webPanel());
+// app.use(scribe.express.logger());
+if (nconf.get('logsUsername')) {
+  app.use('/logs', auth.connect(basicAuth), scribe.webPanel());
+} else {
+  app.use('/logs', scribe.webPanel());
+}
+
 
 /** ================
  *   = STATIC FILES =
@@ -212,7 +229,10 @@ app.get('/', function(req, res) {
  *   = ========
  */
 var server = app.listen(config.port, function() {
-  logo();
+    var stealth = nconf.get('stealth');
+    if (!stealth) {
+        logo();
+    }
   console.info('Server listening at port ' +
     colors.bgBlue.white.bold(' ' + config.port + ' '));
 });
