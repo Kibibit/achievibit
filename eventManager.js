@@ -1,5 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
+var colors = require('colors');
 var github = require('octonode');
 var request = require('request');
 var schema = require('js-schema');
@@ -88,7 +89,7 @@ var EventManager = function() {
                 }
             }
 
-            console.log('created new pull request object', JSON.stringify(pullRequests[id], null, 2));
+            console.log('created new ' + colors.bgBlue.white.bold('pull request') + ' object', pullRequests[id]);
         }
 
         /**
