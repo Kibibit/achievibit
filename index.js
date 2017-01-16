@@ -240,7 +240,12 @@ var io = require('socket.io').listen(server);
 
 // Emit welcome message on connection
 io.on('connection', function(socket) {
-    console.log('user connected!');
+    var username = socket && socket.handshake && socket.handshake.query && socket.handshake.query.githubUsername
+    if (username) {
+      console.log('USER CONNECTED: ' + username);
+    } else {
+      console.log('ANONYMOUS USER CONNECTED!');
+    }
 });
 
 
