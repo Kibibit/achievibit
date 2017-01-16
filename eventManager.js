@@ -545,17 +545,12 @@ var EventManager = function() {
                         },
                         pass: function(username, treasure) {
                             if (Treasure(treasure)) {
-                                var treasures = {};
-                                treasures[treasure.name] = treasure;
+                                // TODO(thatkookooguy): do we need this first call? what happens if there's no user in line 555?
                                 achievibitDB.findItem('users', { username: username }).then(function(users) {
-                                    console.log('trying to update user with treasures!');
-                                    var userTreasures = users[0].treasures;
-                                    treasures = _.assign(userTreasures, treasures);
-                                    //users[0].treasures = treasures;
 
                                     var dataObject = {};
 
-                                    dataObject['treasuresTest.testyTest'] = treasure;
+                                    dataObject['treasures.' + treasure.name] = treasure.gem;
 
                                     achievibitDB.updatePartially('users', { username: username }, dataObject);
                                 });
@@ -588,24 +583,21 @@ var EventManager = function() {
                         }
 
                         var userAchievements = user.achievements;
-                        userAchievements = _.uniqBy(userAchievements.concat(grantedAchievements[user.username]), 'name');
-                        user.achievements = userAchievements;
-                    }
-
-                    if (pullRequests[id].repository) {
-                        if (!user.repos) {
-                            user.repos = [];
-                        }
-
-                        if (!_.find(user.repos, { fullname: pullRequests[id].repository.fullname })) {
-                            user.repos.push(pullRequests[id].repository);
-                        }
+                        var newAchievements = _.differenceBy(grantedAchievements[user.username], userAchievements, 'name');
                     }
 
                     console.log('updating user: ' + user.username);
-                    achievibitDB.updatePartialArray('users', user._id, {
-                      'repos': pullRequests[id].repository.fullname
-                    });
+                    var repositoryName = pullRequests[id].repository ? pullRequests[id].repository.fullname : undefined;
+                    var newData = {};
+                    if (repositoryName) {
+                      newData.repos = repositoryName;
+                    }
+                    if (newAchievements) {
+                      newData.achievements = {
+                        $each: newAchievements
+                      };
+                    }
+                    achievibitDB.updatePartialArray('users', user._id, newData);
                 });
 
                 if (pullRequests[id].repository) {
