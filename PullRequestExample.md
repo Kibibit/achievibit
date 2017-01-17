@@ -11,15 +11,26 @@
       "avatar":"https://avatars.githubusercontent.com/u/10427304?v=3"
    },
    "createdOn":"2017-01-16T14:55:22Z",
-   "labels":[
-      "bug",
-      "help wanted"
+   "labels": [
+     "enhancement"
    ],
-   "history":{
-      "labels":{
-         "added":2,
-         "removed":0
-      }
+   "history": {
+     "description": [
+       {
+         "changedOn": "2017-01-17T11:56:19Z",
+         "description": "check it out!"
+       }
+     ],
+     "title": [
+       {
+         "changedOn": "2017-01-17T11:56:28Z",
+         "title": "blah"
+       }
+     ],
+     "labels": {
+       "added": 2,
+       "removed": 1
+     }
    },
    "repository":{
       "name":"newRepositoryToTestDB",
