@@ -3,9 +3,13 @@
 To test your achievements locally, you need do the following:
 
 ## prerequisites
+1. Creating a `MongoDB` database
+  * **Create a local `MongoDB` instance.**
+    1. start up MongoDB `mongod`
+    2. Use the local url as your `--databaseURL "mongodb://localhost/db_name"` - You don’t have to worry about creating a database. You can just use a database (by naming it in the url) and everything will automatically be made for you.
 
-1. Create a dummy `MongoDB` database. You can use https://mlab.com/ to create one in the cloud.
->If you're using `mlab`, you need to create a database, and then create a database user.
+  * **Create a dummy `MongoDB` instance. You can use https://mlab.com/ to create one in the cloud.**
+    If you're using `mlab`, you need to create a database, and then create a database user.
 After creating a database, click on Users**-->**Add database user
 ![Users-->Add database user](/screenshots/create-db-user.png)
 Now, go to your database homepage, and copy the database url. you need to enter your database username and password (**NOT YOUR MLAB ACCOUNT!**)
