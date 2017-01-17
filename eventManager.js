@@ -446,7 +446,7 @@ var EventManager = function() {
     function dataReady(id, io) {
             var allUsersUsernames = [];
 
-            console.log('~~== PULL REQUEST MERGED! ==~~');
+            console.info('~~== PULL REQUEST MERGED! ==~~', pullRequests[id]);
 
             // add creator to database
             console.log('adding users to database');
