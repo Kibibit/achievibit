@@ -109,7 +109,7 @@ var EventManager = function() {
             pullRequests[id]
                 .labels.push(eventData.label.name);
 
-            console.log('added labels on creation', JSON.stringify(pullRequests[id], null, 2));
+            console.log('added labels on creation', pullRequests[id]);
 
         /**
          * UPDATE PULL REQUEST DATA - LABEL ADDED
@@ -130,7 +130,7 @@ var EventManager = function() {
             pullRequests[id]
                 .labels.push(eventData.label.name);
 
-            console.log('UPDATE labels', JSON.stringify(pullRequests[id], null, 2));
+            console.log('UPDATE labels', pullRequests[id]);
         }
 
         /**
@@ -153,8 +153,8 @@ var EventManager = function() {
               return _.isEqual(label, eventData.label.name);
             });
 
-            console.log('UPDATE labels - removed ', JSON.stringify(removedItems, null, 2));
-            console.log('UPDATE labels', JSON.stringify(pullRequests[id], null, 2));
+            console.log('UPDATE labels - removed', removedItems);
+            console.log('UPDATE labels', pullRequests[id]);
         }
 
         /**
@@ -346,7 +346,7 @@ var EventManager = function() {
 
                 pullRequests[id].title = eventData.pull_request.title;
 
-                console.log('UPDATE title', JSON.stringify(pullRequests[id], null, 2));
+                console.log('UPDATE title', pullRequests[id]);
             }
 
             if (eventData.changes.body) {
@@ -363,7 +363,7 @@ var EventManager = function() {
 
                 pullRequests[id].description = eventData.pull_request.body;
 
-                console.log('UPDATE description', JSON.stringify(pullRequests[id], null, 2));
+                console.log('UPDATE description', pullRequests[id]);
             }
 
         }
@@ -386,7 +386,7 @@ var EventManager = function() {
                 pullRequests[id].reviewers.push(utilities.parseUser(assignees[i]));
             }
 
-            console.log('UPDATE assignees', JSON.stringify(pullRequests[id], null, 2));
+            console.log('UPDATE assignees', pullRequests[id]);
         }
 
         if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
