@@ -10,6 +10,12 @@
       "url":"https://github.com/Thatkookooguy",
       "avatar":"https://avatars.githubusercontent.com/u/10427304?v=3"
    },
+   "organization": {
+     "username": "Kibibit",
+     "url": "github.com/Kibibit",
+     "avatar": "avatars.githubusercontent.com/u/14274940?v=3",
+     "organization": true
+   },
    "createdOn":"2017-01-16T14:55:22Z",
    "labels": [
      "enhancement"
