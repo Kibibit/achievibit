@@ -1,3 +1,2 @@
-web: npm install -g Thatkookooguy/gist-sync
-web: backupLogs
+worker: npm install -g Thatkookooguy/gist-sync && backupLogs
 web: node index.js
