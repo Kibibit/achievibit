@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "postinstall": "node ./node_modules/gist-sync/bin/backupLogs.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
