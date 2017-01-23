@@ -25,7 +25,7 @@ function checkIfResolvesManyIssues(pullRequest) {
 	var result = desc.match(resolveIssueRegex);
 
 //resolved more than 3 issue in on pull request
-	return result.length > 3;
+	return result && result.length > 3;
 	}
 
 module.exports = breakingBad;
