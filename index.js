@@ -152,7 +152,8 @@ app.get('/:username', function(req, res) {
               user: user,
               achievements: byDate
             });
-          }, function() {
+          }, function(error) {
+            console.error('problem getting specific user', error);
             callback('request failed for some reason');
           });
     },
@@ -167,11 +168,20 @@ app.get('/:username', function(req, res) {
             repoFullnameArray.push({ fullname: repoFullname });
         });
 
-        repos.find({$or: repoFullnameArray}).then(function(userRepos) {
-            pageObject.user.repos = userRepos;
+        if (repoFullnameArray.length > 0) {
+          repos.find({$or: repoFullnameArray}).then(function(userRepos) {
+              pageObject.user.repos = userRepos;
 
-            callback(null, pageObject);
-        });
+              callback(null, pageObject);
+          }, function(error) {
+             console.error('problem getting repos for user', error);
+
+             callback('problem getting repos for user');
+          });
+        } else {
+          callback(null, pageObject);
+        }
+
     }
   ], function (err, pageData) {
     if (err) {
@@ -219,7 +229,11 @@ app.get('/', function(req, res) {
         organizations: allOrganizations,
         repos: allRepos
       });
+    }, function(error) {
+      console.error('problem getting repos', error);
     });
+  }, function(error) {
+    console.error('problem getting users', error);
   });
   //res.sendFile(path.join(publicFolder + '/index.html'));
 });
