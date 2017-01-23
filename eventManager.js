@@ -306,35 +306,6 @@ var EventManager = function() {
               return;
           }
 
-          //  THIS SHOULD HAPPEN WHEN ADDING RIGHT AFTER ADDING ITEMS TO DATABASE (seperarte add and upate)
-          // if (organization) {
-          //     _.forEach(users, function(user) {
-          //         if (!_.isArray(user.organizations)) {
-          //             user.organizations = [];
-          //         }
-          //
-          //         if (!_.find(user.organizations, { username: organization.username })) {
-          //             user.organizations.push({
-          //                 username: organization.username,
-          //                 url: organization.url,
-          //                 avatar: organization.avatar
-          //             });
-          //         }
-          //
-          //         if (!_.isArray(organization.users)) {
-          //             organization.users = [];
-          //         }
-          //
-          //         if (!_.find(organization.users, { username: user.username })) {
-          //             organization.users.push({
-          //                 username: user.username,
-          //                 url: user.url,
-          //                 avatar: user.avatar
-          //             });
-          //         }
-          //     });
-          // }
-
           var grantedAchievements = {};
 
           var shall = {
@@ -400,7 +371,11 @@ var EventManager = function() {
               console.info('Testing ' + achievementFilename);
               console.info('is there a check to run?', _.isFunction(achievement.check));
               if (_.isFunction(achievement.check)) {
-                achievement.check(pullRequest, shall);
+                try {
+                  achievement.check(pullRequest, shall);
+                } catch (error) {
+                  console.error('ERROR IN ACHIEVEMENT ' + achievement.name, error.message);
+                }
               }
           });
 
