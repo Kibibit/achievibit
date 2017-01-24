@@ -279,8 +279,6 @@ var EventManager = function() {
             });
 
             achievibitDB.getExtraPRData(pullRequests[id], function() {
-              console.info('first time finish of achievibitDB.getExtraPRData');
-              console.log('got all async data. continuing...');
               dataReady(id, io);
             });
         }
@@ -292,15 +290,18 @@ var EventManager = function() {
             achievibitDB.addPRItems(pullRequests[id], function(err, results) {
               console.info('everything finished');
 
-              achievibitDB.connectUsersAndRepos(pullRequests[id]);
+              //achievibitDB.connectUsersAndRepos(pullRequests[id]);
 
-              var allPRUsers = [pullRequests[id].creator].concat(pullRequests[id].reviewers);
+              var allPRUsers = [pullRequests[id].creator];
+              if (_.isArray(pullRequests[id].reviewers)) {
+                allPRUsers.concat(pullRequests[id].reviewers);
+              }
               grantAchievements(allPRUsers, pullRequests[id], io);
             });
     }
 
     function grantAchievements(allPRUsers, pullRequest, io) {
-      console.info('~~== CHECKING ACHIEVEMENTS ==~~');
+      console.info(colors.rainbow('~~== CHECKING ACHIEVEMENTS ==~~'));
           if (!allPRUsers) {
               console.error('no users to grant achievements', allPRUsers);
               return;
@@ -329,12 +330,10 @@ var EventManager = function() {
                       achievementObject.grantedOn = new Date().getTime();
                       io.sockets.emit(username,achievementObject);
                       grantedAchievements[username].push(achievementObject);
-                      console.log(username + ' got a new achievement! ' + achievementObject.name);
+                      console.log(colors.bgMagenta.yellow(username) + ' got a new achievement! ', achievementObject);
                   } else {
                       console.error(achievementObject.name || achievementFilename +
-                          ': didn\'t get the correct structure. see documentation');
-                      console.log('acievement problems:');
-                      console.log(Achievement.errors(achievementObject));
+                          ': didn\'t get the correct structure. see documentation', Achievement.errors(achievementObject));
                   }
               },
               pass: function(username, treasure) {
@@ -347,6 +346,8 @@ var EventManager = function() {
                           dataObject['treasures.' + treasure.name] = treasure.gem;
 
                           achievibitDB.updatePartially('users', { username: username }, dataObject);
+                      }, function(error) {
+                        console.error('GOD DAMMIT!', error);
                       });
                   } else {
                     console.log('Treasure problems:');
@@ -369,7 +370,6 @@ var EventManager = function() {
           // check for achievements
           _.forEach(achievements, function(achievement, achievementFilename) {
               console.info('Testing ' + achievementFilename);
-              console.info('is there a check to run?', _.isFunction(achievement.check));
               if (_.isFunction(achievement.check)) {
                 try {
                   achievement.check(pullRequest, shall);
@@ -381,44 +381,35 @@ var EventManager = function() {
 
           _.forEach(allPRUsers, function(user) {
               if (grantedAchievements[user.username]) {
+                achievibitDB.findItem('users', { username: user.username }).then(function(users) {
+                  var _user = users[0];
 
-                  if (!user.achievements) {
-                      user.achievements = [];
+                  if (!_user.achievements) {
+                      _user.achievements = [];
                   }
 
-                  var userAchievements = user.achievements;
-                  var newAchievements = _.differenceBy(grantedAchievements[user.username], userAchievements, 'name');
-              }
+                  var userAchievements = _user.achievements;
+                  var newAchievements = _.differenceBy(grantedAchievements[_user.username], userAchievements, 'name');
 
-              console.log('updating user: ' + user.username);
-              var repositoryName = pullRequest.repository ? pullRequest.repository.fullname : undefined;
+              console.log('updating user: ' + _user.username);
+
               var newData = {};
-              // if (repositoryName) {
-              //   newData.repos = repositoryName;
-              // }
+
               if (newAchievements) {
                 newData.achievements = {
                   $each: newAchievements
                 };
               }
-              achievibitDB.updatePartialArray('users', {
-                username: user.username
-              }, newData);
-          });
-
-          if (pullRequest.repository) {
-              if (!organization.repos) {
-                  organization.repos = [];
+              try {
+                achievibitDB.updatePartialArray('users', {
+                  username: _user.username
+                }, newData);
+              } catch (error) {
+                console.error(error);
               }
-
-              if (!_.find(organization.repos, { fullname: pullRequest.repository.fullname })) {
-                  organization.repos.push(pullRequest.repository);
-              }
-          }
-
-          achievibitDB.updatePartialArray('users', organization._id, {
-            'repos': pullRequest.repository.fullname
           });
+        }
+      });
     }
 };
 
