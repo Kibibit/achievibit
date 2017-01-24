@@ -158,6 +158,56 @@ app.get('/:username', function(req, res) {
           });
     },
     function(pageObject, callback) {
+      if (_.result(pageObject.user, 'organizations.length') > 0) {
+
+        var organizationsUsernameArray = [];
+        _.forEach(pageObject.user.organizations, function(organizationUsername) {
+            organizationsUsernameArray.push({ username: organizationUsername });
+        });
+
+        if (organizationsUsernameArray.length > 0) {
+          users.find({$or: organizationsUsernameArray}).then(function(userOrganizations) {
+            pageObject.user.organizations = userOrganizations;
+
+            callback(null, pageObject);
+          }, function(error) {
+            console.error('problem getting organizations for user', error);
+            pageObject.user.organizations = [];
+            callback(null, pageObject);
+          });
+        } else {
+          callback(null, pageObject);
+        }
+      } else {
+        callback(null, pageObject);
+      }
+    },
+    function(pageObject, callback) {
+      if (_.result(pageObject.user, 'users.length') > 0) {
+
+        var usersUsernameArray = [];
+        _.forEach(pageObject.user.users, function(userUsername) {
+            usersUsernameArray.push({ username: userUsername });
+        });
+
+        if (usersUsernameArray.length > 0) {
+          users.find({$or: usersUsernameArray}).then(function(organizationUsers) {
+            pageObject.user.users = organizationUsers;
+
+            callback(null, pageObject);
+          }, function(error) {
+            console.error('problem getting users for organization', error);
+            pageObject.user.organizations = [];
+            callback(null, pageObject);
+          });
+        } else {
+          callback(null, pageObject);
+        }
+      } else {
+        callback(null, pageObject);
+      }
+    },
+    function(pageObject, callback) {
         if (!pageObject) {
             callback('failed to get user');
             return;
@@ -175,8 +225,8 @@ app.get('/:username', function(req, res) {
               callback(null, pageObject);
           }, function(error) {
              console.error('problem getting repos for user', error);
-
-             callback('problem getting repos for user');
+             pageObject.user.repos = [];
+             callback(null, pageObject);
           });
         } else {
           callback(null, pageObject);
