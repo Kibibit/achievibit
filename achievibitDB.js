@@ -280,7 +280,11 @@ function connectUsersAndRepos(pullRequest, givenCallback) {
       if (pullRequest.organization) {
         updatePartialArray('users', {
           username: pullRequest.organization.username
-        }, usersInPullRequest).then(function(data) {
+        }, {
+          users: {
+            $each: usersInPullRequest
+          }
+        }).then(function(data) {
           callback(null, 'PR users added to organization');
         }, function(error) {
           callback(error, 'PR users had a problem connection with organization');
