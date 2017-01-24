@@ -2,7 +2,6 @@ var EventEmitter = require('events').EventEmitter;
 var _ = require('lodash');
 var colors = require('colors');
 var github = require('octonode');
-var request = require('request');
 var schema = require('js-schema');
 var async = require("async");
 var achievibitDB = require('./achievibitDB');
@@ -39,6 +38,7 @@ var Treasure = schema({
   gem : [String, Number, Boolean]
 });
 
+// all currently open pull requests
 var pullRequests = {};
 
 var EventManager = function() {
@@ -47,6 +47,7 @@ var EventManager = function() {
     self.notifyAchievements = function(githubEvent, eventData, io) {
         /**
          * NEW REPO CONNECTED!!!
+         * a repo added achievibit as a GitHub webhook!
          */
         if (_.isEqual(githubEvent, 'ping')) {
             var repo = utilities.parseRepo(eventData.repository);
@@ -60,6 +61,7 @@ var EventManager = function() {
 
         /**
          * INIT PULL REQUEST DATA
+         * Get the data as it was when the pull request opened.
          * This will allow us to notify the achievements if something changed
          * in case some achievements want to deal with changing things.
          * notice that labels are given as a different event with the same
@@ -158,171 +160,6 @@ var EventManager = function() {
         }
 
         /**
-         * PULL REQUEST ACHIEVEMENTS EVENTS
-         * Send correct events based on data
-         * so achievements can listen and UNLOCK if
-         * data matched what they looked for
-         */
-        if (_.isEqual(githubEvent, 'pull_request') &&
-            _.isEqual(eventData.action, 'closed') &&
-            eventData.pull_request.merged) {
-            // this is the time to give achievements!
-            // need to create a dataObject that I can give here
-            // that will include all important changes.
-            // those are:
-            // * log edits to pull request info (title, body, labels)
-            // * log comments data so we can give achievements based on comments?
-            // * log status updates (can give achievements on flawless builds, etc.)
-            // Those will be logged here by other "ifs", and this if will trigger all
-            // the relevant events based on that data
-
-            // first, get some additional data:
-            //  * comments
-            //  * reactions
-            var id = utilities.getPullRequestIdFromEventData(eventData);
-
-            // if by any chance we missed creating the pull request,
-            // create it here (means we won't have history)
-            if (!pullRequests[id]) {
-                pullRequests[id] = {};
-            }
-
-            // update to latest info for some things
-            _.assign(pullRequests[id], {
-                _id: id,
-                id: id,
-                url: eventData.pull_request.html_url,
-                number: eventData.number,
-                title: eventData.pull_request.title,
-                description: eventData.pull_request.body,
-                creator: utilities.parseUser(eventData.pull_request.user),
-                createdOn: eventData.pull_request.created_at,
-                repository: {
-                    name: eventData.repository.name,
-                    fullname: eventData.repository.full_name,
-                    url: eventData.repository.html_url
-                }
-            });
-            var ghpr = client.pr(eventData.repository.full_name, eventData.number);
-            var ghissue = client.issue(eventData.repository.full_name, eventData.number);
-            var ghrepo = client.repo(eventData.repository.full_name);
-
-            async.parallel([
-                function fetchPRComments(callback) {
-                  ghissue.comments(function(err, comments) {
-                    if (err) {
-                      callback(err);
-                      return;
-                    }
-
-                    pullRequests[id].comments = [];
-                    var reactionsRequests = [];
-
-                    _.forEach(comments, function(comment) {
-                        var commentParsed = {
-                        author: utilities.parseUser(comment.user),
-                        message: comment.body,
-                        createdOn: comment.created_at,
-                        edited: !_.isEqual(comment.created_at, comment.updated_at),
-                        apiUrl: comment.url
-                      };
-                      pullRequests[id].comments.push(commentParsed);
-
-                      reactionsRequests.push(getReactions(commentParsed));
-                    });
-
-                    async.parallel(reactionsRequests, function(err, results) {
-                        if (err) {
-                          callback(err);
-                          return;
-                        }
-                        callback(null, 'comments & reactions fetched');
-                    });
-                  });
-                },
-                function fetchInlineComments(callback) {
-                  ghpr.comments(function(err, inlineComments) {
-                      if (err) {
-                        callback(err);
-                        return;
-                      }
-
-                      pullRequests[id].inlineComments = [];
-                      var reactionsRequests = [];
-
-                      _.forEach(inlineComments, function(inlineComment) {
-                          var inlineCommentParsed = {
-                          file: inlineComment.path,
-                          author: utilities.parseUser(inlineComment.user),
-                          message: inlineComment.body,
-                          createdOn: inlineComment.created_at,
-                          edited: !_.isEqual(inlineComment.created_at, inlineComment.updated_at),
-                          commit: inlineComment.commit_id,
-                          apiUrl: inlineComment.url
-
-                         };
-                         pullRequests[id].inlineComments.push(inlineCommentParsed);
-                         reactionsRequests.push(getReactions(inlineCommentParsed));
-                      });
-
-                      async.parallel(reactionsRequests, function(err, results) {
-                          if (err) {
-                            callback(err);
-                            return;
-                          }
-                          callback(null, 'inline comments & reactions fetched');
-                      });
-                  });
-                },
-                function fetchCommits(callback) {
-                  ghpr.commits(function(err, commits) {
-                    if (err) {
-                      callback(err);
-                      return;
-                    }
-
-                      pullRequests[id].commits = [];
-                      _.forEach(commits, function(commit) {
-                          ghrepo.statuses(commit.sha, function(err, statuses) {
-                              pullRequests[id].commits.push({
-                                sha: commit.sha,
-                                author: utilities.parseUser(commit.author),
-                                committer: utilities.parseUser(commit.committer),
-                                message: commit.commit.message,
-                                commentCount: commit.comments,
-                                statuses: utilities.parseStatuses(statuses)
-                             });
-                          });
-                      });
-
-                      callback(null, 'commits fetched');
-                  });
-                },
-                function fetchPRFiles(callback) {
-                  ghpr.files(function(err, files) {
-                    if (err) {
-                      callback(err);
-                      return;
-                    }
-
-                      pullRequests[id].files = [];
-                      _.forEach(files, function(file) {
-                          pullRequests[id].files.push({
-                              content: getNewFileFromPatch(file.patch),
-                              name: file.filename
-                          });
-                      });
-
-                      callback(null, 'files fetched');
-                  });
-                }
-            ], function(err, results) {
-                console.log('got all async data. continuing...');
-                dataReady(id, io);
-            });
-        }
-
-        /**
          * UPDATE PULL REQUEST DATA - PULL REQUEST EDITED
          * This means something changed:
          *  * title
@@ -393,229 +230,188 @@ var EventManager = function() {
             _.isEqual(eventData.action, 'created')) {
             //self.emit('open', eventData);
         }
-    }
 
-    function getNewFileFromPatch(patch) {
-        if (!patch) {
-            return;
+        /**
+         * PULL REQUEST ACHIEVEMENTS EVENTS
+         * Send correct events based on data
+         * so achievements can listen and UNLOCK if
+         * data matched what they looked for
+         */
+        if (_.isEqual(githubEvent, 'pull_request') &&
+            _.isEqual(eventData.action, 'closed') &&
+            eventData.pull_request.merged) {
+            // this is the time to give achievements!
+            // need to create a dataObject that I can give here
+            // that will include all important changes.
+            // those are:
+            // * log edits to pull request info (title, body, labels)
+            // * log comments data so we can give achievements based on comments?
+            // * log status updates (can give achievements on flawless builds, etc.)
+            // Those will be logged here by other "ifs", and this if will trigger all
+            // the relevant events based on that data
+
+            // first, get some additional data:
+            //  * comments
+            //  * reactions
+            var id = utilities.getPullRequestIdFromEventData(eventData);
+
+            // if by any chance we missed creating the pull request,
+            // create it here (means we won't have history)
+            if (!pullRequests[id]) {
+                pullRequests[id] = {};
+            }
+
+            // update to latest info for some things
+            _.assign(pullRequests[id], {
+                _id: id,
+                id: id,
+                url: eventData.pull_request.html_url,
+                number: eventData.number,
+                title: eventData.pull_request.title,
+                description: eventData.pull_request.body,
+                creator: utilities.parseUser(eventData.pull_request.user),
+                createdOn: eventData.pull_request.created_at,
+                repository: {
+                    name: eventData.repository.name,
+                    fullname: eventData.repository.full_name,
+                    url: eventData.repository.html_url
+                }
+            });
+
+            achievibitDB.getExtraPRData(pullRequests[id], function() {
+              dataReady(id, io);
+            });
         }
-        return patch.split('\n').filter(function(line) {
-            return !line.startsWith('-') && !line.startsWith('@') && line.indexOf('No newline at end of file') === -1;
-        }).map(function(line) {
-            if (line.startsWith('+'))
-                return line.replace('+', '');
-            return line;
-        }).join('\n');
-    }
-
-    function getReactions(comment) {
-        return function getSpecificCommentReactions(callback) {
-          request({
-              url: comment.apiUrl + '/reactions',
-              headers: {
-                  'Accept': 'application/vnd.github.squirrel-girl-preview',
-                  'User-Agent': 'achievibit'
-              }
-          }, function(err, response, body) {
-              if (err) {
-                callback(err);
-                return;
-              }
-
-              if (response.statusCode == 200) {
-
-                  var reactions = JSON.parse(body);
-                  comment.reactions = [];
-                  _.forEach(reactions, function(reaction) {
-                      comment.reactions.push({
-                          reaction: reaction.content,
-                          user: utilities.parseUser(reaction.user)
-                      });
-                  });
-              } else {
-                  console.error('wrong status from server: [' +
-                      response.statusCode +
-                      '] ' +
-                      body);
-              }
-              callback(null, 'reactions ready');
-          });
-        };
     }
 
     function dataReady(id, io) {
-            var allUsersUsernames = [];
+            console.info(colors.rainbow('~~== PULL REQUEST MERGED! ==~~'), pullRequests[id]);
 
-            console.info('~~== PULL REQUEST MERGED! ==~~', pullRequests[id]);
+            achievibitDB.addPRItems(pullRequests[id], function(err, results) {
+              console.info('everything finished');
 
-            // add creator to database
-            console.log('adding users to database');
-            achievibitDB.insertItem('users', pullRequests[id].creator);
-            allUsersUsernames.push({ username: pullRequests[id].creator.username });
-            console.log('adding user: ' + pullRequests[id].creator.username);
-
-            // add organization to database
-            console.log('adding organization to database');
-            if (pullRequests[id].organization) {
-                achievibitDB.insertItem('users', pullRequests[id].organization);
-                allUsersUsernames.push({ username: pullRequests[id].organization.username });
-                console.log('adding user (organization): ' + pullRequests[id].organization.username);
-                //addOrganization(pullRequests[id].creator.username, pullRequests[id].organization);
-            }
-
-            // add reviewers to database
-            _.forEach(pullRequests[id].reviewers, function(reviewer) {
-                achievibitDB.insertItem('users', reviewer);
-                allUsersUsernames.push({ username: reviewer.username });
-                console.log('adding user: ' + reviewer.username);
-                //addOrganization(reviewer.username, pullRequests[id].organization);
+              var allPRUsers = [pullRequests[id].creator];
+              if (_.isArray(pullRequests[id].reviewers)) {
+                allPRUsers.concat(pullRequests[id].reviewers);
+              }
+              grantAchievements(allPRUsers, pullRequests[id], io);
             });
+    }
 
-            console.log('adding repo to database: ' + pullRequests[id].repository.fullname);
-            achievibitDB.insertItem('repos', pullRequests[id].repository);
+    function grantAchievements(allPRUsers, pullRequest, io) {
+      console.info(colors.rainbow('~~== CHECKING ACHIEVEMENTS ==~~'));
+          if (!allPRUsers) {
+              console.error('no users to grant achievements', allPRUsers);
+              return;
+          }
 
-            console.log('~~== CHECKING ACHIEVEMENTS ==~~');
+          var grantedAchievements = {};
 
-            achievibitDB.findItem('users', {$or: allUsersUsernames}).then(function(users) {
-                if (!users) {
-                    console.error('couldn\'t find users', allUsersUsernames);
-                    return;
+          var shall = {
+              grant: function(username, achievementObject) {
+                  if (!_.isString(username)) {
+                      console.error(achievementFilename +
+                          ': grant should get a username');
+                      return;
+                  }
+                  if (!_.isObject(achievementObject)) {
+                      console.error(achievementFilename +
+                          ': grant should get an object');
+                      return;
+                  }
+                  if (Achievement(achievementObject)) {
+
+                      if (!grantedAchievements[username]) {
+                          grantedAchievements[username] = [];
+                      }
+
+                      achievementObject.grantedOn = new Date().getTime();
+                      io.sockets.emit(username,achievementObject);
+                      grantedAchievements[username].push(achievementObject);
+                      console.log([
+                        colors.bgWhite.green('ACHIEVEMENT UNLOCKED:'),
+                        colors.bgYellow.black.bold(username),
+                        'recieved',
+                        colors.bgYellow.black.bold(achievementObject.name)
+                      ].join(' '), achievementObject);
+                  } else {
+                      console.error(achievementObject.name || achievementFilename +
+                          ': didn\'t get the correct structure. see documentation', Achievement.errors(achievementObject));
+                  }
+              },
+              pass: function(username, treasure) {
+                  if (Treasure(treasure)) {
+                      // TODO(thatkookooguy): do we need this first call? what happens if there's no user in line 555?
+                      achievibitDB.findItem('users', { username: username }).then(function(users) {
+
+                          var dataObject = {};
+
+                          dataObject['treasures.' + treasure.name] = treasure.gem;
+
+                          achievibitDB.updatePartially('users', { username: username }, dataObject);
+                      }, function(error) {
+                        console.error('GOD DAMMIT!', error);
+                      });
+                  } else {
+                    console.log('Treasure problems:');
+                    console.log(Treasure.errors(treasure));
+                  }
+              },
+              retrieve: function(username, treasureName) {
+                  if (!_.isString(username) || !_.isString(treasureName)) {
+                      console.error('retrieve expects a username and a treasure name');
+                      return;
+                  }
+                  return achievibitDB.findItem('users', { username: username }).then(function(users) {
+                    var user = users[0];
+                    var foundTreasure = user && user.treasures && user.treasures[treasureName];
+                    return foundTreasure ? user.treasures[treasureName] : null;
+                  });
+              }
+          };
+
+          // check for achievements
+          _.forEach(achievements, function(achievement, achievementFilename) {
+              if (_.isFunction(achievement.check)) {
+                try {
+                  achievement.check(pullRequest, shall);
+                } catch (error) {
+                  console.error('ERROR IN ACHIEVEMENT ' + achievement.name, error.message);
                 }
+              }
+          });
 
-                var organization = _.remove(users, 'organization')[0];
+          _.forEach(allPRUsers, function(user) {
+              if (grantedAchievements[user.username]) {
+                achievibitDB.findItem('users', { username: user.username }).then(function(users) {
+                  var _user = users[0];
 
-                if (organization) {
-                    _.forEach(users, function(user) {
-                        if (!_.isArray(user.organizations)) {
-                            user.organizations = [];
-                        }
+                  if (!_user.achievements) {
+                      _user.achievements = [];
+                  }
 
-                        if (!_.find(user.organizations, { username: organization.username })) {
-                            user.organizations.push({
-                                username: organization.username,
-                                url: organization.url,
-                                avatar: organization.avatar
-                            });
-                        }
+                  var userAchievements = _user.achievements;
+                  var newAchievements = _.differenceBy(grantedAchievements[_user.username], userAchievements, 'name');
 
-                        if (!_.isArray(organization.users)) {
-                            organization.users = [];
-                        }
+              var newData = {};
 
-                        if (!_.find(organization.users, { username: user.username })) {
-                            organization.users.push({
-                                username: user.username,
-                                url: user.url,
-                                avatar: user.avatar
-                            });
-                        }
-                    });
-                }
+              if (newAchievements) {
+                newData.achievements = {
+                  $each: newAchievements
+                };
+              }
 
-                var grantedAchievements = {};
-
-                // check for achievements
-                _.forEach(achievements, function(achievement, achievementFilename) {
-                    var shall = {
-                        grant: function(username, achievementObject) {
-                            if (!_.isString(username)) {
-                                console.error(achievementFilename +
-                                    ': grant should get a username');
-                                return;
-                            }
-                            if (!_.isObject(achievementObject)) {
-                                console.error(achievementFilename +
-                                    ': grant should get an object');
-                                return;
-                            }
-                            if (Achievement(achievementObject)) {
-
-                                if (!grantedAchievements[username]) {
-                                    grantedAchievements[username] = [];
-                                }
-
-                                achievementObject.grantedOn = new Date().getTime();
-                                io.sockets.emit(username,achievementObject);
-                                grantedAchievements[username].push(achievementObject);
-                                console.log(username + ' got a new achievement! ' + achievementObject.name);
-                            } else {
-                                console.error(achievementObject.name || achievementFilename +
-                                    ': didn\'t get the correct structure. see documentation');
-                                console.log('acievement problems:');
-                                console.log(Achievement.errors(achievementObject));
-                            }
-                        },
-                        pass: function(username, treasure) {
-                            if (Treasure(treasure)) {
-                                // TODO(thatkookooguy): do we need this first call? what happens if there's no user in line 555?
-                                achievibitDB.findItem('users', { username: username }).then(function(users) {
-
-                                    var dataObject = {};
-
-                                    dataObject['treasures.' + treasure.name] = treasure.gem;
-
-                                    achievibitDB.updatePartially('users', { username: username }, dataObject);
-                                });
-                            } else {
-                              console.log('Treasure problems:');
-                              console.log(Treasure.errors(treasure));
-                            }
-                        },
-                        retrieve: function(username, treasureName) {
-                            if (!_.isString(username) || !_.isString(treasureName)) {
-                                console.error('retrieve expects a username and a treasure name');
-                                return;
-                            }
-                            return achievibitDB.findItem('users', { username: username }).then(function(users) {
-                              var user = users[0];
-                              var foundTreasure = user && user.treasures && user.treasures[treasureName];
-                              return foundTreasure ? user.treasures[treasureName] : null;
-                            });
-                        }
-                    };
-                    achievement.check && achievement.check(pullRequests[id], shall);
-
-                });
-
-                _.forEach(users, function(user) {
-                    if (grantedAchievements[user.username]) {
-
-                        if (!user.achievements) {
-                            user.achievements = [];
-                        }
-
-                        var userAchievements = user.achievements;
-                        var newAchievements = _.differenceBy(grantedAchievements[user.username], userAchievements, 'name');
-                    }
-
-                    console.log('updating user: ' + user.username);
-                    var repositoryName = pullRequests[id].repository ? pullRequests[id].repository.fullname : undefined;
-                    var newData = {};
-                    if (repositoryName) {
-                      newData.repos = repositoryName;
-                    }
-                    if (newAchievements) {
-                      newData.achievements = {
-                        $each: newAchievements
-                      };
-                    }
-                    achievibitDB.updatePartialArray('users', user._id, newData);
-                });
-
-                if (pullRequests[id].repository) {
-                    if (!organization.repos) {
-                        organization.repos = [];
-                    }
-
-                    if (!_.find(organization.repos, { fullname: pullRequests[id].repository.fullname })) {
-                        organization.repos.push(pullRequests[id].repository);
-                    }
-                }
-
-                achievibitDB.updatePartialArray('users', organization._id, {
-                  'repos': pullRequests[id].repository.fullname
-                });
-            });
+              console.log('adding achievements to DB for ' + _user.username);
+              try {
+                achievibitDB.updatePartialArray('users', {
+                  username: _user.username
+                }, newData);
+              } catch (error) {
+                console.error(error);
+              }
+          });
+        }
+      });
     }
 };
 

@@ -6,7 +6,7 @@ var breakingBad = {
 		if (atLeast80PrecentCommitsFailedBuild(pullRequest)) {
 
 			var achievement = {
-				avatar : '//ca.audubon.org/sites/g/files/amh421/f/styles/bean_wysiwyg_full_width/public/blog/wp-content/uploads/2013/09/saul-150x150.jpg?itok=FmjiSkJL',
+				avatar : 'images/achievements/breakingBad.achievement.jpg',
 				name: 'Breaking Bad',
 				short: 'Look, let\'s start with some tough love. You two suck at peddling meth. Period.',
 				description: 'You merged a Pull Request with 5 or more commits with failing status',
