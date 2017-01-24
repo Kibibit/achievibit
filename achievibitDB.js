@@ -39,7 +39,27 @@ module.exports = achievibitDB;
 
 function initCollections() {
   collections.repos.index( { fullname: 1 }, { unique: true, sparse: true } );
+  collections.repos.index({
+    "fullname": "text",
+    "organization": "text"
+  }, {
+    "weights": {
+      "fullname": 3,
+      "organization": 1
+    }
+  });
   collections.users.index( { username: 1 }, { unique: true, sparse: true } );
+  collections.users.index({
+    "username": "text",
+    "repos": "text",
+    "organizations": "text"
+  }, {
+    "weights": {
+      "username": 3,
+      "repos": 1,
+      "organizations": 1
+    }
+  });
 }
 
 function insertItem(collection, item) {
@@ -95,8 +115,8 @@ function updatePartialArray(collection, identityObject, updatePartial) {
 
 function findItem(collection, identityObject) {
   if (_.isNil(collection) || _.isNil(identityObject)) return;
-  return collections[collection].find(identityObject).then(function() {
-
+  return collections[collection].find(identityObject).then(function(item) {
+    return item;
   }, function(error) {
     console.error('findItem got an error', error);
   });
@@ -106,48 +126,39 @@ function addPRItems(pullRequest, givenCallback) {
   async.parallel([
     function insertOrganization(callback) {
       if (pullRequest.organization) {
-          console.log('adding user (organization): ' + pullRequest.organization.username);
           insertItem('users', pullRequest.organization).then(
             function(data) {
-              console.info(data);
-              callback();
+              callback(null, 'organization added');
             }, function(error) {
               console.error(error);
-              callback();
+              callback(null, 'organization existed?');
             }
           );
       } else {
-        console.log('no organization related to pull request');
-        callback();
+        callback('no organization to add');
       }
     }, function insertPRCreator(callback) {
       console.log('adding PR creator to database');
       insertItem('users', pullRequest.creator)
         .then(function(data) {
-          console.log('user added: ' + pullRequest.creator.username);
-          console.info(data);
-          callback();
+          callback(null, 'PR creator added');
         }, function(error) {
           console.error(error);
-          callback();
+          callback(null, 'PR creator existed?');
         });
     }, function insertReviewers(callback) {
       var allReviewersUsernames = _.map(pullRequest.reviewers, 'username');
-      _.forEach(allReviewersUsernames, function(username) {
-        console.log('adding user: ' + username);
-      });
 
       if (pullRequest.reviewers && pullRequest.reviewers.length > 0) {
         insertItem('users', pullRequest.reviewers)
           .then(function(data) {
-            console.info('reviewers inserted' + data);
-            callback();
+            callback(null, 'reviewers added');
           }, function(error) {
             console.error(error);
-            callback();
+            callback(null, 'reviewers existed?!');
           });
       } else {
-        callback();
+        callback(null, 'no reviewers to add');
       }
     },
     function insertRepo(callback) {
@@ -158,23 +169,24 @@ function addPRItems(pullRequest, givenCallback) {
       console.log('adding repo to database: ' + pullRequest.repository.fullname);
       insertItem('repos', repo)
         .then(function(data) {
-          console.info('repo added ' + data);
-          callback();
+          callback(null, 'repo added');
         }, function(error) {
           console.error(error);
-          callback();
+          callback(null, 'repo existed?');
         });
     }
   ], function(err, results) {
-    console.info('everything finished, connecting items');
+    console.info('PR items added to DB', {
+      err: err,
+      results: results
+    });
 
-    if (_.isFunction(givenCallback)) {
-      givenCallback(err, results);
-    }
+    connectUsersAndRepos(pullRequest, givenCallback);
   });
 }
 
-function connectUsersAndRepos(pullRequest) {
+function connectUsersAndRepos(pullRequest, givenCallback) {
+  console.info('Connecting PR items');
   var repoDataForUsers = {
     repos: pullRequest.repository.fullname
   };
@@ -193,23 +205,23 @@ function connectUsersAndRepos(pullRequest) {
     function addRepoToCreator(callback) {
       updatePartialArray('users', {
         username: pullRequest.creator.username
-      }, repoDataForUsers).then(function(data) {
-        callback(null, data);
+      }, repoDataForUsers).then(function() {
+        callback(null, 'connected creator with repo');
       }, function(error) {
-        callback(error);
+        callback(error, 'had a problem connecting creator with repo');
       });
     },
     function addOrganizationToCreator(callback) {
       if (organizationDataForUsers) {
         updatePartialArray('users', {
           username: pullRequest.creator.username
-        }, organizationDataForUsers).then(function(data) {
-          callback(null, data);
+        }, organizationDataForUsers).then(function() {
+          callback(null, 'connected creator to organization');
         }, function(error) {
-          callback(error);
+          callback(error, 'had a problem connecting creator with organization');
         });
       } else {
-        callback();
+        callback(null, 'no organization to connect to creator');
       }
     },
     function addRepoToReviewers(callback) {
@@ -220,35 +232,40 @@ function connectUsersAndRepos(pullRequest) {
           updatePartialArray('users', {
             username: username
           }, repoDataForUsers).then(function(data) {
-            singleUserCallback(null, data);
+            singleUserCallback(null, 'connected reviewer ' + username + ' with repo');
           }, function(error) {
-            singleUserCallback(error);
+            singleUserCallback(error, 'error connecting reviewer' + username + ' to repo');
           });
         }
       }
-      _.forEach(allReviewersUsernames, function(username) {
-        allReviewersRequests.push(createSingleUserRequest(username));
-      });
 
-      async.parallel(allReviewersRequests, function(err, results) {
-        console.info('connected reviewers to repo');
+      if (allReviewersUsernames && allReviewersUsernames.length > 0) {
+        _.forEach(allReviewersUsernames, function(username) {
+          allReviewersRequests.push(createSingleUserRequest(username));
+        });
 
-        callback(err, results);
-      });
+        async.parallel(allReviewersRequests, function(err, results) {
+          callback(err, results);
+        });
+      } else {
+        callback(null, 'no reviewers to connect to repo');
+      }
+
     },
     function addOrganizationToReviewers(callback) {
-      if (organizationDataForUsers) {
+      var allReviewersRequests = [];
+      var allReviewersUsernames = _.map(pullRequest.reviewers, 'username');
 
-        var allReviewersRequests = [];
-        var allReviewersUsernames = _.map(pullRequest.reviewers, 'username');
+      if (organizationDataForUsers && allReviewersRequests.length > 0) {
+
         var createSingleUserRequest = function(username) {
           return function singleReviewerOrganization(singleUserCallback) {
             updatePartialArray('users', {
               username: username
-            }, organizationDataForUsers).then(function(data) {
-              singleUserCallback(null, data);
+            }, organizationDataForUsers).then(function() {
+              singleUserCallback(null, 'repo added to reviewer ' + username);
             }, function(error) {
-              singleUserCallback(error);
+              singleUserCallback(error, 'error connecting reviewer' + username + ' to organization');
             });
           }
         };
@@ -258,12 +275,13 @@ function connectUsersAndRepos(pullRequest) {
         });
 
         async.parallel(allReviewersRequests, function(err, results) {
-          console.info('connected reviewers to organization');
-
           callback(err, results);
         });
       } else {
-        callback();
+        callback(null, allReviewersRequests.length === 0 ?
+          'no reviewers to connect organization to' :
+          'no organization to connect reviewers to'
+        );
       }
     },
     function addUsersToOrganization(callback) {
@@ -271,16 +289,20 @@ function connectUsersAndRepos(pullRequest) {
         updatePartialArray('users', {
           username: pullRequest.organization.username
         }, usersInPullRequest).then(function(data) {
-          callback(null, data);
+          callback(null, 'PR users added to organization');
         }, function(error) {
-          callback(error);
+          callback(error, 'PR users had a problem connection with organization');
         });
       } else {
-        callback();
+        callback(null, 'no organization to connect users to');
       }
     }
   ], function(err, results) {
     console.info('finished connecting users and repos to each other', err, results);
+
+    if (_.isFunction(givenCallback)) {
+      givenCallback(err, results);
+    }
   });
 }
 
@@ -293,7 +315,7 @@ function getExtraPRData(pullRequest, givenCallback) {
       function fetchPRComments(callback) {
         ghissue.comments(function(err, comments) {
           if (err) {
-            callback(err);
+            callback(err, 'had a problem adding comments');
             return;
           }
 
@@ -315,7 +337,7 @@ function getExtraPRData(pullRequest, givenCallback) {
 
           async.parallel(reactionsRequests, function(err, results) {
               if (err) {
-                callback(err);
+                callback(err, 'had a problem getting reactions');
                 return;
               }
               callback(null, 'comments & reactions fetched');
@@ -325,7 +347,7 @@ function getExtraPRData(pullRequest, givenCallback) {
       function fetchInlineComments(callback) {
         ghpr.comments(function(err, inlineComments) {
             if (err) {
-              callback(err);
+              callback(err, 'had a problem getting inline comments');
               return;
             }
 
@@ -349,7 +371,7 @@ function getExtraPRData(pullRequest, givenCallback) {
 
             async.parallel(reactionsRequests, function(err, results) {
                 if (err) {
-                  callback(err);
+                  callback(err, 'had a problem getting reactions for inline comments');
                   return;
                 }
                 callback(null, 'inline comments & reactions fetched');
@@ -359,7 +381,7 @@ function getExtraPRData(pullRequest, givenCallback) {
       function fetchCommits(callback) {
         ghpr.commits(function(err, commits) {
           if (err) {
-            callback(err);
+            callback(err, 'had a problem getting PR commits');
             return;
           }
 
@@ -385,7 +407,7 @@ function getExtraPRData(pullRequest, givenCallback) {
       function fetchPRFiles(callback) {
         ghpr.files(function(err, files) {
           if (err) {
-            callback(err);
+            callback(err, 'had a problem getting PR files');
             return;
           }
 
@@ -401,7 +423,7 @@ function getExtraPRData(pullRequest, givenCallback) {
         });
       }
   ], function(err, results) {
-      console.log('Got all extra PR data. continuing...');
+      console.log('Got all extra PR data', err, results);
       if (_.isFunction(givenCallback)) {
         givenCallback(err, results);
       }
@@ -418,7 +440,7 @@ function getReactions(comment) {
           }
       }, function(err, response, body) {
           if (err) {
-            callback(err);
+            callback(err, 'had a problem getting reaction');
             return;
           }
 
@@ -432,13 +454,15 @@ function getReactions(comment) {
                       user: utilities.parseUser(reaction.user)
                   });
               });
+
+              callback(null, 'reactions ready');
           } else {
               console.error('wrong status from server: [' +
                   response.statusCode +
                   '] ' +
                   body);
+              callback(comment.apiUrl, 'reactions had a problem');
           }
-          callback(null, 'reactions ready');
       });
     };
 }
