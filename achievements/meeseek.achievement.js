@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-var breakingBad = {
+var meeSeek = {
 	name: 'I\'m Mr. Meeseeks! Look at me!',
 	check: function(pullRequest, shall) {
 		if (checkIfResolvesManyIssues(pullRequest)) {
@@ -28,4 +28,4 @@ function checkIfResolvesManyIssues(pullRequest) {
 	return result && result.length > 3;
 	}
 
-module.exports = breakingBad;
+module.exports = meeSeek;
