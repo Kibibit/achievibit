@@ -6,11 +6,12 @@ var async = require("async");
 var utilities = require('./utilities');
 var github = require('octonode');
 var request = require('request');
+var colors = require('colors');
 var client = github.client({
   username: nconf.get('githubUser'),
   password: nconf.get('githubPassword')
 });
-var console = require('./consoleService')('SERVER', ['magenta', 'inverse'], process.console);
+var console = require('./consoleService')('achievibitDB', ['cyan', 'inverse'], process.console);
 
 nconf.argv().env();
 
@@ -65,10 +66,9 @@ function initCollections() {
 function insertItem(collection, item) {
   if (_.isNil(collection) || _.isNil(item)) return;
   return collections[collection].insert(item)
-    .then(function() {
-      console.info('insertItem success', collection, item);
-    }, function(error) {
-      console.error('insertItem got an error', error);
+    .then(passParam, function(error) {
+      console.error([colors.yellow.bgMagenta('achievibitDB.insertItem'),' got an error'].join(''), error);
+      return error;
     });
 }
 
@@ -78,10 +78,9 @@ function updateItem(collection, identityObject, updateWith) {
   }
 
   return collections[collection].update(identityObject, updateWith)
-    .then(function() {
-      console.info('updateItem success', collection, identityObject, updateWith);
-    }, function(error) {
-      console.error('updateItem got an error', error);
+    .then(passParam, function(error) {
+      console.error([colors.yellow.bgMagenta('achievibitDB.updateItem'),' got an error'].join(''), error);
+      return error;
     });
 }
 
@@ -92,10 +91,8 @@ function updatePartially(collection, identityObject, updatePartial) {
 
   return collections[collection].update(identityObject, {
     $set: updatePartial
-  }).then(function() {
-    console.info('updatePartially success', collection, identityObject, updatePartial);
-  }, function(error) {
-    console.error('updatePartially got an error', error);
+  }).then(passParam, function(error) {
+    console.error([colors.yellow.bgMagenta('achievibitDB.updatePartially'),' got an error'].join(''), error);
   });
 }
 
@@ -106,20 +103,18 @@ function updatePartialArray(collection, identityObject, updatePartial) {
 
   return collections[collection].update(identityObject, {
     $addToSet: updatePartial
-  }).then(function(data) {
-    console.info('updatePartialArray wroked!', data);
-  }, function(error) {
-    console.error('updatePartialArray got an error', error);
+  }).then(passParam, function(error) {
+    console.error([colors.yellow.bgMagenta('achievibitDB.updatePartialArray'),' got an error'].join(''), error);
   });
 }
 
 function findItem(collection, identityObject) {
   if (_.isNil(collection) || _.isNil(identityObject)) return;
-  return collections[collection].find(identityObject).then(function(item) {
-    return item;
-  }, function(error) {
-    console.error('findItem got an error', error);
-  });
+  return collections[collection].find(identityObject)
+    .then(passParam, function(error) {
+      console.error([colors.yellow.bgMagenta('achievibitDB.findItem'),' got an error'].join(''), error);
+    }
+  );
 }
 
 function addPRItems(pullRequest, givenCallback) {
@@ -135,10 +130,9 @@ function addPRItems(pullRequest, givenCallback) {
             }
           );
       } else {
-        callback('no organization to add');
+        callback(null, 'no organization to add');
       }
     }, function insertPRCreator(callback) {
-      console.log('adding PR creator to database');
       insertItem('users', pullRequest.creator)
         .then(function(data) {
           callback(null, 'PR creator added');
@@ -166,19 +160,17 @@ function addPRItems(pullRequest, givenCallback) {
       if (pullRequest.organization) {
         repo.organization = pullRequest.organization.username
       }
-      console.log('adding repo to database: ' + pullRequest.repository.fullname);
       insertItem('repos', repo)
         .then(function(data) {
           callback(null, 'repo added');
         }, function(error) {
-          console.error(error);
           callback(null, 'repo existed?');
         });
     }
   ], function(err, results) {
     console.info('PR items added to DB', {
-      err: err,
-      results: results
+      error: err,
+      statuses: results
     });
 
     connectUsersAndRepos(pullRequest, givenCallback);
@@ -298,7 +290,10 @@ function connectUsersAndRepos(pullRequest, givenCallback) {
       }
     }
   ], function(err, results) {
-    console.info('finished connecting users and repos to each other', err, results);
+    console.info('finished connecting users and repos to each other', {
+      error: err,
+      statuses: results
+    });
 
     if (_.isFunction(givenCallback)) {
       givenCallback(err, results);
@@ -423,7 +418,10 @@ function getExtraPRData(pullRequest, givenCallback) {
         });
       }
   ], function(err, results) {
-      console.log('Got all extra PR data', err, results);
+      console.log('Got all extra PR data', {
+        error:err,
+        statuses: results
+      });
       if (_.isFunction(givenCallback)) {
         givenCallback(err, results);
       }
@@ -478,4 +476,8 @@ function getNewFileFromPatch(patch) {
             return line.replace('+', '');
         return line;
     }).join('\n');
+}
+
+function passParam(param) {
+  return param;
 }

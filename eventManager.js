@@ -285,12 +285,10 @@ var EventManager = function() {
     }
 
     function dataReady(id, io) {
-            console.info('~~== PULL REQUEST MERGED! ==~~', pullRequests[id]);
+            console.info(colors.rainbow('~~== PULL REQUEST MERGED! ==~~'), pullRequests[id]);
 
             achievibitDB.addPRItems(pullRequests[id], function(err, results) {
               console.info('everything finished');
-
-              //achievibitDB.connectUsersAndRepos(pullRequests[id]);
 
               var allPRUsers = [pullRequests[id].creator];
               if (_.isArray(pullRequests[id].reviewers)) {
@@ -330,7 +328,12 @@ var EventManager = function() {
                       achievementObject.grantedOn = new Date().getTime();
                       io.sockets.emit(username,achievementObject);
                       grantedAchievements[username].push(achievementObject);
-                      console.log(colors.bgMagenta.yellow(username) + ' got a new achievement! ', achievementObject);
+                      console.log([
+                        colors.bgWhite.green('ACHIEVEMENT UNLOCKED:'),
+                        colors.bgYellow.black.bold(username),
+                        'recieved',
+                        colors.bgYellow.black.bold(achievementObject.name)
+                      ].join(' '), achievementObject);
                   } else {
                       console.error(achievementObject.name || achievementFilename +
                           ': didn\'t get the correct structure. see documentation', Achievement.errors(achievementObject));
@@ -369,7 +372,6 @@ var EventManager = function() {
 
           // check for achievements
           _.forEach(achievements, function(achievement, achievementFilename) {
-              console.info('Testing ' + achievementFilename);
               if (_.isFunction(achievement.check)) {
                 try {
                   achievement.check(pullRequest, shall);
@@ -391,8 +393,6 @@ var EventManager = function() {
                   var userAchievements = _user.achievements;
                   var newAchievements = _.differenceBy(grantedAchievements[_user.username], userAchievements, 'name');
 
-              console.log('updating user: ' + _user.username);
-
               var newData = {};
 
               if (newAchievements) {
@@ -400,6 +400,8 @@ var EventManager = function() {
                   $each: newAchievements
                 };
               }
+
+              console.log('adding achievements to DB for ' + _user.username);
               try {
                 achievibitDB.updatePartialArray('users', {
                   username: _user.username
