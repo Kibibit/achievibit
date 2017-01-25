@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var console = process.console;
 
-var TheGodfatherConsigliere = {
+var theGodfatherConsigliere = {
 	name: 'The Godfather Consigliere',
 	check: function(pullRequest, shall) {
 		if (_.result(pullRequest, 'organization.username') === 'Kibibit') {
@@ -18,4 +18,4 @@ var TheGodfatherConsigliere = {
 	}
 };
 
-module.exports = TheGodfatherConsigliere;
+module.exports = theGodfatherConsigliere;
