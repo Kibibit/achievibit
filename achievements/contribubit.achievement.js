@@ -2,12 +2,11 @@ var _ = require('lodash');
 var console = process.console;
 
 var TheGodfatherConsigliere = {
-	name: 'TheGodfatherConsigliere',
+	name: 'The Godfather Consigliere',
 	check: function(pullRequest, shall) {
-		if (contributedToKibibit(pullRequest)) {
-			//console.log("TheDunaevsky owns this...");
+		if (_.result(pullRequest, 'organization.username') === 'Kibibit') {
 			var achievement = {
-				avatar : 'https://worldfilmgeek.files.wordpress.com/2016/12/thegodfatherstill.jpg',
+				avatar : 'images/achievements/thegodfather.achievement.jpg',
 				name: 'The Godfather Consigliere',
 				short: 'Great men are not born great, they contribute to Kibibit . . . ',
 				description: 'You have contributed to a Kibibit repository. Accept this achievement as gift on my daughter\'s wedding day',
@@ -18,14 +17,6 @@ var TheGodfatherConsigliere = {
 		}
 	}
 };
-
-function contributedToKibibit(pullRequest){
-	var organizationName = pullRequest.organization.username;
-	if ( typeof organizationName !== 'undefined'){
-		return organizationName === "Kibibit";
-	} else {
-		return false;
-	}
 
 
 }
