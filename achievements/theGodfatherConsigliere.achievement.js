@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var console = process.console;
 
 var theGodfatherConsigliere = {
 	name: 'The Godfather Consigliere',
