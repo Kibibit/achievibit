@@ -8,7 +8,7 @@ var theGodfatherConsigliere = {
 				avatar : 'images/achievements/thegodfather.achievement.jpg',
 				name: 'The Godfather Consigliere',
 				short: 'Great men are not born great, they contribute to Kibibit . . . ',
-				description: 'You have contributed to Kibibit! We really appreciate it!<br>Accept this achievement as gift on my daughter\'s wedding day',
+				description: 'You have contributed to Kibibit! We really appreciate it!\nAccept this achievement as gift on my daughter\'s wedding day',
 				relatedPullRequest: pullRequest._id
 			};
 
