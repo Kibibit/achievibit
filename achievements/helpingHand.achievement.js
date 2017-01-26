@@ -39,7 +39,7 @@ function reviewersWhoCommittedToPullRequest(pullRequest) {
   var committedReviewers = [];
 
   _.forEach(pullRequest.commits, function(commit) {
-    if (_.find(pullRequest.reviewers, commit.author.username)) {
+    if (_.find(pullRequest.reviewers, {username: commit.author.username})) {
       committedReviewers.push(commit.author);
     }
   });
