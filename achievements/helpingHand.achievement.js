@@ -7,17 +7,27 @@ var helpingHand = {
 
     if (!_.isEmpty(committedReviewers)) {
 
-      var achievement = {
-        avatar: 'images/achievements/helpingHand.achievement.jpg',
+      var reviewerAchievement = {
+        avatar: 'images/achievements/helpingHandHelloThere.achievement.jpg',
         name: 'Helping Hand',
-        short: 'Let me help you finishing up here...',
+        short: 'Hello there. Slow going?',
         description: 'You\'ve committed to a Pull Request you are reviewing',
         relatedPullRequest: pullRequest._id
       };
 
+      var committerAchievement = {
+        avatar: 'images/achievements/helpingHandManInBlack.achievement.jpg',
+        name: 'Helping Hand',
+        short: 'Look, I don\'t mean to be rude but this is not as easy as it looks',
+        description: 'A reviewer committed to your Pull Request',
+        relatedPullRequest: pullRequest._id
+      };
+
       _.forEach(committedReviewers, function(reviewer) {
-        shall.grant(reviewer.username, achievement);
+        shall.grant(reviewer.username, reviewerAchievement);
       });
+
+      shall.grant(pullRequest.creator.username, committerAchievement);
     }
   }
 };
