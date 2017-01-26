@@ -22,7 +22,7 @@ var labelBabyJunior = {
 function checkIfManyLabels(pullRequest) {
 	var labels = pullRequest.labels;
 	if(labels){
-		return labels && labels.length > 3;
+		return labels.length > 3;
 	}
 	return false;
 	}
