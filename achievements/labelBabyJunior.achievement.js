@@ -1,11 +1,7 @@
-
-
 var labelBabyJunior = {
 	name: 'Label Baby Junior',
 	check: function(pullRequest, shall) {
-
-		if (checkIfManyLabels(pullRequest))  {
-
+		if (isManyLabels(pullRequest))  {
 			var achievement = {
 				avatar : 'images/achievements/theLabelMaker.achievment.jpg',
 				name: 'The Label Maker',
@@ -19,12 +15,8 @@ var labelBabyJunior = {
 	}
 };
 
-function checkIfManyLabels(pullRequest) {
+function isManyLabels(pullRequest) {
 	var labels = pullRequest.labels;
-	if(labels){
-		return labels.length > 3;
-	}
-	return false;
-	}
+	return labels && labels.length > 3;
 
 module.exports = labelBabyJunior;
