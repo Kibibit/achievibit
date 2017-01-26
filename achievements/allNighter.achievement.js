@@ -9,7 +9,7 @@ var allNighter = {
       var achievement = {
         avatar : 'images/achievements/allNighter.achievement.jpg',
         name: 'All Nighter',
-        short: 'The sun is almost rising, the coffee mug is empty, it\s enough, go to sleep.',
+        short: 'The sun is almost rising, the coffee mug is empty, it\'s enough, go to sleep.',
         description: 'You\'ve created a Pull request between 4 and 6 AM',
         relatedPullRequest: pullRequest._id
       };
