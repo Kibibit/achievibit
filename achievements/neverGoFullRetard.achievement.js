@@ -14,7 +14,7 @@ var neverGoFullRetard = {
 				relatedPullRequest: pullRequest.id
 			};
 			shall.grant(pullRequest.creator.username, achieve);
-			_.forEach(pullRequest.reviewer, function(reviewer) {
+			_.forEach(pullRequest.reviewers, function(reviewer) {
 				shall.grant(reviewer.username, achieve);
 			});
 		}

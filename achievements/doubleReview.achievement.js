@@ -9,7 +9,7 @@ var doubleReview = {
 				avatar : 'images/achievements/doubleReview.achievement.gif',
 				name : 'We\'re ready, master',
 				short : _.escape('"This way!"-"No, that way!"'),
-				description : 'double headed code review.<br>It doesn\'t matter who added you, apperantly, both of you are needed for a one man job 😇',
+				description : 'double headed code review.<br>It doesn\'t matter who added you, apparently, both of you are needed for a one man job 😇',
 				relatedPullRequest: pullRequest.id
 			};
 
