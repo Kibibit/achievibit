@@ -51,9 +51,48 @@
       }
    ],
    "_id":"Thatkookooguy/newRepositoryToTestDB/pull/3",
-   "commits":[
-
-   ],
+   "commits": [
+    {
+      "sha": "8bf734c0baea4420209babd81905aa3af05550d9",
+      "author": {
+        "username": "Thatkookooguy",
+        "url": "https://github.com/Thatkookooguy",
+        "avatar": "https://avatars.githubusercontent.com/u/10427304?v=3"
+      },
+      "committer": {
+        "username": "web-flow",
+        "url": "https://github.com/web-flow",
+        "avatar": "https://avatars.githubusercontent.com/u/19864447?v=3"
+      },
+      "message": "remove the Hi there line",
+      "statuses": {
+        "continuous-integration/travis-ci/pr": {
+          "state": "success",
+          "description": "The Travis CI build passed",
+          "target": "https://travis-ci.org/Kibibit/kibibit-code-editor/builds/195469372",
+          "context": "continuous-integration/travis-ci/pr"
+        },
+        "continuous-integration/travis-ci/push": {
+          "state": "success",
+          "description": "The Travis CI build passed",
+          "target": "https://travis-ci.org/Kibibit/kibibit-code-editor/builds/195469318",
+          "context": "continuous-integration/travis-ci/push"
+        },
+        "codacy/pr": {
+          "state": "success",
+          "description": "Good work! A positive pull request.",
+          "target": "https://www.codacy.com/app/neilkalman/kibibit-code-editor/pullRequest?prid=493101",
+          "context": "codacy/pr"
+        },
+        "hound": {
+          "state": "success",
+          "description": "No violations found. Woof!",
+          "target": null,
+          "context": "hound"
+        }
+      }
+    }
+  ],
    "comments":[
       {
          "author":{
