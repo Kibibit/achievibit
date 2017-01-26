@@ -7,11 +7,13 @@ var helpingHand = {
 
     if (!_.isEmpty(committedReviewers)) {
 
+      var isMultipleCommittedReviewers = committedReviewers.length > 1 ? '(s) ' : ' ';
+
       var reviewerAchievement = {
         avatar: 'images/achievements/helpingHandHelloThere.achievement.jpg',
         name: 'Helping Hand',
         short: 'Hello there. Slow going?',
-        description: 'You\'ve committed to a Pull Request you are reviewing',
+        description: 'You\'ve committed to ' + pullRequest.commit.author.username + '\'s Pull Request you are reviewing',
         relatedPullRequest: pullRequest._id
       };
 
@@ -19,7 +21,7 @@ var helpingHand = {
         avatar: 'images/achievements/helpingHandManInBlack.achievement.jpg',
         name: 'Helping Hand',
         short: 'Look, I don\'t mean to be rude but this is not as easy as it looks',
-        description: 'A reviewer committed to your Pull Request',
+        description: 'Your reviewer' + isMultipleCommittedReviewers + committedReviewers.join(', ') +  ' committed to your Pull Request',
         relatedPullRequest: pullRequest._id
       };
 
