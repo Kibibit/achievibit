@@ -3,7 +3,7 @@ var _ = require('lodash');
 var biWinning = {
   name: 'bi-winning',
   check: function(pullRequest, shall) {
-    if (_.every(pullRequest.commits, allStatusesPassed)) {
+    if (!_.isEmpty(pullRequest.commits) && _.every(pullRequest.commits, allStatusesPassed)) {
 
       var achievement = {
         avatar: 'images/achievements/biWinning.achievement.jpg',
@@ -24,7 +24,7 @@ var biWinning = {
 
 
 function allStatusesPassed(commit) {
-  return _.every(commit.statuses, { state: 'success' })
+  return !_.isEmpty(commit.statuses) && _.every(commit.statuses, { state: 'success' })
 }
 
 module.exports = biWinning;
