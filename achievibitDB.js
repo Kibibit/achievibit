@@ -350,6 +350,7 @@ function getExtraPRData(pullRequest, givenCallback) {
   var ghrepo = client.repo(pullRequest.repository.fullname);
 
   async.parallel([
+    getPRReactions(pullRequest),
     function fetchPRComments(callback) {
       ghissue.comments(function(err, comments) {
         if (err) {
@@ -473,6 +474,50 @@ function getExtraPRData(pullRequest, givenCallback) {
       givenCallback(err, results);
     }
   });
+}
+
+function getPRReactions(pullRequest) {
+  return function requestPRReactions(callback) {
+    var PRReactionsUrl = [
+      apiUrl,
+      pullRequest.repository.fullname,
+      '/issues/',
+      pullRequest.number,
+      '/reactions'
+    ].join('');
+    request({
+      url: PRReactionsUrl,
+      headers: {
+        'Accept': 'application/vnd.github.squirrel-girl-preview',
+        'User-Agent': 'achievibit'
+      }
+    }, function(err, response, body) {
+      if (err) {
+        callback(err, 'had a problem getting reactions for PR');
+        return;
+      }
+
+      if (response.statusCode === 200) {
+
+        var reactions = JSON.parse(body);
+        pullRequest.reactions = [];
+        _.forEach(reactions, function(reaction) {
+          pullRequest.reactions.push({
+            reaction: reaction.content,
+            user: utilities.parseUser(reaction.user)
+          });
+        });
+
+        callback(null, 'PR reactions ready');
+      } else {
+        console.error('wrong status from server: [' +
+                  response.statusCode +
+                  '] ' +
+                  body);
+        callback(PRReactionsUrl, 'reactions had a problem');
+      }
+    });
+  };
 }
 
 function getReactions(comment) {
