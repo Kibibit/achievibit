@@ -143,9 +143,11 @@ app.get('/achievementsBadge', function(req, res) {
         res.setHeader('Content-Type', 'image/svg+xml;charset=utf-8');
         res.setHeader('Pragma-directive', 'no-cache');
         res.setHeader('Cache-directive', 'no-cache');
-        res.setHeader('Cache-control', 'no-cache');
         res.setHeader('Pragma','no-cache');
         res.setHeader('Expires','0');
+        // Cache management - no cache, so it won't be cached by GitHub's CDN.
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+
         res.send(svg);
       });
   });
