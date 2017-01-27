@@ -7,7 +7,8 @@ var helpingHand = {
 
     if (!_.isEmpty(committedReviewers)) {
 
-      var isMultipleCommittedReviewers = committedReviewers.length > 1 ? 's ' : ' ';
+      var isMultipleCommittedReviewers =
+        committedReviewers.length > 1 ? 's ' : ' ';
 
       var reviewerAchievement = {
         avatar: 'images/achievements/helpingHandHelloThere.achievement.jpg',
@@ -23,7 +24,9 @@ var helpingHand = {
       var committerAchievement = {
         avatar: 'images/achievements/helpingHandManInBlack.achievement.jpg',
         name: 'Helping Hand',
-        short: 'Look, I don\'t mean to be rude but this is not as easy as it looks',
+        short: [
+          'Look, I don\'t mean to be rude but this is not as easy as it looks'
+        ].join(''),
         description: [
           'Your reviewer', isMultipleCommittedReviewers,
           _.map(committedReviewers, 'username').join(', '),
