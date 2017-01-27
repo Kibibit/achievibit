@@ -13,6 +13,7 @@ var express = require('express'), // call express
     cons = require('consolidate'),
     moment = require('moment'),
     _ = require('lodash'),
+    badge = require('gh-badges'),
     nconf = require('nconf'),
     ngrok = require('ngrok');
 
@@ -24,6 +25,13 @@ nconf.argv().env();
 var url = nconf.get('databaseUrl');
 var db = monk(url);
 var app = express(); // define our app using express
+
+var achievements = require('require-all')({
+  dirname     :  __dirname + '/achievements',
+  filter      :  /(.+achievement)\.js$/,
+  excludeDirs :  /^\.(git|svn)$/,
+  recursive   : true
+});
 
 // use scribe.js for logging
 var console = require('./consoleService')('SERVER', ['magenta', 'inverse'], process.console);
@@ -125,6 +133,16 @@ app.post('*', jsonParser, function(req, res) {
 
   res.json({
     message: 'b33p b33p! got your notification, githubot!'
+  });
+});
+
+app.get('/achievementsBadge', function(req, res) {
+  badge.loadFont('./Verdana.ttf', function(err) {
+    badge({ text: ["achievements", _.keys(achievements).length], colorA: "#894597", colorB: "#5d5d5d", template: "flat" },
+      function(svg, err) {
+        res.setHeader('Content-Type', 'image/svg+xml;charset=utf-8');
+        res.send(svg);
+      });
   });
 });
 
