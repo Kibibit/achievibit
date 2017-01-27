@@ -136,7 +136,7 @@ app.post('*', jsonParser, function(req, res) {
   });
 });
 
-app.get('/achievementsBadge', function(req, res) {
+app.get('/achievementsShield', function(req, res) {
   badge.loadFont('./Verdana.ttf', function(err) {
     badge({ text: ["achievements", _.keys(achievements).length], colorA: "#894597", colorB: "#5d5d5d", template: "flat" },
       function(svg, err) {
