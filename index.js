@@ -141,6 +141,11 @@ app.get('/achievementsBadge', function(req, res) {
     badge({ text: ["achievements", _.keys(achievements).length], colorA: "#894597", colorB: "#5d5d5d", template: "flat" },
       function(svg, err) {
         res.setHeader('Content-Type', 'image/svg+xml;charset=utf-8');
+        res.setHeader('Pragma-directive', 'no-cache');
+        res.setHeader('Cache-directive', 'no-cache');
+        res.setHeader('Cache-control', 'no-cache');
+        res.setHeader('Pragma','no-cache');
+        res.setHeader('Expires','0');
         res.send(svg);
       });
   });
