@@ -510,10 +510,10 @@ function getPRReactions(pullRequest) {
 
         callback(null, 'PR reactions ready');
       } else {
-        console.error('wrong status from server: [' +
-                  response.statusCode +
-                  '] ' +
-                  body);
+        console.error([
+          'wrong status from server: ',
+          '[', response.statusCode, ']'
+        ].join(''), body);
         callback(PRReactionsUrl, 'reactions had a problem');
       }
     });
@@ -547,10 +547,10 @@ function getReactions(comment) {
 
         callback(null, 'reactions ready');
       } else {
-        console.error('wrong status from server: [' +
-                  response.statusCode +
-                  '] ' +
-                  body);
+        console.error([
+          'wrong status from server: ',
+          '[', response.statusCode, ']'
+        ].join(''), body);
         callback(comment.apiUrl, 'reactions had a problem');
       }
     });
