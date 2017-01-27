@@ -6,10 +6,10 @@ var member = {
     if (isWaitingLongTime(pullRequest)) {
 
       var achieve = {
-        avatar : 'images/achievements/member.achievement.jpg',
-        name : 'Member pull request #' + pullRequest.number + '?',
-        short : 'Member Commits? member Push? member PR? ohh I member',
-        description : [
+        avatar: 'images/achievements/member.achievement.jpg',
+        name: 'Member pull request #' + pullRequest.number + '?',
+        short: 'Member Commits? member Push? member PR? ohh I member',
+        description: [
           'A pull request you\'ve created 2 weeks ago',
           ' is finally merged'
         ].join(''),
