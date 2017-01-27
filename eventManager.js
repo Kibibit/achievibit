@@ -330,7 +330,6 @@ var EventManager = function() {
           }
 
           achievementObject.grantedOn = new Date().getTime();
-          io.sockets.emit(username,achievementObject);
           grantedAchievements[username].push(achievementObject);
           console.log([
             colors.bgWhite.green('ACHIEVEMENT UNLOCKED:'),
@@ -416,6 +415,10 @@ var EventManager = function() {
             userAchievements,
             'name'
           );
+
+          _.forEach(newAchievements, function(achievementObject) {
+            io.sockets.emit(_user.username, achievementObject);
+          });
 
           var newData = {};
 
