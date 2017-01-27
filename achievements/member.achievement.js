@@ -16,7 +16,7 @@ var member = {
         relatedPullRequest: pullRequest.id
       };
 
-        shall.grant(pullRequest.author.username, achieve);
+      shall.grant(pullRequest.creator.username, achieve);
     }
   }
 };
