@@ -2,23 +2,23 @@ var scribeConsole = function(tag, colors, _console) {
   var _ = require('lodash');
   colors = colors ? colors : 'red';
   return {
-    log: function(text) {
+    log: function() {
       var self = _console.time().tag({msg: tag, colors: colors});
       self.info.apply(self, arguments);
     },
-    error: function(text) {
+    error: function() {
       var self = _console.time().tag({msg: tag, colors: colors});
       self.error.apply(self, arguments);
     },
-    warn: function(text) {
+    warn: function() {
       var self = _console.time().tag({msg: tag, colors: colors});
       self.warn.apply(self, arguments);
     },
-    info: function(text) {
+    info: function() {
       var self = _console.time().tag({msg: tag, colors: colors});
       self.info.apply(self, arguments);
     },
-    debug: function(text) {
+    debug: function() {
       var self = _console.time().tag({msg: tag, colors: colors});
       self.debug.apply(self, arguments);
     },
