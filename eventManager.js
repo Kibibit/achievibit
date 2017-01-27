@@ -292,7 +292,7 @@ var EventManager = function() {
 
               var allPRUsers = [pullRequests[id].creator];
               if (_.isArray(pullRequests[id].reviewers)) {
-                allPRUsers.concat(pullRequests[id].reviewers);
+                allPRUsers = allPRUsers.concat(pullRequests[id].reviewers);
               }
               grantAchievements(allPRUsers, pullRequests[id], io);
             });
