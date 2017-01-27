@@ -1,5 +1,5 @@
 var _ = require('lodash');
-
+var console = process.console;
 //Gives achievement to comment authors who got all reactions without reacting themselves
 
 var usedAllReactionsInComment = {
@@ -20,7 +20,7 @@ var usedAllReactionsInComment = {
 			};
 
 			_.forEach(topComments, function(comment) { //foreach comment that succeded give acheivemnt to author
-        shall.grant(comment.author.username, achieve);
+        shall.grant(comment.author.username, achievement);
       });
 		}
 	}
@@ -48,6 +48,7 @@ function commentsWithAllReactions(comments) {
       }
     }
   });
+  return topComments;
 }
 
 module.exports = usedAllReactionsInComment;
