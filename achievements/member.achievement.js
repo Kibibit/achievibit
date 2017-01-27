@@ -7,7 +7,7 @@ var member = {
 
       var achieve = {
         avatar : 'images/achievements/member.achievement.jpg',
-        name : 'Member?',
+        name : 'Member pull request #' + pullRequest.number + '?',
         short : 'Member Commits? member Push? member PR? ohh I member',
         description : [
           'A pull request you\'ve created 2 weeks ago',
