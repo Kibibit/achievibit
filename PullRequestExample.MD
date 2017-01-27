@@ -10,6 +10,24 @@
       "url":"https://github.com/Thatkookooguy",
       "avatar":"https://avatars.githubusercontent.com/u/10427304?v=3"
    },
+   "reactions": [
+    {
+      "reaction": "-1",
+      "user": {
+        "username": "Thatkookooguy",
+        "url": "https://github.com/Thatkookooguy",
+        "avatar": "https://avatars.githubusercontent.com/u/10427304?v=3"
+      }
+    },
+    {
+      "reaction": "+1",
+      "user": {
+        "username": "Thatkookooguy",
+        "url": "https://github.com/Thatkookooguy",
+        "avatar": "https://avatars.githubusercontent.com/u/10427304?v=3"
+      }
+    }
+  ],
    "organization": {
      "username": "Kibibit",
      "url": "github.com/Kibibit",
