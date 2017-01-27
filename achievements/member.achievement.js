@@ -6,7 +6,7 @@ var member = {
     if (isWaitingLongTime(pullRequest)) {
 
       var achieve = {
-        avatar : 'images/achievements/member.achievement.gif',
+        avatar : 'images/achievements/member.achievement.jpg',
         name : 'Member?',
         short : 'Member Commits? member Push? member PR? ohh I member',
         description : [
