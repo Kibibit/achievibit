@@ -17,6 +17,6 @@ var labelBabyJunior = {
 
 function isManyLabels(pullRequest) {
 	var labels = pullRequest.labels;
-	return labels && labels.length > 3;
-
+	return labels && labels.length > 5;
+}
 module.exports = labelBabyJunior;
