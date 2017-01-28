@@ -213,35 +213,35 @@ var EventManager = function() {
 
     // CODE REVIEW
 
-    if (_.isEqual(githubEvent, 'pull_request') &&
-            _.isEqual(eventData.action, 'review_requested')) {
-
-      utilities.mergeBasePRData(pullRequests, eventData);
-      var reviewer = utilities.parseUser(eventData.requested_reviewer);
-
-      if (!pullRequests[id].reviewers) {
-        pullRequests[id].reviewers = [];
-      }
-
-      pullRequests[id].reviewers.push(reviewer);
-    }
-
-    if (_.isEqual(githubEvent, 'pull_request') &&
-            _.isEqual(eventData.action, 'review_request_removed')) {
-
-      var reviewer = utilities.parseUser(eventData.requested_reviewer);
-
-      if (!pullRequests[id].reviewers) {
-        pullRequests[id].reviewers = [];
-      }
-
-      pullRequests[id].reviewers.push(reviewer);
-    }
-
-    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
-            _.isEqual(eventData.action, 'created')) {
-            //self.emit('open', eventData);
-    }
+    // if (_.isEqual(githubEvent, 'pull_request') &&
+    //         _.isEqual(eventData.action, 'review_requested')) {
+    //
+    //   utilities.mergeBasePRData(pullRequests, eventData);
+    //   var reviewer = utilities.parseUser(eventData.requested_reviewer);
+    //
+    //   if (!pullRequests[id].reviewers) {
+    //     pullRequests[id].reviewers = [];
+    //   }
+    //
+    //   pullRequests[id].reviewers.push(reviewer);
+    // }
+    //
+    // if (_.isEqual(githubEvent, 'pull_request') &&
+    //         _.isEqual(eventData.action, 'review_request_removed')) {
+    //
+    //   var reviewer = utilities.parseUser(eventData.requested_reviewer);
+    //
+    //   if (!pullRequests[id].reviewers) {
+    //     pullRequests[id].reviewers = [];
+    //   }
+    //
+    //   pullRequests[id].reviewers.push(reviewer);
+    // }
+    //
+    // if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+    //         _.isEqual(eventData.action, 'created')) {
+    //         //self.emit('open', eventData);
+    // }
 
         /**
          * PULL REQUEST ACHIEVEMENTS EVENTS
