@@ -67,27 +67,8 @@ var EventManager = function() {
     if (_.isEqual(githubEvent, 'pull_request') &&
             //_.isEqual(eventData.action, 'reopened') ?
             _.isEqual(eventData.action, 'opened')) {
-            /////
-      var id = utilities.getPullRequestIdFromEventData(eventData);
 
-      //var pullRequests = db.get('pullRequests');
-      if (!pullRequests[id]) {
-        pullRequests[id] = {};
-      }
-      _.merge(pullRequests[id], utilities.initializePullRequest(eventData));
-
-      if (utilities.isPullRequestAssociatedWithOrganization(eventData)) {
-        pullRequests[id].organization =
-          utilities.parseUser(eventData.repository.owner, true);
-      }
-
-      if (eventData.pull_request.assignees) {
-        var assignees = eventData.pull_request.assignees;
-        pullRequests[id].reviewers = [];
-        for (var i = 0; i < assignees.length; i++) {
-          pullRequests[id].reviewers.push(utilities.parseUser(assignees[i]));
-        }
-      }
+      utilities.mergeBasePRData(pullRequests, eventData);
 
       console.log([
         'created new ',
@@ -110,6 +91,7 @@ var EventManager = function() {
             ) {
             /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
+
       pullRequests[id]
                 .labels.push(eventData.label.name);
 
@@ -229,6 +211,33 @@ var EventManager = function() {
       console.log('UPDATE assignees', pullRequests[id]);
     }
 
+    // CODE REVIEW
+
+    if (_.isEqual(githubEvent, 'pull_request') &&
+            _.isEqual(eventData.action, 'review_requested')) {
+
+      utilities.mergeBasePRData(pullRequests, eventData);
+      var reviewer = utilities.parseUser(eventData.requested_reviewer);
+
+      if (!pullRequests[id].reviewers) {
+        pullRequests[id].reviewers = [];
+      }
+
+      pullRequests[id].reviewers.push(reviewer);
+    }
+
+    if (_.isEqual(githubEvent, 'pull_request') &&
+            _.isEqual(eventData.action, 'review_request_removed')) {
+
+      var reviewer = utilities.parseUser(eventData.requested_reviewer);
+
+      if (!pullRequests[id].reviewers) {
+        pullRequests[id].reviewers = [];
+      }
+
+      pullRequests[id].reviewers.push(reviewer);
+    }
+
     if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
             _.isEqual(eventData.action, 'created')) {
             //self.emit('open', eventData);
@@ -258,28 +267,9 @@ var EventManager = function() {
       //  * reactions
       var id = utilities.getPullRequestIdFromEventData(eventData);
 
-            // if by any chance we missed creating the pull request,
-            // create it here (means we won't have history)
-      if (!pullRequests[id]) {
-        pullRequests[id] = {};
-      }
-
-            // update to latest info for some things
-      _.assign(pullRequests[id], {
-        _id: id,
-        id: id,
-        url: eventData.pull_request.html_url,
-        number: eventData.number,
-        title: eventData.pull_request.title,
-        description: eventData.pull_request.body,
-        creator: utilities.parseUser(eventData.pull_request.user),
-        createdOn: eventData.pull_request.created_at,
-        repository: {
-          name: eventData.repository.name,
-          fullname: eventData.repository.full_name,
-          url: eventData.repository.html_url
-        }
-      });
+      // if by any chance we missed creating the pull request,
+      // create it here (means we won't have history)
+      utilities.mergeBasePRData(pullRequests, eventData);
 
       achievibitDB.getExtraPRData(pullRequests[id], function() {
         dataReady(id, io);

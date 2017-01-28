@@ -26,6 +26,8 @@ var collections = {
   users: db.get('users')
 };
 
+var apiUrl = 'https://api.github.com/repos/';
+
 var achievibitDB = {};
 
 initCollections();
