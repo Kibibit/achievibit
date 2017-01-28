@@ -384,7 +384,7 @@ var EventManager = function() {
       }
     };
 
-          // check for achievements
+    // check for achievements
     _.forEach(achievements, function(achievement, achievementFilename) {
       if (_.isFunction(achievement.check)) {
         try {
