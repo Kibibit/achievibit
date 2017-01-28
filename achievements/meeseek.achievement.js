@@ -8,9 +8,10 @@ var meeseek = {
         name: 'I\'m Mr. Meeseeks! Look at me!',
         short: 'Knock yourselves out. Just eh-keep your requests simple.',
         description: [
-          'Congrats on resolving so many issues at ones! Shouldn\'t ',
-          'pull requests be kept simple? Pull requests don\'t usually ',
-          'have to exist this long. It\'s getting weird.'
+          '<p>Congrats on resolving so many issues at ones! Shouldn\'t ',
+          'pull requests be kept simple?</p>',
+          '<p>Pull requests don\'t usually ',
+          'have to exist this long. It\'s getting weird.</p>'
         ].join(''),
         relatedPullRequest: pullRequest._id
       };

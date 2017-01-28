@@ -67,13 +67,13 @@
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
                         <h2 class="mdl-card__title-text">
-                            Latest Achievement:&nbsp;<strong>{{ achievements[0].name }}</strong>
+                            Latest Achievement:&nbsp;<strong>{% autoescape false %}{{ achievements[0].name }}{% endautoescape %}</strong>
                         </h2>
                         <div class="mdl-card__supporting-text padding-top">
                             <span>granted {{ achievements[0].grantedOn }}</span>
                         </div>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            <p>{{ achievements[0].description }}</p>
+                            {% autoescape false %}{{ achievements[0].description }}{% endautoescape %}
                             <!-- <span>Category: <a href="#">Latest</a></span> -->
                         </div>
                     </div>
@@ -117,10 +117,10 @@
                                     <div class="achievement" style="display: inline-block">
                                         <div class="achievement-title">
                                             <img src="{{achievement.avatar}}" height="35" width="35">
-                                            <div>{{achievement.name}}</div>
+                                            <div>{% autoescape false %}{{achievement.name}}{% endautoescape %}</div>
                                         </div>
-                                        <div style="font-size: 70%;">{{achievement.short}}</div>
-                                        <div>{{achievement.description}}</div>
+                                        <div style="font-size: 70%;">{% autoescape false %}{{achievement.short}}{% endautoescape %}</div>
+                                        <div>{% autoescape false %}{{achievement.description}}{% endautoescape %}</div>
                                     </div>
                                     </a>
                                 {% endfor %}
