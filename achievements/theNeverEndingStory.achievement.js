@@ -1,7 +1,7 @@
 var theNeverEndingStory = {
   name: 'The NeverEnding Story',
   check: function(pullRequest, shall) {
-    if (_.gte(pullRequest.commits.length, 10)) {
+    if (pullRequest.commits.length  >= 10) {
 
       var achievement = {
         avatar: 'images/achievements/theNeverEndingStory.achievement.jpg',
