@@ -19,6 +19,7 @@ nconf.argv().env();
 
 var url = nconf.get('databaseUrl');
 var db = monk(url);
+var apiUrl = 'https://api.github.com/repos/';
 
 var collections = {
   repos: db.get('repos'),
