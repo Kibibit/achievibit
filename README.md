@@ -121,3 +121,18 @@ function activeReviewer(pullRequestData, creator, reviewers) {
   });
 }
 ```
+
+## Contributors
+
+Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [contributing](CONTRIBUTING.MD).
+
+You can check out some easy to start with issues in the [Easy Pick](https://github.com/Kibibit/achievibit/labels/Easy%20Pick).
+
+## Contributor Code of Conduct
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+## License
+
+[MIT License](LICENSE)
+
+Copyright (c) 2017 Neil Kalman
