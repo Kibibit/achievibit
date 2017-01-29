@@ -19,7 +19,14 @@ achievibit needs to be integrated into each enabled repository via a webhook.
 
 **Maybe sometime later we'll also support repo achievements. open an issue if you're interested :-)**
 
-## how to clone your own server
+## Add our shield to your project's README
+
+We've just started, and we want to spread the word. We would really appreciate if you'll add our shield if you think `achievibit` is worth talking about
+
+copy this snippet to any **markdown** file
+```markdown
+[![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
+```
 
 ## how to create new achievements
 
@@ -129,7 +136,9 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 You can check out some easy to start with issues in the [Easy Pick](https://github.com/Kibibit/achievibit/labels/Easy%20Pick).
 
 ## Contributor Code of Conduct
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+
+By participating in this project you agree to abide by its terms.
 
 ## License
 
