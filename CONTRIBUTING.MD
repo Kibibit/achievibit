@@ -15,7 +15,7 @@ Based on [Jordi Boggiano](https://github.com/Seldaek)'s [blog post](https://seld
 
 To test your achievements locally, you need do the following:
 
-## prerequisites
+## Prerequisites
 1. Creating a `MongoDB` database
   **Create a dummy `MongoDB` instance. You can use https://mlab.com/ to create one in the cloud.**
     If you're using `mlab`, you need to create a database, and then create a database user.
@@ -28,7 +28,7 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 > you'll need the **ngrok token**:
 ![ngrok token](/screenshots/ngrok-token.png)
 
-## quick start
+## Getting started
 
 1. clone achievibit locally (we prefer using [ungit](https://github.com/FredrikNoren/ungit)
 2. run `npm install` to install all dependencies
@@ -38,5 +38,15 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 4. if everything worked, you should see the `achievibit` logo, and an ngrok url under it.
 5. follow the instructions in the [`README.MD`](/README.MD) file to connect a test repository to your local achievibit (replace the url with your ngrok url). Make sure **Content type** is set to **application\json**
 > ![connect repo](/screenshots/connect-to-repo.png)
+
 6. check that the achievement works on your database (your user got your achievement on your test repository).
 if your achievement requires interaction with another user, talk to one of the developers and we'll help test it (reviewing a test pull request, etc.).
+
+# Running tests (WIP)
+
+`gulp test` will run
+- unit tests
+- REST-interface tests
+- clicktests.
+
+`gulp test:unittest` only runs the tests in the test/ folder, `gulp test:clicktest` runs only the tests in the clicktests/ folder. Install mocha (`npm install -g mocha`) to run specific tests in the test folder and get better stack traces: `mocha test/spec.git-api.js`.
