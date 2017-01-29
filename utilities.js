@@ -10,6 +10,7 @@ utilities.parseRepo = parseRepo;
 utilities.isPullRequestAssociatedWithOrganization =
   isPullRequestAssociatedWithOrganization;
 utilities.initializePullRequest = initializePullRequest;
+utilities.mergeBasePRData = mergeBasePRData;
 
 module.exports = utilities;
 
@@ -18,8 +19,10 @@ function isPullRequestAssociatedWithOrganization(eventData) {
 }
 
 function initializePullRequest(eventData) {
-  return {
-    id: utilities.getPullRequestIdFromEventData(eventData),
+  var id = utilities.getPullRequestIdFromEventData(eventData);
+  var pullRequest = {
+    _id: id,
+    id: id,
     url: eventData.pull_request.html_url,
     number: eventData.number,
     title: eventData.pull_request.title,
@@ -31,6 +34,21 @@ function initializePullRequest(eventData) {
     history: {},
     repository: utilities.parseRepo(eventData.repository)
   };
+
+  if (utilities.isPullRequestAssociatedWithOrganization(eventData)) {
+    pullRequest.organization =
+      utilities.parseUser(eventData.repository.owner, true);
+  }
+
+  if (eventData.pull_request.assignees) {
+    var assignees = eventData.pull_request.assignees;
+    pullRequest.reviewers = [];
+    for (var i = 0; i < assignees.length; i++) {
+      pullRequest.reviewers.push(utilities.parseUser(assignees[i]));
+    }
+  }
+
+  return pullRequest;
 }
 
 function parseRepo(repository) {
@@ -89,4 +107,13 @@ function getNewFileFromPatch(patch) {
 
 function getPullRequestIdFromEventData(eventData) {
   return eventData.repository.full_name + '/pull/' + eventData.number;
+}
+
+function mergeBasePRData(pullRequestsObject, eventData) {
+  var id = getPullRequestIdFromEventData(eventData);
+
+  if (!pullRequestsObject[id]) {
+    pullRequestsObject[id] = {};
+  }
+  _.assign(pullRequestsObject[id], utilities.initializePullRequest(eventData));
 }
