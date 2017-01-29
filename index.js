@@ -156,7 +156,16 @@ app.get('/achievementsShield', function(req, res) {
         ],
         colorA: '#894597',
         colorB: '#5d5d5d',
-        template: 'flat'
+        template: 'flat',
+        logo: [
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0A',
+          'AAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVRYhe3WMU7DMBjFcadqh0qdWWBl7QU4Ss/A',
+          'jsREF8RdOhYO0EqoN2DhFIgBOvBjIIMVxSFyUiEhP8lD7C/v/T97sEMoKkoIe+Npn8q',
+          'pOgCM2VBVVa1ZkzFDcjQdapDqLIR+u/jnO1AACkABKABdAO9DjHEWfb7lALwOAQghXP',
+          'Xx6gJ4zE3GJIRwE0095Zhc4PO3iz7x7zoq+cB5bifr9tg0AK7xFZXcZYXXZjNs+wBgi',
+          'ofG8hazbIDaeI5dFwAu8dxY2mE+KDyCWGCTYLj3c86xNliMEh5BVLjFseNEjnVN8pU0',
+          'BsgSh5bwA5YnC25AVFjhpR6rk3Zd9K/1Dcae2pUn6mqiAAAAAElFTkSuQmCC'
+        ].join('')
       },
       function(svg) {
         res.setHeader('Content-Type', 'image/svg+xml;charset=utf-8');
