@@ -9,7 +9,7 @@ Our list of [Easy Picks](https://github.com/Kibibit/achievibit/labels/Easy%20Pic
 
 These are **easy to pick up tasks**, either because they are small in scope, or just don't involve much in-depth knowledge of the project.
 
-This is based on [Jordi Boggiano](https://github.com/Seldaek)'s [blog post](https://seld.be/notes/encouraging-contributions-with-the-easy-pick-label)
+Based on [Jordi Boggiano](https://github.com/Seldaek)'s [blog post](https://seld.be/notes/encouraging-contributions-with-the-easy-pick-label)
 
 # Run Locally and test achievements
 
