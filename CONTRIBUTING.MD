@@ -2,7 +2,7 @@
 
 We're so glad you're thinking about contributing to a `kibibit` open source project! If you're unsure or afraid of anything, just ask or submit the issue or pull request anyways. The worst that can happen is that you'll be politely asked to change something. We appreciate any sort of contribution, and don't want a wall of rules to get in the way of that.
 
-Before contributing, we encourage you to read our **CONTRIBUTING** policy **(you are here)**, our **[LICENSE](LICENSE)**, our **[CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)**, and our **[README](README.MD)**, all of which should be in this repository.
+Before contributing, we encourage you to read our **CONTRIBUTING** policy **(you are here)**, our **[LICENSE](LICENSE)**, our **[CODE OF CONDUCT](CODE_OF_CONDUCT.md)**, and our **[README](README.MD)**, all of which should be in this repository.
 
 # Easy starting point
 Our list of [Easy Picks](https://github.com/Kibibit/achievibit/labels/Easy%20Pick) include specific issues that are a good starting point for new contributors.
