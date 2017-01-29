@@ -24,7 +24,8 @@ achievibit needs to be integrated into each enabled repository via a webhook.
 We've just started, and we want to spread the word. We would really appreciate if you'll add our shield if you think `achievibit` is worth talking about
 
 copy this snippet to any **markdown** file
-```markdown
+- shield: number of achievable achievements [![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
+  ```markdown
 [![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
 ```
 
