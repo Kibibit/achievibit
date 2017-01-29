@@ -1,14 +1,16 @@
+# Welcome!
+
+We're so glad you're thinking about contributing to a `kibibit` open source project! If you're unsure or afraid of anything, just ask or submit the issue or pull request anyways. The worst that can happen is that you'll be politely asked to change something. We appreciate any sort of contribution, and don't want a wall of rules to get in the way of that.
+
+Before contributing, we encourage you to read our **CONTRIBUTING** policy **(you are here)**, our **[LICENSE](LICENSE)**, our **[CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)**, and our **[README](README.MD)**, all of which should be in this repository.
+
 # Run Locally and test achievements
 
 To test your achievements locally, you need do the following:
 
 ## prerequisites
 1. Creating a `MongoDB` database
-  * **Create a local `MongoDB` instance.**
-    1. start up MongoDB `mongod`
-    2. Use the local url as your `--databaseURL "mongodb://localhost/db_name"` - You don’t have to worry about creating a database. You can just use a database (by naming it in the url) and everything will automatically be made for you.
-
-  * **Create a dummy `MongoDB` instance. You can use https://mlab.com/ to create one in the cloud.**
+  **Create a dummy `MongoDB` instance. You can use https://mlab.com/ to create one in the cloud.**
     If you're using `mlab`, you need to create a database, and then create a database user.
 After creating a database, click on Users**-->**Add database user
 ![Users-->Add database user](/screenshots/create-db-user.png)
