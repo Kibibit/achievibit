@@ -4,6 +4,13 @@ We're so glad you're thinking about contributing to a `kibibit` open source proj
 
 Before contributing, we encourage you to read our **CONTRIBUTING** policy **(you are here)**, our **[LICENSE](LICENSE)**, our **[CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)**, and our **[README](README.MD)**, all of which should be in this repository.
 
+# Easy starting point
+Our list of [Easy Picks](https://github.com/Kibibit/achievibit/labels/Easy%20Pick) include specific issues that are a good starting point for new contributors.
+
+These are **easy to pick up tasks**, either because they are small in scope, or just don't involve much in-depth knowledge of the project.
+
+This is based on [Jordi Boggiano](https://github.com/Seldaek)'s [blog post](https://seld.be/notes/encouraging-contributions-with-the-easy-pick-label)
+
 # Run Locally and test achievements
 
 To test your achievements locally, you need do the following:
