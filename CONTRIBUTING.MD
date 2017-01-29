@@ -16,9 +16,8 @@ Based on [Jordi Boggiano](https://github.com/Seldaek)'s [blog post](https://seld
 To test your achievements locally, you need do the following:
 
 ## Prerequisites
-1. Creating a `MongoDB` database
-  **Create a dummy `MongoDB` instance. You can use https://mlab.com/ to create one in the cloud.**
-    If you're using `mlab`, you need to create a database, and then create a database user.
+1. Creating a `MongoDB` database. You can use https://mlab.com/ to create one in the cloud.
+If you're using `mlab`, you need to create a database, and then create a database user.
 After creating a database, click on Users**-->**Add database user
 ![Users-->Add database user](/screenshots/create-db-user.png)
 Now, go to your database homepage, and copy the database url. you need to enter your database username and password (**NOT YOUR MLAB ACCOUNT!**)
@@ -30,7 +29,7 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 
 ## Getting started
 
-1. clone achievibit locally (we prefer using [ungit](https://github.com/FredrikNoren/ungit)
+1. clone achievibit locally (we prefer using [ungit](https://github.com/FredrikNoren/ungit))
 2. run `npm install` to install all dependencies
 3. run the following command, replacing all the urls we got in the **prerequisites** step `node index.js --databaseUrl "<mongodb-url>" --ngrokToken "<ngrok-token>"`
 >You can also set global variables with the same names to set those permenantly. In Unixy environments: `export ngrokToken="<ngrok-token>"` || In Windows **powershell**: `$env:ngrokToken="<ngrok-token>"`
