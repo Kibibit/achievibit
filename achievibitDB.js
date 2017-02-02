@@ -1,6 +1,8 @@
 var _ = require('lodash');
-var monk = require('monk');
 var nconf = require('nconf');
+nconf.argv().env();
+var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var monk = require(dbLibrary);
 var async = require('async');
 var utilities = require('./utilities');
 var github = require('octonode');
@@ -14,8 +16,6 @@ var console = require('./consoleService')('achievibitDB', [
   'cyan',
   'inverse'
 ], process.console);
-
-nconf.argv().env();
 
 var url = nconf.get('databaseUrl');
 var db = monk(url);

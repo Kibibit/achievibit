@@ -2,3 +2,5 @@
 node_modules/
 logs/
 .idea/
+
+monkeyDB.json
