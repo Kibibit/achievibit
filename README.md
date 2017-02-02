@@ -27,6 +27,10 @@
 
 **Maybe sometime later we'll also support repo achievements. open an issue if you're interested :-)**
 
+## Chrome extension [![Chrome Store Version](https://img.shields.io/chrome-web-store/v/iddkmddomdohnihbehiamfnmpomlhpee.svg)](https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee) [![Chrome Store Downloads](https://img.shields.io/chrome-web-store/d/iddkmddomdohnihbehiamfnmpomlhpee.svg)](https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee)
+You can install our chrome extension to see achievements in github profiles,
+and see an animation everytime you get an achievement
+
 ## Add our shield to your project's README
 
 We've just started, and we want to spread the word. We would really appreciate if you'll add our shield if you think `achievibit` is worth talking about
