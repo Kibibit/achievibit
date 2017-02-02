@@ -13,6 +13,10 @@
   margin: 25px;
 }
 
+.list-container a {
+    margin: 10px;
+}
+
 .main-color {
   color: white;
 }
