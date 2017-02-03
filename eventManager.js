@@ -49,7 +49,7 @@ var EventManager = function() {
 
       if (utilities.isPullRequestAssociatedWithOrganization(eventData)) {
         repo.organization =
-          utilities.parseUser(eventData.repository.owner, true);
+          utilities.parseUser(eventData.repository.owner, true).username;
       }
 
       achievibitDB.insertItem('repos', repo);
