@@ -36,9 +36,7 @@ function isCreatorJustMean(pullRequest) {
       reason += comboPotential + '3 or more exclamation marks';
     }
   }
-
-
-
+  
   return reason;
 }
 
