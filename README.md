@@ -1,7 +1,7 @@
 ## achievibit
 <img src="https://achievibit.herokuapp.com/images/favicon.png" width="150">
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-[![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
+[![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com) [![Coverage Status](https://coveralls.io/repos/github/Kibibit/achievibit/badge.svg?branch=fix-travis)](https://coveralls.io/github/Kibibit/achievibit?branch=fix-travis)
 
 ------
 - Achievements system as a `GitHub` WebHook.
