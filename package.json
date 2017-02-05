@@ -4,7 +4,8 @@
   "description": "achievement system for github's PRs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "node index.js"
   },
   "repository": {
@@ -47,5 +48,12 @@
     "socket.io": "^1.4.8",
     "swig": "^1.4.2",
     "tinycolor2": "^1.4.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.15",
+    "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
+    "proxyquire": "^1.7.11"
   }
 }
