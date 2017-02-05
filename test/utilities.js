@@ -9,13 +9,13 @@ var githubUser = {
 
 describe('achievibit Utilities', function() {
   describe('parseUser GitHub User to achievibit User', function() {
-    it('gets the correct data', function() {
+    it('should get the correct data', function() {
       var achievibitUser = utilities.parseUser(githubUser, false);
       expect(achievibitUser).to.be.an('object');
       expect(achievibitUser).to.include.keys('username', 'url', 'avatar');
     });
 
-    it('flags as organization if set to true', function() {
+    it('should flag as organization if set to true', function() {
       var achievibitUser = utilities.parseUser(githubUser, true);
       expect(achievibitUser).to.be.an('object');
       expect(achievibitUser)
@@ -24,7 +24,7 @@ describe('achievibit Utilities', function() {
   });
 
   describe('getPullRequestIdFromEventData', function() {
-    it('creates an id string out of GitHub\'s eventData', function() {
+    it('should create an id string out of GitHub\'s eventData', function() {
       var eventData = {
         number: 1,
         repository: {

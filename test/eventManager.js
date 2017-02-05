@@ -9,7 +9,7 @@ nconf.overrides({
 var eventManager = require('../eventManager');
 
 describe('achievibit GitHub Event Manager', function() {
-  it('it adds repo to DB on ping event', function() {
+  it('should add repo to DB on ping event', function() {
 
   });
 });

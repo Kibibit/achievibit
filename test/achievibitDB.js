@@ -9,7 +9,7 @@ nconf.overrides({
 var achievibitDB = require('../achievibitDB');
 
 describe('achievibit DB', function() {
-  it('sets indexes for the database', function() {
+  it('should set indexes for the database', function() {
 
   });
 });
