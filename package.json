@@ -4,7 +4,7 @@
   "description": "achievement system for github's PRs",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec",
+    "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec --reporter mochawesome",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "node index.js"
   },
@@ -53,6 +53,7 @@
     "chai": "^3.5.0",
     "coveralls": "^2.11.15",
     "mocha": "^3.2.0",
+    "mochawesome": "^2.0.2",
     "nyc": "^10.1.2",
     "proxyquire": "^1.7.11"
   }
