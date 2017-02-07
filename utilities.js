@@ -11,6 +11,8 @@ utilities.isPullRequestAssociatedWithOrganization =
   isPullRequestAssociatedWithOrganization;
 utilities.initializePullRequest = initializePullRequest;
 utilities.mergeBasePRData = mergeBasePRData;
+utilities.parseReviewStatus = parseReviewStatus;
+utilities.parseComment = parseComment;
 
 module.exports = utilities;
 
@@ -56,6 +58,35 @@ function parseRepo(repository) {
     name: repository.name,
     fullname: repository.full_name,
     url: repository.html_url
+  };
+}
+
+function parseComment(comment, isInlineComment) {
+  var commentObject = {
+    author: utilities.parseUser(comment.user),
+    message: comment.body,
+    createdOn: comment.created_at,
+    edited: !_.isEqual(comment.created_at, comment.updated_at),
+    apiUrl: comment.url
+  };
+
+  if (isInlineComment) {
+    commentObject.file = comment.path;
+    commentObject.commit = comment.commit_id;
+    commentObject.apiUrl = comment.url;
+  }
+
+  return commentObject;
+}
+
+function parseReviewStatus(review) {
+  return {
+    id: review.id,
+    user: parseUser(review.user),
+    message: review.body || '',
+    state: review.state,
+    createdOn: review.submitted_at,
+    commit: review.commit_id
   };
 }
 
