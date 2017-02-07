@@ -40,10 +40,10 @@ var EventManager = function() {
   var self = this;
 
   self.notifyAchievements = function(githubEvent, eventData, io) {
-        /**
-         * NEW REPO CONNECTED!!!
-         * a repo added achievibit as a GitHub webhook!
-         */
+    /**
+     * NEW REPO CONNECTED!!!
+     * a repo added achievibit as a GitHub webhook!
+     */
     if (_.isEqual(githubEvent, 'ping')) {
       var repo = utilities.parseRepo(eventData.repository);
 
@@ -55,15 +55,15 @@ var EventManager = function() {
       achievibitDB.insertItem('repos', repo);
     }
 
-        /**
-         * INIT PULL REQUEST DATA
-         * Get the data as it was when the pull request opened.
-         * This will allow us to notify the achievements if something changed
-         * in case some achievements want to deal with changing things.
-         * notice that labels are given as a different event with the same
-         * time, so that way we know if that was an added label at creation
-         * or later
-         */
+    /**
+     * INIT PULL REQUEST DATA
+     * Get the data as it was when the pull request opened.
+     * This will allow us to notify the achievements if something changed
+     * in case some achievements want to deal with changing things.
+     * notice that labels are given as a different event with the same
+     * time, so that way we know if that was an added label at creation
+     * or later
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             //_.isEqual(eventData.action, 'reopened') ?
             _.isEqual(eventData.action, 'opened')) {
@@ -77,12 +77,12 @@ var EventManager = function() {
       ].join(''), pullRequests[id]);
     }
 
-        /**
-         * INIT PULL REQUEST DATA - LABELS
-         * This event means a label was added on creation.
-         * Therefore, we'll add that to the pull request without
-         * adding an update event
-         */
+    /**
+     * INIT PULL REQUEST DATA - LABELS
+     * This event means a label was added on creation.
+     * Therefore, we'll add that to the pull request without
+     * adding an update event
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'labeled') &&
             _.isEqual(
@@ -97,9 +97,9 @@ var EventManager = function() {
 
       console.log('added labels on creation', pullRequests[id]);
 
-        /**
-         * UPDATE PULL REQUEST DATA - LABEL ADDED
-         */
+    /**
+     * UPDATE PULL REQUEST DATA - LABEL ADDED
+     */
     } else if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'labeled')) {
             /////
@@ -119,9 +119,9 @@ var EventManager = function() {
       console.log('UPDATE labels', pullRequests[id]);
     }
 
-        /**
-         * UPDATE PULL REQUEST DATA - LABEL REMOVED
-         */
+    /**
+     * UPDATE PULL REQUEST DATA - LABEL REMOVED
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'unlabeled')) {
             /////
@@ -143,12 +143,12 @@ var EventManager = function() {
       console.log('UPDATE labels', pullRequests[id]);
     }
 
-        /**
-         * UPDATE PULL REQUEST DATA - PULL REQUEST EDITED
-         * This means something changed:
-         *  * title
-         *  * description
-         */
+    /**
+     * UPDATE PULL REQUEST DATA - PULL REQUEST EDITED
+     * This means something changed:
+     *  * title
+     *  * description
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'edited')) {
             /////
@@ -189,11 +189,11 @@ var EventManager = function() {
 
     }
 
-        /**
-         * UPDATE PULL REQUEST DATA - ASSIGNEES CHANGED
-         * Currently, we don't log this change. But we can do that if we'll
-         * have some ideas for achievemenets for that :-)
-         */
+    /**
+     * UPDATE PULL REQUEST DATA - ASSIGNEES CHANGED
+     * Currently, we don't log this change. But we can do that if we'll
+     * have some ideas for achievemenets for that :-)
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             (_.isEqual(eventData.action, 'unassigned') ||
             _.isEqual(eventData.action, 'assigned'))) {
@@ -213,42 +213,63 @@ var EventManager = function() {
 
     // CODE REVIEW
 
-    // if (_.isEqual(githubEvent, 'pull_request') &&
-    //         _.isEqual(eventData.action, 'review_requested')) {
-    //
-    //   utilities.mergeBasePRData(pullRequests, eventData);
-    //   var reviewer = utilities.parseUser(eventData.requested_reviewer);
-    //
-    //   if (!pullRequests[id].reviewers) {
-    //     pullRequests[id].reviewers = [];
-    //   }
-    //
-    //   pullRequests[id].reviewers.push(reviewer);
-    // }
-    //
-    // if (_.isEqual(githubEvent, 'pull_request') &&
-    //         _.isEqual(eventData.action, 'review_request_removed')) {
-    //
-    //   var reviewer = utilities.parseUser(eventData.requested_reviewer);
-    //
-    //   if (!pullRequests[id].reviewers) {
-    //     pullRequests[id].reviewers = [];
-    //   }
-    //
-    //   pullRequests[id].reviewers.push(reviewer);
-    // }
-    //
-    // if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
-    //         _.isEqual(eventData.action, 'created')) {
-    //         //self.emit('open', eventData);
-    // }
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER ADDED (review request)
+     */
+    if (_.isEqual(githubEvent, 'pull_request') &&
+            _.isEqual(eventData.action, 'review_requested')) {
 
-        /**
-         * PULL REQUEST ACHIEVEMENTS EVENTS
-         * Send correct events based on data
-         * so achievements can listen and UNLOCK if
-         * data matched what they looked for
-         */
+      utilities.mergeBasePRData(pullRequests, eventData);
+      var reviewer = utilities.parseUser(eventData.requested_reviewer);
+      console.log('ADDED REVIEWER', reviewer);
+      // if (!pullRequests[id].reviewers) {
+      //   pullRequests[id].reviewers = [];
+      // }
+      //
+      // pullRequests[id].reviewers.push(reviewer);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER COMMENTED
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'created')) {
+      utilities.mergeBasePRData(pullRequests, eventData);
+      // need to parse this and add to pull request data
+      var newReviewComment = utilities.parseComment(eventData.comment);
+      console.log('NEW REVIEW COMMENT', newReviewComment);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEW SUBMITTED
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review') &&
+            _.isEqual(eventData.action, 'submitted')) {
+
+      var newReviewStatus = utilities.parseReviewStatus(eventData.review);
+      console.log('NEW REVIEW STATUS RECIEVED', newReviewStatus);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER REMOVED
+     * Can we know who removed the reviewer?
+     */
+    if (_.isEqual(githubEvent, 'pull_request') &&
+            _.isEqual(eventData.action, 'review_request_removed')) {
+
+      var removedReviewer = utilities.parseUser(eventData.requested_reviewer);
+      console.log('REMOVED REVIEWER', removedReviewer);
+
+      // remove reviewer from reviewer's list, and add to removed list
+    }
+
+    /**
+     * PULL REQUEST ACHIEVEMENTS EVENTS
+     * Send correct events based on data
+     * so achievements can listen and UNLOCK if
+     * data matched what they looked for
+     */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'closed') &&
             eventData.pull_request.merged) {
