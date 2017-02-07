@@ -21,6 +21,7 @@ nconf.argv().env();
 var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var url = nconf.get('databaseUrl');
+var stealth = nconf.get('stealth');
 var db = monk(url);
 var app = express(); // define our app using express
 
@@ -354,7 +355,6 @@ app.get('/', function(req, res) {
  *   = ========
  */
 var server = app.listen(config.port, function() {
-  var stealth = nconf.get('stealth');
   if (!stealth) {
     logo();
   }
