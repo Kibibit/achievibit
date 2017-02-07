@@ -242,6 +242,31 @@ var EventManager = function() {
     }
 
     /**
+     * UPDATE PULL REQUEST DATA - REVIEWER DELETED COMMENT
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'deleted')) {
+      utilities.mergeBasePRData(pullRequests, eventData);
+      // need to parse this and add to pull request data
+      var deletedReviewComment = utilities.parseComment(eventData.comment);
+      console.log('DELETED REVIEW COMMENT', deletedReviewComment);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER EDITED COMMENT
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'edited')) {
+      utilities.mergeBasePRData(pullRequests, eventData);
+      // need to parse this and add to pull request data
+      var updatedReviewComment = utilities.parseComment(eventData.comment);
+      var oldBodyValue = eventData.changes.body.from;
+      console.log('EDITED REVIEW COMMENT', updatedReviewComment, oldBodyValue);
+    }
+
+    /**
      * UPDATE PULL REQUEST DATA - REVIEW SUBMITTED
      */
     if (_.isEqual(githubEvent, 'pull_request_review') &&
