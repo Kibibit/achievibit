@@ -2,6 +2,32 @@ var expect    = require('chai').expect;
 var nconf = require('nconf');
 var http = require('http');
 var config = require('../config');
+var jsonfile = require('jsonfile');
+jsonfile.spaces = 2;
+var db = {
+  users: [
+    {
+      '_id': {
+        '$oid': '57f4d854573e9f073b8c2679'
+      },
+      'username': 'existingUser',
+      'url': 'existingUser-url',
+      'avatar': 'existingUser-avatar',
+      'achievements': [
+        {
+          'avatar': 'achievement.png',
+          'name': 'test achievement',
+          'short': 'short',
+          'description': 'description',
+          'relatedPullRequest': 'relatedPullRequest',
+          'grantedOn': 1475663956006
+        }
+      ]
+    }
+  ]
+};
+
+jsonfile.writeFileSync('monkeyDB.json', db);
 
 nconf.overrides({
   databaseUrl: 'test',
@@ -24,7 +50,7 @@ describe('achievibit - End-to-End', function() {
       http.get([
         'http://localhost:',
         config.port,
-        '/raw/dbUser'
+        '/raw/existingUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(200);
         done();
@@ -48,7 +74,7 @@ describe('achievibit - End-to-End', function() {
       http.get([
         'http://localhost:',
         config.port,
-        '/dbUser'
+        '/existingUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(200);
         done();
