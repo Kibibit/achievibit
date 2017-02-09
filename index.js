@@ -24,10 +24,10 @@ var url = nconf.get('databaseUrl');
 var stealth = nconf.get('stealth');
 var db = monk(url);
 var app = express(); // define our app using express
-var port = nconf.get('port') || 3141;
+var port = nconf.get('port');
 
-if (config.port) {
- port = config.port; 
+if (!port) {
+  port = config.port;
 }
 
 var achievements = require('require-all')({
