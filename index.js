@@ -1,5 +1,6 @@
 // CALL THE PACKAGES --------------------
 var express = require('express'); // call express
+var config = require('./config');
 var compression = require('compression');
 var helmet = require('helmet');
 var path = require('path');
@@ -24,6 +25,10 @@ var stealth = nconf.get('stealth');
 var db = monk(url);
 var app = express(); // define our app using express
 var port = nconf.get('port') || 3141;
+
+if (config.port) {
+ port = config.port; 
+}
 
 var achievements = require('require-all')({
   dirname: __dirname + '/achievements',
