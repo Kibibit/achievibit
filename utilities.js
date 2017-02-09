@@ -62,7 +62,8 @@ function parseRepo(repository) {
 function parseStatuses(statuses) {
   var parsed = {};
   _.forEach(statuses, function(status) {
-        // nothing should be pending if the pull request got merged
+    // nothing should be pending if the pull request got merged
+    // TODO(Thatkookooguy): check if this assumption is true
     if (!_.isEqual(status.state, 'pending')) {
       parsed[status.context] = {
         state: status.state,
@@ -100,7 +101,10 @@ function getNewFileFromPatch(patch) {
     line.indexOf('No newline at end of file') === -1;
 
   }).map(function(line) {
-    if (line.startsWith('+'))            {return line.replace('+', '');}
+    if (line.startsWith('+')) {
+      return line.replace('+', '');
+    }
+
     return line;
   }).join('\n');
 }
