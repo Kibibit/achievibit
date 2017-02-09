@@ -1,9 +1,10 @@
 var expect    = require('chai').expect;
 var nconf = require('nconf');
 var http = require('http');
-var config = require('../config');
 var jsonfile = require('jsonfile');
 jsonfile.spaces = 2;
+
+var port = 6666; // DOOM
 var db = {
   users: [
     {
@@ -32,14 +33,15 @@ jsonfile.writeFileSync('monkeyDB.json', db);
 nconf.overrides({
   databaseUrl: 'test',
   testDB: true,
-  stealth: 'stealth'
+  stealth: 'stealth',
+  port: port
 });
 
 var achievibit = require('../index');
 
 describe('achievibit - End-to-End', function() {
   it('should return 200 for homepage', function (done) {
-    http.get('http://localhost:' + config.port, function (res) {
+    http.get('http://localhost:' + port, function (res) {
       expect(res.statusCode).to.equal(200);
       done();
     });
@@ -49,7 +51,7 @@ describe('achievibit - End-to-End', function() {
     it('should return raw user data if exists', function (done) {
       http.get([
         'http://localhost:',
-        config.port,
+        port,
         '/raw/existingUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(200);
@@ -60,7 +62,7 @@ describe('achievibit - End-to-End', function() {
     it('should return error on non-existing user', function (done) {
       http.get([
         'http://localhost:',
-        config.port,
+        port,
         '/raw/dbUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(204);
@@ -73,7 +75,7 @@ describe('achievibit - End-to-End', function() {
     it('should return user html page if exists in DB', function (done) {
       http.get([
         'http://localhost:',
-        config.port,
+        port,
         '/existingUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(200);
@@ -84,7 +86,7 @@ describe('achievibit - End-to-End', function() {
     it('should redirect to hompage on non-existing user', function (done) {
       http.get([
         'http://localhost:',
-        config.port,
+        port,
         '/dbUser'
       ].join(''), function (res) {
         expect(res.statusCode).to.equal(301);
@@ -95,7 +97,7 @@ describe('achievibit - End-to-End', function() {
 
   it('should return shield', function (done) {
     http.get([
-      'http://localhost:', config.port, '/achievementsShield'
+      'http://localhost:', port, '/achievementsShield'
     ].join(''), function (res) {
       expect(res.statusCode).to.equal(200);
       expect(res.headers['content-type'])

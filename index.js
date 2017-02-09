@@ -2,7 +2,6 @@
 var express = require('express'); // call express
 var compression = require('compression');
 var helmet = require('helmet');
-var config = require('./config');
 var path = require('path');
 var favicon = require('serve-favicon'); // set favicon
 var bodyParser = require('body-parser');
@@ -24,6 +23,7 @@ var url = nconf.get('databaseUrl');
 var stealth = nconf.get('stealth');
 var db = monk(url);
 var app = express(); // define our app using express
+var port = nconf.get('port') || 3141;
 
 var achievements = require('require-all')({
   dirname: __dirname + '/achievements',
@@ -354,12 +354,12 @@ app.get('/', function(req, res) {
  *   = SERVER =
  *   = ========
  */
-var server = app.listen(config.port, function() {
+var server = app.listen(port, function() {
   if (!stealth) {
     logo();
   }
   console.info('Server listening at port ' +
-    colors.bgBlue.white.bold(' ' + config.port + ' '));
+    colors.bgBlue.white.bold(' ' + port + ' '));
 });
 var io = require('socket.io').listen(server);
 
@@ -384,7 +384,7 @@ if (token) {
       console.error(err);
     }
   });
-  ngrok.connect(config.port, function (err, url) {
+  ngrok.connect(port, function (err, url) {
     if (err) {
       console.error(err);
     } else {
