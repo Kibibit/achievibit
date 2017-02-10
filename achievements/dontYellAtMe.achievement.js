@@ -19,9 +19,10 @@ var dontYellAtMe = {
 };
 
 function isCreatorJustMean(pullRequest) {
-  var isTitleContainLetters = /[a-zA-Z]/.test(pullRequest.title);
-  var isNoLowerCase = /^[^a-z]*$/.test(pullRequest.title);
-  var isOverExclamation = /!{3}/.test(pullRequest.title);
+  var cleanedTitle = pullRequest.title.replace(/\[.*?\]/g, '');
+  var isTitleContainLetters = /[a-zA-Z]/.test(cleanedTitle);
+  var isNoLowerCase = /^[^a-z]*$/.test(cleanedTitle);
+  var isOverExclamation = /!{3}/.test(cleanedTitle);
 
   var reason = '';
   var comboPotential = '';
