@@ -6,7 +6,7 @@ var dontYellAtMe = {
     if (reason) {
 
       var achieve = {
-        avatar: 'images/achievements/dontYellAtMe.jpg',
+        avatar: 'images/achievements/dontYellAtMe.achievement.jpg',
         name: 'Don\'t Yell At Me!!!',
         short: 'I don\'t know what we\'re yelling about',
         description: 'You\'ve used ' + reason + ' in your Pull Request title',
