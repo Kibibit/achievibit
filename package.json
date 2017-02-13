@@ -35,7 +35,7 @@
     "lodash": "^4.16.6",
     "moment": "^2.15.2",
     "mongodb": "^2.2.10",
-    "monk": "^3.1.2",
+    "monk": "^4.0.0",
     "monkey-js": "thatkookooguy/monkey-js",
     "nconf": "^0.8.4",
     "ngrok": "^2.2.3",
