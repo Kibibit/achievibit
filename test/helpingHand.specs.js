@@ -53,6 +53,39 @@ describe('helpingHand achievement', function() {
     expect(testShall.grantedAchievements.creator).to.be.an('object');
     expect(testShall.grantedAchievements.reviewer).to.exist;
     expect(testShall.grantedAchievements.reviewer).to.be.an('object');
+    expect(testShall.grantedAchievements.creator.description)
+      .to.not.have.string('Your reviewers');
+  });
+
+  it('should add indication if more than one PR reviewer', function() {
+    var testShall = new Shall();
+    var pullRequest = new PullRequest();
+
+    pullRequest.reviewers.push({
+      'username': '2nd'
+    });
+
+    pullRequest.commits.push({
+      'author': {
+        'username': 'reviewer',
+      }
+    });
+
+    pullRequest.commits.push({
+      'author': {
+        'username': '2nd'
+      }
+    });
+
+    helpingHand.check(pullRequest, testShall);
+    expect(testShall.grantedAchievements.creator).to.exist;
+    expect(testShall.grantedAchievements.creator).to.be.an('object');
+    expect(testShall.grantedAchievements.reviewer).to.exist;
+    expect(testShall.grantedAchievements.reviewer).to.be.an('object');
+    expect(testShall.grantedAchievements.reviewer).to.exist;
+    expect(testShall.grantedAchievements['2nd']).to.be.an('object');
+    expect(testShall.grantedAchievements.creator.description)
+      .to.have.string('Your reviewers');
   });
 });
 
