@@ -26,28 +26,31 @@ var meeseek = {
 function checkIfResolvesManyIssues(pullRequest) {
   var desc = pullRequest.description.toLowerCase();
 
-  var matchBasicRegexString =
+  var keywordsRegexString =
     '(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) \\#(\\d+)';
 
-  var removeKeywordsWithPrefix = new RegExp([
+  var keywordsWithPrefix = new RegExp([
     '\\w',
-    matchBasicRegexString
+    keywordsRegexString
   ].join(''), 'g');
 
-  var removeKeywordsWithSuffix = new RegExp([
-    matchBasicRegexString,
+  var keywordsWithSuffix = new RegExp([
+    keywordsRegexString,
     '\\w'
   ].join(''), 'g');
 
   // remove unqualified sub-strings
   desc = desc
-    .replace(removeKeywordsWithPrefix, '')
-    .replace(removeKeywordsWithSuffix, '');
+    .replace(keywordsWithPrefix, '')
+    .replace(keywordsWithSuffix, '');
 
 	//these keywords resolve issues in github
-  var resolveIssueRegex = new RegExp(matchBasicRegexString, 'g');
+  var resolveIssueRegex = new RegExp(keywordsRegexString, 'g');
 
-  var result = _.uniq(desc.match(resolveIssueRegex));
+  // check uniqueness by bug number only
+  var result = _.uniqBy(desc.match(resolveIssueRegex), function(keyword) {
+    return  keyword.replace(/^\D+/g, '');
+  });
 
 	//resolved more than 3 issue in on pull request
   return result && result.length > 3;
