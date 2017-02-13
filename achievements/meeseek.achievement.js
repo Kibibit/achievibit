@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 var meeseek = {
   name: 'I\'m Mr. Meeseeks! Look at me!',
   check: function(pullRequest, shall) {
@@ -22,13 +24,30 @@ var meeseek = {
 };
 
 function checkIfResolvesManyIssues(pullRequest) {
-  var desc = pullRequest.description;
+  var desc = pullRequest.description.toLowerCase();
+
+  var matchBasicRegexString =
+    '(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) \\#(\\d+)';
+
+  var removeKeywordsWithPrefix = new RegExp([
+    '\\w',
+    matchBasicRegexString
+  ].join(''), 'g');
+
+  var removeKeywordsWithSuffix = new RegExp([
+    matchBasicRegexString,
+    '\\w'
+  ].join(''), 'g');
+
+  // remove unqualified sub-strings
+  desc = desc
+    .replace(removeKeywordsWithPrefix, '')
+    .replace(removeKeywordsWithSuffix, '');
 
 	//these keywords resolve issues in github
-  var resolveIssueRegex =
-	/(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) \#(\d+)/g;
+  var resolveIssueRegex = new RegExp(matchBasicRegexString, 'g');
 
-  var result = desc.match(resolveIssueRegex);
+  var result = _.uniq(desc.match(resolveIssueRegex));
 
 	//resolved more than 3 issue in on pull request
   return result && result.length > 3;
