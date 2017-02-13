@@ -64,7 +64,7 @@ describe('meeseek achievement', function() {
       '[resolves #1]',
       '[resolves #1]',
       '[resolves #1]',
-      '[resolves #1]'
+      '[closes #1]'
     ].join('\n');
 
     meeseek.check(pullRequest, testShall);
