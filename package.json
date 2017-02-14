@@ -1,6 +1,6 @@
 {
   "name": "achievibit",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "achievement system for github's PRs",
   "main": "index.js",
   "scripts": {
