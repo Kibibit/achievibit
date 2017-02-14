@@ -25,7 +25,7 @@ function isWaitingLongTime(pullRequest) {
   var backThen = moment(pullRequest.createdOn);
   var now = moment();
 
-  return now.diff(backThen, 'weeks') > 2;
+  return now.diff(backThen, 'days') > 14;
 }
 
 module.exports = member;

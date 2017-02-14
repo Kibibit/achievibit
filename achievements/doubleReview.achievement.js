@@ -3,7 +3,12 @@ var _ = require('lodash');
 var doubleReview = {
   name: 'doubleReview',
   check: function(pullRequest, shall) {
-    if (pullRequest.reviewers && pullRequest.reviewers.length === 2) {
+    // clone the reviewers to not mutate the original pullRequest
+    var reviewers = _.clone(pullRequest.reviewers);
+    _.remove(reviewers, {
+      username: pullRequest.creator.username
+    });
+    if (reviewers && reviewers.length === 2) {
 
       var achieve = {
         avatar: 'images/achievements/doubleReview.achievement.gif',
@@ -16,7 +21,7 @@ var doubleReview = {
         relatedPullRequest: pullRequest.id
       };
 
-      _.forEach(pullRequest.reviewers, function(reviewer) {
+      _.forEach(reviewers, function(reviewer) {
         shall.grant(reviewer.username, achieve);
       });
     }

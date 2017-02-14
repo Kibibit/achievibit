@@ -16,7 +16,7 @@ var inspectorGadget = {
           'a great inspector.'
         ].join(''),
         description: [
-          'You\'ve increased your project coverage by ',
+          'You\'ve increased a project coverage by ',
           coveragePercentageIncreased
         ].join(''),
         relatedPullRequest: pullRequest.id
@@ -42,4 +42,3 @@ function coverageIncreased(pullRequest) {
 }
 
 module.exports = inspectorGadget;
-
