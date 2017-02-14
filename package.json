@@ -1,16 +1,17 @@
 {
   "name": "achievibit",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "achievement system for github's PRs",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec --reporter mochawesome",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "node index.js"
+    "start": "node index.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Kibibit/achievibit.git"
+    "url": "https://github.com/Kibibit/achievibit.git"
   },
   "author": "neilkalman@gmail.com",
   "license": "ISC",
@@ -54,8 +55,10 @@
     "coveralls": "^2.11.15",
     "jsonfile": "^2.4.0",
     "mocha": "^3.2.0",
+    "mocha-sinon": "^1.1.6",
     "mochawesome": "^2.0.2",
     "nyc": "^10.1.2",
-    "proxyquire": "^1.7.11"
+    "proxyquire": "^1.7.11",
+    "semantic-release": "^6.3.2"
   }
 }
