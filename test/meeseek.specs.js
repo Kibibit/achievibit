@@ -64,7 +64,7 @@ describe('meeseek achievement', function() {
       '[resolves #1]',
       '[resolves #1]',
       '[resolves #1]',
-      '[resolves #1]'
+      '[closes #1]'
     ].join('\n');
 
     meeseek.check(pullRequest, testShall);
@@ -96,6 +96,7 @@ describe('meeseek achievement', function() {
     pullRequest.description = [
       '[awesomeresolves #1]', // should not be recognized
       '[resolves #2resolves #3]', // should not be recognized
+      'resolves #3nice!',
       '[resolves #4]',
       '[resolves #5]',
       '[resolves #6]'
