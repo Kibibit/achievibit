@@ -4,9 +4,7 @@ var mrMiyagi = {
   name: 'Mr Miyagi',
   check: function(pullRequest, shall) {
 
-    var coveragePercentageTurned100 = coverageTurned100(pullRequest);
-
-    if (coveragePercentageTurned100) {
+    if (isCoverageTurened100(pullRequest)) {
 
       var achievement = {
         avatar: 'images/achievements/mrMiyagi.achievement.jpg',
@@ -31,7 +29,7 @@ var mrMiyagi = {
   }
 };
 
-function coverageTurned100(pullRequest) {
+function isCoverageTurened100(pullRequest) {
   var lastCoverageUpdate = _.findLast(pullRequest.comments,
     ['author.username', 'coveralls']);
 
