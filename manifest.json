@@ -1,0 +1,15 @@
+{
+  "short_name": "achievibit",
+  "name": "achievibit",
+  "icons": [
+    {
+      "src":"images/favicon.png",
+      "sizes": "250x250",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "https://achievibit.herokuapp.com/?utm_source=homescreen",
+  "background_color": "#5A6384",
+  "theme_color": "#F2E8C4",
+  "display": "standalone"
+}
