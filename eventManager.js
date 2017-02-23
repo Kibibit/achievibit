@@ -70,6 +70,8 @@ var EventManager = function() {
 
       utilities.mergeBasePRData(pullRequests, eventData);
 
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+
       console.log([
         'created new ',
         colors.bgBlue.white.bold('pull request'),
@@ -104,6 +106,9 @@ var EventManager = function() {
             _.isEqual(eventData.action, 'labeled')) {
             /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+
       if (!_.isObject(pullRequests[id].history.labels)) {
         pullRequests[id].history.labels = {
           added: 0,
@@ -126,6 +131,9 @@ var EventManager = function() {
             _.isEqual(eventData.action, 'unlabeled')) {
             /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+
       if (!_.isObject(pullRequests[id].history.labels)) {
         pullRequests[id].history.labels = {
           added: 0,
@@ -153,6 +161,9 @@ var EventManager = function() {
             _.isEqual(eventData.action, 'edited')) {
             /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+
       if (eventData.changes.title) {
         var oldTitle = pullRequests[id].title;
 
@@ -203,9 +214,9 @@ var EventManager = function() {
         pullRequests[id] = {};
       }
       var assignees = eventData.pull_request.assignees;
-      pullRequests[id].reviewers = [];
+      pullRequests[id].assignees = [];
       for (var i = 0; i < assignees.length; i++) {
-        pullRequests[id].reviewers.push(utilities.parseUser(assignees[i]));
+        pullRequests[id].assignees.push(utilities.parseUser(assignees[i]));
       }
 
       console.log('UPDATE assignees', pullRequests[id]);
@@ -219,61 +230,20 @@ var EventManager = function() {
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'review_requested')) {
 
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+
       utilities.mergeBasePRData(pullRequests, eventData);
       var reviewer = utilities.parseUser(eventData.requested_reviewer);
-      console.log('ADDED REVIEWER', reviewer);
-      // if (!pullRequests[id].reviewers) {
-      //   pullRequests[id].reviewers = [];
-      // }
-      //
-      // pullRequests[id].reviewers.push(reviewer);
-    }
 
-    /**
-     * UPDATE PULL REQUEST DATA - REVIEWER COMMENTED
-     * (as part of the CR)
-     */
-    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
-            _.isEqual(eventData.action, 'created')) {
-      utilities.mergeBasePRData(pullRequests, eventData);
-      // need to parse this and add to pull request data
-      var newReviewComment = utilities.parseComment(eventData.comment);
-      console.log('NEW REVIEW COMMENT', newReviewComment);
-    }
 
-    /**
-     * UPDATE PULL REQUEST DATA - REVIEWER DELETED COMMENT
-     * (as part of the CR)
-     */
-    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
-            _.isEqual(eventData.action, 'deleted')) {
-      utilities.mergeBasePRData(pullRequests, eventData);
-      // need to parse this and add to pull request data
-      var deletedReviewComment = utilities.parseComment(eventData.comment);
-      console.log('DELETED REVIEW COMMENT', deletedReviewComment);
-    }
+      if (!pullRequests[id].reviewers) {
+        pullRequests[id].reviewers = [];
+      }
 
-    /**
-     * UPDATE PULL REQUEST DATA - REVIEWER EDITED COMMENT
-     * (as part of the CR)
-     */
-    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
-            _.isEqual(eventData.action, 'edited')) {
-      utilities.mergeBasePRData(pullRequests, eventData);
-      // need to parse this and add to pull request data
-      var updatedReviewComment = utilities.parseComment(eventData.comment);
-      var oldBodyValue = eventData.changes.body.from;
-      console.log('EDITED REVIEW COMMENT', updatedReviewComment, oldBodyValue);
-    }
-
-    /**
-     * UPDATE PULL REQUEST DATA - REVIEW SUBMITTED
-     */
-    if (_.isEqual(githubEvent, 'pull_request_review') &&
-            _.isEqual(eventData.action, 'submitted')) {
-
-      var newReviewStatus = utilities.parseReviewStatus(eventData.review);
-      console.log('NEW REVIEW STATUS RECIEVED', newReviewStatus);
+      pullRequests[id].reviewers.push(reviewer);
+      pullRequests[id].reviewers =
+        _.uniqBy(pullRequests[id].reviewers, 'username');
+      console.log('ADDED REVIEWER', pullRequests[id]);
     }
 
     /**
@@ -283,10 +253,144 @@ var EventManager = function() {
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'review_request_removed')) {
 
-      var removedReviewer = utilities.parseUser(eventData.requested_reviewer);
-      console.log('REMOVED REVIEWER', removedReviewer);
+      utilities.mergeBasePRData(pullRequests, eventData);
+      var id = utilities.getPullRequestIdFromEventData(eventData);
 
-      // remove reviewer from reviewer's list, and add to removed list
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+
+      var removedReviewer = utilities.parseUser(eventData.requested_reviewer);
+
+
+      if (!pullRequests[id].reviewers) {
+        pullRequests[id].reviewers = [];
+      } else {
+        var userToRemove = _.find(pullRequests[id].reviewers, {
+          username: removedReviewer.username
+        });
+
+        pullRequests[id].reviewers =
+          _.without(pullRequests[id].reviewers, userToRemove);
+
+        // manage history
+        pullRequests[id].history.deletedReviewers =
+            pullRequests[id].history.deletedReviewers || [];
+        pullRequests[id].history.deletedReviewers
+            .push(userToRemove);
+
+        console.log('REMOVED REVIEWER', pullRequests[id]);
+      }
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER COMMENTED
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'created')) {
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+      utilities.mergeBasePRData(pullRequests, eventData);
+      // need to parse this and add to pull request data
+      var newReviewComment = utilities.parseReviewComment(eventData.comment);
+
+      if (!pullRequests[id].reviewComments) {
+        pullRequests[id].reviewComments = [];
+      }
+
+      pullRequests[id].reviewComments.push(newReviewComment);
+      pullRequests[id].reviewComments =
+        _.uniqBy(pullRequests[id].reviewComments, 'id');
+      console.log('NEW REVIEW COMMENT', pullRequests[id]);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER DELETED COMMENT
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'deleted')) {
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+      utilities.mergeBasePRData(pullRequests, eventData);
+
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+
+      if (pullRequests[id].reviewComments) {
+        pullRequests[id].reviewComments = [];
+      } else {
+        var originalComment = _.find(pullRequests[id].reviewComments, {
+          id: eventData.comment.id
+        });
+
+        if (originalComment) {
+          pullRequests[id].reviewComments =
+            _.without(pullRequests[id].reviewComments, originalComment);
+          pullRequests[id].history.reviewComments =
+              pullRequests[id].history.reviewComments || {};
+          pullRequests[id].history.reviewComments.deleted =
+              pullRequests[id].history.reviewComments.deleted || [];
+          pullRequests[id].history.reviewComments.deleted
+              .push(eventData.comment.id);
+          console.log('DELETED REVIEW COMMENT', pullRequests[id]);
+        }
+      }
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEWER EDITED COMMENT
+     * (as part of the CR)
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review_comment') &&
+            _.isEqual(eventData.action, 'edited')) {
+      utilities.mergeBasePRData(pullRequests, eventData);
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+      pullRequests[id].history =
+        pullRequests[id].history || {};
+      var updatedReviewComment =
+        utilities.parseReviewComment(eventData.comment);
+      var oldBodyValue = eventData.changes.body.from;
+
+      var originalComment = _.find(pullRequests[id].reviewComments, {
+        id: eventData.comment.id
+      });
+
+      if (!originalComment) {
+        pullRequests[id].reviewComments =
+          pullRequests[id].reviewComments || [];
+        pullRequests[id].reviewComments.push(updatedReviewComment);
+        originalComment = updatedReviewComment;
+      }
+
+      pullRequests[id].history.reviewComments =
+          pullRequests[id].history.reviewComments || {};
+
+      pullRequests[id].history.reviewComments[eventData.comment.id] =
+          pullRequests[id].history.reviewComments[eventData.comment.id] || [];
+
+      pullRequests[id].history.reviewComments[eventData.comment.id]
+          .push(oldBodyValue);
+      originalComment.message = updatedReviewComment.message;
+      console.log('EDITED REVIEW COMMENT', pullRequests[id]);
+    }
+
+    /**
+     * UPDATE PULL REQUEST DATA - REVIEW SUBMITTED
+     */
+    if (_.isEqual(githubEvent, 'pull_request_review') &&
+            _.isEqual(eventData.action, 'submitted')) {
+
+      var newReviewStatus = utilities.parseReviewStatus(eventData.review);
+      var id = utilities.getPullRequestIdFromEventData(eventData);
+      utilities.mergeBasePRData(pullRequests, eventData);
+
+      if (!pullRequests[id].reviews) {
+        pullRequests[id].reviews = [];
+      }
+
+      pullRequests[id].reviews.push(newReviewStatus);
+      pullRequests[id].reviews =
+        _.uniqBy(pullRequests[id].reviews, 'id');
+      console.log('NEW REVIEW STATUS RECIEVED', pullRequests[id]);
     }
 
     /**

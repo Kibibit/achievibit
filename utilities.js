@@ -13,6 +13,7 @@ utilities.initializePullRequest = initializePullRequest;
 utilities.mergeBasePRData = mergeBasePRData;
 utilities.parseReviewStatus = parseReviewStatus;
 utilities.parseComment = parseComment;
+utilities.parseReviewComment = parseReviewComment;
 
 module.exports = utilities;
 
@@ -44,9 +45,9 @@ function initializePullRequest(eventData) {
 
   if (eventData.pull_request.assignees) {
     var assignees = eventData.pull_request.assignees;
-    pullRequest.reviewers = [];
+    pullRequest.assignees = [];
     for (var i = 0; i < assignees.length; i++) {
-      pullRequest.reviewers.push(utilities.parseUser(assignees[i]));
+      pullRequest.assignees.push(utilities.parseUser(assignees[i]));
     }
   }
 
@@ -75,6 +76,22 @@ function parseComment(comment, isInlineComment) {
     commentObject.commit = comment.commit_id;
     commentObject.apiUrl = comment.url;
   }
+
+  return commentObject;
+}
+
+function parseReviewComment(comment) {
+  var commentObject = {
+    id: comment.id,
+    reviewId: comment.pull_request_review_id,
+    author: utilities.parseUser(comment.user),
+    message: comment.body,
+    createdOn: comment.created_at,
+    edited: !_.isEqual(comment.created_at, comment.updated_at),
+    apiUrl: comment.url,
+    file: comment.path,
+    commit: comment.commit_id
+  };
 
   return commentObject;
 }
@@ -141,7 +158,11 @@ function getNewFileFromPatch(patch) {
 }
 
 function getPullRequestIdFromEventData(eventData) {
-  return eventData.repository.full_name + '/pull/' + eventData.number;
+  return [
+    eventData.repository.full_name,
+    '/pull/',
+    eventData.pull_request.number
+  ].join('');
 }
 
 function mergeBasePRData(pullRequestsObject, eventData) {
@@ -150,5 +171,8 @@ function mergeBasePRData(pullRequestsObject, eventData) {
   if (!pullRequestsObject[id]) {
     pullRequestsObject[id] = {};
   }
-  _.assign(pullRequestsObject[id], utilities.initializePullRequest(eventData));
+
+  var newData = utilities.initializePullRequest(eventData);
+
+  _.assign(pullRequestsObject[id], newData);
 }
