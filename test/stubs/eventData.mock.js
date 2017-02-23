@@ -8,7 +8,7 @@ module.exports = {
     'diff_url': 'https://github.com/Kibibit/achievibit/pull/68.diff',
     'patch_url': 'https://github.com/Kibibit/achievibit/pull/68.patch',
     'issue_url': 'https://api.github.com/repos/Kibibit/achievibit/issues/68',
-    'number': 68,
+    'number': 1,
     'state': 'open',
     'locked': false,
     'title': 'new_title',

@@ -108,7 +108,7 @@ describe('achievibit Utilities', function() {
         'history',
         'repository'
       );
-      expect(pullRequest).to.not.include.keys('organization', 'reviewers');
+      expect(pullRequest).to.not.include.keys('organization', 'assignees');
     });
 
     it('should have organization associated if found', function() {
@@ -133,7 +133,7 @@ describe('achievibit Utilities', function() {
 
       var pullRequest = utilities.initializePullRequest(eventData);
       expect(pullRequest).to.be.an('object');
-      expect(pullRequest).to.include.keys('reviewers');
+      expect(pullRequest).to.include.keys('assignees');
     });
   });
   describe('parseUser - GitHub User to achievibit User', function() {
