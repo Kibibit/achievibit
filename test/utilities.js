@@ -47,7 +47,9 @@ describe('achievibit Utilities', function() {
   describe('getPullRequestIdFromEventData', function() {
     it('should create an id string out of GitHub\'s eventData', function() {
       var eventData = {
-        number: 1,
+        'pull_request': {
+          number: 1
+        },
         repository: {
           'full_name': 'repo'
         }
