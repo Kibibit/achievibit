@@ -3,6 +3,7 @@ var colors = require('colors');
 var schema = require('js-schema');
 var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
+var async = require('async');
 var console = require('./consoleService')('GITHUB-EVENTS', [
   'blue',
   'inverse'
@@ -451,7 +452,103 @@ var EventManager = function() {
 
     var grantedAchievements = {};
 
-    var shall = {
+    var checkAchievements = [];
+    // check for achievements
+    _.forEach(achievements, function(achievement, achievementFilename) {
+      checkAchievements
+        .push(checkAchievementTask(achievement,
+          achievementFilename, allPRUsers, pullRequest, grantedAchievements));
+    });
+
+    async.parallel(checkAchievements, function() {
+      _.forEach(allPRUsers, function(user) {
+        if (grantedAchievements[user.username]) {
+          achievibitDB.findItem('users', {
+            username: user.username
+          }).then(function(users) {
+            var _user = users[0];
+
+            if (!_user.achievements) {
+              _user.achievements = [];
+            }
+
+            var userAchievements = _user.achievements;
+            var newAchievements = _.differenceBy(
+              grantedAchievements[_user.username],
+              userAchievements,
+              'name'
+            );
+
+            _.forEach(newAchievements, function(achievementObject) {
+              io.sockets.emit(_user.username, achievementObject);
+            });
+
+            var newData = {};
+
+            if (newAchievements) {
+              newData.achievements = {
+                $each: newAchievements
+              };
+            }
+
+            console.log('adding achievements to DB for ' + _user.username);
+            try {
+              achievibitDB.updatePartialArray('users', {
+                username: _user.username
+              }, newData);
+            } catch (error) {
+              console.error(error);
+            }
+          });
+        }
+      });
+    });
+  }
+
+  function checkAchievementTask(achievement,
+    achievementFilename, allPRUsers, pullRequest, grantedAchievements) {
+
+    return function(callback) {
+      if (_.isFunction(achievement.check)) {
+        try {
+          if (_.isBoolean(achievement.accumelative) &&
+          achievement.accumelative) {
+            var searchUsernamesArray = _.map(allPRUsers, function(user) {
+              return { username: user.username };
+            });
+          //console.log('searchUsernamesArray', searchUsernamesArray);
+            achievibitDB.findItem('users', {
+              $or: searchUsernamesArray
+            }).then(function(users) {
+              var userToCounter = {};
+              _.forEach(users, function(user) {
+                userToCounter[user.username] =
+                _.get(user, 'accumelatives.' + achievement.name) || 0;
+              });
+              console.error('this is what we got', userToCounter);
+              achievement.check(pullRequest,
+               new Shall(achievement, achievementFilename, grantedAchievements),
+               userToCounter);
+              callback(null, 'finished');
+            });
+          } else {
+            achievement.check(pullRequest,
+              new Shall(achievement, achievementFilename, grantedAchievements));
+            callback(null, 'finished');
+          }
+        } catch (error) {
+          console.error([
+            'ERROR IN ACHIEVEMENT ',
+            achievement.name || achievementFilename
+          ].join(''), error.message);
+          callback(null, 'ERROR');
+        }
+      }
+    };
+  }
+
+  function Shall(achievement, achievementFilename, grantedAchievements) {
+    return {
       grant: function(username, achievementObject) {
         if (!_.isString(username)) {
           console.error(achievementFilename +
@@ -521,64 +618,29 @@ var EventManager = function() {
             user && user.treasures && user.treasures[treasureName];
           return foundTreasure ? user.treasures[treasureName] : null;
         });
+      },
+      progress: function(username, newCounter) {
+        if (!_.isString(username) || !_.isNumber(newCounter)) {
+          console.error('retrieve expects a username and a new counter');
+          return;
+        }
+
+        var newData = {};
+
+        newData.accumelatives = {};
+
+        newData.accumelatives[achievement.name] = newCounter;
+
+        var dataObject = {};
+
+        dataObject['accumelatives.' + achievement.name] = newCounter;
+        console.log('gonna update with this data:', dataObject);
+
+        return achievibitDB.updatePartially('users', {
+          username: username
+        }, dataObject);
       }
     };
-
-    // check for achievements
-    _.forEach(achievements, function(achievement, achievementFilename) {
-      if (_.isFunction(achievement.check)) {
-        try {
-          achievement.check(pullRequest, shall);
-        } catch (error) {
-          console.error([
-            'ERROR IN ACHIEVEMENT ',
-            achievement.name || achievementFilename
-          ].join(''), error.message);
-        }
-      }
-    });
-
-    _.forEach(allPRUsers, function(user) {
-      if (grantedAchievements[user.username]) {
-        achievibitDB.findItem('users', {
-          username: user.username
-        }).then(function(users) {
-          var _user = users[0];
-
-          if (!_user.achievements) {
-            _user.achievements = [];
-          }
-
-          var userAchievements = _user.achievements;
-          var newAchievements = _.differenceBy(
-            grantedAchievements[_user.username],
-            userAchievements,
-            'name'
-          );
-
-          _.forEach(newAchievements, function(achievementObject) {
-            io.sockets.emit(_user.username, achievementObject);
-          });
-
-          var newData = {};
-
-          if (newAchievements) {
-            newData.achievements = {
-              $each: newAchievements
-            };
-          }
-
-          console.log('adding achievements to DB for ' + _user.username);
-          try {
-            achievibitDB.updatePartialArray('users', {
-              username: _user.username
-            }, newData);
-          } catch (error) {
-            console.error(error);
-          }
-        });
-      }
-    });
   }
 };
 
