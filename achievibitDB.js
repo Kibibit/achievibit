@@ -363,13 +363,7 @@ function getExtraPRData(pullRequest, givenCallback) {
         var reactionsRequests = [];
 
         _.forEach(comments, function(comment) {
-          var commentParsed = {
-            author: utilities.parseUser(comment.user),
-            message: comment.body,
-            createdOn: comment.created_at,
-            edited: !_.isEqual(comment.created_at, comment.updated_at),
-            apiUrl: comment.url
-          };
+          var commentParsed = utilities.parseComment(comment);
           pullRequest.comments.push(commentParsed);
 
           reactionsRequests.push(getReactions(commentParsed));
@@ -395,19 +389,8 @@ function getExtraPRData(pullRequest, givenCallback) {
         var reactionsRequests = [];
 
         _.forEach(inlineComments, function(inlineComment) {
-          var inlineCommentParsed = {
-            file: inlineComment.path,
-            author: utilities.parseUser(inlineComment.user),
-            message: inlineComment.body,
-            createdOn: inlineComment.created_at,
-            edited: !_.isEqual(
-              inlineComment.created_at,
-              inlineComment.updated_at
-            ),
-            commit: inlineComment.commit_id,
-            apiUrl: inlineComment.url
-
-          };
+          var inlineCommentParsed =
+            utilities.parseComment(inlineComment, true /* isInlineComment */);
           pullRequest.inlineComments.push(inlineCommentParsed);
           reactionsRequests.push(getReactions(inlineCommentParsed));
         });
