@@ -511,8 +511,8 @@ var EventManager = function() {
     return function(callback) {
       if (_.isFunction(achievement.check)) {
         try {
-          if (_.isBoolean(achievement.accumelative) &&
-          achievement.accumelative) {
+          if (_.isBoolean(achievement.accumulative) &&
+          achievement.accumulative) {
             var searchUsernamesArray = _.map(allPRUsers, function(user) {
               return { username: user.username };
             });
@@ -523,7 +523,7 @@ var EventManager = function() {
               var userToCounter = {};
               _.forEach(users, function(user) {
                 userToCounter[user.username] =
-                _.get(user, 'accumelatives.' + achievement.name) || 0;
+                _.get(user, 'accumulatives.' + achievement.name) || 0;
               });
               console.error('this is what we got', userToCounter);
               achievement.check(pullRequest,
@@ -620,20 +620,31 @@ var EventManager = function() {
         });
       },
       progress: function(username, newCounter) {
-        if (!_.isString(username) || !_.isNumber(newCounter)) {
-          console.error('retrieve expects a username and a new counter');
+        if (!achievement.accumulative) {
+          console.error([
+            'progress should only be used by accumulative achievements'
+          ].join(''));
+          return;
+        }
+        if (!_.isString(username) ||
+          _.isObject(newCounter) ||
+          _.isArray(newCounter)) {
+
+          console.error([
+            'retrieve expects a username and a new PRIMITIVE counter'
+          ].join(''));
           return;
         }
 
         var newData = {};
 
-        newData.accumelatives = {};
+        newData.accumulatives = {};
 
-        newData.accumelatives[achievement.name] = newCounter;
+        newData.accumulatives[achievement.name] = newCounter;
 
         var dataObject = {};
 
-        dataObject['accumelatives.' + achievement.name] = newCounter;
+        dataObject['accumulatives.' + achievement.name] = newCounter;
         console.log('gonna update with this data:', dataObject);
 
         return achievibitDB.updatePartially('users', {

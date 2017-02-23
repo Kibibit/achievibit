@@ -2,7 +2,7 @@ var _ = require('lodash');
 
 var accu = {
   name: 'accu',
-  accumelative: true,
+  accumulative: true,
   check: function(pullRequest, shall, counter) {
     var creatorCounter = counter[pullRequest.creator.username] || 0;
     if (creatorCounter === 5) {
@@ -12,7 +12,7 @@ var accu = {
         name: 'ACCUMELATIVE, YO!',
         short: _.escape('"This way!"-"No, that way!"'),
         description: [
-          'this is the first accumelative achievement!'
+          'this is the first accumulative achievement!'
         ].join(''),
         relatedPullRequest: pullRequest.id
       };
