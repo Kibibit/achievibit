@@ -26,7 +26,10 @@ var Achievement = schema({
   name: String,
   short: String,
   description: String,
-  relatedPullRequest: String
+  relatedPullRequest: String,
+  // accumulative achievements must have this field,
+  // and it have to be a number
+  '?accumulative': Number
 });
 
 var Treasure = schema({
@@ -551,16 +554,24 @@ var EventManager = function() {
     return {
       grant: function(username, achievementObject) {
         if (!_.isString(username)) {
-          console.error(achievementFilename +
-                          ': grant should get a username');
+          console.error(achievementFilename + ': grant should get a username');
+
           return;
         }
         if (!_.isObject(achievementObject)) {
-          console.error(achievementFilename +
-                          ': grant should get an object');
+          console.error(achievementFilename + ': grant should get an object');
+
           return;
         }
         if (Achievement(achievementObject)) {
+
+          if (achievement.accumulative && !achievementObject.accumulative) {
+            console.error([
+              'accumulative achievements require an accumulative attribute'
+            ].join(''));
+
+            return;
+          }
 
           if (!grantedAchievements[username]) {
             grantedAchievements[username] = [];
