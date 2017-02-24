@@ -570,7 +570,9 @@ var EventManager = function() {
         }
         if (Achievement(achievementObject)) {
 
-          if (achievement.accumulative && !achievementObject.accumulative) {
+          if (achievement.accumulative &&
+            _.isNil(achievementObject.accumulative)) {
+
             console.error([
               'accumulative achievements require an accumulative attribute'
             ].join(''));
