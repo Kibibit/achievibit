@@ -7,6 +7,7 @@ var theNeverEndingStory = {
       1: {
         avatar: 'images/achievements/theNeverEndingStory.achievement.jpg',
         name: 'The NeverEnding Story (Bronze)',
+        accumulative: 0,
         short: 'Never give up and good luck will find you.',
         description: [
           '<p>This PR was defiently a mighty quest! ',
@@ -20,6 +21,7 @@ var theNeverEndingStory = {
       5: {
         avatar: 'images/achievements/theNeverEndingStory.5.achievement.jpg',
         name: 'The NeverEnding Story (Silver)',
+        accumulative: 1,
         short: 'I will not die easily. I am a warrior!',
         description: [
           '<p>This is your 5th pull request that had more than 10 commits. ',
@@ -30,6 +32,7 @@ var theNeverEndingStory = {
       10: {
         avatar: 'images/achievements/theNeverEndingStory.10.achievement.jpg',
         name: 'The NeverEnding Story (Gold)',
+        accumulative: 2,
         short: 'One grain of sand. It is all that remains of my vast empire',
         description: [
           '<p>This is your 10th pull request that had ',
@@ -43,6 +46,7 @@ var theNeverEndingStory = {
       20: {
         avatar: 'images/achievements/theNeverEndingStory.20.achievement.jpg',
         name: 'The NeverEnding Story (Platinum)',
+        accumulative: 3,
         short: [
           'If you want to save our world, you must hurry. ',
           'We don\'t know how much longer we can withstand the nothing.'
