@@ -28,8 +28,13 @@ var Achievement = schema({
   description: String,
   relatedPullRequest: String,
   // accumulative achievements must have this field,
-  // and it have to be a number
-  '?accumulative': Number
+  // and it have to be a of specific types
+  '?accumulative': [
+    Number,
+    String,
+    Array.of(0, 20, Number),
+    Array.of(0, 20, String)
+  ]
 });
 
 var Treasure = schema({
