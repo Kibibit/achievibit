@@ -10,9 +10,10 @@ var usedAllReactionsInComment = {
       var achievement = {
         avatar: 'images/achievements/gladiator.achievement.gif',
         name: 'Gladiator',
-        short: 'Are You Not Entertained?',
+        short: 'Are you not ENTERTAINED?!',
         description: [
-          'You got all the reactions to your comment. You make everybody feel.'
+          'Your message got all the possible reactions. ',
+          'Enjoy your 15 minutes of fame'
         ].join(''),
         relatedPullRequest: pullRequest._id
       };
