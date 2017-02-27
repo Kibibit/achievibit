@@ -525,7 +525,6 @@ var EventManager = function() {
                 userToCounter[user.username] =
                 _.get(user, 'accumulatives.' + achievement.name) || 0;
               });
-              console.error('this is what we got', userToCounter);
               achievement.check(pullRequest,
                new Shall(achievement, achievementFilename, grantedAchievements),
                userToCounter);
