@@ -440,9 +440,13 @@ function getExtraPRData(pullRequest, givenCallback) {
 
         pullRequest.files = [];
         _.forEach(files, function(file) {
+          console.error('parsing file', file);
           pullRequest.files.push({
             content: getNewFileFromPatch(file.patch),
-            name: file.filename
+            name: file.filename,
+            isNewFile: _.every(_.split(file.patch, '\n'), function(line) {
+              return _.startsWith(line, '+');
+            })
           });
         });
 
