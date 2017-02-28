@@ -39,7 +39,7 @@
     "monkey-js": "thatkookooguy/monkey-js",
     "nconf": "^0.8.4",
     "ngrok": "^2.2.3",
-    "node-rest-client": "^2.0.1",
+    "node-rest-client": "^3.0.0",
     "octonode": "^0.7.6",
     "request": "^2.78.0",
     "require-all": "^2.0.0",
