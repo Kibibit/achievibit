@@ -20,7 +20,7 @@
     "colors": "^1.1.2",
     "compression": "^1.6.2",
     "consolidate": "^0.14.1",
-    "eslint": "^3.14.1",
+    "eslint": "^4.2.0",
     "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
     "eslint-plugin-lodash": "^2.3.3",
     "express": "^4.14.0",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "coveralls": "^2.11.15",
-    "jsonfile": "^2.4.0",
+    "jsonfile": "^3.0.1",
     "mocha": "^3.2.0",
     "mochawesome": "^2.0.2",
     "nyc": "^10.1.2",
