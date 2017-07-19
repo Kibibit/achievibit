@@ -50,7 +50,7 @@
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.1.0",
     "coveralls": "^2.11.15",
     "jsonfile": "^3.0.1",
     "mocha": "^3.2.0",
