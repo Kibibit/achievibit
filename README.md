@@ -39,7 +39,7 @@ We've just started, and we want to spread the word. We would really appreciate i
 copy this snippet to any **markdown** file
 - shield: number of achievable achievements [![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
 
-  ```markdown
+```markdown
 [![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
 ```
 

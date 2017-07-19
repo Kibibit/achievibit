@@ -35,7 +35,7 @@
     "lodash": "^4.16.6",
     "moment": "^2.15.2",
     "mongodb": "^2.2.10",
-    "monk": "^3.1.2",
+    "monk": "^6.0.1",
     "monkey-js": "thatkookooguy/monkey-js",
     "nconf": "^0.8.4",
     "ngrok": "^2.2.3",
@@ -45,7 +45,7 @@
     "require-all": "^2.0.0",
     "scribe-js": "Thatkookooguy/Scribe.js",
     "serve-favicon": "^2.3.0",
-    "socket.io": "^1.4.8",
+    "socket.io": "^2.0.3",
     "swig": "^1.4.2",
     "tinycolor2": "^1.4.1"
   },
@@ -55,7 +55,7 @@
     "jsonfile": "^3.0.1",
     "mocha": "^3.2.0",
     "mochawesome": "^2.0.2",
-    "nyc": "^10.1.2",
+    "nyc": "^11.0.3",
     "proxyquire": "^1.7.11"
   }
 }
