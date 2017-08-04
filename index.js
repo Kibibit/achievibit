@@ -25,6 +25,8 @@ var stealth = nconf.get('stealth');
 var db = monk(url);
 var app = express(); // define our app using express
 var port = nconf.get('port');
+var achievibitDB = require('./achievibitDB');
+var admin = require('firebase-admin');
 
 if (!port) {
   port = config.port;
@@ -115,7 +117,72 @@ app.use(express.static(publicFolder));
  *   favorites icon
  */
 app.use(favicon(path.join(__dirname,
-    'public', 'assets', 'images', 'favicon.ico')));
+  'public', 'assets', 'images', 'favicon.ico')));
+
+app.get('/authUsers', jsonParser, function(req, res) {
+  var userParams = req.query;
+
+  if (!userParams.firebaseToken) {
+    res.send(401, 'missing authorization header');
+    return;
+  }
+
+  defaultAuth.verifyIdToken(userParams.firebaseToken)
+    .then(function(decodedToken) {
+      var uid = decodedToken.uid;
+      console.log('user verified! this is the uid', uid);
+
+      // new sign in (clicked on sign-in)
+      if (userParams.githubToken) {
+        achievibitDB.getAndUpdateUserData(uid, {
+          uid: uid,
+          githubToken: userParams.githubToken,
+          username: userParams.githubUsername,
+          timezone: userParams.timezone
+        }).then(function(newUser) {
+          res.json({ achievibitUserData: newUser });
+        }, function(error) {
+          console.error(error);
+          res.send(500, 'couldn\'t create\\update user');
+        });
+      } else { // existing token on client side
+        achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
+          res.json({ achievibitUserData: newUser });
+        }, function(error) {
+          console.error(error);
+          res.send(500, 'couldn\'t create\\update user');
+        });
+      }
+      // ...
+    }).catch(function(error) {
+      // Handle error
+      console.error(error);
+      res.json({ achievibitUserData: {} });
+    });
+});
+
+app.get('/createWebhook', jsonParser, function(req, res) {
+  var repo = req.query.repo;
+  var githubToken = req.query.githubToken;
+  var firebaseToken = req.query.firebaseToken;
+  var newState = req.query.newState;
+
+  if (githubToken) {
+    defaultAuth.verifyIdToken(firebaseToken)
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid;
+        if (newState === 'true') {
+          achievibitDB.createAchievibitWebhook(repo, githubToken, uid);
+        } else {
+          achievibitDB.deleteAchievibitWebhook(repo, githubToken, uid);
+        }
+
+        res.json({ msg: 'webhook added' });
+      });
+  } else {
+    res.send(401, 'missing authorization header');
+  }
+});
 
 app.post('/sendFakeAchievementNotification/:username',
   jsonParser, function(req, res) {
