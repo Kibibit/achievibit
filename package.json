@@ -40,7 +40,7 @@
     "nconf": "^0.8.4",
     "ngrok": "^2.2.3",
     "node-rest-client": "^3.0.5",
-    "octonode": "^0.7.6",
+    "octonode": "^0.8.0",
     "request": "^2.78.0",
     "require-all": "^2.0.0",
     "scribe-js": "Thatkookooguy/Scribe.js",
