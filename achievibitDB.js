@@ -12,10 +12,7 @@ var client = github.client({
   username: nconf.get('githubUser'),
   password: nconf.get('githubPassword')
 });
-var console = require('./consoleService')('achievibitDB', [
-  'cyan',
-  'inverse'
-], process.console);
+var console = require('./consoleService')();
 
 var url = nconf.get('databaseUrl');
 var db = monk(url);
