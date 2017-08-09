@@ -24,6 +24,7 @@
     "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
     "eslint-plugin-lodash": "^2.3.3",
     "express": "^4.14.0",
+    "firebase-admin": "^5.1.0",
     "gh-badges": "^1.3.0",
     "gist-sync": "Thatkookooguy/gist-sync",
     "githubhook": "^1.6.1",
