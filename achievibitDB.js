@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var nconf = require('nconf');
+var Q = require('q');
 nconf.argv().env();
 var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
