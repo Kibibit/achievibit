@@ -1,4 +1,5 @@
 // CALL THE PACKAGES --------------------
+var scribe = require('scribe-js')();
 var express = require('express'); // call express
 var config = require('./config');
 var compression = require('compression');
@@ -15,7 +16,8 @@ var badge = require('gh-badges');
 var nconf = require('nconf');
 var ngrok = require('ngrok');
 var auth = require('http-auth'); // @see https://github.com/gevorg/http-auth
-var scribe = require('scribe-js')(); // used for logs
+// use scribe.js for logging
+var console = require('./consoleService')();
 var async = require('async');
 nconf.argv().env();
 var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
@@ -26,7 +28,17 @@ var db = monk(url);
 var app = express(); // define our app using express
 var port = nconf.get('port');
 var achievibitDB = require('./achievibitDB');
-var admin = require('firebase-admin');
+
+// var admin = require('firebase-admin');
+//
+// var serviceAccount = require('./serviceAccountKey.json');
+//
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://achievibit-auth.firebaseio.com'
+// });
+
+// var defaultAuth = admin.auth();
 
 if (!port) {
   port = config.port;
@@ -39,11 +51,6 @@ var achievements = require('require-all')({
   recursive: true
 });
 
-// use scribe.js for logging
-var console = require('./consoleService')('SERVER', [
-  'magenta',
-  'inverse'
-], process.console);
 var eventManager = require('./eventManager');
 
 var basicAuth = auth.basic({
@@ -123,7 +130,8 @@ app.get('/authUsers', jsonParser, function(req, res) {
   var userParams = req.query;
 
   if (!userParams.firebaseToken) {
-    res.send(401, 'missing authorization header');
+    console.error('missing authorization header');
+    res.status(401).send('missing authorization header');
     return;
   }
 
@@ -143,14 +151,14 @@ app.get('/authUsers', jsonParser, function(req, res) {
           res.json({ achievibitUserData: newUser });
         }, function(error) {
           console.error(error);
-          res.send(500, 'couldn\'t create\\update user');
+          res.status(500).send('couldn\'t create\\update user');
         });
       } else { // existing token on client side
         achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
           res.json({ achievibitUserData: newUser });
         }, function(error) {
           console.error(error);
-          res.send(500, 'couldn\'t create\\update user');
+          res.status(500).send('couldn\'t create\\update user');
         });
       }
       // ...
@@ -180,7 +188,7 @@ app.get('/createWebhook', jsonParser, function(req, res) {
         res.json({ msg: 'webhook added' });
       });
   } else {
-    res.send(401, 'missing authorization header');
+    res.status(401).send('missing authorization header');
   }
 });
 
