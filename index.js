@@ -1,33 +1,25 @@
 // CALL THE PACKAGES --------------------
+var path = require('path');
+global.appRoot = path.resolve(__dirname);
+global.io = {};
 var scribe = require('scribe-js')();
 var express = require('express'); // call express
 var config = require('./config');
 var compression = require('compression');
 var helmet = require('helmet');
-var path = require('path');
 var favicon = require('serve-favicon'); // set favicon
 var bodyParser = require('body-parser');
 var colors = require('colors');
 var logo = require('./printLogo');
 var cons = require('consolidate');
-var moment = require('moment');
 var _ = require('lodash');
-var badge = require('gh-badges');
 var nconf = require('nconf');
 var ngrok = require('ngrok');
 var auth = require('http-auth'); // @see https://github.com/gevorg/http-auth
 // use scribe.js for logging
-var console = require('./consoleService')();
-var async = require('async');
-nconf.argv().env();
-var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
-var monk = require(dbLibrary);
-var url = nconf.get('databaseUrl');
-var stealth = nconf.get('stealth');
-var db = monk(url);
+var console = require('./app/models/consoleService')();
+
 var app = express(); // define our app using express
-var port = nconf.get('port');
-var achievibitDB = require('./achievibitDB');
 
 // var admin = require('firebase-admin');
 //
@@ -39,17 +31,17 @@ var achievibitDB = require('./achievibitDB');
 // });
 
 // var defaultAuth = admin.auth();
+nconf.argv().env();
+var port = nconf.get('port');
+var url = nconf.get('databaseUrl');
+var stealth = nconf.get('stealth');
+var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var monk = require(dbLibrary);
+var db = monk(url);
 
 if (!port) {
   port = config.port;
 }
-
-var achievements = require('require-all')({
-  dirname: __dirname + '/achievements',
-  filter: /(.+achievement)\.js$/,
-  excludeDirs: /^\.(git|svn)$/,
-  recursive: true
-});
 
 var eventManager = require('./eventManager');
 
@@ -65,8 +57,6 @@ var basicAuth = auth.basic({
   callback(username === logsUsername && password === logsPassword);
 }
 );
-
-var io = {};
 
 var publicFolder = __dirname + '/public';
 
@@ -126,282 +116,18 @@ app.use(express.static(publicFolder));
 app.use(favicon(path.join(__dirname,
   'public', 'assets', 'images', 'favicon.ico')));
 
-app.get('/authUsers', jsonParser, function(req, res) {
-  var userParams = req.query;
-
-  if (!userParams.firebaseToken) {
-    console.error('missing authorization header');
-    res.status(401).send('missing authorization header');
-    return;
-  }
-
-  defaultAuth.verifyIdToken(userParams.firebaseToken)
-    .then(function(decodedToken) {
-      var uid = decodedToken.uid;
-      console.log('user verified! this is the uid', uid);
-
-      // new sign in (clicked on sign-in)
-      if (userParams.githubToken) {
-        achievibitDB.getAndUpdateUserData(uid, {
-          uid: uid,
-          githubToken: userParams.githubToken,
-          username: userParams.githubUsername,
-          timezone: userParams.timezone
-        }).then(function(newUser) {
-          res.json({ achievibitUserData: newUser });
-        }, function(error) {
-          console.error(error);
-          res.status(500).send('couldn\'t create\\update user');
-        });
-      } else { // existing token on client side
-        achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
-          res.json({ achievibitUserData: newUser });
-        }, function(error) {
-          console.error(error);
-          res.status(500).send('couldn\'t create\\update user');
-        });
-      }
-      // ...
-    }).catch(function(error) {
-      // Handle error
-      console.error(error);
-      res.json({ achievibitUserData: {} });
-    });
-});
-
-app.get('/createWebhook', jsonParser, function(req, res) {
-  var repo = req.query.repo;
-  var githubToken = req.query.githubToken;
-  var firebaseToken = req.query.firebaseToken;
-  var newState = req.query.newState;
-
-  if (githubToken) {
-    defaultAuth.verifyIdToken(firebaseToken)
-      .then(function(decodedToken) {
-        var uid = decodedToken.uid;
-        if (newState === 'true') {
-          achievibitDB.createAchievibitWebhook(repo, githubToken, uid);
-        } else {
-          achievibitDB.deleteAchievibitWebhook(repo, githubToken, uid);
-        }
-
-        res.json({ msg: 'webhook added' });
-      });
-  } else {
-    res.status(401).send('missing authorization header');
-  }
-});
-
-app.post('/sendFakeAchievementNotification/:username',
-  jsonParser, function(req, res) {
-
-    if (req.body.secret === process.env.FAKE_SECRET) {
-      req.body.secret = undefined;
-      var fakeAchieve =
-        'https://ifyouwillit.com/wp-content/uploads/2014/06/github1.png';
-      io.sockets.emit(req.params.username, {
-        avatar: fakeAchieve,
-        name: 'FAKE ACHIEVEMENT!',
-        short: 'this is to test achievements',
-        description: 'you won\'t get an actual achievement though :-/',
-        relatedPullRequest: 'FAKE_IT'
-      });
-    }
-
-    res.json({
-      message: 'b33p b33p! faked a socket.io update'
-    });
-  });
-
 /** ==================
  *   = ROUTES FOR API =
  *   = ================
  *   set the routes for our server's API
  */
-app.post('*', jsonParser, function(req, res) {
-  console.log('got a post about ' + req.header('X-GitHub-Event'));
+var apiRoutes = require('./app/routes/api')(app, express);
+app.use('/', jsonParser, apiRoutes);
 
-  eventManager.notifyAchievements(req.header('X-GitHub-Event'), req.body, io);
-
-  res.json({
-    message: 'b33p b33p! got your notification, githubot!'
-  });
-});
-
-app.get('/achievementsShield', function(req, res) {
-  badge.loadFont('./Verdana.ttf', function() {
-    badge(
-      {
-        text: [
-          'achievements',
-          _.keys(achievements).length
-        ],
-        colorA: '#894597',
-        colorB: '#5d5d5d',
-        template: 'flat',
-        logo: [
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0A',
-          'AAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVRYhe3WMU7DMBjFcadqh0qdWWBl7QU4Ss/A',
-          'jsREF8RdOhYO0EqoN2DhFIgBOvBjIIMVxSFyUiEhP8lD7C/v/T97sEMoKkoIe+Npn8q',
-          'pOgCM2VBVVa1ZkzFDcjQdapDqLIR+u/jnO1AACkABKABdAO9DjHEWfb7lALwOAQghXP',
-          'Xx6gJ4zE3GJIRwE0095Zhc4PO3iz7x7zoq+cB5bifr9tg0AK7xFZXcZYXXZjNs+wBgi',
-          'ofG8hazbIDaeI5dFwAu8dxY2mE+KDyCWGCTYLj3c86xNliMEh5BVLjFseNEjnVN8pU0',
-          'BsgSh5bwA5YnC25AVFjhpR6rk3Zd9K/1Dcae2pUn6mqiAAAAAElFTkSuQmCC'
-        ].join('')
-      },
-      function(svg) {
-        res.setHeader('Content-Type', 'image/svg+xml;charset=utf-8');
-        res.setHeader('Pragma-directive', 'no-cache');
-        res.setHeader('Cache-directive', 'no-cache');
-        res.setHeader('Pragma','no-cache');
-        res.setHeader('Expires','0');
-        // Cache management - no cache, so it won't be cached by GitHub's CDN.
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-
-        res.send(svg);
-      }
-    );
-  });
-});
-
-app.get('/download/extension', function(req, res) {
-  var file = __dirname + '/public/achievibit-chrome-extension.crx';
-  res.download(file);
-});
-
-app.get('/:username', function(req, res) {
-  var users = db.get('users');
-  var repos = db.get('repos');
-  var username = decodeURIComponent(req.params.username);
-  async.waterfall([
-    function(callback) {
-      users.findOne({ username: username }).then(function(user) {
-        if (!user) {
-          callback(username + ' user not found');
-          return;
-        }
-        var byDate = _.reverse(_.sortBy(user.achievements, [ 'grantedOn' ]));
-        _.forEach(byDate, function(achievement) {
-          achievement.grantedOn = moment(achievement.grantedOn).fromNow();
-        });
-        callback(null, {
-          user: user,
-          achievements: byDate
-        });
-      }, function(error) {
-        console.error('problem getting specific user', error);
-        callback('request failed for some reason');
-      });
-    },
-    function(pageObject, callback) {
-      if (_.result(pageObject.user, 'organizations.length') > 0) {
-
-        var organizationsUsernameArray = [];
-        _.forEach(pageObject.user.organizations,
-          function(organizationUsername) {
-            organizationsUsernameArray.push({ username: organizationUsername });
-          }
-        );
-
-        if (organizationsUsernameArray.length > 0) {
-          users.find({
-            $or: organizationsUsernameArray
-          }).then(function(userOrganizations) {
-            pageObject.user.organizations = userOrganizations;
-
-            callback(null, pageObject);
-          }, function(error) {
-            console.error('problem getting organizations for user', error);
-            pageObject.user.organizations = [];
-            callback(null, pageObject);
-          });
-        } else {
-          callback(null, pageObject);
-        }
-      } else {
-        callback(null, pageObject);
-      }
-    },
-    function(pageObject, callback) {
-      if (_.result(pageObject.user, 'users.length') > 0) {
-
-        var usersUsernameArray = [];
-        _.forEach(pageObject.user.users, function(userUsername) {
-          usersUsernameArray.push({ username: userUsername });
-        });
-
-        if (usersUsernameArray.length > 0) {
-          users.find({
-            $or: usersUsernameArray
-          }).then(function(organizationUsers) {
-            pageObject.user.users = organizationUsers;
-
-            callback(null, pageObject);
-          }, function(error) {
-            console.error('problem getting users for organization', error);
-            pageObject.user.organizations = [];
-            callback(null, pageObject);
-          });
-        } else {
-          callback(null, pageObject);
-        }
-      } else {
-        callback(null, pageObject);
-      }
-    },
-    function(pageObject, callback) {
-      if (!pageObject) {
-        callback('failed to get user');
-        return;
-      }
-
-      var repoFullnameArray = [];
-      _.forEach(pageObject.user.repos, function(repoFullname) {
-        repoFullnameArray.push({ fullname: repoFullname });
-      });
-
-      if (repoFullnameArray.length > 0) {
-        repos.find({$or: repoFullnameArray}).then(function(userRepos) {
-          pageObject.user.repos = userRepos;
-
-          callback(null, pageObject);
-        }, function(error) {
-          console.error('problem getting repos for user', error);
-          pageObject.user.repos = [];
-          callback(null, pageObject);
-        });
-      } else {
-        callback(null, pageObject);
-      }
-
-    }
-  ], function (err, pageData) {
-    if (err) {
-      res.redirect(301, '/');
-      return;
-    }
-
-    res.render('blog' , pageData);
-  });
-});
-
-app.get('/raw/:username', function(req, res) {
-  var users = db.get('users');
-  var username = decodeURIComponent(req.params.username);
-  users.findOne({ username: username }).then(function(user) {
-    if (!user) {
-      res.status(204).send('no user found');
-      return;
-    }
-    // var byDate = _.sortBy(user.achievements, ['grantedOn']);
-    // _.forEach(byDate, function(achievement) {
-    //   achievement.grantedOn = moment(achievement.grantedOn).fromNow();
-    // });
-    res.json(user);
-  }, function() {
-    res.status(500).send('something went wrong');
-  });
-});
+// app.get('/download/extension', function(req, res) {
+//   var file = __dirname + '/public/achievibit-chrome-extension.crx';
+//   res.download(file);
+// });
 
 /** =============
  *   = FRONT-END =
@@ -441,10 +167,11 @@ var server = app.listen(port, function() {
   console.info('Server listening at port ' +
     colors.bgBlue.white.bold(' ' + port + ' '));
 });
-var io = require('socket.io').listen(server);
+
+global.io = require('socket.io').listen(server);
 
 // Emit welcome message on connection
-io.on('connection', function(socket) {
+global.io.on('connection', function(socket) {
   var username = socket &&
     socket.handshake &&
     socket.handshake.query &&
