@@ -12,7 +12,7 @@ var client = github.client({
   username: nconf.get('githubUser'),
   password: nconf.get('githubPassword')
 });
-var console = require('./consoleService')();
+var console = require('./app/models/consoleService')();
 
 var url = nconf.get('databaseUrl');
 var db = monk(url);
