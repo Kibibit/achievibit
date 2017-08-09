@@ -9,3 +9,5 @@ coverage/
 monkeyDB.json
 
 mochawesome-report/
+
+privateConfig.json
