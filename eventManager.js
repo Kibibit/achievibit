@@ -4,7 +4,7 @@ var schema = require('js-schema');
 var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
 var async = require('async');
-var console = require('./consoleService')();
+var console = require('./app/models/consoleService')();
 var nconf = require('nconf');
 
 nconf.argv().env();
@@ -36,6 +36,16 @@ var pullRequests = {};
 
 var EventManager = function() {
   var self = this;
+
+  self.postFromWebhook = function(req, res) {
+    console.log('got a post about ' + req.header('X-GitHub-Event'));
+
+    self.notifyAchievements(req.header('X-GitHub-Event'), req.body, io);
+
+    res.json({
+      message: 'b33p b33p! got your notification, githubot!'
+    });
+  };
 
   self.notifyAchievements = function(githubEvent, eventData, io) {
     /**
