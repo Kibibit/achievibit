@@ -15,27 +15,21 @@ var cons = require('consolidate');
 var _ = require('lodash');
 var nconf = require('nconf');
 var ngrok = require('ngrok');
-var auth = require('http-auth'); // @see https://github.com/gevorg/http-auth
+
 // use scribe.js for logging
 var console = require('./app/models/consoleService')();
 
 var app = express(); // define our app using express
 
-// var admin = require('firebase-admin');
-//
-// var serviceAccount = require('./serviceAccountKey.json');
-//
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: 'https://achievibit-auth.firebaseio.com'
-// });
+var CS = require('./app/models/configurationService');
+var configService =
+  CS(nconf.get('savePrivate') /* save settings */);
+var privateConfig = configService.get();
 
-// var defaultAuth = admin.auth();
-nconf.argv().env();
-var port = nconf.get('port');
-var url = nconf.get('databaseUrl');
-var stealth = nconf.get('stealth');
-var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var port = privateConfig.port;
+var url = privateConfig.databaseUrl;
+var stealth = privateConfig.stealth;
+var dbLibrary = privateConfig.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var db = monk(url);
 
@@ -43,24 +37,26 @@ if (!port) {
   port = config.port;
 }
 
-var eventManager = require('./eventManager');
-
-var basicAuth = auth.basic({
-  realm: 'achievibit ScribeJS WebPanel'
-}, function (username, password, callback) {
-  var logsUsername = nconf.get('logsUsername') ?
-    nconf.get('logsUsername') + '' : '';
-
-  var logsPassword = nconf.get('logsPassword') ?
-    nconf.get('logsPassword') + '' : '';
-
-  callback(username === logsUsername && password === logsPassword);
-}
-);
-
 var publicFolder = __dirname + '/public';
 
-var token = nconf.get('ngrokToken');
+var token = privateConfig.ngrokToken;
+
+//TEMP HEADERS FOR ANGULAR 2 TEST
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers',
+    'X-Requested-With,content-type');
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  // Pass to next layer of middleware
+  next();
+});
 
 // assign the swig engine to .html files
 app.engine('html', cons.swig);
@@ -93,8 +89,8 @@ var jsonParser = bodyParser.json();
  *   like: listening on port: XXXX)
  */
 // app.use(scribe.express.logger());
-if (nconf.get('logsUsername')) {
-  app.use('/logs', auth.connect(basicAuth), scribe.webPanel());
+if (configService.haveLogsAuth) {
+  app.use('/logs', configService.createLogsAuthForExpress(), scribe.webPanel());
 } else {
   app.use('/logs', scribe.webPanel());
 }

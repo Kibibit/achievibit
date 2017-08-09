@@ -1,11 +1,36 @@
+var console = require('../models/consoleService')();
 var _ = require('lodash');
 var moment = require('moment');
-var nconf = require('nconf');
-var url = nconf.get('databaseUrl');
-var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var configService = require('./configurationService')();
+var achievibitDB = require('../../achievibitDB');
+var CONFIG = configService.get();
+var url = CONFIG.databaseUrl;
+var dbLibrary = CONFIG.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var db = monk(url);
 var async = require('async');
+
+var admin = require('firebase-admin');
+
+var serviceAccount = {
+  'type': CONFIG.firebaseType,
+  'project_id': CONFIG.firebaseProjectId,
+  'private_key_id': CONFIG.firebasePrivateKeyId,
+  'private_key': CONFIG.firebasePrivateKey,
+  'client_email': CONFIG.firebaseClientEmail,
+  'client_id': CONFIG.firebaseClientId,
+  'auth_uri': CONFIG.firebaseAuthUri,
+  'token_uri': CONFIG.firebaseTokenUri,
+  'auth_provider_x509_cert_url': CONFIG.firebaseAPx509CU,
+  'client_x509_cert_url': CONFIG.firebaseCx509CU
+};
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: CONFIG.firebaseDBURL
+});
+
+var defaultAuth = admin.auth();
 
 var userService = {};
 
