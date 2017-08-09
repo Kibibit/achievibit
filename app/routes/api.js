@@ -1,4 +1,3 @@
-var console = require('../models/consoleService')();
 var badgeService = require('../models/badgeService');
 var userService = require('../models/userService');
 var eventManager = require('../../eventManager');
@@ -12,12 +11,6 @@ module.exports = function(app, express) {
   apiRouter.route('/achievementsShield')
     .get(badgeService.get);
 
-  apiRouter.route('/raw/:username')
-    .get(userService.getMinimalUser);
-
-  apiRouter.route('/:username')
-    .get(userService.getFullUser);
-
   apiRouter.route('/authUsers')
     .get(userService.getAuthUserData);
 
@@ -26,6 +19,12 @@ module.exports = function(app, express) {
 
   apiRouter.route('/sendFakeAchievementNotification/:username')
     .post(mockService.mockAchievementNotification);
+
+  apiRouter.route('/raw/:username')
+    .get(userService.getMinimalUser);
+
+  apiRouter.route('/:username')
+    .get(userService.getFullUser);
 
   apiRouter.route('*')
     .post(eventManager.postFromWebhook);
