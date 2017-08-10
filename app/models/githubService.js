@@ -1,24 +1,28 @@
 var achievibitDB = require('../../achievibitDB');
+var userService = require('./userService');
+var defaultAuth = userService.getFirebaseAdminAuth();
 
 var githubService = {};
 
 githubService.createWebhook = function(req, res) {
   var repo = req.query.repo;
-  var githubToken = req.query.githubToken;
   var firebaseToken = req.query.firebaseToken;
   var newState = req.query.newState;
 
-  if (githubToken) {
+  if (firebaseToken) {
     defaultAuth.verifyIdToken(firebaseToken)
       .then(function(decodedToken) {
         var uid = decodedToken.uid;
-        if (newState === 'true') {
-          achievibitDB.createAchievibitWebhook(repo, githubToken, uid);
-        } else {
-          achievibitDB.deleteAchievibitWebhook(repo, githubToken, uid);
-        }
+        achievibitDB.getAndUpdateUserData(uid)
+          .then(function(user) {
+            if (newState === 'true') {
+              achievibitDB.createAchievibitWebhook(repo, user.githubToken, uid);
+            } else {
+              achievibitDB.deleteAchievibitWebhook(repo, user.githubToken, uid);
+            }
 
-        res.json({ msg: 'webhook added' });
+            res.json({ msg: 'webhook ' + newState ? 'added' : 'deleted' });
+          });
       });
   } else {
     res.status(401).send('missing authorization header');

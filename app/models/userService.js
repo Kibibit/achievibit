@@ -34,6 +34,10 @@ var defaultAuth = admin.auth();
 
 var userService = {};
 
+userService.getFirebaseAdminAuth = function() {
+  return defaultAuth;
+};
+
 userService.getAuthUserData = function(req, res) {
   var userParams = req.query;
 
@@ -56,14 +60,18 @@ userService.getAuthUserData = function(req, res) {
           username: userParams.githubUsername,
           timezone: userParams.timezone
         }).then(function(newUser) {
-          res.json({ achievibitUserData: newUser });
+          res.json({
+            achievibitUserData: _.omit(newUser, ['_id', 'githubToken', 'uid'])
+          });
         }, function(error) {
           console.error(error);
           res.status(500).send('couldn\'t create\\update user');
         });
       } else { // existing token on client side
         achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
-          res.json({ achievibitUserData: newUser });
+          res.json({
+            achievibitUserData: _.omit(newUser, ['_id', 'githubToken', 'uid'])
+          });
         }, function(error) {
           console.error(error);
           res.status(500).send('couldn\'t create\\update user');
