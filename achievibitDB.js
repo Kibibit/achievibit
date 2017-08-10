@@ -1,8 +1,8 @@
 var _ = require('lodash');
-var nconf = require('nconf');
 var Q = require('q');
-nconf.argv().env();
-var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var configService = require('./app/models/configurationService')();
+var CONFIG = configService.get();
+var dbLibrary = CONFIG.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var async = require('async');
 var utilities = require('./utilities');
@@ -10,12 +10,12 @@ var github = require('octonode');
 var request = require('request');
 var colors = require('colors');
 var client = github.client({
-  username: nconf.get('githubUser'),
-  password: nconf.get('githubPassword')
+  username: CONFIG.githubUser,
+  password: CONFIG.githubPassword
 });
 var console = require('./app/models/consoleService')();
 
-var url = nconf.get('databaseUrl');
+var url = CONFIG.databaseUrl;
 var db = monk(url);
 var apiUrl = 'https://api.github.com/repos/';
 

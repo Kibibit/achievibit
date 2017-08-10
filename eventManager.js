@@ -5,9 +5,6 @@ var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
 var async = require('async');
 var console = require('./app/models/consoleService')();
-var nconf = require('nconf');
-
-nconf.argv().env();
 
 // require all the achievement files
 var achievements = require('require-all')({
