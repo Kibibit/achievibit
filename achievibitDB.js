@@ -670,6 +670,8 @@ function getAndUpdateUserData(uid, updateWith) {
     uid: uid
   };
 
+  updateWith = updateWith || {};
+
   findItem('userSettings', identityObject).then(function(savedUser) {
     if (!_.isEmpty(savedUser)) {
       savedUser = savedUser[0];
