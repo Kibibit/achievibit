@@ -29,7 +29,9 @@ nconf
   .env({whitelist: allAchievibitConfigNames})
   .file({ file: 'privateConfig.json' });
 
-var configService = function(shouldSaveToFile) {
+var configService = function() {
+
+  var shouldSaveToFile = nconf.get('savePrivate');
 
   if (shouldSaveToFile) {
     _.forEach(allAchievibitConfigNames, function(varName) {

@@ -13,7 +13,6 @@ var colors = require('colors');
 var logo = require('./printLogo');
 var cons = require('consolidate');
 var _ = require('lodash');
-var nconf = require('nconf');
 var ngrok = require('ngrok');
 
 // use scribe.js for logging
@@ -21,9 +20,7 @@ var console = require('./app/models/consoleService')();
 
 var app = express(); // define our app using express
 
-var CS = require('./app/models/configurationService');
-var configService =
-  CS(nconf.get('savePrivate') /* save settings */);
+var configService = require('./app/models/configurationService')();
 var privateConfig = configService.get();
 
 var port = privateConfig.port;
