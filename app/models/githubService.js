@@ -1,6 +1,5 @@
 var achievibitDB = require('../../achievibitDB');
 var userService = require('./userService');
-var defaultAuth = userService.getFirebaseAdminAuth();
 
 var githubService = {};
 
@@ -10,7 +9,7 @@ githubService.createWebhook = function(req, res) {
   var newState = req.query.newState;
 
   if (firebaseToken) {
-    defaultAuth.verifyIdToken(firebaseToken)
+    userService.authenticateUsingToken(firebaseToken)
       .then(function(decodedToken) {
         var uid = decodedToken.uid;
         achievibitDB.getAndUpdateUserData(uid)

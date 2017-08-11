@@ -34,8 +34,8 @@ var defaultAuth = admin.auth();
 
 var userService = {};
 
-userService.getFirebaseAdminAuth = function() {
-  return defaultAuth;
+userService.authenticateUsingToken = function(token) {
+  return defaultAuth.verifyIdToken(token);
 };
 
 userService.getAuthUserData = function(req, res) {
