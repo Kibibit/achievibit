@@ -47,7 +47,7 @@ userService.getAuthUserData = function(req, res) {
     return;
   }
 
-  defaultAuth.verifyIdToken(userParams.firebaseToken)
+  userService.authenticateUsingToken(userParams.firebaseToken)
     .then(function(decodedToken) {
       var uid = decodedToken.uid;
       console.log('user verified! this is the uid', uid);
