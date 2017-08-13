@@ -9,6 +9,7 @@ var dbLibrary = CONFIG.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var db = monk(url);
 var async = require('async');
+var Q = require('q');
 
 var admin = require('firebase-admin');
 
@@ -25,12 +26,27 @@ var serviceAccount = {
   'client_x509_cert_url': CONFIG.firebaseCx509CU
 };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: CONFIG.firebaseDBURL
-});
+var areAllVariablesDefined =
+  _.every(_.values(serviceAccount), function(value) {
+    return !_.isNil(value);
+  });
 
-var defaultAuth = admin.auth();
+var defaultAuth = {
+  verifyIdToken: function() {
+    var deferred = Q.defer();
+    deferred.reject('server is not authenticated with firebase');
+    return deferred.promise;
+  }
+};
+
+if (areAllVariablesDefined) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: CONFIG.firebaseDBURL
+  });
+
+  defaultAuth = admin.auth();
+}
 
 var userService = {};
 
