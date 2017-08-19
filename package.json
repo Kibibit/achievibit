@@ -57,7 +57,8 @@
     "jsonfile": "^3.0.1",
     "mocha": "^3.2.0",
     "mochawesome": "^2.0.2",
+    "mock-require": "^2.0.2",
     "nyc": "^11.0.3",
-    "proxyquire": "^1.7.11"
+    "proxyquire": "^1.8.0"
   }
 }
