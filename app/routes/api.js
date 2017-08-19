@@ -12,7 +12,22 @@ module.exports = function(app, express) {
     .get(badgeService.get);
 
   apiRouter.route('/authUsers')
-    .get(userService.getAuthUserData);
+    .get(function(req, res) {
+      var userParams = req.query;
+
+      userService.getAuthUserData(
+        userParams.firebaseToken,
+        userParams.githubToken,
+        userParams.githubUsername,
+        userParams.timezone).then(function(data) {
+        res.json({
+          achievibitUserData:
+            _.omit(data.newUser, ['_id', 'githubToken', 'uid'])
+        });
+      }, function(error) {
+        res.status(error.code).send(error.msg);
+      });
+    });
 
   apiRouter.route('/createWebhook')
     .get(githubService.createWebhook);
@@ -21,10 +36,30 @@ module.exports = function(app, express) {
     .post(mockService.mockAchievementNotification);
 
   apiRouter.route('/raw/:username')
-    .get(userService.getMinimalUser);
+    .get(function(req, res) {
+      var username = decodeURIComponent(req.params.username);
+
+      userService.getMinimalUser(username).then(function(user) {
+        res.json(user);
+      }, function(error) {
+        res.status(error.code).send(error.msg);
+      });
+    });
 
   apiRouter.route('/:username')
-    .get(userService.getFullUser);
+    .get(function(req, res) {
+      var username = decodeURIComponent(req.params.username);
+
+      userService.getFullUser(username).then(function(data) {
+        res.render('blog' , data.pageData);
+      }, function(error) {
+        if (error.code === 301) {
+          res.redirect(error.code, error.redirect);
+        } else {
+          res.status(error.code).send(error.msg);
+        }
+      });
+    });
 
   apiRouter.route('*')
     .post(eventManager.postFromWebhook);

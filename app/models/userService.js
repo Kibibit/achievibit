@@ -54,72 +54,107 @@ userService.authenticateUsingToken = function(token) {
   return defaultAuth.verifyIdToken(token);
 };
 
-userService.getAuthUserData = function(req, res) {
-  var userParams = req.query;
+userService.getAuthUserData =
+  function(firebaseToken, githubToken, githubUsername, timezone) {
+    var deferred = Q.defer();
 
-  if (!userParams.firebaseToken) {
-    console.error('missing authorization header');
-    res.status(401).send('missing authorization header');
-    return;
-  }
+    if (!firebaseToken) {
+      console.error('missing authorization header');
+      deferred.reject({
+        code: 401,
+        msg: 'missing authorization header'
+      });
 
-  userService.authenticateUsingToken(userParams.firebaseToken)
-    .then(function(decodedToken) {
-      var uid = decodedToken.uid;
-      console.log('user verified! this is the uid', uid);
+      return deferred.promise;
+    }
 
-      // new sign in (clicked on sign-in)
-      if (userParams.githubToken) {
-        achievibitDB.getAndUpdateUserData(uid, {
-          uid: uid,
-          githubToken: userParams.githubToken,
-          username: userParams.githubUsername,
-          timezone: userParams.timezone
-        }).then(function(newUser) {
-          res.json({
-            achievibitUserData: _.omit(newUser, ['_id', 'githubToken', 'uid'])
+    userService.authenticateUsingToken(firebaseToken)
+      .then(function(decodedToken) {
+        var uid = decodedToken.uid;
+        console.log('user verified! this is the uid', uid);
+
+        // new sign in (clicked on sign-in)
+        if (githubToken) {
+          achievibitDB.getAndUpdateUserData(uid, {
+            uid: uid,
+            githubToken: githubToken,
+            username: githubUsername,
+            timezone: timezone
+          }).then(function(newUser) {
+            deferred.resolve({
+              code: 200,
+              newUser: newUser
+            });
+          }, function(error) {
+            console.error(error);
+            deferred.reject({
+              code: 500,
+              msg: 'couldn\'t create\\update user',
+              err: error
+            });
           });
-        }, function(error) {
-          console.error(error);
-          res.status(500).send('couldn\'t create\\update user');
-        });
-      } else { // existing token on client side
-        achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
-          res.json({
-            achievibitUserData: _.omit(newUser, ['_id', 'githubToken', 'uid'])
+        } else { // existing token on client side
+          achievibitDB.getAndUpdateUserData(uid).then(function(newUser) {
+            deferred.resolve({
+              code: 200,
+              newUser: newUser
+            });
+          }, function(error) {
+            console.error(error);
+            deferred.reject({
+              code: 500,
+              msg: 'couldn\'t create\\update user',
+              err: error
+            });
           });
-        }, function(error) {
-          console.error(error);
-          res.status(500).send('couldn\'t create\\update user');
+        }
+        // ...
+      }).catch(function(error) {
+        // Handle error
+        console.error(error);
+        deferred.reject({
+          code: 500,
+          msg: 'something went wrong. check err for further details',
+          err: error
         });
-      }
-      // ...
-    }).catch(function(error) {
-      // Handle error
-      console.error(error);
-      res.json({ achievibitUserData: {} });
-    });
-};
+      });
 
-userService.getMinimalUser = function(req, res) {
+    return deferred.promise;
+  };
+
+userService.getMinimalUser = function(username) {
+  var deferred = Q.defer();
+
   var users = db.get('users');
-  var username = decodeURIComponent(req.params.username);
   users.findOne({ username: username }).then(function(user) {
     if (!user) {
-      res.status(204).send('no user found');
+      deferred.reject({
+        code: 204,
+        msg: 'no user found',
+        err: error
+      });
       return;
     }
 
-    res.json(user);
-  }, function() {
-    res.status(500).send('something went wrong');
+    deferred.resolve(user);
+
+  }, function(error) {
+    deferred.reject({
+      code: 500,
+      msg: 'something went wrong',
+      err: error
+    });
   });
+
+  return deferred.promise;
 };
 
-userService.getFullUser = function(req, res) {
+userService.getFullUser = function(username) {
+  var deferred = Q.defer();
+
   var users = db.get('users');
   var repos = db.get('repos');
-  var username = decodeURIComponent(req.params.username);
+
   async.waterfall([
     function(callback) {
       users.findOne({ username: username }).then(function(user) {
@@ -227,12 +262,22 @@ userService.getFullUser = function(req, res) {
     }
   ], function (err, pageData) {
     if (err) {
-      res.redirect(301, '/');
+      deferred.reject({
+        code: 301,
+        redirect: '/',
+        err: err
+      });
       return;
     }
 
-    res.render('blog' , pageData);
+    deferred.resolve({
+      code: 200,
+      pageData: pageData
+    });
   });
+
+
+  return deferred.promise;
 };
 
 module.exports = userService;
