@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var badgeService = require('../models/badgeService');
 var userService = require('../models/userService');
 var eventManager = require('../../eventManager');

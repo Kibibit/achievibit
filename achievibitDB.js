@@ -703,7 +703,7 @@ function getAndUpdateUserData(uid, updateWith) {
       var ghme = client.me();
 
       ghme.repos(function(err, repos) { // headers
-        if (err) resolve.reject('couldn\'t fetch repos');
+        if (err) deferred.reject('couldn\'t fetch repos');
         else {
           var parsedRepos = [];
           _.forEach(repos, function(repo) {
