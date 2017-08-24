@@ -1,37 +1,102 @@
-(function($, axios) {
+(function($, axios, vex, firebase, _) {
   $(function() {
     // handle auth
 
     var loggedInUser;
+    var achievibitUser;
+    var firebaseToken;
+    var isNewLogIn = false;
+
+    var provider = new firebase.auth.GithubAuthProvider();
+    // add all the scopes we need
+    provider.addScope('user:email');
+    provider.addScope('read:org');
+    provider.addScope('repo:status');
+    provider.addScope('write:repo_hook');
 
     // listen to auth change to show user as logged in
     // if token is present.
     // if so, request full user from achievibit, and render the userState!
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        if (isNewLogIn) {
+          isNewLogIn = false;
+          return;
+        }
 
-    function authenticate(
-      firebaseToken,
-      githubToken,
-      githubUsername,
-      timezone) {
+        loggedInUser = user;
 
-      // Make a request for a user with a given ID
-      var authUrl =
-        encodeQueryData('/authUsers', {
-          firebaseToken: firebaseToken,
-          githubToken: githubToken,
-          githubUsername: githubUsername,
-          timezone: timezone
+        loggedInUser.getToken(/* forceRefresh */ true).then(function(idToken) {
+          firebaseToken = idToken;
+
+          // get achievibit user data
+          axios.get('/authUsers', {
+            params: {
+              firebaseToken: firebaseToken
+            }
+          })
+            .then(function (response) {
+              // change UI based on result
+              achievibitUser = response.data.achievibitUserData;
+              changeUserStateUI(achievibitUser);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        });
+      } else {
+        loggedInUser = null;
+        changeUserStateUI();
+      }
+    });
+
+    function authenticate() {
+
+      var timezone = 5;
+      var githubUsername = 'test';
+
+      isNewLogIn = true;
+
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a GitHub Access Token. You can use it to access
+        // the GitHub API.
+        var githubToken = result.credential.accessToken;
+
+        var githubUsername = result.additionalUserInfo.username;
+
+        loggedInUser = result.user;
+
+        loggedInUser.getToken(/* forceRefresh */ true).then(function(idToken) {
+          firebaseToken = idToken;
+
+          // Make a request for a user with a given ID
+          // var authUrl =
+          //   encodeQueryData('/authUsers', {
+          //     firebaseToken: firebaseToken,
+          //     githubToken: githubToken,
+          //     githubUsername: githubUsername,
+          //     timezone: timezone
+          //   });
+
+          // get achievibit user data
+          axios.get('/authUsers', {
+            params: {
+              firebaseToken: firebaseToken,
+              githubToken: githubToken,
+              githubUsername: githubUsername
+            }
+          })
+            .then(function (response) {
+              // change UI based on result
+              achievibitUser = response.data.achievibitUserData;
+              changeUserStateUI(achievibitUser);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         });
 
-      axios.get(authUrl)
-        .then(function (response) {
-          // change UI based on result
-          console.log(response);
-          changeUserStateUI(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      });
     }
 
     function createWebhook(
@@ -76,45 +141,68 @@
 
     function renderLogIn() {
       var userState = $('user-state');
-      userState.html('<button class="login">login</button>');
-      userState.find('button.login').click(function() {
-        // firebase login
-        console.log('login user using oauth');
-        //authenticate()
-        //.then(function(user) {
-        //  renderUserState(user);
-        //});
+      userState.html('<a href="#!" class="login">login</a>');
+      userState.find('a.login').click(function() {
+        authenticate();
       });
     }
 
     function renderUserState(user) {
       var userState = $('user-state');
       userState.html([
-        '<img class="avatar" href=', user.avatar, '>',
-        '<span class="username">', user.username, '</span>',
-        '<button class="settings"></button>',
-        '<button class="logout">logout</button>'
+        '<a class="dropdown-button" style="height: 100%; display: flex; align-items: center;" href="#!" data-activates="dropdown1">',
+        '<img class="avatar" src="', loggedInUser.photoURL, '" ',
+        'style="height: 60%; border-radius: 4px; ',
+        'margin-right: 10px;" alt="avatar">',
+        '<span class="username">',
+        user.username, '</span>',
+        '<i class="material-icons right">arrow_drop_down</i></a>',
+        '<ul id="dropdown1" class="dropdown-content" style="transform: translateY(64px);">',
+        '<li><a href="/', user.username, '">Your profile</a></li>',
+        '<li class="divider"></li>',
+        '<li><a href="#!" class="help">Help</a></li>',
+        '<li><a href="#!" class="settings">Settings</a></li>',
+        '<li><a href="#!" class="logout">Sign out</a></li>',
+        '</ul>'
       ].join(''));
 
-      userState.find('button.settings').click(openSettingsDialog);
-      userState.find('button.logout').click(logoutUser);
+      userState.find('a.settings').click(openSettingsDialog);
+      userState.find('a.logout').click(logoutUser);
+      $('.dropdown-button').dropdown();
     }
 
     function logoutUser() {
-      // logout user using firebase
-      then(function() {
-        renderUserState();
-      });
+      firebase.auth().signOut();
     }
 
     function openSettingsDialog() {
+      console.log('achievibit user', achievibitUser);
+      var repoIntegration = [];
+      _.forEach(achievibitUser.reposIntegration, function(repo) {
+        repoIntegration.push([
+          '<div>', repo.name,
+          '<div class="switch">',
+          '<label>Off',
+          '<input name="', repo.name,
+          '" type="checkbox" ', repo.integrated ? 'checked' : '' ,'>',
+          '<span class="lever"></span>',
+          'On</label>',
+          '</div>',
+          '</div>'
+        ].join(''));
+      });
       vex.dialog.open({
-        message: 'Enter your username and password:',
+        message: 'User Settings',
         input: [ // should generate based on given settings
-          '<input name="username" type="text" ',
-          'placeholder="Username" required />',
-          '<input name="password" type="password" ',
-          'placeholder="Password" required />'
+          '<select name="timezone" style="visibility: hidden"></select>',
+          '<div class="switch">',
+          '<label>Off',
+          '<input name="postAsComment" type="checkbox">',
+          '<span class="lever"></span>',
+          'On</label>',
+          '</div>',
+          '<div>Repos Integration</div>',
+          repoIntegration.join('')
         ].join(''),
         buttons: [
           $.extend({}, vex.dialog.buttons.YES, { text: 'Save' }),
@@ -130,7 +218,15 @@
           }
         }
       });
+
+      $('select').timezones();
+      $('select').material_select();
+      $('.vex-dialog-input').css({
+        'overflow-y': 'auto',
+        'overflow-x': 'hidden',
+        'max-height': '80vh'
+      });
     }
 
   }); // end of document ready
-})(jQuery, axios); // end of jQuery name space
+})(jQuery, axios, vex, firebase, _); // end of jQuery name space
