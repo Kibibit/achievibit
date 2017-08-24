@@ -14,25 +14,25 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  <!-- <link href="materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
   <link rel="stylesheet" href="vex.css" />
-  <link rel="stylesheet" href="vex-theme-os.css" />
-  <link href="style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="vex-theme-bottom-right-corner.css" />
+  <!-- <link href="style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
 </head>
 <body>
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo"><img src="images/favicon.png" width="50" height="50"></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#"><i class="material-icons">search</i></a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Search&nbsp;<i class="material-icons">search</i></a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
+<nav style="background-color: #24292e; color: rgba(255,255,255,0.75);">
+  <div class="nav-wrapper">
+    <a id="logo-container" href="#" class="brand-logo" style="display: flex; height: 100%; align-items: center; margin-left: 10px;">
+      <img src="images/unlocked.png" width="50" height="50">
+    </a>
+    <ul class="right hide-on-med-and-down">
+      <li>
+        <user-state style="height: 65px; width: 100%; display: flex; align-items: center;"></user-state>
+      </li>
+    </ul>
+  </div>
+</nav>
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
@@ -236,13 +236,30 @@
 
 
   <!--  Scripts-->
+  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/1.0.1/trianglify.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+  <script src="timezones.full.min.js"></script>
   <script src="materialize.js"></script>
   <script src="vex.combined.min.js"></script>
-  <script>vex.defaultOptions.className = 'vex-theme-os'</script>
+  <script>vex.defaultOptions.className = 'vex-theme-bottom-right-corner'</script>
+  <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCrfu122K_PwvalttvWBtTKBdhVxxW9vrE",
+      authDomain: "achievibit-auth.firebaseapp.com",
+      databaseURL: "https://achievibit-auth.firebaseio.com",
+      projectId: "achievibit-auth",
+      storageBucket: "achievibit-auth.appspot.com",
+      messagingSenderId: "544992849657"
+    };
+    firebase.initializeApp(config);
+  </script>
   <script src="init.js"></script>
+  <script src="achievibit.js"></script>
 
   </body>
 </html>
