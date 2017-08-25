@@ -6,6 +6,94 @@
  * Made By MaterializeCSS.com
  */
 
+ .tabs {
+   display: flex;
+   justify-content: space-around;
+ }
+
+ .dropdown-content.select-dropdown {
+   max-height: 400px;
+ }
+
+ .vex.vex-theme-default .vex-dialog-form .vex-dialog-buttons {
+       padding: 1em;
+ }
+
+ div#integrations,
+ div#preferences {
+   padding: 1em;
+    flex-grow: 1;
+    height: 10px;
+    overflow-y: auto;
+ }
+
+ nav.nav-extended .nav-wrapper {
+       padding: 0 1em;
+ }
+
+ .vex.vex-theme-default .vex-dialog-form .vex-dialog-input {
+    flex-shrink: 1;
+    flex-grow: 1;
+    overflow: hidden;
+    height: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    margin-bottom: 0;
+ }
+
+ .vex.vex-theme-default .vex-content {
+   padding: 0;
+   overflow: hidden;
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   max-height: 720px;
+   margin: auto;
+ }
+
+ .vex-dialog-form {
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+ }
+
+ .vex.vex-theme-default .vex-dialog-form .vex-dialog-message {
+   display: none;
+ }
+
+ .kb-hide {
+   visibility: hidden;
+ }
+
+ .dropdown-button {
+   height: 100%;
+   display: flex;
+   align-items: center;
+ }
+
+ .dropdown-content {
+   transform: translateY(64px);
+ }
+
+ .repo-form-element {
+   display: flex;
+   justify-content: space-between;
+   padding: 5px 0;
+ }
+
+ .switch {
+   flex-shrink: 0;
+ }
+
+ .avatar {
+   height: 60%;
+   border-radius: 4px;
+   margin-right: 10px;
+ }
+
 .list-container {
   display: flex;
   justify-content: space-around;
@@ -19,15 +107,6 @@
 
 .main-color {
   color: white;
-}
-
-nav ul a,
-nav .brand-logo {
-  color: #444;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
 }
 
 p {
