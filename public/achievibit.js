@@ -150,19 +150,17 @@
     function renderUserState(user) {
       var userState = $('user-state');
       userState.html([
-        '<a class="dropdown-button" style="height: 100%; display: flex; align-items: center;" href="#!" data-activates="dropdown1">',
-        '<img class="avatar" src="', loggedInUser.photoURL, '" ',
-        'style="height: 60%; border-radius: 4px; ',
-        'margin-right: 10px;" alt="avatar">',
+        '<a class="dropdown-button" href="#!" data-activates="dropdown1">',
+        '<img class="avatar" src="', loggedInUser.photoURL, '" alt="avatar">',
         '<span class="username">',
         user.username, '</span>',
         '<i class="material-icons right">arrow_drop_down</i></a>',
-        '<ul id="dropdown1" class="dropdown-content" style="transform: translateY(64px);">',
-        '<li><a href="/', user.username, '">Your profile</a></li>',
+        '<ul id="dropdown1" class="dropdown-content">',
+        '<li><a href="/', user.username, '"><i class="material-icons">account_circle</i>Your profile</a></li>',
         '<li class="divider"></li>',
-        '<li><a href="#!" class="help">Help</a></li>',
-        '<li><a href="#!" class="settings">Settings</a></li>',
-        '<li><a href="#!" class="logout">Sign out</a></li>',
+        '<li><a href="#!" class="help"><i class="material-icons">help</i>Help</a></li>',
+        '<li><a href="#!" class="settings"><i class="material-icons">settings</i>Settings</a></li>',
+        '<li><a href="#!" class="logout"><i class="material-icons">power_settings_new</i>Sign out</a></li>',
         '</ul>'
       ].join(''));
 
@@ -180,7 +178,8 @@
       var repoIntegration = [];
       _.forEach(achievibitUser.reposIntegration, function(repo) {
         repoIntegration.push([
-          '<div>', repo.name,
+          '<div class="repo-form-element">',
+          repo.name,
           '<div class="switch">',
           '<label>Off',
           '<input name="', repo.name,
@@ -192,17 +191,33 @@
         ].join(''));
       });
       vex.dialog.open({
-        message: 'User Settings',
+        // message: 'Settings',
         input: [ // should generate based on given settings
-          '<select name="timezone" style="visibility: hidden"></select>',
+          '<nav class="nav-extended">',
+          '<div class="nav-wrapper">',
+          '<a href="#" class="brand-logo"><i class="material-icons">settings</i>Settings</a>',
+          '</div>',
+          '<div class="nav-content">',
+          '<ul class="tabs tabs-transparent">',
+          '<li class="tab"><a href="#integrations">Integrations</a></li>',
+          '<li class="tab"><a class="active" href="#preferences">Preferences</a></li>',
+          '</ul>',
+          '</div>',
+          '</nav>',
+          '<div id="integrations" class="col s12">',
+          repoIntegration.join(''),
+          '</div>',
+          '<div id="preferences" class="col s12">',
+          '<select name="timezone"></select>',
+          '<div class="repo-form-element">',
+          'Post achievements as comment',
           '<div class="switch">',
           '<label>Off',
           '<input name="postAsComment" type="checkbox">',
           '<span class="lever"></span>',
           'On</label>',
           '</div>',
-          '<div>Repos Integration</div>',
-          repoIntegration.join('')
+          '</div>',
         ].join(''),
         buttons: [
           $.extend({}, vex.dialog.buttons.YES, { text: 'Save' }),
@@ -221,11 +236,7 @@
 
       $('select').timezones();
       $('select').material_select();
-      $('.vex-dialog-input').css({
-        'overflow-y': 'auto',
-        'overflow-x': 'hidden',
-        'max-height': '80vh'
-      });
+      $('ul.tabs').tabs();
     }
 
   }); // end of document ready
