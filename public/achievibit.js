@@ -26,7 +26,7 @@
 
         loggedInUser = user;
 
-        loggedInUser.getToken(/* forceRefresh */ true).then(function(idToken) {
+        loggedInUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
           firebaseToken = idToken;
 
           // get achievibit user data
@@ -66,7 +66,7 @@
 
         loggedInUser = result.user;
 
-        loggedInUser.getToken(/* forceRefresh */ true).then(function(idToken) {
+        loggedInUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
           firebaseToken = idToken;
 
           // Make a request for a user with a given ID
@@ -193,7 +193,7 @@
       vex.dialog.open({
         // message: 'Settings',
         input: [ // should generate based on given settings
-          '<nav class="nav-extended">',
+          '<nav class="nav-extended settings">',
           '<div class="nav-wrapper">',
           '<a href="#" class="brand-logo"><i class="material-icons">settings</i>Settings</a>',
           '</div>',
@@ -205,15 +205,26 @@
           '</div>',
           '</nav>',
           '<div id="integrations" class="col s12">',
+          '<div class="integrations-title">',
+          'Repositories',
+          '<a class="refresh" href="#!">',
+          '<i class="material-icons">refresh</i></a>',
+          '</div>',
           repoIntegration.join(''),
           '</div>',
           '<div id="preferences" class="col s12">',
+          '<div class="input-field col s12">',
           '<select name="timezone"></select>',
+          '<label>Timezone</label>',
+          '</div>',
           '<div class="repo-form-element">',
           'Post achievements as comment',
           '<div class="switch">',
           '<label>Off',
-          '<input name="postAsComment" type="checkbox">',
+          '<input name="postAchievementsAsComments" ',
+          'type="checkbox" ',
+          achievibitUser.postAchievementsAsComments ? 'checked' : '',
+          ,'>',
           '<span class="lever"></span>',
           'On</label>',
           '</div>',
@@ -229,12 +240,64 @@
             console.log('Settings changes discarded');
           } else {
             // send data to server to update user settings
-            console.log('Username', data.username, 'Password', data.password);
+            var userSettings = {};
+            _.forOwn(data, function(value, setting) {
+              if (setting === 'postAchievementsAsComments') {
+                userSettings[setting] = value === 'on';
+                return;
+              }
+
+              if (setting === 'timezone') {
+                var selected = $('.dropdown-content .selected').text();
+                userSettings[setting] =
+                  selected || $('input.select-dropdown').attr('value');
+                return;
+              }
+
+              userSettings.reposIntegration =
+                userSettings.reposIntegration || [];
+
+              userSettings.reposIntegration.push({
+                name: setting,
+                integrated: value === 'on'
+              });
+            });
+
+            var newSettings = _.merge(achievibitUser, userSettings);
+            axios.post('/authUsers', {
+              firebaseToken: firebaseToken,
+              settings: newSettings
+            })
+              .then(function () {
+                // change UI based on result
+                achievibitUser = newSettings;
+                // changeUserStateUI(achievibitUser);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           }
         }
       });
 
+      $('a.refresh').click(function() {
+        $('.integrations-title').after([
+          '<div class="progress">',
+          '<div class="indeterminate"></div>',
+          '</div>'
+        ].join(''));
+        // refresh repositories for user
+        setTimeout(function() {
+          $('.progress').remove();
+        }, 3000);
+      });
       $('select').timezones();
+
+      if (achievibitUser.timezone) {
+        $('select option[value=\'' + achievibitUser.timezone.replace(/\(.*\)\s/, '') + '\']')
+          .attr('selected', 'selected');
+      }
+
       $('select').material_select();
       $('ul.tabs').tabs();
     }

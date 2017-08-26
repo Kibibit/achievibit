@@ -6,6 +6,63 @@
  * Made By MaterializeCSS.com
  */
 
+ .side-nav li.user-details {
+    background: url(../images/user-bg.jpg) no-repeat center center;
+    background-size: cover;
+    margin-bottom: 15px;
+    padding: 15px 0 0 15px;
+ }
+
+ .refresh i {
+   -webkit-transition: -webkit-transform .8s ease-in-out;
+          transition:         transform .8s ease-in-out;
+ }
+
+ .refresh:hover i {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+ }
+
+ .integrations-title {
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #24292e;
+    margin-bottom: 10px;
+ }
+
+ .integrations-title a {
+   color: #24292e;
+ }
+
+ .dropdown-content li>a {
+   color: #24292e;
+ }
+
+ user-state {
+   height: 65px;
+   width: 100%;
+   display: flex;
+   align-items: center;
+ }
+
+ nav {
+   background-color: #24292e;
+   color: rgba(255,255,255,0.75);
+ }
+
+ nav .brand-logo {
+   font-size: 1.9rem;
+   display: flex;
+   height: 100%;
+   align-items: center;
+   margin-left: 10px;
+ }
+
  .tabs {
    display: flex;
    justify-content: space-around;
@@ -72,6 +129,7 @@
    height: 100%;
    display: flex;
    align-items: center;
+   color: rgba(255,255,255,0.75);
  }
 
  .dropdown-content {
@@ -113,8 +171,12 @@ p {
   line-height: 2rem;
 }
 
+.side-nav {
+  background: #24292e;
+}
+
 .button-collapse {
-  color: #70096c;
+  color: white;
 }
 
 .parallax-container {
@@ -122,6 +184,7 @@ p {
   line-height: 0;
   height: auto;
   color: rgba(255,255,255,.9);
+  width: 100%;
 }
   .parallax-container .section {
     width: 100%;
