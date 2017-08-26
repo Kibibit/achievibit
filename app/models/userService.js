@@ -54,6 +54,50 @@ userService.authenticateUsingToken = function(token) {
   return defaultAuth.verifyIdToken(token);
 };
 
+userService.updateUserSettings = function(firebaseToken, newSettings) {
+  var deferred = Q.defer();
+
+  if (!firebaseToken) {
+    console.error('missing authorization header');
+    deferred.reject({
+      code: 401,
+      msg: 'missing authorization header'
+    });
+
+    return deferred.promise;
+  }
+
+  userService.authenticateUsingToken(firebaseToken)
+    .then(function(decodedToken) {
+      var uid = decodedToken.uid;
+
+      achievibitDB.updateUserSettings(uid, newSettings)
+        .then(function(newSettings) {
+          deferred.resolve({
+            code: 200,
+            newSettings: newSettings
+          });
+        }, function(error) {
+          console.error(error);
+          deferred.reject({
+            code: 500,
+            msg: 'couldn\'t update settings',
+            err: error
+          });
+        });
+    }).catch(function(error) {
+      // Handle error
+      console.error(error);
+      deferred.reject({
+        code: 500,
+        msg: 'something went wrong. check err for further details',
+        err: error
+      });
+    });
+
+  return deferred.promise;
+};
+
 userService.getAuthUserData =
   function(firebaseToken, githubToken, githubUsername, timezone) {
     var deferred = Q.defer();

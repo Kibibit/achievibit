@@ -41,6 +41,7 @@ achievibitDB.connectUsersAndRepos = connectUsersAndRepos;
 achievibitDB.createAchievibitWebhook = createAchievibitWebhook;
 achievibitDB.deleteAchievibitWebhook = deleteAchievibitWebhook;
 achievibitDB.getAndUpdateUserData = getAndUpdateUserData;
+achievibitDB.updateUserSettings = updateUserSettings;
 
 module.exports = achievibitDB;
 
@@ -659,6 +660,49 @@ function deleteAchievibitWebhook(repoName, gToken, uid) {
       return 'error!';
     }
   });
+}
+
+function updateUserSettings(uid, newSettings) {
+  var deferred = Q.defer();
+  if (_.isNil(uid)) {
+    deferred.reject('expected a uid');
+
+    return deferred.promise;
+  }
+
+  var identityObject = {
+    uid: uid
+  };
+
+  var parsedNewSettings = {
+    postAchievementsAsComments: newSettings.postAchievementsAsComments,
+    reposIntegration: newSettings.reposIntegration,
+    timezone: newSettings.timezone
+  };
+
+  findItem('userSettings', identityObject).then(function(savedUser) {
+    if (!_.isEmpty(savedUser)) {
+      savedUser = savedUser[0];
+
+      // update repo integrations by difference
+
+      var oldSettings = _.differenceWith(
+      savedUser.reposIntegration,
+      parsedNewSettings.reposIntegration,
+      _.isEqual);
+
+        var newSettings = _.differenceWith(
+        parsedNewSettings.reposIntegration,
+        savedUser.reposIntegration,
+        _.isEqual);
+
+      updatePartially('userSettings', identityObject, parsedNewSettings);
+
+      deferred.resolve(_.merge(savedUser, parsedNewSettings));
+    }
+  });
+
+  return deferred.promise;
 }
 
 function getAndUpdateUserData(uid, updateWith) {

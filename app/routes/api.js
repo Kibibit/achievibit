@@ -28,6 +28,17 @@ module.exports = function(app, express) {
       }, function(error) {
         res.status(error.code).send(error.msg);
       });
+    })
+    .post(function(req, res) {
+      var firebaseToken = req.body.firebaseToken;
+      var newSettings = req.body.settings;
+      userService.updateUserSettings(firebaseToken, newSettings)
+        .then(function(user) {
+          res.json({
+            hello: 'world',
+            user: user
+          });
+        });
     });
 
   apiRouter.route('/createWebhook')
