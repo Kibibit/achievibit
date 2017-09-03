@@ -1,10 +1,90 @@
 (function($, axios, vex, firebase, _) {
   $(function() {
-    // handle auth
+    var htmlGenerator = {
+      loginButton: function() {
+        return '<a href="#!" class="login">login</a>';
+      },
+      signedInUserState: function(firebaseUser, achievibitUser) {
+        return [
+          '<a class="dropdown-button" href="#!" data-activates="dropdown1">',
+          '<img class="avatar" src="', firebaseUser.photoURL, '" alt="avatar">',
+          '<span class="username">',
+          achievibitUser.username, '</span>',
+          '<i class="material-icons right">arrow_drop_down</i></a>',
+          '<ul id="dropdown1" class="dropdown-content">',
+          '<li><a href="/', achievibitUser.username, '">',
+          '<i class="material-icons">account_circle</i>Your profile</a></li>',
+          '<li class="divider"></li>',
+          '<li><a href="#!" class="help">',
+          '<i class="material-icons">help</i>Help</a></li>',
+          '<li><a href="#!" class="settings">',
+          '<i class="material-icons">settings</i>Settings</a></li>',
+          '<li><a href="#!" class="logout">',
+          '<i class="material-icons">power_settings_new</i>Sign out</a></li>',
+          '</ul>'
+        ].join('');
+      },
+      settings: function(achievibitUser) {
+        var repoIntegration = [];
+        _.forEach(achievibitUser.reposIntegration, function(repo) {
+          repoIntegration.push([
+            '<div class="repo-form-element">',
+            repo.name,
+            '<div class="switch">',
+            '<label>Off',
+            '<input name="', repo.name,
+            '" type="checkbox" ', repo.integrated ? 'checked' : '' ,'>',
+            '<span class="lever"></span>',
+            'On</label>',
+            '</div>',
+            '</div>'
+          ].join(''));
+        });
 
-    var loggedInUser;
-    var achievibitUser;
-    var firebaseToken;
+        return [ // should generate based on given settings
+          '<nav class="nav-extended settings">',
+          '<div class="nav-wrapper">',
+          '<a href="#" class="brand-logo">',
+          '<i class="material-icons">settings</i>Settings</a>',
+          '</div>',
+          '<div class="nav-content">',
+          '<ul class="tabs tabs-transparent">',
+          '<li class="tab"><a href="#integrations">Integrations</a></li>',
+          '<li class="tab">',
+          '<a class="active" href="#preferences">Preferences</a></li>',
+          '</ul>',
+          '</div>',
+          '</nav>',
+          '<div id="integrations" class="col s12">',
+          '<div class="integrations-title">',
+          'Repositories',
+          '<a class="refresh" href="#!">',
+          '<i class="material-icons">refresh</i></a>',
+          '</div>',
+          repoIntegration.join(''),
+          '</div>',
+          '<div id="preferences" class="col s12">',
+          '<div class="input-field col s12">',
+          '<select name="timezone"></select>',
+          '<label>Timezone</label>',
+          '</div>',
+          '<div class="repo-form-element">',
+          'Post achievements as comment',
+          '<div class="switch">',
+          '<label>Off',
+          '<input name="postAchievementsAsComments" ',
+          'type="checkbox" ',
+          achievibitUser.postAchievementsAsComments ? 'checked' : '',
+          ,'>',
+          '<span class="lever"></span>',
+          'On</label>',
+          '</div>',
+          '</div>',
+        ].join('');
+      }
+    };
+
+    var loggedInUser, achievibitUser, firebaseToken;
     var isNewLogIn = false;
 
     var provider = new firebase.auth.GithubAuthProvider();
@@ -26,35 +106,32 @@
 
         loggedInUser = user;
 
-        loggedInUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-          firebaseToken = idToken;
+        loggedInUser.getIdToken(/* forceRefresh */ true)
+          .then(function(idToken) {
+            firebaseToken = idToken;
 
-          // get achievibit user data
-          axios.get('/authUsers', {
-            params: {
-              firebaseToken: firebaseToken
-            }
-          })
-            .then(function (response) {
-              // change UI based on result
-              achievibitUser = response.data.achievibitUserData;
-              changeUserStateUI(achievibitUser);
+            // get achievibit user data
+            axios.get('/authUsers', {
+              params: {
+                firebaseToken: firebaseToken
+              }
             })
-            .catch(function (error) {
-              console.log(error);
-            });
-        });
+              .then(function (response) {
+                // change UI based on result
+                achievibitUser = response.data.achievibitUserData;
+                achievibitRenderer.userState(achievibitUser);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          });
       } else {
         loggedInUser = null;
-        changeUserStateUI();
+        achievibitRenderer.userState();
       }
     });
 
     function authenticate() {
-
-      var timezone = 5;
-      var githubUsername = 'test';
-
       isNewLogIn = true;
 
       firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -66,35 +143,27 @@
 
         loggedInUser = result.user;
 
-        loggedInUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-          firebaseToken = idToken;
+        loggedInUser.getIdToken(/* forceRefresh */ true)
+          .then(function(idToken) {
+            firebaseToken = idToken;
 
-          // Make a request for a user with a given ID
-          // var authUrl =
-          //   encodeQueryData('/authUsers', {
-          //     firebaseToken: firebaseToken,
-          //     githubToken: githubToken,
-          //     githubUsername: githubUsername,
-          //     timezone: timezone
-          //   });
-
-          // get achievibit user data
-          axios.get('/authUsers', {
-            params: {
-              firebaseToken: firebaseToken,
-              githubToken: githubToken,
-              githubUsername: githubUsername
-            }
-          })
-            .then(function (response) {
-              // change UI based on result
-              achievibitUser = response.data.achievibitUserData;
-              changeUserStateUI(achievibitUser);
+            // get achievibit user data
+            axios.get('/authUsers', {
+              params: {
+                firebaseToken: firebaseToken,
+                githubToken: githubToken,
+                githubUsername: githubUsername
+              }
             })
-            .catch(function (error) {
-              console.log(error);
-            });
-        });
+              .then(function (response) {
+                // change UI based on result
+                achievibitUser = response.data.achievibitUserData;
+                achievibitRenderer.userState(achievibitUser);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          });
 
       });
     }
@@ -131,139 +200,24 @@
       return urlBase + '?' + ret.join('&');
     }
 
-    function changeUserStateUI(user) {
-      if (!user) {
-        renderLogIn();
-      } else {
-        renderUserState(user);
-      }
-    }
-
-    function renderLogIn() {
-      var userState = $('user-state');
-      userState.html('<a href="#!" class="login">login</a>');
-      userState.find('a.login').click(function() {
-        authenticate();
-      });
-    }
-
-    function renderUserState(user) {
-      var userState = $('user-state');
-      userState.html([
-        '<a class="dropdown-button" href="#!" data-activates="dropdown1">',
-        '<img class="avatar" src="', loggedInUser.photoURL, '" alt="avatar">',
-        '<span class="username">',
-        user.username, '</span>',
-        '<i class="material-icons right">arrow_drop_down</i></a>',
-        '<ul id="dropdown1" class="dropdown-content">',
-        '<li><a href="/', user.username, '"><i class="material-icons">account_circle</i>Your profile</a></li>',
-        '<li class="divider"></li>',
-        '<li><a href="#!" class="help"><i class="material-icons">help</i>Help</a></li>',
-        '<li><a href="#!" class="settings"><i class="material-icons">settings</i>Settings</a></li>',
-        '<li><a href="#!" class="logout"><i class="material-icons">power_settings_new</i>Sign out</a></li>',
-        '</ul>'
-      ].join(''));
-
-      userState.find('a.settings').click(openSettingsDialog);
-      userState.find('a.logout').click(logoutUser);
-      $('.dropdown-button').dropdown();
-    }
-
     function logoutUser() {
       firebase.auth().signOut();
     }
 
     function openSettingsDialog() {
-      console.log('achievibit user', achievibitUser);
-      var repoIntegration = [];
-      _.forEach(achievibitUser.reposIntegration, function(repo) {
-        repoIntegration.push([
-          '<div class="repo-form-element">',
-          repo.name,
-          '<div class="switch">',
-          '<label>Off',
-          '<input name="', repo.name,
-          '" type="checkbox" ', repo.integrated ? 'checked' : '' ,'>',
-          '<span class="lever"></span>',
-          'On</label>',
-          '</div>',
-          '</div>'
-        ].join(''));
-      });
       vex.dialog.open({
         // message: 'Settings',
-        input: [ // should generate based on given settings
-          '<nav class="nav-extended settings">',
-          '<div class="nav-wrapper">',
-          '<a href="#" class="brand-logo"><i class="material-icons">settings</i>Settings</a>',
-          '</div>',
-          '<div class="nav-content">',
-          '<ul class="tabs tabs-transparent">',
-          '<li class="tab"><a href="#integrations">Integrations</a></li>',
-          '<li class="tab"><a class="active" href="#preferences">Preferences</a></li>',
-          '</ul>',
-          '</div>',
-          '</nav>',
-          '<div id="integrations" class="col s12">',
-          '<div class="integrations-title">',
-          'Repositories',
-          '<a class="refresh" href="#!">',
-          '<i class="material-icons">refresh</i></a>',
-          '</div>',
-          repoIntegration.join(''),
-          '</div>',
-          '<div id="preferences" class="col s12">',
-          '<div class="input-field col s12">',
-          '<select name="timezone"></select>',
-          '<label>Timezone</label>',
-          '</div>',
-          '<div class="repo-form-element">',
-          'Post achievements as comment',
-          '<div class="switch">',
-          '<label>Off',
-          '<input name="postAchievementsAsComments" ',
-          'type="checkbox" ',
-          achievibitUser.postAchievementsAsComments ? 'checked' : '',
-          ,'>',
-          '<span class="lever"></span>',
-          'On</label>',
-          '</div>',
-          '</div>',
-        ].join(''),
+        input: htmlGenerator.settings(achievibitUser),
         buttons: [
           $.extend({}, vex.dialog.buttons.YES, { text: 'Save' }),
           $.extend({}, vex.dialog.buttons.NO, { text: 'Discard' })
         ],
-        callback: function (data) {
-          if (!data) {
+        callback: function (modalData) {
+          if (!modalData) {
             // discard everything
             console.log('Settings changes discarded');
           } else {
-            // send data to server to update user settings
-            var userSettings = {};
-            _.forOwn(data, function(value, setting) {
-              if (setting === 'postAchievementsAsComments') {
-                userSettings[setting] = value === 'on';
-                return;
-              }
-
-              if (setting === 'timezone') {
-                var selected = $('.dropdown-content .selected').text();
-                userSettings[setting] =
-                  selected || $('input.select-dropdown').attr('value');
-                return;
-              }
-
-              userSettings.reposIntegration =
-                userSettings.reposIntegration || [];
-
-              userSettings.reposIntegration.push({
-                name: setting,
-                integrated: value === 'on'
-              });
-            });
-
-            var newSettings = _.merge(achievibitUser, userSettings);
+            var newSettings = parseSettingsChanges(modalData, achievibitUser);
             axios.post('/authUsers', {
               firebaseToken: firebaseToken,
               settings: newSettings
@@ -294,13 +248,68 @@
       $('select').timezones();
 
       if (achievibitUser.timezone) {
-        $('select option[value=\'' + achievibitUser.timezone.replace(/\(.*\)\s/, '') + '\']')
+        $('select option[value=\'' +
+          achievibitUser.timezone.replace(/\(.*\)\s/, '') + '\']')
           .attr('selected', 'selected');
       }
 
       $('select').material_select();
       $('ul.tabs').tabs();
     }
+
+    function parseSettingsChanges(modalData, achievibitUser) {
+      var userSettings = {};
+      _.forOwn(modalData, function(value, setting) {
+        if (setting === 'postAchievementsAsComments') {
+          userSettings[setting] = value === 'on';
+          return;
+        }
+
+        if (setting === 'timezone') {
+          var selected = $('.dropdown-content .selected').text();
+          userSettings[setting] =
+            selected || $('input.select-dropdown').attr('value');
+          return;
+        }
+
+        userSettings.reposIntegration =
+          userSettings.reposIntegration || [];
+
+        userSettings.reposIntegration.push({
+          name: setting,
+          integrated: value === 'on'
+        });
+      });
+
+      var newSettings = _.merge(achievibitUser, userSettings);
+
+      return newSettings;
+    }
+
+    var achievibitRenderer = {
+      userState: function(user) {
+        if (!user) {
+          achievibitRenderer.login();
+        } else {
+          achievibitRenderer.signedIn(user);
+        }
+      },
+      signedIn: function(user) {
+        var userState = $('user-state');
+        userState.html(htmlGenerator.signedInUserState(loggedInUser, user));
+
+        userState.find('a.settings').click(openSettingsDialog);
+        userState.find('a.logout').click(logoutUser);
+        $('.dropdown-button').dropdown();
+      },
+      login: function() {
+        var userState = $('user-state');
+        userState.html(htmlGenerator.loginButton());
+        userState.find('a.login').click(function() {
+          authenticate();
+        });
+      }
+    };
 
   }); // end of document ready
 })(jQuery, axios, vex, firebase, _); // end of jQuery name space
