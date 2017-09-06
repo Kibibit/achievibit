@@ -6,8 +6,32 @@
  * Made By MaterializeCSS.com
  */
 
+ @media only screen and (min-width: 993px) {
+   #toast-container {
+    right: 30px;
+    bottom: 30px;
+    max-width: 86%;
+    top: auto;
+  }
+}
+
+ .side-nav user-state {
+   height: 133px;
+   background: url(../images/user-header.jpg) no-repeat center center;
+   background-size: cover;
+   margin-bottom: 15px;
+ }
+
+ .side-nav user-state a {
+   width: 100%;
+ }
+
+ .side-nav user-state .avatar {
+   margin-right: 20px;
+ }
+
  .side-nav li.user-details {
-    background: url(../images/user-bg.jpg) no-repeat center center;
+    background: url(../images/user-header.jpg) no-repeat center center;
     background-size: cover;
     margin-bottom: 15px;
     padding: 15px 0 0 15px;
@@ -132,11 +156,7 @@
    color: rgba(255,255,255,0.75);
  }
 
- .dropdown-content {
-   transform: translateY(64px);
- }
-
- .repo-form-element {
+ .repo-form-element, .post-achievements {
    display: flex;
    justify-content: space-between;
    padding: 5px 0;

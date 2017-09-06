@@ -545,121 +545,108 @@ function getReactions(comment) {
   };
 }
 
-function createAchievibitWebhook(repoName, gToken, uid) {
-  var githubWebhookConfig = {
-    name: 'web', //'achievibit',
-    active: true,
-    events: [
-      'pull_request',
-      'pull_request_review',
-      'pull_request_review_comment'
-    ],
-    config: {
-      'url': 'http://achievibit.kibibit.io/',
-      'content_type': 'json'
-    }
-  };
+function createAchievibitWebhook(repo, gToken) {
+  return function createSingleWebhookRequest(callback) {
+    var githubWebhookConfig = {
+      name: 'web', //'achievibit',
+      active: true,
+      events: [
+        'pull_request',
+        'pull_request_review',
+        'pull_request_review_comment'
+      ],
+      config: {
+        'url': 'http://test.kibibit.io/',
+        'content_type': 'json'
+      }
+    };
 
-  var creatWebhookUrl = [
-    apiUrl,
-    repoName,
-    '/hooks'
-  ].join('');
-  request({
-    method: 'POST',
-    url: creatWebhookUrl,
-    headers: {
-      'User-Agent': 'achievibit',
-      'Authorization': 'token ' + gToken
-    },
-    json: true,
-    body: githubWebhookConfig
-  }, function(err, response, body) {
-    if (err) {
-      console.error('had a problem creating a webhook for ' + repoName, err);
+    var creatWebhookUrl = [
+      apiUrl,
+      repo.name,
+      '/hooks'
+    ].join('');
+
+    request({
+      method: 'POST',
+      url: creatWebhookUrl,
+      headers: {
+        'User-Agent': 'achievibit',
+        'Authorization': 'token ' + gToken
+      },
+      json: true,
+      body: githubWebhookConfig
+    }, function(err, response, body) {
+      if (err) {
+        console.error('had a problem creating a webhook for ' + repo.name, err);
+        callback(err, 'had a problem creating a webhook for ' + repo.name);
+        return;
+      }
+
+      if (response.statusCode === 200 || response.statusCode === 201) {
+        repo.id = body.id;
+        repo.integrated = true;
+        console.log('webhook added successfully');
+        callback(null, 'webhook added successfully');
+      } else {
+        var errMsg = [
+          'creating webhook: ',
+          'wrong status from server: ',
+          '[', response.statusCode, ']'
+        ].join('');
+        console.error(errMsg, body);
+        callback(body, errMsg);
+      }
+    });
+  };
+}
+
+function deleteAchievibitWebhook(repo, gToken) {
+  return function deleteSingleWebhookRequest(callback) {
+    var deleteWebhookUrl = [
+      apiUrl,
+      repo.name,
+      '/hooks'
+    ].join('');
+
+    if (!repo.id) {
+      callback('no id was found',
+        'failed to delete webhook for repo ' + repo.name);
       return;
     }
 
-    if (response.statusCode === 200 || response.statusCode === 201) {
-      console.log('webhook added successfully');
-      var identityObject = {
-        uid: uid
-      };
-      findItem('userSettings', identityObject).then(function(savedUser) {
-        if (!_.isEmpty(savedUser)) {
-          savedUser = savedUser[0];
-          var newIntegrations =
-            _.map(savedUser.reposIntegration, function(repo) {
-              if (repo.name === repoName) {
-                repo.id = body.id;
-                repo.integrated = true;
-              }
+    deleteWebhookUrl += '/' + repo.id;
 
-              return repo;
-            });
-          updatePartially('userSettings', identityObject, {
-            'reposIntegration': newIntegrations
-          });
-        }
-      });
-    } else {
-      console.error([
-        'creating webhook: ',
-        'wrong status from server: ',
-        '[', response.statusCode, ']'
-      ].join(''), body);
-    }
-  });
-}
-
-function deleteAchievibitWebhook(repoName, gToken, uid) {
-  var deleteWebhookUrl = [
-    apiUrl,
-    repoName,
-    '/hooks'
-  ].join('');
-
-  var identityObject = {
-    uid: uid
-  };
-
-  findItem('userSettings', identityObject).then(function(savedUser) {
-    if (!_.isEmpty(savedUser)) {
-      savedUser = savedUser[0];
-      var repoUserData = _.find(savedUser.reposIntegration, {
-        name: repoName
-      });
-
-      if (!repoUserData.id) {
-        return 'error!';
+    request({
+      method: 'DELETE',
+      url: deleteWebhookUrl,
+      headers: {
+        'User-Agent': 'achievibit',
+        'Authorization': 'token ' + gToken
+      },
+      json: true
+    }, function(err, response, body) {
+      if (err) {
+        console.error('failed to delete webhook for repo ' + repo.name, err);
+        callback('failed to delete webhook for repo ' + repo.name);
+        return;
       }
-      deleteWebhookUrl += '/' + repoUserData.id;
-      repoUserData.id = null;
-      repoUserData.integrated = false;
 
-      request({
-        method: 'DELETE',
-        url: deleteWebhookUrl,
-        headers: {
-          'User-Agent': 'achievibit',
-          'Authorization': 'token ' + gToken
-        },
-        json: true
-      }, function(err, response, body) {
-        if (err) {
-          console.error('had a problem deleting a webhook for ' + repoName,
-            err);
-          return;
-        }
-
-        updatePartially('userSettings', identityObject, {
-          'reposIntegration': savedUser.reposIntegration
-        });
-      });
-    } else {
-      return 'error!';
-    }
-  });
+      if (response.statusCode === 200 || response.statusCode === 201) {
+        repo.id = null;
+        repo.integrated = false;
+        callback(null, 'webhook(' + repo.name + ') deleted succesfully');
+      } else {
+        var errMsg = [
+          'deleting webhook(', repo.name, '): ',
+          'wrong status from GitHub: ',
+          '[', response.statusCode, ']'
+        ].join('');
+        console.error(errMsg, body);
+        callback(errMsg);
+      }
+    });
+  };
 }
 
 function updateUserSettings(uid, newSettings) {
@@ -670,46 +657,88 @@ function updateUserSettings(uid, newSettings) {
     return deferred.promise;
   }
 
+  if (_.isNil(newSettings)) {
+    deferred.reject('expected a delta settings object');
+
+    return deferred.promise;
+  }
+
   var identityObject = {
     uid: uid
-  };
-
-  var parsedNewSettings = {
-    postAchievementsAsComments: newSettings.postAchievementsAsComments,
-    reposIntegration: newSettings.reposIntegration,
-    timezone: newSettings.timezone
   };
 
   findItem('userSettings', identityObject).then(function(savedUser) {
     if (!_.isEmpty(savedUser)) {
       savedUser = savedUser[0];
 
-      // update repo integrations by difference
+      var newSettingsRepos =
+        convertReposToHash(newSettings.reposIntegration);
 
-      var oldSettings = _.differenceWith(
-      savedUser.reposIntegration,
-      parsedNewSettings.reposIntegration,
-      _.isEqual);
+      var webhookRequests = [];
 
-        var newSettings = _.differenceWith(
-        parsedNewSettings.reposIntegration,
-        savedUser.reposIntegration,
-        _.isEqual);
+      _.forEach(savedUser.reposIntegration, function(repo) {
+        // no change needed
+        if (!newSettingsRepos[repo.name]) {
+          return;
+        }
 
-      updatePartially('userSettings', identityObject, parsedNewSettings);
+        // false -> true - add webhook
+        if (!repo.integrated && newSettingsRepos[repo.name].integrated) {
+          webhookRequests
+            .push(createAchievibitWebhook(repo, savedUser.githubToken));
+        }
+        // true -> false - delete webhook
+        if (repo.integrated && !newSettingsRepos[repo.name].integrated) {
+          webhookRequests
+            .push(deleteAchievibitWebhook(repo, savedUser.githubToken));
+        }
+      });
 
-      deferred.resolve(_.merge(savedUser, parsedNewSettings));
+      async.parallel(async.reflectAll(webhookRequests), function(err, results) {
+        var allErrors = _.filter(results, function(data) {
+          return data.error;
+        });
+
+        allErrors = _.map(allErrors, function (data) {
+          return data.error;
+        });
+
+        savedUser.reposIntegration =
+          _.sortBy(savedUser.reposIntegration, 'name');
+
+        savedUser.timezone = newSettings.timezone || savedUser.timezone;
+
+        savedUser.postAchievementsAsComments =
+          !_.isNil(newSettings.postAchievementsAsComments) ?
+            newSettings.postAchievementsAsComments :
+            savedUser.postAchievementsAsComments;
+
+        updatePartially('userSettings', identityObject, savedUser);
+
+        deferred.resolve({
+          updatedUser: savedUser,
+          errors: allErrors
+        });
+      });
     }
   });
 
   return deferred.promise;
 }
 
+function convertReposToHash(repos) {
+  var repoHash = {};
+  _.forEach(repos, function(repo) {
+    repoHash[repo.name] = repo;
+  });
+
+  return repoHash;
+}
+
 function getAndUpdateUserData(uid, updateWith) {
   var deferred = Q.defer();
   if (_.isNil(uid)) { deferred.reject('expected a uid'); }
 
-  // var authUsers = collections.userSettings;
   var identityObject = {
     uid: uid
   };
@@ -751,18 +780,13 @@ function getAndUpdateUserData(uid, updateWith) {
         else {
           var parsedRepos = [];
           _.forEach(repos, function(repo) {
-            //var escapedRepoName = _.replace(repo.full_name, /\./g, '@@@');
             parsedRepos.push({
               name: repo.full_name,
               integrated: false
             });
           });
-          newUser.reposIntegration = parsedRepos;
 
-          // test out automatic integration with Thatkookooguy/monkey-js
-          // createAchievibitWebhook(_.find(repos, {
-          //   'full_name': 'Thatkookooguy/monkey-js'
-          // }), newUser.githubToken);
+          newUser.reposIntegration = _.sortBy(parsedRepos, 'name');
 
           insertItem('userSettings', newUser);
           // this is added to the db. create a copy of new user first

@@ -72,10 +72,11 @@ userService.updateUserSettings = function(firebaseToken, newSettings) {
       var uid = decodedToken.uid;
 
       achievibitDB.updateUserSettings(uid, newSettings)
-        .then(function(newSettings) {
+        .then(function(data) {
           deferred.resolve({
             code: 200,
-            newSettings: newSettings
+            updatedUser: data.updatedUser,
+            errors: data.errors
           });
         }, function(error) {
           console.error(error);

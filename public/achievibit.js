@@ -1,17 +1,89 @@
-(function($, axios, vex, firebase, _) {
+
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/sw.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+
+// Initialize Firebase
+var config = {
+  apiKey: 'AIzaSyCrfu122K_PwvalttvWBtTKBdhVxxW9vrE',
+  authDomain: 'achievibit-auth.firebaseapp.com',
+  databaseURL: 'https://achievibit-auth.firebaseio.com',
+  projectId: 'achievibit-auth',
+  storageBucket: 'achievibit-auth.appspot.com',
+  messagingSenderId: '544992849657'
+};
+
+firebase.initializeApp(config);
+
+(function($, axios, vex, firebase, _, Materialize) {
   $(function() {
+
+    if (vex) {
+      vex.defaultOptions.className = 'vex-theme-default';
+    }
+
+    var CONSTS = {
+      API: {
+        AUTHENTICATION: '/authUsers',
+
+      }
+    };
+
+    var achievibitRenderer = {
+      userState: function(user) {
+        if (!user) {
+          achievibitRenderer.login();
+        } else {
+          achievibitRenderer.signedIn(user);
+        }
+      },
+      signedIn: function(user) {
+        var userState = $('user-state');
+        var body = $('body');
+        // add dropdown to body (need to delete on sign out)
+        if (!$('#dropdown1').length) {
+          body.append(htmlGenerator.userDropDown(user));
+        }
+
+        userState.each(function(index) {
+          $(this).html(htmlGenerator
+            .signedInUserState(loggedInUser, user, index));
+        });
+
+        userState.find('a.settings').click(openSettingsDialog);
+        userState.find('a.logout').click(logoutUser);
+        $('.dropdown-button').dropdown();
+      },
+      login: function() {
+        var userState = $('user-state');
+        userState.html(htmlGenerator.loginButton());
+        userState.find('a.login').click(function() {
+          authenticate();
+        });
+      }
+    };
+
     var htmlGenerator = {
       loginButton: function() {
         return '<a href="#!" class="login">login</a>';
       },
-      signedInUserState: function(firebaseUser, achievibitUser) {
+      signedInUserState: function(firebaseUser, achievibitUser, index) {
+        index = _.isNil(index) ? 1 : index;
         return [
-          '<a class="dropdown-button" href="#!" data-activates="dropdown1">',
+          '<a class="dropdown-button" href="#!" data-beloworigin="true" ',
+          'data-activates="dropdown', index, '">',
           '<img class="avatar" src="', firebaseUser.photoURL, '" alt="avatar">',
           '<span class="username">',
           achievibitUser.username, '</span>',
           '<i class="material-icons right">arrow_drop_down</i></a>',
-          '<ul id="dropdown1" class="dropdown-content">',
+          htmlGenerator.userDropDown(achievibitUser, index)
+        ].join('');
+      },
+      userDropDown: function(achievibitUser, index) {
+        return [
+          '<ul id="dropdown', index, '" class="dropdown-content">',
           '<li><a href="/', achievibitUser.username, '">',
           '<i class="material-icons">account_circle</i>Your profile</a></li>',
           '<li class="divider"></li>',
@@ -28,7 +100,7 @@
         var repoIntegration = [];
         _.forEach(achievibitUser.reposIntegration, function(repo) {
           repoIntegration.push([
-            '<div class="repo-form-element">',
+            '<div class="repo-form-element" name="', repo.name, '">',
             repo.name,
             '<div class="switch">',
             '<label>Off',
@@ -68,7 +140,7 @@
           '<select name="timezone"></select>',
           '<label>Timezone</label>',
           '</div>',
-          '<div class="repo-form-element">',
+          '<div class="post-achievements">',
           'Post achievements as comment',
           '<div class="switch">',
           '<label>Off',
@@ -111,7 +183,7 @@
             firebaseToken = idToken;
 
             // get achievibit user data
-            axios.get('/authUsers', {
+            axios.get(CONSTS.API.AUTHENTICATION, {
               params: {
                 firebaseToken: firebaseToken
               }
@@ -148,7 +220,7 @@
             firebaseToken = idToken;
 
             // get achievibit user data
-            axios.get('/authUsers', {
+            axios.get(CONSTS.API.AUTHENTICATION, {
               params: {
                 firebaseToken: firebaseToken,
                 githubToken: githubToken,
@@ -166,29 +238,6 @@
           });
 
       });
-    }
-
-    function createWebhook(
-      repo,
-      firebaseToken,
-      newState) {
-
-      // Make a request for a user with a given ID
-      var createWebhookUrl =
-        encodeQueryData('/createWebhook', {
-          repo: repo,
-          firebaseToken: firebaseToken,
-          newState: newState
-        });
-
-      axios.get(createWebhookUrl)
-        .then(function (response) {
-          console.log(response);
-          // change UI based on result
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
     }
 
     function encodeQueryData(urlBase, data) {
@@ -218,14 +267,18 @@
             console.log('Settings changes discarded');
           } else {
             var newSettings = parseSettingsChanges(modalData, achievibitUser);
-            axios.post('/authUsers', {
+            axios.post(CONSTS.API.AUTHENTICATION, {
               firebaseToken: firebaseToken,
               settings: newSettings
             })
-              .then(function () {
-                // change UI based on result
-                achievibitUser = newSettings;
-                // changeUserStateUI(achievibitUser);
+              .then(function (res) {
+                achievibitUser = res.data.achievibitUserData;
+
+                if (res.data.errors) {
+                  _.forEach(res.data.errors, function(err) {
+                    Materialize.toast(err, 4000);
+                  });
+                }
               })
               .catch(function (error) {
                 console.log(error);
@@ -258,58 +311,51 @@
     }
 
     function parseSettingsChanges(modalData, achievibitUser) {
-      var userSettings = {};
-      _.forOwn(modalData, function(value, setting) {
-        if (setting === 'postAchievementsAsComments') {
-          userSettings[setting] = value === 'on';
-          return;
+      var settingsDelta = {};
+
+      var updatedPostAchievements =
+        $('.post-achievements .switch input').is(':checked');
+
+      if (updatedPostAchievements !==
+        achievibitUser.postAchievementsAsComments) {
+
+        settingsDelta.postAchievementsAsComments = updatedPostAchievements;
+      }
+
+      var selected = $('.dropdown-content .selected').text() ||
+        $('input.select-dropdown').attr('value');
+      if (achievibitUser.timezone !== selected) {
+        settingsDelta[setting] = selected;
+      }
+
+      var savedUserRepos =
+        convertReposToHash(achievibitUser.reposIntegration);
+
+      settingsDelta.reposIntegration = [];
+      $('.repo-form-element').each(function() {
+        var element = $(this);
+        var name = element.attr('name');
+        var integrated = $(this).find('.switch input').is(':checked');
+        // check which ones were changed
+        if (savedUserRepos[name].integrated !== integrated) {
+          settingsDelta.reposIntegration.push({
+            name: name,
+            integrated: integrated
+          });
         }
-
-        if (setting === 'timezone') {
-          var selected = $('.dropdown-content .selected').text();
-          userSettings[setting] =
-            selected || $('input.select-dropdown').attr('value');
-          return;
-        }
-
-        userSettings.reposIntegration =
-          userSettings.reposIntegration || [];
-
-        userSettings.reposIntegration.push({
-          name: setting,
-          integrated: value === 'on'
-        });
       });
 
-      var newSettings = _.merge(achievibitUser, userSettings);
-
-      return newSettings;
+      return settingsDelta;
     }
 
-    var achievibitRenderer = {
-      userState: function(user) {
-        if (!user) {
-          achievibitRenderer.login();
-        } else {
-          achievibitRenderer.signedIn(user);
-        }
-      },
-      signedIn: function(user) {
-        var userState = $('user-state');
-        userState.html(htmlGenerator.signedInUserState(loggedInUser, user));
+    function convertReposToHash(repos) {
+      var repoHash = {};
+      _.forEach(repos, function(repo) {
+        repoHash[repo.name] = repo;
+      });
 
-        userState.find('a.settings').click(openSettingsDialog);
-        userState.find('a.logout').click(logoutUser);
-        $('.dropdown-button').dropdown();
-      },
-      login: function() {
-        var userState = $('user-state');
-        userState.html(htmlGenerator.loginButton());
-        userState.find('a.login').click(function() {
-          authenticate();
-        });
-      }
-    };
+      return repoHash;
+    }
 
   }); // end of document ready
-})(jQuery, axios, vex, firebase, _); // end of jQuery name space
+})(jQuery, axios, vex, firebase, _, Materialize); // end of jQuery name space

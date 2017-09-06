@@ -33,10 +33,11 @@ module.exports = function(app, express) {
       var firebaseToken = req.body.firebaseToken;
       var newSettings = req.body.settings;
       userService.updateUserSettings(firebaseToken, newSettings)
-        .then(function(user) {
+        .then(function(data) {
           res.json({
-            hello: 'world',
-            user: user
+            achievibitUserData:
+              _.omit(data.updatedUser, ['_id', 'githubToken', 'uid']),
+            errors: data.errors
           });
         });
     });
