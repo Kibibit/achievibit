@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0"/>
   <meta name="description" content="Achievements for your GitHub Repositories">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta property="og:title" content="achievibit - by kibibit">
   <meta property="og:image" content="https://achievibit.herokuapp.com/images/favicon.png">
   <meta property="og:description" content="Achievements for your GitHub Repositories">
@@ -12,19 +11,22 @@
   <meta property="og:site_name" content="achievibit" />
   <title>achievibit - from kibibit</title>
 
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000"/>
   <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
-  <!-- <link href="materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
+  <!-- build:css achievibit.min.css -->
+  <link rel="stylesheet" href="material-icons.css">
+  <link rel="stylesheet" href="materialize.min.css">
   <link rel="stylesheet" href="vex.css" />
-  <link rel="stylesheet" href="	vex-theme-default.css" />
+  <link rel="stylesheet" href="vex-theme-default.css" />
   <link href="style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!-- endbuild -->
 </head>
 <body>
 <nav>
   <div class="nav-wrapper">
     <a id="logo-container" href="#" class="brand-logo">
-      <img src="images/unlocked.png" width="50" height="50">
+      <img src="images/unlocked.png" width="50" height="50" alt="achievibit's logo">
       achievibit
     </a>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -34,30 +36,6 @@
       </li>
     </ul>
     <ul class="side-nav" id="mobile-demo">
-      <li class="user-details cyan darken-2">
-            <div class="row">
-                <div class="col col s4 m4 l4">
-                    <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
-                </div>
-                <div class="col col s8 m8 l8">
-
-                    <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">John Doe<i class="mdi-navigation-arrow-drop-down right"></i></a><ul id="profile-dropdown" class="dropdown-content">
-                        <li><a href="#"><i class="mdi-action-face-unlock"></i> Profile</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-action-settings"></i> Settings</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-communication-live-help"></i> Help</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="mdi-action-lock-outline"></i> Lock</a>
-                        </li>
-                        <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <p class="user-roal">Administrator</p>
-                </div>
-            </div>
-            </li>
       <li><user-state></user-state></li>
     </ul>
   </div>
@@ -67,7 +45,7 @@
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
-        <h1 class="header center main-color text-lighten-2" style="display: flex; justify-content: center; align-items: center"><img src="images/unlocked.png" width="150" height="150"><span>achievibit</span></h1>
+        <h1 class="header center main-color text-lighten-2" style="display: flex; justify-content: center; align-items: center"><img src="images/unlocked.png" width="150" height="150" alt="achievibit's logo"><span>achievibit</span></h1>
         <div class="row center">
           <h5 class="header col s12 light">
             Achievements system as a GitHub WebHook
@@ -111,7 +89,7 @@
               We also have a Chrome
               that will integrate achievements right into GitHub's profiles
             </p>
-            <a target="_blank" href="https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
+            <a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
           </div>
         </div>
 
@@ -154,7 +132,7 @@
             {% for repo in repos %}
             <a href="{{ repo.url }}">
               <div class="user-mini-card">
-                <img src="images/repo.png" height="35" width="35">
+                <img src="images/repo.png" height="35" width="35" alt="GitHub Repo">
                 <div>{{ repo.fullname }}</div>
               </div>
             </a>
@@ -179,7 +157,7 @@
             {% for _user in users %}
             <a href="/{{ _user.username }}">
                 <div class="user-mini-card">
-                    <img src="{{ _user.avatar }}" height="35" width="35">
+                    <img src="{{ _user.avatar }}" height="35" width="35" alt="user avatar">
                     <div>{{ _user.username }}</div>
                 </div>
             </a>
@@ -204,7 +182,7 @@
             {% for organization in organizations %}
             <a href="/{{organization.username}}">
               <div class="user-mini-card">
-                  <img src="{{organization.avatar}}" height="35" width="35">
+                  <img src="{{organization.avatar}}" height="35" width="35" alt="organization avatar">
                   <div>{{organization.username}}</div>
               </div>
             </a>
@@ -265,29 +243,18 @@
 
 
   <!--  Scripts-->
-  <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/1.0.1/trianglify.min.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
-  <script src="timezones.full.min.js"></script>
-  <script src="vex.combined.min.js"></script>
-  <script>vex.defaultOptions.className = 'vex-theme-default'</script>
-  <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCrfu122K_PwvalttvWBtTKBdhVxxW9vrE",
-      authDomain: "achievibit-auth.firebaseapp.com",
-      databaseURL: "https://achievibit-auth.firebaseio.com",
-      projectId: "achievibit-auth",
-      storageBucket: "achievibit-auth.appspot.com",
-      messagingSenderId: "544992849657"
-    };
-    firebase.initializeApp(config);
-  </script>
-  <script src="init.js"></script>
-  <script src="achievibit.js"></script>
+  <!-- build:js achievibit.min.js -->
+  <script src="lodash.min.js"></script>
+  <script src="jquery-3.2.1.min.js"></script>
+  <script src="trianglify.min.js"></script>
+  <script src="axios.min.js"></script>
+  <script src="materialize.min.js"></script>
+  <script src="firebase.js"></script>
+  <script src="timezones.full.min.js" async></script>
+  <script src="vex.combined.min.js" async></script>
+  <script src="init.js" async></script>
+  <script src="achievibit.js" async></script>
+  <!-- endbuild -->
 
   </body>
 </html>

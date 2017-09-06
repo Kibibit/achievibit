@@ -1,0 +1,20 @@
+{
+  "name": "achievibit",
+  "short_name": "achievibit",
+  "description": "Gamification as a GitHub webhook",
+  "lang": "en-US",
+  "start_url": "/?homescreen=1",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#FAFAFA",
+  "icons": [
+    {
+      "src": "/images/pwa-192x192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/pwa-512x512.png",
+      "sizes": "512x512"
+    }
+  ]
+}
