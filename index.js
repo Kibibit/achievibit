@@ -62,6 +62,7 @@ var io = {};
 var publicFolder = __dirname + '/public';
 
 var token = nconf.get('ngrokToken');
+var env = nconf.get('env');
 
 // assign the swig engine to .html files
 app.engine('html', cons.swig);
@@ -137,6 +138,15 @@ app.post('/sendFakeAchievementNotification/:username',
       message: 'b33p b33p! faked a socket.io update'
     });
   });
+
+/**  ===============
+ *   = FORCE HTTPS =
+ *   = =============
+ *   on production, redirect all http requests to https
+ */
+if (env === 'production') {
+  app.all('*', ensureSecure);
+}
 
 /** ==================
  *   = ROUTES FOR API =
@@ -400,4 +410,15 @@ if (token) {
       ].join(''));
     }
   });
+}
+
+// Redirect all HTTP traffic to HTTPS (through heroku)
+function ensureSecure(req, res, next) {
+  if(req.headers["x-forwarded-proto"] === "https") {
+    // already secured. continue as normal
+    return next();
+  }
+  
+  // redirect the request to https
+  res.redirect('https://'+req.hostname+req.url);
 }
