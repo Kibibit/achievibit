@@ -36,6 +36,9 @@ var configService = function() {
   if (shouldSaveToFile) {
     _.forEach(allAchievibitConfigNames, function(varName) {
       nconf.set(varName, nconf.get(varName));
+      var tmp = {};
+      tmp[varName] =  nconf.get(varName);
+      console.log('got this config', tmp);
     });
 
     nconf.save(function (err) {
