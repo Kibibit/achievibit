@@ -19,7 +19,6 @@
     "body-parser": "^1.15.2",
     "colors": "^1.1.2",
     "compression": "^1.6.2",
-    "consolidate": "^0.14.1",
     "eslint": "^4.2.0",
     "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
     "eslint-plugin-lodash": "^2.3.3",
@@ -41,6 +40,7 @@
     "nconf": "^0.8.4",
     "ngrok": "^2.2.3",
     "node-rest-client": "^3.0.5",
+    "nunjucks": "^3.0.1",
     "octonode": "^0.8.0",
     "q": "^1.5.0",
     "request": "^2.78.0",
@@ -48,7 +48,6 @@
     "scribe-js": "Thatkookooguy/Scribe.js",
     "serve-favicon": "^2.3.0",
     "socket.io": "^2.0.3",
-    "swig": "^1.4.2",
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
