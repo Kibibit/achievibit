@@ -7,3 +7,7 @@ coverage/
 .idea/
 
 monkeyDB.json
+
+mochawesome-report/
+
+privateConfig.json

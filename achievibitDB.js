@@ -1,7 +1,8 @@
 var _ = require('lodash');
-var nconf = require('nconf');
-nconf.argv().env();
-var dbLibrary = nconf.get('testDB') ? 'monkey-js' : 'monk';
+var Q = require('q');
+var configService = require('./app/models/configurationService')();
+var CONFIG = configService.get();
+var dbLibrary = CONFIG.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var async = require('async');
 var utilities = require('./utilities');
@@ -9,21 +10,20 @@ var github = require('octonode');
 var request = require('request');
 var colors = require('colors');
 var client = github.client({
-  username: nconf.get('githubUser'),
-  password: nconf.get('githubPassword')
+  username: CONFIG.githubUser,
+  password: CONFIG.githubPassword
 });
-var console = require('./consoleService')('achievibitDB', [
-  'cyan',
-  'inverse'
-], process.console);
+var console = require('./app/models/consoleService')();
 
-var url = nconf.get('databaseUrl');
+var url = CONFIG.databaseUrl;
 var db = monk(url);
 var apiUrl = 'https://api.github.com/repos/';
 
 var collections = {
   repos: db.get('repos'),
-  users: db.get('users')
+  users: db.get('users'),
+  // uses to store additional private user data
+  userSettings: db.get('auth_users')
 };
 
 var achievibitDB = {};
@@ -38,6 +38,9 @@ achievibitDB.updatePartialArray = updatePartialArray;
 achievibitDB.getExtraPRData = getExtraPRData;
 achievibitDB.addPRItems = addPRItems;
 achievibitDB.connectUsersAndRepos = connectUsersAndRepos;
+achievibitDB.createAchievibitWebhook = createAchievibitWebhook;
+achievibitDB.deleteAchievibitWebhook = deleteAchievibitWebhook;
+achievibitDB.getAndUpdateUserData = getAndUpdateUserData;
 
 module.exports = achievibitDB;
 
@@ -539,6 +542,198 @@ function getReactions(comment) {
       }
     });
   };
+}
+
+function createAchievibitWebhook(repoName, gToken, uid) {
+  var githubWebhookConfig = {
+    name: 'web', //'achievibit',
+    active: true,
+    events: [
+      'pull_request',
+      'pull_request_review',
+      'pull_request_review_comment'
+    ],
+    config: {
+      'url': 'http://achievibit.kibibit.io/',
+      'content_type': 'json'
+    }
+  };
+
+  var creatWebhookUrl = [
+    apiUrl,
+    repoName,
+    '/hooks'
+  ].join('');
+  request({
+    method: 'POST',
+    url: creatWebhookUrl,
+    headers: {
+      'User-Agent': 'achievibit',
+      'Authorization': 'token ' + gToken
+    },
+    json: true,
+    body: githubWebhookConfig
+  }, function(err, response, body) {
+    if (err) {
+      console.error('had a problem creating a webhook for ' + repoName, err);
+      return;
+    }
+
+    if (response.statusCode === 200 || response.statusCode === 201) {
+      console.log('webhook added successfully');
+      var identityObject = {
+        uid: uid
+      };
+      findItem('userSettings', identityObject).then(function(savedUser) {
+        if (!_.isEmpty(savedUser)) {
+          savedUser = savedUser[0];
+          var newIntegrations =
+            _.map(savedUser.reposIntegration, function(repo) {
+              if (repo.name === repoName) {
+                repo.id = body.id;
+                repo.integrated = true;
+              }
+
+              return repo;
+            });
+          updatePartially('userSettings', identityObject, {
+            'reposIntegration': newIntegrations
+          });
+        }
+      });
+    } else {
+      console.error([
+        'creating webhook: ',
+        'wrong status from server: ',
+        '[', response.statusCode, ']'
+      ].join(''), body);
+    }
+  });
+}
+
+function deleteAchievibitWebhook(repoName, gToken, uid) {
+  var deleteWebhookUrl = [
+    apiUrl,
+    repoName,
+    '/hooks'
+  ].join('');
+
+  var identityObject = {
+    uid: uid
+  };
+
+  findItem('userSettings', identityObject).then(function(savedUser) {
+    if (!_.isEmpty(savedUser)) {
+      savedUser = savedUser[0];
+      var repoUserData = _.find(savedUser.reposIntegration, {
+        name: repoName
+      });
+
+      if (!repoUserData.id) {
+        return 'error!';
+      }
+      deleteWebhookUrl += '/' + repoUserData.id;
+      repoUserData.id = null;
+      repoUserData.integrated = false;
+
+      request({
+        method: 'DELETE',
+        url: deleteWebhookUrl,
+        headers: {
+          'User-Agent': 'achievibit',
+          'Authorization': 'token ' + gToken
+        },
+        json: true
+      }, function(err, response, body) {
+        if (err) {
+          console.error('had a problem deleting a webhook for ' + repoName,
+            err);
+          return;
+        }
+
+        updatePartially('userSettings', identityObject, {
+          'reposIntegration': savedUser.reposIntegration
+        });
+      });
+    } else {
+      return 'error!';
+    }
+  });
+}
+
+function getAndUpdateUserData(uid, updateWith) {
+  var deferred = Q.defer();
+  if (_.isNil(uid)) { deferred.reject('expected a uid'); }
+
+  // var authUsers = collections.userSettings;
+  var identityObject = {
+    uid: uid
+  };
+
+  updateWith = updateWith || {};
+
+  findItem('userSettings', identityObject).then(function(savedUser) {
+    if (!_.isEmpty(savedUser)) {
+      savedUser = savedUser[0];
+      if (!_.isEmpty(updateWith)) { // new sign in so update tokens
+        updatePartially('userSettings', identityObject, updateWith);
+      }
+      // we don't wait for the promise here because we already have the new data
+      // update if needed
+      savedUser.username = updateWith.username || savedUser.username;
+      savedUser.githubToken = updateWith.githubToken || savedUser.githubToken;
+      // return the updated saved user
+      deferred.resolve(savedUser);
+    } else { // this is a new user in our database
+      // we should have this data given from the client if it's a new user,
+      // but something can go wrong sometimes, so: defaults.
+      var newUser = {
+        username: updateWith.username || null,
+        uid: uid,
+        signedUpOn: Date.now(),
+        postAchievementsAsComments:
+          updateWith.postAchievementsAsComments || true,
+        reposIntegration: updateWith.reposIntegration || [],
+        timezone: updateWith.timezone || null,
+        githubToken: updateWith.githubToken || null
+      };
+
+      // get the user's repos and store them in the user object
+      var client = github.client(newUser.githubToken);
+      var ghme = client.me();
+
+      ghme.repos(function(err, repos) { // headers
+        if (err) resolve.reject('couldn\'t fetch repos');
+        else {
+          var parsedRepos = [];
+          _.forEach(repos, function(repo) {
+            //var escapedRepoName = _.replace(repo.full_name, /\./g, '@@@');
+            parsedRepos.push({
+              name: repo.full_name,
+              integrated: false
+            });
+          });
+          newUser.reposIntegration = parsedRepos;
+
+          // test out automatic integration with Thatkookooguy/monkey-js
+          // createAchievibitWebhook(_.find(repos, {
+          //   'full_name': 'Thatkookooguy/monkey-js'
+          // }), newUser.githubToken);
+
+          insertItem('userSettings', newUser);
+          // this is added to the db. create a copy of new user first
+          var returnedUser = _.clone(newUser);
+          returnedUser.newUser = true;
+
+          deferred.resolve(returnedUser);
+        }
+      });
+    }
+  }, function(error) {
+    deferred.reject('something went wrong with searching a user', error);
+  });
+
+  return deferred.promise;
 }
 
 function getNewFileFromPatch(patch) {

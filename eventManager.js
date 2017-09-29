@@ -4,13 +4,7 @@ var schema = require('js-schema');
 var achievibitDB = require('./achievibitDB');
 var utilities = require('./utilities');
 var async = require('async');
-var console = require('./consoleService')('GITHUB-EVENTS', [
-  'blue',
-  'inverse'
-], process.console);
-var nconf = require('nconf');
-
-nconf.argv().env();
+var console = require('./app/models/consoleService')();
 
 // require all the achievement files
 var achievements = require('require-all')({
@@ -39,6 +33,16 @@ var pullRequests = {};
 
 var EventManager = function() {
   var self = this;
+
+  self.postFromWebhook = function(req, res) {
+    console.log('got a post about ' + req.header('X-GitHub-Event'));
+
+    self.notifyAchievements(req.header('X-GitHub-Event'), req.body, io);
+
+    res.json({
+      message: 'b33p b33p! got your notification, githubot!'
+    });
+  };
 
   self.notifyAchievements = function(githubEvent, eventData, io) {
     /**
@@ -89,14 +93,14 @@ var EventManager = function() {
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'labeled') &&
             _.isEqual(
-                eventData.pull_request.updated_at,
-                eventData.pull_request.created_at)
-            ) {
-            /////
+              eventData.pull_request.updated_at,
+              eventData.pull_request.created_at)
+    ) {
+      /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
 
       pullRequests[id]
-                .labels.push(eventData.label.name);
+        .labels.push(eventData.label.name);
 
       console.log('added labels on creation', pullRequests[id]);
 
@@ -105,7 +109,7 @@ var EventManager = function() {
      */
     } else if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'labeled')) {
-            /////
+      /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
       pullRequests[id].history =
         pullRequests[id].history || {};
@@ -120,7 +124,7 @@ var EventManager = function() {
       pullRequests[id].history.labels.added++;
 
       pullRequests[id]
-                .labels.push(eventData.label.name);
+        .labels.push(eventData.label.name);
 
       console.log('UPDATE labels', pullRequests[id]);
     }
@@ -130,7 +134,7 @@ var EventManager = function() {
      */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'unlabeled')) {
-            /////
+      /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
       pullRequests[id].history =
         pullRequests[id].history || {};
@@ -160,7 +164,7 @@ var EventManager = function() {
      */
     if (_.isEqual(githubEvent, 'pull_request') &&
             _.isEqual(eventData.action, 'edited')) {
-            /////
+      /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
       pullRequests[id].history =
         pullRequests[id].history || {};
@@ -209,7 +213,7 @@ var EventManager = function() {
     if (_.isEqual(githubEvent, 'pull_request') &&
             (_.isEqual(eventData.action, 'unassigned') ||
             _.isEqual(eventData.action, 'assigned'))) {
-            /////
+      /////
       var id = utilities.getPullRequestIdFromEventData(eventData);
       if (!pullRequests[id]) {
         pullRequests[id] = {};
@@ -277,7 +281,7 @@ var EventManager = function() {
         pullRequests[id].history.deletedReviewers =
             pullRequests[id].history.deletedReviewers || [];
         pullRequests[id].history.deletedReviewers
-            .push(userToRemove);
+          .push(userToRemove);
 
         console.log('REMOVED REVIEWER', pullRequests[id]);
       }
@@ -331,7 +335,7 @@ var EventManager = function() {
           pullRequests[id].history.reviewComments.deleted =
               pullRequests[id].history.reviewComments.deleted || [];
           pullRequests[id].history.reviewComments.deleted
-              .push(eventData.comment.id);
+            .push(eventData.comment.id);
           console.log('DELETED REVIEW COMMENT', pullRequests[id]);
         }
       }
@@ -369,7 +373,7 @@ var EventManager = function() {
           pullRequests[id].history.reviewComments[eventData.comment.id] || [];
 
       pullRequests[id].history.reviewComments[eventData.comment.id]
-          .push(oldBodyValue);
+        .push(oldBodyValue);
       originalComment.message = updatedReviewComment.message;
       console.log('EDITED REVIEW COMMENT', pullRequests[id]);
     }
@@ -516,7 +520,7 @@ var EventManager = function() {
             var searchUsernamesArray = _.map(allPRUsers, function(user) {
               return { username: user.username };
             });
-          //console.log('searchUsernamesArray', searchUsernamesArray);
+            //console.log('searchUsernamesArray', searchUsernamesArray);
             achievibitDB.findItem('users', {
               $or: searchUsernamesArray
             }).then(function(users) {
@@ -527,8 +531,10 @@ var EventManager = function() {
               });
               console.error('this is what we got', userToCounter);
               achievement.check(pullRequest,
-               new Shall(achievement, achievementFilename, grantedAchievements),
-               userToCounter);
+                new Shall(achievement,
+                  achievementFilename,
+                  grantedAchievements),
+                userToCounter);
               callback(null, 'finished');
             });
           } else {
