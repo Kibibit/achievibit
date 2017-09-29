@@ -11,7 +11,7 @@ var favicon = require('serve-favicon'); // set favicon
 var bodyParser = require('body-parser');
 var colors = require('colors');
 var logo = require('./printLogo');
-var cons = require('consolidate');
+var nunjucks = require('nunjucks');
 var _ = require('lodash');
 var ngrok = require('ngrok');
 
@@ -19,6 +19,17 @@ var ngrok = require('ngrok');
 var console = require('./app/models/consoleService')();
 
 var app = express(); // define our app using express
+
+//Nunjucks setup
+nunjucks.configure('views', {
+  autoescape: true,
+  express: app
+});
+
+app.set('view engine', 'nunjucks');
+
+// app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
 
 var configService = require('./app/models/configurationService')();
 var privateConfig = configService.get();
@@ -54,13 +65,6 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-
-// assign the swig engine to .html files
-app.engine('html', cons.swig);
-
-// set .html as the default extension
-app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
 
 // hook helmet to our express app. This adds some protection to each
 // communication with the server.
