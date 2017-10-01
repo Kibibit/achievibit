@@ -17,7 +17,7 @@ var serviceAccount = {
   'type': CONFIG.firebaseType,
   'project_id': CONFIG.firebaseProjectId,
   'private_key_id': CONFIG.firebasePrivateKeyId,
-  'private_key': CONFIG.firebasePrivateKey,
+  'private_key': _.replace(CONFIG.firebasePrivateKey, /\\n/g, '\n'),
   'client_email': CONFIG.firebaseClientEmail,
   'client_id': CONFIG.firebaseClientId,
   'auth_uri': CONFIG.firebaseAuthUri,

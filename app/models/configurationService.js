@@ -33,12 +33,6 @@ var configService = function() {
 
   var shouldSaveToFile = nconf.get('savePrivate');
 
-  _.forEach(allAchievibitConfigNames, function(varName) {
-    var tmp = {};
-    tmp[varName] =  nconf.get(varName);
-    console.log('got this config', tmp);
-  });
-
   if (shouldSaveToFile) {
     _.forEach(allAchievibitConfigNames, function(varName) {
       nconf.set(varName, nconf.get(varName));
