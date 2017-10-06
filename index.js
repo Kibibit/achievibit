@@ -3,6 +3,7 @@ var path = require('path');
 global.appRoot = path.resolve(__dirname);
 global.io = {};
 var scribe = require('scribe-js')();
+var sslRedirect = require('heroku-ssl-redirect');
 var express = require('express'); // call express
 var config = require('./config');
 var compression = require('compression');
@@ -19,6 +20,9 @@ var ngrok = require('ngrok');
 var console = require('./app/models/consoleService')();
 
 var app = express(); // define our app using express
+
+// enable ssl redirect
+app.use(sslRedirect());
 
 //Nunjucks setup
 nunjucks.configure('views', {
