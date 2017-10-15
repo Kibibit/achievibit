@@ -67,19 +67,19 @@
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
                         <h2 class="mdl-card__title-text">
-                            Latest Achievement:&nbsp;<strong>{% autoescape false %}{{ achievements[0].name }}{% endautoescape %}</strong>
+                            Latest Achievement:&nbsp;<strong>{{ achievements[0].name | safe }}</strong>
                         </h2>
                         <div class="mdl-card__supporting-text padding-top">
                             <span>granted {{ achievements[0].grantedOn }}</span>
                         </div>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% autoescape false %}{{ achievements[0].description }}{% endautoescape %}
+                            {{ achievements[0].description | safe }}
                             <!-- <span>Category: <a href="#">Latest</a></span> -->
                         </div>
                     </div>
                 </div>
                 {% endif %}
-                {% if !user.organization and (!achievements or achievements.length === 0) %}
+                {% if (not user.organization) and ((not achievements) or achievements.length === 0) %}
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
                     <div class="mdl-card__media mdl-cell mdl-cell--3-col">
                         <img class="article-image" src=" images/example-blog01.jpg" border="0" alt="">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 {% endif %}
-                {% if !user.organization %}
+                {% if not user.organization %}
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
                     <div class="mdl-cell mdl-cell--8-col" id="achievements">
                         <h2 class="mdl-card__title-text">Achievements</h2>
@@ -117,10 +117,10 @@
                                     <div class="achievement" style="display: inline-block">
                                         <div class="achievement-title">
                                             <img src="{{achievement.avatar}}" height="35" width="35">
-                                            <div>{% autoescape false %}{{achievement.name}}{% endautoescape %}</div>
+                                            <div>{{ achievement.name | safe }}</div>
                                         </div>
-                                        <div style="font-size: 70%;">{% autoescape false %}{{achievement.short}}{% endautoescape %}</div>
-                                        <div>{% autoescape false %}{{achievement.description}}{% endautoescape %}</div>
+                                        <div style="font-size: 70%;">{{ achievement.short | safe }}</div>
+                                        <div>{{ achievement.description | safe }}</div>
                                     </div>
                                     </a>
                                 {% endfor %}
@@ -132,7 +132,7 @@
                     <div class="mdl-cell mdl-cell--8-col" id="organizations">
                         <h2 class="mdl-card__title-text">Repositories</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% if !user.repos or user.repos.length === 0 %}
+                            {% if (not user.repos) or user.repos.length === 0 %}
                                 <p><strong>No associated GitHub repositories on achievibit</strong></p>
                             {% endif %}
                             {% if user.repos and user.repos.length > 0 %}
@@ -152,7 +152,7 @@
                     <div class="mdl-cell mdl-cell--8-col" id="organizations">
                         <h2 class="mdl-card__title-text">Organizations</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% if !user.organizations or user.organizations.length === 0 %}
+                            {% if (not user.organizations) or user.organizations.length === 0 %}
                                 <p><strong>No associated GitHub organizations on achievibit</strong></p>
                             {% endif %}
                             {% if user.organizations and user.organizations.length > 0 %}
@@ -202,7 +202,7 @@
                     <div class="mdl-cell mdl-cell--8-col" id="organizations">
                         <h2 class="mdl-card__title-text">Repositories</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% if !user.repos or user.repos.length === 0 %}
+                            {% if (not user.repos) or user.repos.length === 0 %}
                                 <p><strong>No associated GitHub repositories on achievibit</strong></p>
                             {% endif %}
                             {% if user.repos and user.repos.length > 0 %}
@@ -222,7 +222,7 @@
                     <div class="mdl-cell mdl-cell--8-col" id="organizations">
                         <h2 class="mdl-card__title-text">Related Users</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            {% if !user.users or user.users.length === 0 %}
+                            {% if (not user.users) or user.users.length === 0 %}
                                 <p><strong>No associated GitHub users on achievibit (yet!)</strong></p>
                             {% endif %}
                             {% if user.users and user.users.length > 0 %}
