@@ -6,9 +6,9 @@
   <meta name="description" content="Achievements for your GitHub Repositories">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <meta property="og:title" content="achievibit - by kibibit">
-  <meta property="og:image" content="https://achievibit.herokuapp.com/images/favicon.png">
+  <meta property="og:image" content="https://achievibit.kibibit.io/images/favicon.png">
   <meta property="og:description" content="Achievements for your GitHub Repositories">
-  <meta property="og:url" content="https://achievibit.herokuapp.com/"/>
+  <meta property="og:url" content="https://achievibit.kibibit.io/"/>
   <meta property="og:site_name" content="achievibit" />
   <title>achievibit - from kibibit</title>
 
@@ -77,7 +77,7 @@
             <h5 class="center">See achievements on GitHub</h5>
 
             <p class="light center">
-              We also have a Chrome 
+              We also have a Chrome
               that will integrate achievements right into GitHub's profiles
             </p>
             <a target="_blank" href="https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
