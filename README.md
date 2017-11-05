@@ -1,8 +1,8 @@
 ## achievibit
-<img src="https://achievibit.herokuapp.com/images/favicon.png" width="150">
+<img src="https://achievibit.kibibit.io/images/favicon.png" width="150">
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-[![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com) [![Coverage Status](https://coveralls.io/repos/github/Kibibit/achievibit/badge.svg?branch=master)](https://coveralls.io/github/Kibibit/achievibit?branch=master)
+[![Supported achievements](http://achievibit.kibibit.io/achievementsShield)](https://achievibit.kibibit.io) [![Coverage Status](https://coveralls.io/repos/github/Kibibit/achievibit/badge.svg?branch=master)](https://coveralls.io/github/Kibibit/achievibit?branch=master)
 
 ------
 - Achievements system as a `GitHub` WebHook.
@@ -22,7 +22,7 @@
 2. click on ***Settings***
 3. on the sidebar, click on ***Webhooks***
 4. click on ***add webhook***
-5. paste achievibit's url (`http://achievibit.herokuapp.com`) into the ***payload url***
+5. paste achievibit's url (`http://achievibit.kibibit.io`) into the ***payload url***
 6. change ***Content type*** to `application/json`
 7. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request`
 
@@ -37,10 +37,10 @@ and see an animation everytime you get an achievement
 We've just started, and we want to spread the word. We would really appreciate if you'll add our shield if you think `achievibit` is worth talking about
 
 copy this snippet to any **markdown** file
-- shield: number of achievable achievements [![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
+- shield: number of achievable achievements [![Supported achievements](http://achievibit.kibibit.io/achievementsShield)](https://achievibit.kibibit.io)
 
 ```markdown
-[![Supported achievements](http://achievibit.herokuapp.com/achievementsShield)](https://achievibit.herokuapp.com)
+[![Supported achievements](http://achievibit.kibibit.io/achievementsShield)](https://achievibit.kibibit.io)
 ```
 
 ## Contributors
