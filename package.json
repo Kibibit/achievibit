@@ -6,7 +6,9 @@
   "scripts": {
     "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec --reporter mochawesome",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node index.js --testDB",
+    "debug": "node --inspect index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
     "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
     "eslint-plugin-lodash": "^2.3.3",
     "express": "^4.14.0",
+    "express-swagger-generator": "^1.0.4",
     "firebase-admin": "^5.1.0",
     "gh-badges": "^1.3.0",
     "gist-sync": "Thatkookooguy/gist-sync",
@@ -49,6 +52,8 @@
     "scribe-js": "Thatkookooguy/Scribe.js",
     "serve-favicon": "^2.3.0",
     "socket.io": "^2.0.3",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^2.0.11",
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
