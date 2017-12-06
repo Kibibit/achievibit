@@ -9,7 +9,7 @@
     "start": "node index.js",
     "dev": "node index.js --testDB",
     "debug": "node --inspect index.js",
-    "happo": "./scripts/happo-ci.sh",
+    "happo": "./scripts/happo-ci.sh"
   },
   "repository": {
     "type": "git",
