@@ -45,7 +45,7 @@
     "ngrok": "^2.2.3",
     "node-rest-client": "^3.0.5",
     "nunjucks": "^3.0.1",
-    "octonode": "^0.8.0",
+    "octonode": "^0.9.0",
     "q": "^1.5.0",
     "request": "^2.78.0",
     "require-all": "^2.0.0",
