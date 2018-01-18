@@ -15,6 +15,8 @@ var logo = require('./printLogo');
 var nunjucks = require('nunjucks');
 var _ = require('lodash');
 var ngrok = require('ngrok');
+var swaggerUi = require('swagger-ui-express');
+var swaggerJSDoc = require('swagger-jsdoc');
 
 // use scribe.js for logging
 var console = require('./app/models/consoleService')();
@@ -84,6 +86,36 @@ colors.enabled = true; //enable colors even through piping.
 
 // create application/json parser
 var jsonParser = bodyParser.json();
+
+/**  = ========================= =
+ *   = API DOCUMENTATION SWAGGER =
+ *   = ========================= =
+*/
+var spec = swaggerJSDoc({
+  swaggerDefinition: {
+    info: {
+      title: 'achievibit',
+      version: '1.0.0'
+    },
+    produces: [ 'application/json' ],
+    consumes: [ 'application/json' ],
+    securityDefinitions: {
+      jwt: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header'
+      }
+    },
+    security: [
+      { jwt: [] }
+    ]
+  },
+  apis: [
+    'app/routes/*.js'
+  ]
+});
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
 
 /** ===========
  *   = LOGGING =
