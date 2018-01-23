@@ -8,7 +8,8 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "node index.js",
     "dev": "node index.js --testDB",
-    "debug": "node --inspect index.js"
+    "debug": "node --inspect index.js",
+    "happo": "./scripts/happo-ci.sh"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,8 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "coveralls": "^3.0.0",
+    "happo": "^5.0.0",
+    "happo-target-firefox": "^5.0.0",
     "jsonfile": "^4.0.0",
     "mocha": "^4.0.0",
     "mochawesome": "^3.0.0",
