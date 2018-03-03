@@ -42,7 +42,7 @@
     "monk": "^6.0.1",
     "monkey-js": "thatkookooguy/monkey-js",
     "nconf": "^0.10.0",
-    "ngrok": "^2.2.3",
+    "ngrok": "^3.0.0",
     "node-rest-client": "^3.0.5",
     "nunjucks": "^3.0.1",
     "octonode": "^0.8.0",
