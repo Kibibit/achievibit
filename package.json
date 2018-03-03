@@ -64,6 +64,6 @@
     "mochawesome": "^3.0.0",
     "mock-require": "^3.0.0",
     "nyc": "^11.0.3",
-    "proxyquire": "^1.8.0"
+    "proxyquire": "^2.0.0"
   }
 }
