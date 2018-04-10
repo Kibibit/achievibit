@@ -45,6 +45,7 @@
         gtag('config', 'UA-108880116-1');
     </script>
     <script>
+    ga('create', 'UA-108880116-1', 'auto');
     /**
      * Function that tracks a click on an outbound link in Analytics.
      * This function takes a valid URL string as an argument, and uses that URL string
