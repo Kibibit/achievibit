@@ -29,7 +29,11 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-108880116-1', {
-            'transport_type': 'beacon'
+            'transport_type': 'beacon',
+            'custom_map': {
+                'dimension1': 'url',
+                'dimension2': 'name'
+            }
         });
   </script>
   <script>
