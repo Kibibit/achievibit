@@ -31,6 +31,19 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.grey-pink.min.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108880116-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-108880116-1');
+    </script>
 </head>
 
 <body class="achievibit">
@@ -68,7 +81,8 @@
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
                         <h2 class="mdl-card__title-text">
-                            Latest Achievement:&nbsp;<strong>{{ achievements[0].name | safe }}</strong>
+                            Latest Achievement:&nbsp;
+                            <strong>{{ achievements[0].name | safe }}</strong>
                         </h2>
                         <div class="mdl-card__supporting-text padding-top">
                             <span>granted {{ achievements[0].grantedOn }}</span>
@@ -79,8 +93,7 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
-                {% if (not user.organization) and ((not achievements) or achievements.length === 0) %}
+                {% endif %} {% if (not user.organization) and ((not achievements) or achievements.length === 0) %}
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
                     <div class="mdl-card__media mdl-cell mdl-cell--3-col">
                         <img class="article-image" src=" images/example-blog01.jpg" border="0" alt="">
@@ -92,10 +105,9 @@
                         </div>
                         <div class="mdl-card__supporting-text no-left-padding">
                             <p>
-                                In order to get achievements, just merge your pull requests like you normally do. achievibit
-                                will grant achievements based on some data achievibit listens to.
-                                achievibit only saved minimal data in it's database. pull request data is not saved to
-                                the database in order to keep privacy issues to a minimum.
+                                In order to get achievements, just merge your pull requests like you normally do. achievibit will grant achievements based
+                                on some data achievibit listens to. achievibit only saved minimal data in it's database.
+                                pull request data is not saved to the database in order to keep privacy issues to a minimum.
                             </p>
                             <p>
                                 It looks like one of the repositories you're active on already uses achievibit! Exciting 😁
@@ -103,29 +115,27 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
-                {% if not user.organization %}
+                {% endif %} {% if not user.organization %}
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
                     <div class="mdl-cell mdl-cell--8-col" id="achievements">
                         <h2 class="mdl-card__title-text">Achievements</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
                             {% if achievements and achievements.length === 0 %}
-                                <p><strong>No achievements yet</strong></p>
-                            {% endif %}
-                            {% if achievements and achievements.length > 0 %}
-                                {% for achievement in achievements %}
-                                    <a href="https://www.github.com/{{ achievement.relatedPullRequest }}" target="_blank">
-                                    <div class="achievement" style="display: inline-block">
-                                        <div class="achievement-title">
-                                            <img src="{{achievement.avatar}}" height="35" width="35">
-                                            <div>{{ achievement.name | safe }}</div>
-                                        </div>
-                                        <div style="font-size: 70%;">{{ achievement.short | safe }}</div>
-                                        <div>{{ achievement.description | safe }}</div>
+                            <p>
+                                <strong>No achievements yet</strong>
+                            </p>
+                            {% endif %} {% if achievements and achievements.length > 0 %} {% for achievement in achievements %}
+                            <a href="https://www.github.com/{{ achievement.relatedPullRequest }}" target="_blank">
+                                <div class="achievement" style="display: inline-block">
+                                    <div class="achievement-title">
+                                        <img src="{{achievement.avatar}}" height="35" width="35">
+                                        <div>{{ achievement.name | safe }}</div>
                                     </div>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
+                                    <div style="font-size: 70%;">{{ achievement.short | safe }}</div>
+                                    <div>{{ achievement.description | safe }}</div>
+                                </div>
+                            </a>
+                            {% endfor %} {% endif %}
                         </div>
                     </div>
                 </div>
@@ -134,18 +144,17 @@
                         <h2 class="mdl-card__title-text">Repositories</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
                             {% if (not user.repos) or user.repos.length === 0 %}
-                                <p><strong>No associated GitHub repositories on achievibit</strong></p>
-                            {% endif %}
-                            {% if user.repos and user.repos.length > 0 %}
-                                {% for repo in user.repos %}
-                                    <a href="{{ repo.url }}">
-                                    <div class="user-mini-card">
-                                        <img src="images/repo.png" height="35" width="35">
-                                        <div>{{ repo.fullname }}</div>
-                                    </div>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
+                            <p>
+                                <strong>No associated GitHub repositories on achievibit</strong>
+                            </p>
+                            {% endif %} {% if user.repos and user.repos.length > 0 %} {% for repo in user.repos %}
+                            <a href="{{ repo.url }}">
+                                <div class="user-mini-card">
+                                    <img src="images/repo.png" height="35" width="35">
+                                    <div>{{ repo.fullname }}</div>
+                                </div>
+                            </a>
+                            {% endfor %} {% endif %}
                         </div>
                     </div>
                 </div>
@@ -154,23 +163,21 @@
                         <h2 class="mdl-card__title-text">Organizations</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
                             {% if (not user.organizations) or user.organizations.length === 0 %}
-                                <p><strong>No associated GitHub organizations on achievibit</strong></p>
-                            {% endif %}
-                            {% if user.organizations and user.organizations.length > 0 %}
-                                {% for organization in user.organizations %}
-                                    <a href="/{{organization.username}}">
-                                    <div class="user-mini-card">
-                                        <img src="{{organization.avatar}}" height="35" width="35">
-                                        <div>{{organization.username}}</div>
-                                    </div>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
+                            <p>
+                                <strong>No associated GitHub organizations on achievibit</strong>
+                            </p>
+                            {% endif %} {% if user.organizations and user.organizations.length > 0 %} {% for organization in user.organizations %}
+                            <a href="/{{organization.username}}">
+                                <div class="user-mini-card">
+                                    <img src="{{organization.avatar}}" height="35" width="35">
+                                    <div>{{organization.username}}</div>
+                                </div>
+                            </a>
+                            {% endfor %} {% endif %}
                         </div>
                     </div>
                 </div>
-                {% endif %}
-                {% if user.organization %}
+                {% endif %} {% if user.organization %}
                 <div class="mdl-grid mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
                     <div class="mdl-card__media mdl-cell mdl-cell--3-col">
                         <img class="article-image" src=" images/helmet.png" border="0" alt="">
@@ -182,16 +189,16 @@
                         </div>
                         <div class="mdl-card__supporting-text no-left-padding">
                             <p>
-                                achievibit adds achievements to each pull request you merge. In order to get
-                                achievements, just merge your pull requests like you normally do. achievibit
-                                will grant achievements based on some data achievibit listens to.
+                                achievibit adds achievements to each pull request you merge. In order to get achievements, just merge your pull requests
+                                like you normally do. achievibit will grant achievements based on some data achievibit listens
+                                to.
                             </p>
                             <p>
                                 go ahead and contribute to one of these repositories to start getting achievements!
                             </p>
                             <p>
-                                achievibit only saved minimal data in it's database. pull request data is not saved to
-                                the database in order to keep privacy issues to a minimum.
+                                achievibit only saved minimal data in it's database. pull request data is not saved to the database in order to keep privacy
+                                issues to a minimum.
                             </p>
                             <p>
                                 learn how to integrate achievibit in your repository!
@@ -204,18 +211,17 @@
                         <h2 class="mdl-card__title-text">Repositories</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
                             {% if (not user.repos) or user.repos.length === 0 %}
-                                <p><strong>No associated GitHub repositories on achievibit</strong></p>
-                            {% endif %}
-                            {% if user.repos and user.repos.length > 0 %}
-                                {% for repo in user.repos %}
-                                    <a href="{{ repo.url }}">
-                                    <div class="user-mini-card">
-                                        <img src="images/repo.png" height="35" width="35">
-                                        <div>{{ repo.fullname }}</div>
-                                    </div>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
+                            <p>
+                                <strong>No associated GitHub repositories on achievibit</strong>
+                            </p>
+                            {% endif %} {% if user.repos and user.repos.length > 0 %} {% for repo in user.repos %}
+                            <a href="{{ repo.url }}">
+                                <div class="user-mini-card">
+                                    <img src="images/repo.png" height="35" width="35">
+                                    <div>{{ repo.fullname }}</div>
+                                </div>
+                            </a>
+                            {% endfor %} {% endif %}
                         </div>
                     </div>
                 </div>
@@ -224,18 +230,17 @@
                         <h2 class="mdl-card__title-text">Related Users</h2>
                         <div class="mdl-card__supporting-text no-left-padding">
                             {% if (not user.users) or user.users.length === 0 %}
-                                <p><strong>No associated GitHub users on achievibit (yet!)</strong></p>
-                            {% endif %}
-                            {% if user.users and user.users.length > 0 %}
-                                {% for _user in user.users %}
-                                    <a href="/{{ _user.username }}">
-                                        <div class="user-mini-card">
-                                            <img src="{{ _user.avatar }}" height="35" width="35">
-                                            <div>{{ _user.username }}</div>
-                                        </div>
-                                    </a>
-                                {% endfor %}
-                            {% endif %}
+                            <p>
+                                <strong>No associated GitHub users on achievibit (yet!)</strong>
+                            </p>
+                            {% endif %} {% if user.users and user.users.length > 0 %} {% for _user in user.users %}
+                            <a href="/{{ _user.username }}">
+                                <div class="user-mini-card">
+                                    <img src="{{ _user.avatar }}" height="35" width="35">
+                                    <div>{{ _user.username }}</div>
+                                </div>
+                            </a>
+                            {% endfor %} {% endif %}
                         </div>
                     </div>
                 </div>
@@ -247,7 +252,9 @@
                 </div>
                 <div class="mdl-mini-footer__right-section">
                     <ul class="mdl-mini-footer__link-list">
-                        <li><a href="https://github.com/Kibibit/achievibit">See on GitHub</a></li>
+                        <li>
+                            <a href="https://github.com/Kibibit/achievibit">See on GitHub</a>
+                        </li>
                     </ul>
                 </div>
             </footer>
