@@ -60,7 +60,7 @@
                     <a class="mdl-navigation__link" href="/">achievibit</a>
                     <a class="mdl-navigation__link" href="#achievements">{{ achievements.length }} Achievements</a>
                     <a class="mdl-navigation__link" href="#organizations">Organizations</a>
-                    <a class="mdl-navigation__link" href="{{ user.url }}">GitHub</a>
+                    <a class="mdl-navigation__link" href="{{ user.url }}" onclick="ga('send', 'event', 'User Github Profile Link', 'clicked', '{{ user.url }}');">GitHub</a>
                 </nav>
             </div>
         </header>
@@ -69,7 +69,7 @@
                 <a class="mdl-navigation__link is-active" href="/">achievibit</a>
                 <a class="mdl-navigation__link" href="#achievements">{{ achievements.length }} Achievements</a>
                 <a class="mdl-navigation__link" href="#organizations">Organizations</a>
-                <a class="mdl-navigation__link" href="{{ user.url }}">{{ user.username }} on GitHub</a>
+                <a class="mdl-navigation__link" href="{{ user.url }}" onclick="ga('send', 'event', 'User Github Profile Link', 'clicked', '{{ user.url }}');">{{ user.username }} on GitHub</a>
             </nav>
         </div>
         <main class="mdl-layout__content">
@@ -125,7 +125,7 @@
                                 <strong>No achievements yet</strong>
                             </p>
                             {% endif %} {% if achievements and achievements.length > 0 %} {% for achievement in achievements %}
-                            <a href="https://www.github.com/{{ achievement.relatedPullRequest }}" target="_blank">
+                            <a href="https://www.github.com/{{ achievement.relatedPullRequest }}" target="_blank" onclick="ga('send', 'event', 'Achievement Element', 'clicked', '{{user.username}}-{{achievement.name}}-{{ achievement.relatedPullRequest }}');">
                                 <div class="achievement" style="display: inline-block">
                                     <div class="achievement-title">
                                         <img src="{{achievement.avatar}}" height="35" width="35">
@@ -148,7 +148,7 @@
                                 <strong>No associated GitHub repositories on achievibit</strong>
                             </p>
                             {% endif %} {% if user.repos and user.repos.length > 0 %} {% for repo in user.repos %}
-                            <a href="{{ repo.url }}">
+                            <a href="{{ repo.url }}" onclick="ga('send', 'event', 'User Repo Link', '{{ user.username }}-{{ repo.url }}');">
                                 <div class="user-mini-card">
                                     <img src="images/repo.png" height="35" width="35">
                                     <div>{{ repo.fullname }}</div>
@@ -215,7 +215,7 @@
                                 <strong>No associated GitHub repositories on achievibit</strong>
                             </p>
                             {% endif %} {% if user.repos and user.repos.length > 0 %} {% for repo in user.repos %}
-                            <a href="{{ repo.url }}">
+                            <a href="{{ repo.url }}" onclick="ga('send', 'event', 'User Repo Link', 'clicked', '{{ user.username }}-{{ repo.url }}');">
                                 <div class="user-mini-card">
                                     <img src="images/repo.png" height="35" width="35">
                                     <div>{{ repo.fullname }}</div>
@@ -253,7 +253,7 @@
                 <div class="mdl-mini-footer__right-section">
                     <ul class="mdl-mini-footer__link-list">
                         <li>
-                            <a href="https://github.com/Kibibit/achievibit">See on GitHub</a>
+                            <a href="https://github.com/Kibibit/achievibit" onclick="ga('send', 'event', 'Achievibit GitHub Repo Link', 'clicked');">See on GitHub</a>
                         </li>
                     </ul>
                 </div>
