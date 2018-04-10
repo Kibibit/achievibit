@@ -163,7 +163,7 @@
           <h4>These repositories have achievibit integrated</h4>
           <div class="list-container">
             {% if repos and repos.length > 0 %} {% for repo in repos %}
-            <a href="{{ repo.url }}" onclick="ga('send', 'event', 'User Repo Link', '{{ repo.url }}');">
+            <a href="{{ repo.url }}" onclick="ga('send', 'event', 'User Repo Link', 'clicked', '{{ repo.url }}');">
               <div class="user-mini-card">
                 <img src="images/repo.png" height="35" width="35">
                 <div>{{ repo.fullname }}</div>
