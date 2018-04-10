@@ -28,22 +28,32 @@
     }
     gtag('js', new Date());
 
-    gtag('config', 'UA-108880116-1');
+    gtag('config', 'UA-108880116-1', {
+            'transport_type': 'beacon'
+        });
   </script>
   <script>
+    gtag('create', 'UA-108880116-1', 'auto');
     /**
      * Function that tracks a click on an outbound link in Analytics.
      * This function takes a valid URL string as an argument, and uses that URL string
      * as the event label. Setting the transport method to 'beacon' lets the hit be sent
      * using 'navigator.sendBeacon' in browser that support it.
      */
-    var trackOutboundLink = function (url) {
-      ga('send', 'event', 'outbound', 'click', url, {
-        'transport': 'beacon',
-        'hitCallback': function () {
+    var trackOutboundLink = function (url, name) {
+      let params = {
+        'event_category': 'click',
+        'url': url,
+        'event_callback': function () {
           document.location = url;
         }
-      });
+      };
+
+      if (name) {
+        params.name = name;
+      }
+
+      gtag('event', 'outbound', params);
     }
   </script>
 </head>
