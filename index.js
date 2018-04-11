@@ -157,6 +157,10 @@ app.use(favicon(path.join(__dirname,
 var apiRoutes = require('./app/routes/api')(app, express);
 app.use('/', jsonParser, apiRoutes);
 
+app.get('/google4fa7ee13a4e70f9c.html', function(req, res) {
+  res.sendFile(path.join(__dirname + '/google4fa7ee13a4e70f9c.html'));
+});
+
 // app.get('/download/extension', function(req, res) {
 //   var file = __dirname + '/public/achievibit-chrome-extension.crx';
 //   res.download(file);
