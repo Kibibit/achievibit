@@ -1,0 +1,18 @@
+{
+  "name": "achievibit",
+  "description": "Github Gamification - Achievements system as a GitHub WebHook. http://achievibit.kibibit.io/",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
