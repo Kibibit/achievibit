@@ -87,7 +87,10 @@ app.use(function forceLiveDomain(req, res, next) {
   // Don't allow user to hit Heroku now that we have a domain
   var host = req.get('Host');
   if (host.includes('herokuapp.com')) {
-    return res.redirect(301, 'https://achievibit.kibibit.io' + req.originalUrl);
+    let newUrl = 'https://achievibit.kibibit.io' + req.originalUrl;
+    // fix double forward slash
+    newUrl = newUrl.replace(/([^:]\/)\/+/g, "$1");
+    return res.redirect(301, newUrl);
   }
 
   return next();
