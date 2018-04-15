@@ -173,6 +173,12 @@ app.get('/google4fa7ee13a4e70f9c.html', function(req, res) {
  */
 /* NOTE(thatkookooguy): has to be registered after API ROUTES */
 app.get('/', function(req, res) {
+  var host = req.get('host');
+  
+  if (!host.includes("achievibit.kibibit.io")) {
+    return res.redirect(301, 'https://achievibit.kibibit.io/');
+  }
+
   var users = db.get('users');
   var repos = db.get('repos');
   users.find({}).then(function(allUsers) {
