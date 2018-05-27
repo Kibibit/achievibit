@@ -20,7 +20,8 @@ var allAchievibitConfigNames = [
   'testDB',
   'logsUsername',
   'logsPassword',
-  'ngrokToken'
+  'ngrokToken',
+  'ngrok'
 ];
 
 // look for config in:

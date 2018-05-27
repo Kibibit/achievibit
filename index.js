@@ -53,6 +53,7 @@ if (!port) {
 
 var publicFolder = __dirname + '/public';
 
+var enableNgrok = privateConfig.ngrok;
 var token = privateConfig.ngrokToken;
 
 //TEMP HEADERS FOR ANGULAR 2 TEST
@@ -171,6 +172,10 @@ app.use(favicon(path.join(__dirname,
 var apiRoutes = require('./app/routes/api')(app, express);
 app.use('/', jsonParser, apiRoutes);
 
+app.get('/google4fa7ee13a4e70f9c.html', function(req, res) {
+  res.sendFile(path.join(__dirname + '/google4fa7ee13a4e70f9c.html'));
+});
+
 // app.get('/download/extension', function(req, res) {
 //   var file = __dirname + '/public/achievibit-chrome-extension.crx';
 //   res.download(file);
@@ -232,21 +237,25 @@ global.io.on('connection', function(socket) {
 });
 
 
-if (token) {
-  ngrok.authtoken(token, function(err) {
-    if (err) {
-      console.error(err);
-    }
-  });
-  ngrok.connect(port, function (err, url) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.info([
-        colors.cyan('ngrok'),
-        ' - serving your site from ',
-        colors.yellow(url)
-      ].join(''));
-    }
-  });
+if (token && enableNgrok) {
+  (async function() {
+    await ngrok.authtoken(token);
+    const url = await ngrok.connect(port);
+
+    console.info([
+      colors.cyan('ngrok'),
+      ' - serving your site from ',
+      colors.yellow(url)
+    ].join(''));
+  })();
+} else if (!token && enableNgrok) {
+  (async function() {
+    const url = await ngrok.connect(port);
+
+    console.info([
+      colors.cyan('ngrok'),
+      ' - serving your site from ',
+      colors.yellow(url)
+    ].join(''));
+  })();
 }
