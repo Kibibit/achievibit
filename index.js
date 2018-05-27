@@ -53,6 +53,7 @@ if (!port) {
 
 var publicFolder = __dirname + '/public';
 
+var enableNgrok = privateConfig.ngrok;
 var token = privateConfig.ngrokToken;
 
 //TEMP HEADERS FOR ANGULAR 2 TEST
@@ -222,21 +223,25 @@ global.io.on('connection', function(socket) {
 });
 
 
-if (token) {
-  ngrok.authtoken(token, function(err) {
-    if (err) {
-      console.error(err);
-    }
-  });
-  ngrok.connect(port, function (err, url) {
-    if (err) {
-      console.error(err);
-    } else {
-      console.info([
-        colors.cyan('ngrok'),
-        ' - serving your site from ',
-        colors.yellow(url)
-      ].join(''));
-    }
-  });
+if (token && enableNgrok) {
+  (async function() {
+    await ngrok.authtoken(token);
+    const url = await ngrok.connect(port);
+
+    console.info([
+      colors.cyan('ngrok'),
+      ' - serving your site from ',
+      colors.yellow(url)
+    ].join(''));
+  })();
+} else if (!token && enableNgrok) {
+  (async function() {
+    const url = await ngrok.connect(port);
+
+    console.info([
+      colors.cyan('ngrok'),
+      ' - serving your site from ',
+      colors.yellow(url)
+    ].join(''));
+  })();
 }
