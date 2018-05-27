@@ -28,7 +28,37 @@
     }
     gtag('js', new Date());
 
-    gtag('config', 'UA-108880116-1');
+    gtag('config', 'UA-108880116-1', {
+            'transport_type': 'beacon',
+            'custom_map': {
+                'dimension1': 'url',
+                'dimension2': 'name'
+            }
+        });
+  </script>
+  <script>
+    gtag('create', 'UA-108880116-1', 'auto');
+    /**
+     * Function that tracks a click on an outbound link in Analytics.
+     * This function takes a valid URL string as an argument, and uses that URL string
+     * as the event label. Setting the transport method to 'beacon' lets the hit be sent
+     * using 'navigator.sendBeacon' in browser that support it.
+     */
+    var trackOutboundLink = function (url, name) {
+      let params = {
+        'event_category': 'click',
+        'url': url,
+        'event_callback': function () {
+          document.location = url;
+        }
+      };
+
+      if (name) {
+        params.name = name;
+      }
+
+      gtag('event', 'outbound', params);
+    }
   </script>
 </head>
 
@@ -74,7 +104,8 @@
           </h5>
         </div>
         <div class="row center">
-          <a href="https://www.github.com/Kibibit/achievibit" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Integrate in your repository</a>
+          <a href="https://www.github.com/Kibibit/achievibit" onclick="trackOutboundLink('https://www.github.com/Kibibit/achievibit'); return false;"
+            id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Integrate in your repository</a>
         </div>
         <br>
         <br>
@@ -116,7 +147,8 @@
             <p class="light center">
               We also have a Chrome that will integrate achievements right into GitHub's profiles
             </p>
-            <a target="_blank" href="https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee" class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
+            <a target="_blank" href="https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee" onclick="trackOutboundLink('https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee'); return false;"
+              class="btn-large waves-effect waves-light teal lighten-1 center">Download Extension</a>
           </div>
         </div>
 
@@ -163,7 +195,7 @@
           <h4>These repositories have achievibit integrated</h4>
           <div class="list-container">
             {% if repos and repos.length > 0 %} {% for repo in repos %}
-            <a href="{{ repo.url }}">
+            <a href="{{ repo.url }}" onclick="trackOutboundLink('{{ repo.url }}'); return false;">
               <div class="user-mini-card">
                 <img src="images/repo.png" height="35" width="35">
                 <div>{{ repo.fullname }}</div>
@@ -260,16 +292,16 @@
           <h5 class="white-text">Sharing the love</h5>
           <ul>
             <li>
-              <a class="white-text" href="https://heroku.com/">Heroku</a>
+              <a class="white-text" href="https://heroku.com/" onclick="trackOutboundLink('https://heroku.com/'); return false;">Heroku</a>
             </li>
             <li>
-              <a class="white-text" href="https://mlab.com/">mLab</a>
+              <a class="white-text" href="https://mlab.com/" onclick="trackOutboundLink('https://mlab.com/'); return false;">mLab</a>
             </li>
             <li>
-              <a class="white-text" href="https://getmdl.io/">Material lite</a>
+              <a class="white-text" href="https://getmdl.io/" onclick="trackOutboundLink('https://getmdl.io/'); return false;">Material lite</a>
             </li>
             <li>
-              <a class="white-text" href="http://materializecss.com">Materialize</a>
+              <a class="white-text" href="http://materializecss.com" onclick="trackOutboundLink('http://materializecss.com'); return false;">Materialize</a>
             </li>
           </ul>
         </div>
