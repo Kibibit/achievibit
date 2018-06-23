@@ -21,7 +21,7 @@
     "body-parser": "^1.15.2",
     "colors": "^1.1.2",
     "compression": "^1.6.2",
-    "eslint": "^4.2.0",
+    "eslint": "^5.0.0",
     "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
     "eslint-plugin-lodash": "^2.3.3",
     "express": "^4.14.0",
