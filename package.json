@@ -52,7 +52,7 @@
     "scribe-js": "Thatkookooguy/Scribe.js",
     "serve-favicon": "^2.3.0",
     "socket.io": "^2.0.3",
-    "swagger-jsdoc": "^1.9.7",
+    "swagger-jsdoc": "^3.0.0",
     "swagger-ui-express": "^3.0.1",
     "tinycolor2": "^1.4.1"
   },
