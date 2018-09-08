@@ -5,6 +5,13 @@
 [![Supported achievements](http://achievibit.kibibit.io/achievementsShield)](https://achievibit.kibibit.io) [![Coverage Status](https://coveralls.io/repos/github/Kibibit/achievibit/badge.svg?branch=master)](https://coveralls.io/github/Kibibit/achievibit?branch=master)
 
 ------
+**NOTE:** achievibit is getting re-written in typescript using `nest.js`. Will support:
+- GitHub Oauth
+- better integration (integrate with a click)
+- preparing for multiple cloud version control platforms (GitHub, GitLab, BitBucket, etc)
+
+**Stay Tuned!**
+
 - Achievements system as a `GitHub` WebHook.
 - Get achievements on different characteristics of your pull requests
 - Use the [achievibit chrome extension](https://chrome.google.com/webstore/detail/achievibit/iddkmddomdohnihbehiamfnmpomlhpee?utm_source=achievibitreadme) to see `achievibit` inside `GitHub`
