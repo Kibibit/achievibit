@@ -161,13 +161,26 @@ module.exports = function(app, express) {
    *       409:
    *         description: When the username is already in use
    */
+  let allData;
   apiRouter.route('/:username')
     .get(function(req, res) {
       var username = decodeURIComponent(req.params.username);
 
-      userService.getFullUser(username).then(function(data) {
-        res.render('blog', data.pageData);
-      }, function(error) {
+      userService.getFullUser(username)
+      .then((data) => {
+        allData = data.pageData;
+        if (allData.user.organization){
+          const usernames = allData.user.users.map((user) => user.username)
+          return userService.getOrganizationTopAchievements(usernames, 5);
+        }
+
+        return;
+      })
+      .then((topAchievements) => {
+        allData.topAchievements = topAchievements;
+        res.render('blog', allData);
+      })
+      .catch((error) => {
         if (error.code === 301) {
           res.redirect(error.code, error.redirect);
         } else {

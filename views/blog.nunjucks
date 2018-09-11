@@ -129,8 +129,8 @@
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
                         <h2 class="mdl-card__title-text">
-                            Latest Achievement:&nbsp;
-                            <strong>{{ achievements[0].name | safe }}</strong>
+                            Latest Achievements:&nbsp;
+                            <strong>{{ topAchievements[0].username | safe }}</strong>
                         </h2>
                         <div class="mdl-card__supporting-text padding-top">
                             <span>granted {{ achievements[0].grantedOn }}</span>
@@ -231,7 +231,7 @@
                         <img class="article-image" src=" images/helmet.png" border="0" alt="">
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
-                        <h2 class="mdl-card__title-text">Welcome to achievibit!</h2>
+                        <h2 class="mdl-card__title-text">{{topAchievements[0].username}}</h2>
                         <div class="mdl-card__supporting-text padding-top">
                             <span>info card</span>
                         </div>
