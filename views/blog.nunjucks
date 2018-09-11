@@ -231,26 +231,34 @@
                         <img class="article-image" src=" images/helmet.png" border="0" alt="">
                     </div>
                     <div class="mdl-cell mdl-cell--8-col">
-                        <h2 class="mdl-card__title-text">{{topAchievements[0].username}}</h2>
+                        <h2 class="mdl-card__title-text">Top Achievements</h2>
                         <div class="mdl-card__supporting-text padding-top">
-                            <span>info card</span>
+                            <span>latest 5 achievements, or dick pinks</span>
+
                         </div>
                         <div class="mdl-card__supporting-text no-left-padding">
-                            <p>
-                                achievibit adds achievements to each pull request you merge. In order to get achievements, just merge your pull requests
-                                like you normally do. achievibit will grant achievements based on some data achievibit listens
-                                to.
-                            </p>
-                            <p>
-                                go ahead and contribute to one of these repositories to start getting achievements!
-                            </p>
-                            <p>
-                                achievibit only saved minimal data in it's database. pull request data is not saved to the database in order to keep privacy
-                                issues to a minimum.
-                            </p>
-                            <p>
-                                learn how to integrate achievibit in your repository!
-                            </p>
+                            <table style="width: 100%" align="left">
+                              <tr>
+                                <th style="text-align: left;">User</th>
+                                <th style="text-align: left;">Achievement</th>
+                              </tr>
+                                 {% for topAchievement in topAchievements %}
+                              <tr>
+                                <td><div style="display: flex; align-items: center">
+                                <img style="width: 25px; height: 25px;" src="{{topAchievement.avatar}}">
+                                <span>{{topAchievement.username}}</span>
+
+                                </div></td>
+                                <td><div style="display: flex; align-items: center">
+                                <img style="width: 25px; height: 25px;" src="{{topAchievement.achievements.avatar}}">
+                                <span>{{topAchievement.achievements.name}}</span>
+                                </div></td>
+                              </tr>
+                              {% endfor %}
+                            </table>
+
+
+
                         </div>
                     </div>
                 </div>
