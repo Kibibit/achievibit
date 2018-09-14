@@ -41,11 +41,17 @@ achievibitDB.connectUsersAndRepos = connectUsersAndRepos;
 achievibitDB.createAchievibitWebhook = createAchievibitWebhook;
 achievibitDB.deleteAchievibitWebhook = deleteAchievibitWebhook;
 achievibitDB.getAndUpdateUserData = getAndUpdateUserData;
+achievibitDB.getOrganizationTopAchievements = getOrganizationTopAchievements;
 
 module.exports = achievibitDB;
 
 function initCollections() {
-  collections.repos.index({ fullname: 1 }, { unique: true, sparse: true });
+  collections.repos.index({
+    fullname: 1
+  }, {
+    unique: true,
+    sparse: true
+  });
   collections.repos.index({
     'fullname': 'text',
     'organization': 'text'
@@ -55,7 +61,12 @@ function initCollections() {
       'organization': 1
     }
   });
-  collections.users.index({ username: 1 }, { unique: true, sparse: true });
+  collections.users.index({
+    username: 1
+  }, {
+    unique: true,
+    sparse: true
+  });
   collections.users.index({
     'username': 'text',
     'repos': 'text',
@@ -70,7 +81,9 @@ function initCollections() {
 }
 
 function insertItem(collection, item) {
-  if (_.isNil(collection) || _.isNil(item)) {return;}
+  if (_.isNil(collection) || _.isNil(item)) {
+    return;
+  }
   return collections[collection].insert(item)
     .then(passParam, function(error) {
       console.error([
@@ -135,15 +148,16 @@ function updatePartialArray(collection, identityObject, updatePartial) {
 }
 
 function findItem(collection, identityObject) {
-  if (_.isNil(collection) || _.isNil(identityObject)) {return;}
+  if (_.isNil(collection) || _.isNil(identityObject)) {
+    return;
+  }
   return collections[collection].find(identityObject)
     .then(passParam, function(error) {
       console.error([
         colors.yellow.bgMagenta('achievibitDB.findItem'),
         ' got an error'
       ].join(''), error);
-    }
-  );
+    });
 }
 
 function addPRItems(pullRequest, givenCallback) {
@@ -151,17 +165,19 @@ function addPRItems(pullRequest, givenCallback) {
     function insertOrganization(callback) {
       if (pullRequest.organization) {
         insertItem('users', pullRequest.organization).then(
-            function() {
-              callback(null, 'organization added');
-            }, function(error) {
-          console.error(error);
-          callback(null, 'organization existed?');
-        }
-          );
+          function() {
+            callback(null, 'organization added');
+          },
+          function(error) {
+            console.error(error);
+            callback(null, 'organization existed?');
+          }
+        );
       } else {
         callback(null, 'no organization to add');
       }
-    }, function insertPRCreator(callback) {
+    },
+    function insertPRCreator(callback) {
       insertItem('users', pullRequest.creator)
         .then(function() {
           callback(null, 'PR creator added');
@@ -169,7 +185,8 @@ function addPRItems(pullRequest, givenCallback) {
           console.error(error);
           callback(null, 'PR creator existed?');
         });
-    }, function insertReviewers(callback) {
+    },
+    function insertReviewers(callback) {
 
       if (pullRequest.reviewers && pullRequest.reviewers.length > 0) {
         insertItem('users', pullRequest.reviewers)
@@ -663,7 +680,9 @@ function deleteAchievibitWebhook(repoName, gToken, uid) {
 
 function getAndUpdateUserData(uid, updateWith) {
   var deferred = Q.defer();
-  if (_.isNil(uid)) { deferred.reject('expected a uid'); }
+  if (_.isNil(uid)) {
+    deferred.reject('expected a uid');
+  }
 
   // var authUsers = collections.userSettings;
   var identityObject = {
@@ -691,8 +710,7 @@ function getAndUpdateUserData(uid, updateWith) {
         username: updateWith.username || null,
         uid: uid,
         signedUpOn: Date.now(),
-        postAchievementsAsComments:
-          updateWith.postAchievementsAsComments || true,
+        postAchievementsAsComments: updateWith.postAchievementsAsComments || true,
         reposIntegration: updateWith.reposIntegration || [],
         timezone: updateWith.timezone || null,
         githubToken: updateWith.githubToken || null
@@ -703,8 +721,7 @@ function getAndUpdateUserData(uid, updateWith) {
       var ghme = client.me();
 
       ghme.repos(function(err, repos) { // headers
-        if (err) resolve.reject('couldn\'t fetch repos');
-        else {
+        if (err) {resolve.reject('couldn\'t fetch repos');} else {
           var parsedRepos = [];
           _.forEach(repos, function(repo) {
             //var escapedRepoName = _.replace(repo.full_name, /\./g, '@@@');
@@ -755,4 +772,35 @@ function getNewFileFromPatch(patch) {
 
 function passParam(param) {
   return param;
+}
+
+// users is a field from organization user doc
+function getOrganizationTopAchievements(usernames, limit) {
+  return collections.users.aggregate([
+    {
+      $project: {
+        username: 1,
+        achievements: 1,
+        avatar: 1
+      }
+    },
+    {
+      $match: {
+        'username': {
+          $in: usernames
+        },
+      }
+    },
+    {
+      $unwind: '$achievements'
+    },
+    {
+      $sort: {
+        'achievements.grantedOn': 1
+      }
+    },
+    {
+      $limit: limit || 5
+    }
+  ]);
 }
