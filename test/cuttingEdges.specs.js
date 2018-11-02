@@ -1,8 +1,8 @@
 var cuttingEdge =
-  require('../achievements/cuttingEdge.achievement');
+  require('../achievements/cuttingEdges.achievement');
 var expect    = require('chai').expect;
 
-describe('Cutting Edge achievement', function() {
+describe('Cutting Edges achievement', function() {
   it('should not be granted if pull request is not merged', function() {
     var testShall = new Shall();
     var pullRequest = new PullRequest();
