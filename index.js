@@ -59,7 +59,7 @@ if (!port) {
 
 var publicFolder = __dirname + '/public';
 
-var enableNgrok = privateConfig.ngrok;
+var enableNgrok = (privateConfig.ngrok === undefined) ? true : JSON.parse(privateConfig.ngrok);
 var token = privateConfig.ngrokToken;
 
 //TEMP HEADERS FOR ANGULAR 2 TEST
