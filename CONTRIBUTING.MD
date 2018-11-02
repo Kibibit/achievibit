@@ -57,9 +57,5 @@ See [Supported Params](#supported-params) for more info
 
 # Running tests (WIP)
 
-`gulp test` will run
-- unit tests
-- REST-interface tests
-- clicktests.
-
-`gulp test:unittest` only runs the tests in the test/ folder, `gulp test:clicktest` runs only the tests in the clicktests/ folder. Install mocha (`npm install -g mocha`) to run specific tests in the test folder and get better stack traces: `mocha test/spec.git-api.js`.
+Run `npm test` to run unit tests.
+Install mocha (`npm install -g mocha`) to run specific tests in the test folder and get better stack traces: `mocha test/spec.git-api.js`.
