@@ -29,7 +29,7 @@
 2. click on ***Settings***
 3. on the sidebar, click on ***Webhooks***
 4. click on ***add webhook***
-5. paste achievibit's url (`http://achievibit.kibibit.io`) into the ***payload url***
+5. paste achievibit's url (`https://achievibit.kibibit.io`) into the ***payload url***
 6. change ***Content type*** to `application/json`
 7. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request` and `Pull request reviews`
 
