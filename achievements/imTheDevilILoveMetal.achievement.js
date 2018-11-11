@@ -18,8 +18,8 @@ var imTheDevilILoveMetal = {
 };
 
 function isSequenceOfSixes(number) {
-	const sequenceOfSixesRegEx = /^66+&/;
-	return sequenceOfSixesRegEx.test(`${number}`);
+	const sequenceOfSixesRegEx = new RegExp(/^6{2,}$/);
+	return sequenceOfSixesRegEx.test(number);
 }
 
 module.exports = imTheDevilILoveMetal;
