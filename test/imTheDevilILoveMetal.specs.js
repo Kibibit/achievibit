@@ -1,8 +1,8 @@
-var imTheDevilILoveMetal = require('../achievement/imTheDevilILoveMetal.achievement');
+var imTheDevilILoveMetal = require('../achievements/imTheDevilILoveMetal.achievement');
 var expect = require('chai').expect;
 
 describe('imTheDevilILoveMetal achievement', function() {
-	it('should be granted to PR creator if PR number is a sequence of 2 or more sixes (6)', function() {
+	it('should be granted to PR creator if PR number is a sequence of 2 sixes (6)', function() {
 		var testShall = new Shall();
 		var pullRequest = new PullRequest();
 
@@ -12,6 +12,20 @@ describe('imTheDevilILoveMetal achievement', function() {
 		expect(testShall.grantedToUsername).to.be.a('string');
 		expect(testShall.grantedToUsername).to.equal('creator');
 		expect(testShall.grantedAchievement).to.be.an('object');
+		console.log(`-${pullRequest.number}-`);
+	});
+
+	it('should be granted to PR creator if PR number is a sequence of more then 2 sixes (6)', function() {
+		var testShall = new Shall();
+		var pullRequest = new PullRequest();
+
+		pullRequest.number = 6666;
+
+		imTheDevilILoveMetal.check(pullRequest, testShall);
+		expect(testShall.grantedToUsername).to.be.a('string');
+		expect(testShall.grantedToUsername).to.equal('creator');
+		expect(testShall.grantedAchievement).to.be.an('object');
+		console.log(`-${pullRequest.number}-`);
 	});
 
 	it('should not grant if PR number is 6', function() {
@@ -23,6 +37,7 @@ describe('imTheDevilILoveMetal achievement', function() {
 		imTheDevilILoveMetal.check(pullRequest, testShall);
 		expect(testShall.grantedToUsername).to.not.exist;
 		expect(testShall.grantedToUsername).to.not.exist;
+		console.log(`-${pullRequest.number}-`);
 	});
 
 	it('should not grand if PR number is not only a sequence of sixes (6)', function() {
@@ -34,6 +49,7 @@ describe('imTheDevilILoveMetal achievement', function() {
 		imTheDevilILoveMetal.check(pullRequest, testShall);
 		expect(testShall.grantedToUsername).to.not.exist;
 		expect(testShall.grantedToUsername).to.not.exist;
+		console.log(`-${pullRequest.number}-`);
 	});
 
 	it('should not fail if PR number does not exist', function() {
@@ -57,7 +73,7 @@ function Shall() {
 		self.grantedToUsername = username;
 		self.grantedAchievement = achievementObject;
 	};
-}
+};
 
 function PullRequest() {
 	return {
@@ -66,5 +82,5 @@ function PullRequest() {
 		'creator': {
 			'username': 'creator'
 		}
-	}
+	};
 };
