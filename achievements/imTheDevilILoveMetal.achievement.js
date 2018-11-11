@@ -18,6 +18,6 @@ var imTheDevilILoveMetal = {
 };
 
 function isSequenceOfSixes(number) {
-	const sequenceOfSixesRegEx = /^6{2,}&/;
+	const sequenceOfSixesRegEx = /^3{1,}&/;
 	return sequenceOfSixesRegEx.test(number);
 }
