@@ -10,7 +10,7 @@ var imTheDevilILoveMetal = {
 					`Your pull request id ${pullRequest.number} summoned the devil himself`,
 					'I hope that code you submitted was a masterpice, or you\'re gonna gargle mayonnaise'
 					].join(''),
-					relatedPullRequest: pullRequest.id
+				relatedPullRequest: pullRequest.id
 			};
 			shall.grant(pullRequest.creator.username, achieve);
 		}
@@ -18,6 +18,8 @@ var imTheDevilILoveMetal = {
 };
 
 function isSequenceOfSixes(number) {
-	const sequenceOfSixesRegEx = /^3{1,}&/;
+	const sequenceOfSixesRegEx = new RegExp(/^6{2,}$/);
 	return sequenceOfSixesRegEx.test(number);
 }
+
+module.exports = imTheDevilILoveMetal;
