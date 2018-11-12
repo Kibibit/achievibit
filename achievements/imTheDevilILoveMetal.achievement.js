@@ -3,10 +3,10 @@ var imTheDevilILoveMetal = {
 	check: function(pullRequest, shall) {
 		if (isSequenceOfSixes(pullRequest.number)) {
 
-			var achieve = {
+			var achievement = {
 				avatar: 'images/achievements/iAmTheDevilILikeMetal.achievement.gif',
 				name: 'I\'m the Devil I Love Metal',
-				shirt: 'check this riff it\'s fucking tasty',
+				short: 'check this riff it\'s fucking tasty',
 				description: [
 					'Your pull request id ' + pullRequest.number,
 					' summoned the devil himself',
@@ -15,8 +15,8 @@ var imTheDevilILoveMetal = {
 					].join(''),
 				relatedPullRequest: pullRequest.id
 			};
-			
-			shall.grant(pullRequest.creator.username, achieve);
+
+			shall.grant(pullRequest.creator.username, achievement);
 		}
 	}
 };

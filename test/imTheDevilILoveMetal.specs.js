@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 
 describe('imTheDevilILoveMetal achievement', function() {
 	it(
-		'should not grant if PR number is 333',
+		'should not grant if PR number is a sequence of numbers other than 6',
 		function() {
 			var testShall = new Shall();
 			var pullRequest = new PullRequest();
