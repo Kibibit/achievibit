@@ -35,7 +35,7 @@ Now, go to your database homepage, and copy the database url. you need to enter 
 >You can also set global variables with the same names to set those permenantly. In Unixy environments: `export ngrokToken="<ngrok-token>"` || In Windows **powershell**: `$env:ngrokToken="<ngrok-token>"`
 
 4. if everything worked, you should see the `achievibit` logo, and an **ngrok url** under it.
-5. follow the instructions in the [`README.MD`](/README.MD) file to connect a test repository to your local achievibit (replace the url with your ngrok url). Make sure **Content type** is set to **application\json**
+5. follow the instructions in the [`README.md`](/README.md) file to connect a test repository to your local achievibit (replace the url with your ngrok url). Make sure **Content type** is set to **application\json**
 > ![connect repo](/screenshots/connect-to-repo.png)
 
 6. check that the achievement works on your database (your user got your achievement on your test repository).
