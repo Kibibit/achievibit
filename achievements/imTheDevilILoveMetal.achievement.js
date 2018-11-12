@@ -8,8 +8,8 @@ var imTheDevilILoveMetal = {
 				name: 'I\'m the Devil I Love Metal',
 				short: 'check this riff it\'s fucking tasty',
 				description: [
-					'Your pull request id ' + pullRequest.number,
-					' summoned the devil himself',
+					'Your pull request number ' + pullRequest.number,
+					' summoned the devil himself. ',
 					'I hope that code you submitted was a masterpiece, ',
 					'or you\'re gonna gargle mayonnaise'
 					].join(''),
