@@ -1,11 +1,9 @@
 WIP
 
 <p align="center">
-  <a href="https://achievibit.kibibit.io/" target="blank"><img src="http://Kibibit.io/kibibit-assets/SVG/achievibit.svg" width="150" alt="achievibit Logo" />
+  <a href="https://achievibit.kibibit.io/" target="blank"><img src="http://Kibibit.io/kibibit-assets/SVG/achievibit-text.svg" width="150" alt="achievibit Logo" />
   </a>
 </p>
-
-# achievibit
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Build Status](https://travis-ci.org/Kibibit/achievibit-new.svg?branch=master)](https://travis-ci.org/Kibibit/achievibit-new)
