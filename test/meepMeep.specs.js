@@ -10,7 +10,7 @@ describe('meepMeep achievement', function() {
     pullRequest.comments[0].createdOn = '2018-11-12T16:15:00Z';
 
     meepMeep.check(pullRequest,testShall);
-    //TO-DO      
+    //TO-DO
   });
 
   it('should grant if INLINE-COMMENT was within 5 minutes', function() {
