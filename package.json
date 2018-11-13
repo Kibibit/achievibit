@@ -1,69 +1,129 @@
 {
-  "name": "achievibit",
-  "version": "1.1.0",
-  "description": "achievement system for github's PRs",
-  "main": "index.js",
+  "name": "@kibibit/achievibit",
+  "version": "0.0.0-development",
+  "description": "Github Gamification - Achievements system as a GitHub WebHook",
+  "author": "neilkalman@gmail.com",
+  "license": "MIT",
   "scripts": {
-    "test": "./node_modules/.bin/nyc --reporter=html --reporter=text ./node_modules/.bin/mocha --reporter spec --reporter mochawesome",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "start": "node index.js",
-    "dev": "node index.js --testDB",
-    "debug": "node --inspect index.js"
+    "format": "prettier --write \"src/server/**/*.ts\"",
+    "start": "ts-node -r tsconfig-paths/register src/server/main.ts",
+    "start:dev": "nodemon",
+    "start:debug": "nodemon --config nodemon-debug.json",
+    "prestart:prod": "rimraf dist && tsc",
+    "start:prod": "node dist/main.js",
+    "start:hmr": "node dist/server",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "webpack": "webpack --config webpack.config.js",
+    "commit": "git-cz",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release",
+    "coveralls": "npm run test:cov && cat ./test-results/lcov.info | coveralls"
+  },
+  "dependencies": {
+    "@nestjs/common": "^5.1.0",
+    "@nestjs/core": "^5.1.0",
+    "@nestjs/swagger": "^2.5.1",
+    "pkginfo": "^0.4.1",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.2.2",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-angular": "^7.1.2",
+    "@nestjs/testing": "^5.1.0",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.5",
+    "@semantic-release/github": "^5.2.1",
+    "@semantic-release/npm": "^5.1.1",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.7.1",
+    "@types/supertest": "^2.0.5",
+    "commitizen": "^3.0.4",
+    "coveralls": "^3.0.2",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^1.1.3",
+    "jest": "^23.5.0",
+    "jest-html-reporter": "^2.4.2",
+    "nodemon": "^1.18.3",
+    "prettier": "^1.14.2",
+    "rimraf": "^2.6.2",
+    "semantic-release": "^15.10.8",
+    "supertest": "^3.1.0",
+    "travis-deploy-once": "^5.0.9",
+    "ts-jest": "^23.1.3",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.5.0",
+    "tslint": "5.11.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/git",
+        {
+          "assets": false,
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/github",
+      "@semantic-release/npm"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "jest": {
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "clover",
+      "html"
+    ],
+    "coverageDirectory": "../../test-results",
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporter",
+        {
+          "pageTitle": "achievibit's Test Report",
+          "outputPath": "./test-results/test-report.html"
+        }
+      ]
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src/server",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "testEnvironment": "node"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Kibibit/achievibit.git"
-  },
-  "author": "neilkalman@gmail.com",
-  "license": "ISC",
-  "dependencies": {
-    "async": "^2.1.4",
-    "body-parser": "^1.15.2",
-    "colors": "^1.1.2",
-    "compression": "^1.6.2",
-    "eslint": "^4.2.0",
-    "eslint-plugin-kibibit": "github:kibibit/eslint-plugin-kibibit",
-    "eslint-plugin-lodash": "^2.3.3",
-    "express": "^4.14.0",
-    "express-swagger-generator": "^1.0.4",
-    "firebase-admin": "^5.1.0",
-    "gh-badges": "^1.3.0",
-    "gist-sync": "Thatkookooguy/gist-sync",
-    "githubhook": "^1.6.1",
-    "gulp": "^3.9.1",
-    "gulp-util": "^3.0.7",
-    "helmet": "^3.1.0",
-    "heroku-ssl-redirect": "0.0.4",
-    "http-auth": "^3.1.1",
-    "js-schema": "^1.0.1",
-    "lodash": "^4.16.6",
-    "moment": "^2.15.2",
-    "mongodb": "^3.0.0",
-    "monk": "^6.0.1",
-    "monkey-js": "thatkookooguy/monkey-js",
-    "nconf": "^0.10.0",
-    "ngrok": "^3.0.0",
-    "node-rest-client": "^3.0.5",
-    "nunjucks": "^3.1.3",
-    "octonode": "^0.9.2",
-    "q": "^1.5.0",
-    "request": "^2.87.0",
-    "require-all": "^2.0.0",
-    "scribe-js": "Thatkookooguy/Scribe.js",
-    "serve-favicon": "^2.3.0",
-    "socket.io": "^2.0.3",
-    "swagger-jsdoc": "^1.9.7",
-    "swagger-ui-express": "^3.0.1",
-    "tinycolor2": "^1.4.1"
-  },
-  "devDependencies": {
-    "chai": "^4.1.0",
-    "coveralls": "^3.0.0",
-    "jsonfile": "^4.0.0",
-    "mocha": "^5.0.0",
-    "mochawesome": "^3.0.0",
-    "mock-require": "^3.0.0",
-    "nyc": "^11.0.3",
-    "proxyquire": "^1.8.0"
+    "url": "https://github.com/Kibibit/achievibit-new.git"
   }
 }

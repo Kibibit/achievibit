@@ -1,0 +1,29 @@
+# Configuration for new-issue-welcome - https://github.com/behaviorbot/new-issue-welcome
+
+# Comment to be posted to on first time issues
+newIssueWelcomeComment: >
+  Thanks for opening your first issue here! Be sure to follow the issue template!
+
+  ![welcome](https://cdn.dribbble.com/users/27231/screenshots/2432051/welcome.gif)
+
+# Configuration for new-pr-welcome - https://github.com/behaviorbot/new-pr-welcome
+
+# Comment to be posted to on PRs from first time contributors in your repository
+newPRWelcomeComment: >
+  Thanks for opening this pull request! Please check out our contributing guidelines.
+
+  ![welcome](https://cdn.dribbble.com/users/27231/screenshots/2432051/welcome.gif)
+
+# Configuration for first-pr-merge - https://github.com/behaviorbot/first-pr-merge
+
+# Comment to be posted to on pull requests merged by a first time user
+firstPRMergeComment: >
+  Congrats on merging your first pull request! We are so proud of you!
+
+  ![congratz](https://media.giphy.com/media/l2Sqir5ZxfoS27EvS/giphy.gif)
+  
+  Hope you got a few achievements 👏 👏 👏
+  
+  Come again!
+
+# It is recommend to include as many gifs and emojis as possible

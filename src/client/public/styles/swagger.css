@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Righteous');
+
+body {
+  background: rgba(55, 55, 55, 1);
+  --get-color: #209cee;
+  --post-color: hsl(141, 71%, 48%);
+  --dark-post-color: hsl(141, 71%, 35%);
+  --lighter-put-color: hsl(48, 100%, 67%);
+  --put-color: hsl(34, 99%, 67%);
+  --delete-color: hsl(348, 100%, 61%);
+  --dark-delete-color: hsl(348, 63%, 48%);
+  --section-color: var(--dark-post-color);
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  --main-text-color: whitesmoke;
+  --second-text-color: #212121;
+  --darker-shade: rgba(0, 0, 0, 0.2);
+}
+
+/* change swagger logo in topnav */
+.swagger-ui .topbar .topbar-wrapper::before {
+  content: url(../assets/icons/swagger-ui.svg);
+  width: 2rem;
+  height: 2rem;
+}
+
+.swagger-ui .topbar a > img {
+  display: none;
+}
+/* END */
+
+/* Allow topnav text to be bigger than default */
+.swagger-ui .topbar a {
+  max-width: none;
+}
+/* END */
+
+.swagger-ui .topbar a span::before {
+  content: 'kibibit\'s';
+  display: inline;
+  padding: 0 10px 0 0;
+  font-family: 'Righteous', cursive;
+  letter-spacing: 0.05em;
+}
+
+.swagger-ui .topbar a span::after {
+  content: 'API documentation';
+  display: inline;
+  padding: 0 10px;
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .topbar {
+  /* ffdd57 */
+  background-color: var(--second-text-color);
+}
+
+.swagger-ui .info .title {
+  font-family: 'Comfortaa', cursive;
+  color: var(--main-text-color);
+}
+
+.swagger-ui,
+.swagger-ui .info .base-url,
+.swagger-ui .info a,
+.swagger-ui .opblock-tag {
+  font-family: 'Comfortaa', cursive;
+  color: var(--main-text-color);
+}
+
+.swagger-ui .opblock .opblock-summary-path {
+  color: var(--put-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock .opblock-summary-description,
+.swagger-ui .opblock-description-wrapper,
+.swagger-ui .response-col_status,
+.swagger-ui table thead tr td,
+.swagger-ui table thead tr th,
+.swagger-ui .opblock-description-wrapper p,
+.swagger-ui .opblock-external-docs-wrapper p,
+.swagger-ui .opblock-title_normal p {
+  color: var(--main-text-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .btn.execute {
+  background-color: var(--post-color);
+  border-color: var(--post-color);
+  border-radius: 0;
+}
+
+.swagger-ui .btn.execute:hover {
+  background-color: var(--main-text-color);
+  border-color: var(--main-text-color);
+  border-radius: 0;
+  color: var(--post-color);
+}
+
+.swagger-ui .opblock.opblock-post .btn.execute {
+  background-color: var(--dark-post-color);
+  border-color: var(--dark-post-color);
+  color: var(--main-text-color);
+  border-radius: 0;
+}
+
+.swagger-ui .opblock.opblock-post .btn.execute:hover {
+  background-color: var(--main-text-color);
+  border-color: var(--main-text-color);
+  border-radius: 0;
+  color: var(--dark-post-color);
+}
+
+.swagger-ui .info a {
+  color: var(--get-color);
+}
+
+.swagger-ui .opblock .opblock-summary::after {
+  width: 27px;
+  height: 27px;
+  transform: translate3d(-18px, 0, 0) rotate(-90deg);
+  content: url(../assets/icons/original_caret.svg);
+}
+
+.swagger-ui .opblock.is-open .opblock-summary::after {
+  transform: translate3d(-18px, 0, 0);
+  content: url(../assets/icons/original_caret.svg);
+}
+
+.swagger-ui .opblock {
+  border: none;
+}
+
+.swagger-ui .opblock .opblock-section-header {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--main-text-color);
+}
+
+.swagger-ui .opblock .opblock-section-header h4,
+.swagger-ui .opblock .opblock-section-header label {
+  color: var(--main-text-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock.opblock-get {
+  background: var(--get-color);
+  border-radius: 0;
+  border-color: var(--get-color);
+}
+
+.swagger-ui .opblock.opblock-post {
+  background: var(--post-color);
+  border-radius: 0;
+  border-color: var(--post-color);
+}
+
+.swagger-ui .opblock.opblock-put {
+  background: var(--put-color);
+  border-radius: 0;
+  border-color: var(--put-color);
+}
+
+.swagger-ui .opblock.opblock-delete {
+  background: var(--delete-color);
+  border-radius: 0;
+  border-color: var(--delete-color);
+}
+
+.swagger-ui .prop-type {
+  font-family: 'Comfortaa', cursive;
+  color: var(--section-color);
+}
+
+.swagger-ui section.models {
+  background: var(--section-color);
+  border-radius: 0;
+  border-color: var(--section-color);
+}
+
+.swagger-ui section.models h4 {
+  color: var(--main-text-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui section.models h4 svg {
+  transform: translateX(-6px);
+}
+
+.swagger-ui section.models .model-container {
+  background: var(--main-text-color);
+}
+
+.swagger-ui section.models .model-container:hover {
+  background: var(--main-text-color);
+}
+
+/* .swagger-ui section.models .model-container:hover {
+  background: var();
+} */
+
+.swagger-ui .opblock.opblock-post .opblock-summary-path {
+  color: var(--second-text-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary-path {
+  color: var(--section-color);
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock .opblock-summary-method {
+  background: var(--darker-shade) !important;
+  border-radius: 0;
+}
+
+.swagger-ui .parameter__name {
+  display: flex;
+  align-items: center;
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .parameter__name.required > span {
+  display: none;
+}
+
+.swagger-ui .model-box .model td > span:not(.model) {
+  color: transparent !important;
+}
+
+.swagger-ui .model-box .model td > span:not(.model)::after {
+  content: 'required';
+  font-size: 0.9em;
+}
+
+.swagger-ui .parameter__name.required::after,
+.swagger-ui .model-box .model td > span:not(.model)::after {
+  font-family: 'Comfortaa', cursive;
+  align-items: center;
+  background-color: var(--main-text-color);
+  border-radius: 0.3em;
+  color: var(--delete-color);
+  display: inline-flex;
+  height: 2em;
+  justify-content: center;
+  line-height: 1.5;
+  padding-left: .75em;
+  padding-right: .75em;
+  white-space: nowrap;
+  top: 0;
+  margin: 0 0.6em;
+}
+
+
+.swagger-ui input[type=email],
+.swagger-ui input[type=password],
+.swagger-ui input[type=search],
+.swagger-ui input[type=text] {
+  font-family: 'Comfortaa', cursive;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--placeholder-color);
+  border-radius: 0;
+  color: var(--placeholder-color);
+  padding: 8px 0;
+}
+
+.swagger-ui input[type=email]:focus,
+.swagger-ui input[type=password]:focus,
+.swagger-ui input[type=search]:focus,
+.swagger-ui input[type=text]:focus {
+  border-bottom: 2px solid var(--main-text-color);
+  color: var(--main-text-color);
+}
+
+.swagger-ui input[type=email]::placeholder,
+.swagger-ui input[type=password]::placeholder,
+.swagger-ui input[type=search]::placeholder,
+.swagger-ui input[type=text]::placeholder {
+  color: var(--placeholder-color);
+}
+
+.swagger-ui select {
+  font-family: 'Comfortaa', cursive;
+  padding: 5px 40px 5px 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 2px solid var(--main-text-color);
+  background-color: transparent;
+  background-image: url(../assets/icons/original_caret_white.svg);
+  background-size: 1em;
+  box-shadow: none;
+  color: var(--main-text-color);
+}
+
+.swagger-ui .btn {
+  font-family: 'Comfortaa', cursive;
+  border-color: var(--main-text-color);
+  border-radius: 0;
+  color: var(--main-text-color);
+  transition: all 250ms;
+}
+
+.swagger-ui .btn.cancel {
+  font-family: 'Comfortaa', cursive;
+  border-color: var(--delete-color);
+  color: var(--main-text-color);
+  background-color: var(--delete-color);
+}
+
+.swagger-ui .btn.cancel:hover {
+  color: var(--main-text-color);
+  background-color: var(--dark-delete-color);
+  border-color: var(--dark-delete-color);
+}
+
+.swagger-ui .btn:hover {
+  background-color: var(--main-text-color);
+  color: var(--second-text-color);
+}
+
+.swagger-ui .scheme-container {
+  background: var(--section-color);
+}
+
+.swagger-ui .btn.authorize {
+  /* background-color: var(--put-color); */
+  border-color: var(--put-color);
+  color: var(--put-color);
+}
+
+.swagger-ui .btn.authorize svg {
+  fill: var(--put-color);
+  transition: all 250ms;
+}
+
+.swagger-ui .btn.authorize:hover {
+  background-color: var(--put-color);
+  border-color: var(--put-color);
+  color: var(--main-text-color);
+}
+
+.swagger-ui .btn.authorize:hover svg {
+  fill: var(--main-text-color);
+}
+
+.swagger-ui table tbody tr td {
+  font-size: 0.8em;
+}
+
+code {
+  padding: 0 0.2em;
+  background: var(--main-text-color);
+  color: var(--second-text-color);
+  border-radius: 0.2em;
+}
+
+.swagger-ui .expand-methods svg,
+.swagger-ui .expand-operation svg {
+  fill: var(--main-text-color);
+}
