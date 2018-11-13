@@ -5,7 +5,7 @@ var meepMeep = {
   name: 'Meep Meep',
   check: function(pullRequest, shall) {
     var earliestComment = getEarlierComment(pullRequest);
-    
+
     if (isCommentedInTime(pullRequest.createdOn, earliestComment)) {
 
         var achievement = {

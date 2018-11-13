@@ -5,11 +5,11 @@ describe('meepMeep achievement', function() {
   it('should grant if COMMENT was within 5 minutes', function() {
     var testShall = new Shall();
     var pullRequest = new PullRequest();
-    
+
     pullRequest.createdOn = '2018-11-12T16:10:30Z';
     pullRequest.comments.push(createComment('2018-11-12T16:15:00Z'));
 
-    meepMeep.check(pullRequest,testShall);
+    meepMeep.check(pullRequest, testShall);
     expect(testShall.grantedAchievements.creator).to.not.exist;
     expect(testShall.grantedAchievements.normalComment).to.exist;
     expect(testShall.grantedAchievements.normalComment).to.be.an('object');
@@ -36,7 +36,7 @@ describe('meepMeep achievement', function() {
     pullRequest.comments.push(createComment('2018-11-12T16:15:00Z'));
     pullRequest.inlineComments.push(createInlineComment('2018-11-12T16:15:01Z'));
 
-    meepMeep.check(pullRequest,testShall);
+    meepMeep.check(pullRequest, testShall);
     expect(testShall.grantedAchievements.creator).to.not.exist;
     expect(testShall.grantedAchievements.normalComment).to.exist;
     expect(testShall.grantedAchievements.normalComment).to.be.an('object');
@@ -51,7 +51,7 @@ describe('meepMeep achievement', function() {
     pullRequest.inlineComments.push(createInlineComment('2018-11-12T16:15:00Z'));
     pullRequest.comments.push(createComment('2018-11-12T16:15:01Z'));
 
-    meepMeep.check(pullRequest,testShall);
+    meepMeep.check(pullRequest, testShall);
     expect(testShall.grantedAchievements.creator).to.not.exist;
     expect(testShall.grantedAchievements.inlineComment).to.exist;
     expect(testShall.grantedAchievements.inlineComment).to.be.an('object');
@@ -66,7 +66,7 @@ describe('meepMeep achievement', function() {
     pullRequest.comments.push(createComment('2018-11-12T18:15:00Z'));
     pullRequest.inlineComments.push(createInlineComment('2018-11-12T18:15:01Z'));
 
-    meepMeep.check(pullRequest,testShall);
+    meepMeep.check(pullRequest, testShall);
     expect(testShall.grantedAchievements.creator).to.not.exist;
     expect(testShall.grantedAchievements.normalComment).to.not.exist;
     expect(testShall.grantedAchievements.inlineComment).to.not.exist;
@@ -76,7 +76,7 @@ describe('meepMeep achievement', function() {
     var testShall = new Shall();
     var pullRequest = new PullRequest();
 
-    meepMeep.check(pullRequest,testShall);
+    meepMeep.check(pullRequest, testShall);
     expect(testShall.grantedAchievements.creator).to.not.exist;
     expect(testShall.grantedAchievements.normalComment).to.not.exist;
     expect(testShall.grantedAchievements.inlineComment).to.not.exist;
