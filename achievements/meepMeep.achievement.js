@@ -4,13 +4,9 @@ var moment = require('moment');
 var meepMeep = {
   name: 'Meep Meep',
   check: function(pullRequest, shall) {
-
     var earliestComment = getEarlierComment(pullRequest);
     
-
-    if (
-      earliestComment &&
-      isCommentedInTime(pullRequest, earliestComment)) {
+    if (isCommentedInTime(pullRequest.createdOn, earliestComment)) {
 
         var achievement = {
           avatar: 'images/achievements/meepMeep.achievement.gif',
@@ -38,9 +34,12 @@ function getEarlierComment(pullRequest) {
   return moment(inlineCreated).isBefore(regularCreated) ? inline : regular;
 }
 
-function isCommentedInTime(pullRequest, earliestComment) {
-  var timeLimit = moment(pullRequest.createdOn).add(5, 'minutes');
-  return moment(earliestComment.createdOn).isBefore(timeLimit);
+function isCommentedInTime(prCreatedTime, earliestComment) {
+  if (earliestComment) {
+    var timeLimit = moment(prCreatedTime).add(5, 'minutes');
+    return moment(earliestComment.createdOn).isBefore(timeLimit);
+  }
+  return false;
 }
 
 module.exports = meepMeep;

@@ -81,8 +81,6 @@ describe('meepMeep achievement', function() {
     expect(testShall.grantedAchievements.normalComment).to.not.exist;
     expect(testShall.grantedAchievements.inlineComment).to.not.exist;
   })
-
-  it
 })
 
 function createComment(dateString) {
