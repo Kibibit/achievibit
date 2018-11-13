@@ -1,24 +1,16 @@
+var _ = require('lodash');
+var moment = require('moment');
 
 var meepMeep = {
   name: 'Meep Meep',
   check: function(pullRequest, shall) {
 
-    var earliestComment = null;
-
-    if (pullRequest.comments != [] && pullRequest.inlineComments != []) {
-      earliestComment = getEarlierComment(
-        pullRequest.comments[0],
-        pullRequest.inlineComments[0]
-      );
-    } else if (pullRequest.comments != []) {
-      earliestComment = pullRequest.comments[0];
-    } else if (pullRequest.inlineComments != []) {
-      earliestComment = pullRequest.inlineComments[0];
-    }
+    var earliestComment = getEarlierComment(pullRequest);
+    
 
     if (
       earliestComment &&
-      isCommentedInTime(pullRequest.createdOn, earliestComment.createdOn)) {
+      isCommentedInTime(pullRequest, earliestComment)) {
 
         var achievement = {
           avatar: 'images/achievements/meepMeep.achievement.gif',
@@ -36,17 +28,19 @@ var meepMeep = {
   }
 };
 
-function getEarlierComment(commentA, commentB) {
-  return new Date(commentA.createdOn) < new Date(commentB.createdOn) ? commentA : commentB;
+function getEarlierComment(pullRequest) {
+  var inline = _.first(pullRequest.inlineComments);
+  var regular = _.first(pullRequest.comments)
+
+  var inlineCreated = _.get(inline, 'createdOn');
+  var regularCreated = _.get(regular, 'createdOn');
+
+  return moment(inlineCreated).isBefore(regularCreated) ? inline : regular;
 }
 
-function isCommentedInTime(pullRequestDateString, commentDateString) {
-
-  const pullRequestDate = new Date(pullRequestDateString);
-  const achievementTimeLimit = pullRequestDate.getTime() + 5*60000;
-  const commentTime = new Date(commentDateString).getTime();
-
-  return commentTime < achievementTimeLimit;  
+function isCommentedInTime(pullRequest, earliestComment) {
+  var timeLimit = moment(pullRequest.createdOn).add(5, 'minutes');
+  return moment(earliestComment.createdOn).isBefore(timeLimit);
 }
 
 module.exports = meepMeep;
