@@ -28,7 +28,7 @@ describe('meepMeep achievement', function() {
     expect(testShall.grantedAchievements.inlineComment).to.be.an('object');   
   });
 
-  it('should grant to COMMENT if was before INLINE-COMMENT within 5 minutes', function() {
+  it('should grant to COMMENT if was before INLINE-COMMENT and within 5 minutes', function() {
     var testShall = new Shall();
     var pullRequest = new PullRequest();
 
@@ -43,7 +43,7 @@ describe('meepMeep achievement', function() {
     expect(testShall.grantedAchievements.inlineComment).to.not.exist;
   });
 
-  it('should grant to INLINE-COMMENT if was before COMMENT within 5 minutes', function() {
+  it('should grant to INLINE-COMMENT if was before COMMENT and within 5 minutes', function() {
     var testShall = new Shall();
     var pullRequest = new PullRequest();
 
