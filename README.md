@@ -9,7 +9,7 @@ WIP
 [![Build Status](https://travis-ci.org/Kibibit/achievibit-new.svg?branch=master)](https://travis-ci.org/Kibibit/achievibit-new)
 [![Coverage Status](https://coveralls.io/repos/github/Kibibit/achievibit-new/badge.svg)](https://coveralls.io/github/Kibibit/achievibit-new)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ede30ddc2d84311b420dd661aca5f4b)](https://www.codacy.com/app/neilkalman/achievibit-new?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kibibit/achievibit-new&amp;utm_campaign=Badge_Grade)
-[![Subscriptions This Month](https://img.shields.io/endpoint.svg?url=https://monthly-salt-lovevyhq0.now.sh/&style=flat-square)](https://salt.bountysource.com/teams/kibibit)
+[![Subscriptions This Month](https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square)](https://salt.bountysource.com/teams/kibibit)
 
 ## Description
 
