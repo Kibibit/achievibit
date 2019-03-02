@@ -4,6 +4,7 @@
   "description": "Github Gamification - Achievements system as a GitHub WebHook",
   "author": "neilkalman@gmail.com",
   "license": "MIT",
+  "homepage": "https://achievibit.kibibit.io/",
   "scripts": {
     "format": "prettier --write \"src/server/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/server/main.ts",
