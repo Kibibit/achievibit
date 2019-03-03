@@ -10,7 +10,7 @@
   <a href="https://coveralls.io/github/Kibibit/achievibit?branch=master"><img src="https://coveralls.io/repos/github/Kibibit/achievibit/badge.svg?branch=master"></a>
   <a href="https://www.codacy.com/app/neilkalman/achievibit-new?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Kibibit/achievibit-new&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/6ede30ddc2d84311b420dd661aca5f4b"></a>
   <a href="#contributors"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg"></a>
-  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh&style=flat-square"></a>
+  <a href="https://salt.bountysource.com/teams/kibibit"><img src="https://img.shields.io/endpoint.svg?url=https://monthly-salt.now.sh/kibibit&style=flat-square"></a>
 </p>
 <p align="center">
   Github Gamification - Achievements system as a GitHub WebHook.
