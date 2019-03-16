@@ -25,7 +25,7 @@
     "coveralls": "npm run test:cov && cat ./test-results/lcov.info | coveralls"
   },
   "dependencies": {
-    "@nestjs/common": "^5.1.0",
+    "@nestjs/common": "^6.0.0",
     "@nestjs/core": "^5.1.0",
     "@nestjs/swagger": "^2.5.1",
     "pkginfo": "^0.4.1",
