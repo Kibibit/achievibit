@@ -22,7 +22,9 @@
     "commit": "git-cz",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release",
-    "coveralls": "npm run test:cov && cat ./test-results/lcov.info | coveralls"
+    "coveralls": "npm run test:cov && cat ./test-results/lcov.info | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
@@ -31,7 +33,8 @@
     "pkginfo": "^0.4.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
@@ -126,5 +129,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Kibibit/achievibit-new.git"
-  }
+  },
+  "snyk": true
 }
