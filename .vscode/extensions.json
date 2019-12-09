@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "msjsdiag.debugger-for-chrome",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "eamodio.gitlens",
+    "wix.vscode-import-cost",
+    "Orta.vscode-jest",
+    "wayou.vscode-todo-highlight",
+    "MS-vsliveshare.vsliveshare",
+    "robertohuertasm.vscode-icons",
+    "EliverLara.andromeda",
+    "github.vscode-pull-request-github",
+    "coenraads.bracket-pair-colorizer"
+  ]
+}

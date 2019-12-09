@@ -1,0 +1,74 @@
+{
+  // Editor
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.rulers": [80],
+  "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+  "editor.matchBrackets": true,
+  // Terminal
+  "terminal.integrated.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 12,
+  // Workbench
+  "workbench.colorTheme": "Andromeda",
+  "workbench.editor.showIcons": true,
+  "workbench.iconTheme": "vs-seti",
+  // Bracket Pair Colorizer
+  "bracketPairColorizer.colorMode": "Consecutive",
+  "bracketPairColorizer.forceUniqueOpeningColor": true,
+  "bracketPairColorizer.showBracketsInGutter": true,
+  // Misc
+  "files.insertFinalNewline": true,
+  "githubPullRequests.includeRemotes": "all",
+  "eslint.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "jshint.enable": false,
+  "cSpell.enabled": false,
+  // Jest
+  "jest.autoEnable": true,
+  "jest.coverageFormatter": "DefaultFormatter",
+  "jest.debugCodeLens.showWhenTestStateIn": [
+    "fail",
+    "unknown"
+  ],
+  "jest.debugMode": false,
+  "jest.enableCodeLens": true,
+  "jest.enableInlineErrorMessages": true,
+  "jest.enableSnapshotPreviews": true,
+  "jest.enableSnapshotUpdateMessages": true,
+  "jest.pathToConfig": "",
+  "jest.pathToJest": "npm test --",
+  "jest.restartJestOnSnapshotUpdate": false,
+  "jest.rootPath": "",
+  "jest.runAllTestsFirst": true,
+  "jest.showCoverageOnLoad": true,
+  // Todo Highlight
+  "todohighlight.isEnable": true,
+  "todohighlight.keywords": [
+    "TODO",
+    "NOTE",
+    {
+      "text": "BEWARE",
+      "color": "#ff3860",
+      "backgroundColor": "rgba(255, 221, 87, 1)",
+      "overviewRulerColor": "grey"
+    }
+  ],
+  "todohighlight.isCaseSensitive": true,
+  "todohighlight.defaultStyle": {
+    "color": "#ffdd57",
+    "backgroundColor": "rgba(128,0,128, 1)",
+    "overviewRulerColor": "rgba(128,0,128, 1)",
+    "borderRadius": "2px",
+    "isWholeLine": true,
+  },
+  "window.title": "${activeEditorShort}${separator}${rootName} [kibibit]",
+  "workbench.colorCustomizations": {
+    "titleBar.activeForeground": "#ffdd57"
+  }
+}
