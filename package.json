@@ -66,6 +66,10 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@kb-modules/(.*)$": "<rootDir>/modules/$1",
+      "^@kb-models/(.*)$": "<rootDir>/models/$1"
+    }
   }
 }

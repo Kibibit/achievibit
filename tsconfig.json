@@ -9,8 +9,12 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "incremental": true,
     "baseUrl": "./",
-    "incremental": true
+    "paths": {
+      "@kb-modules/*": ["src/modules/*"],
+      "@kb-models/*": ["src/models/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }
