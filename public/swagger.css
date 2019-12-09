@@ -192,7 +192,7 @@ body {
   border-color: var(--delete-color);
 }
 
-.swagger-ui .prop-type {
+.swagger-ui .model-example .prop-type {
   font-family: 'Comfortaa', cursive;
   color: greenyellow;
 }
