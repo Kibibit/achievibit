@@ -2,30 +2,14 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
-    "noImplicitAny": false,
     "removeComments": true,
-    "noLib": false,
-    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
+    "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src/server",
-    "paths": {
-      "@achievibit.modules": ["modules/database"],
-      "@achievibit.database": ["modules/database"],
-      "@achievibit.config": ["modules/config"],
-      "@achievibit.events": ["modules/events"],
-      "@shared/*": ["../shared/*"],
-      "@achievibit/*": ["*/"]
-    }
+    "baseUrl": "./",
+    "incremental": true
   },
-  "include": [
-    "src/server/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["node_modules", "dist"]
 }
