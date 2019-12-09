@@ -80,9 +80,17 @@ body {
 .swagger-ui,
 .swagger-ui .info .base-url,
 .swagger-ui .info a,
-.swagger-ui .opblock-tag {
+.swagger-ui .opblock-tag,
+.swagger-ui .download-contents {
   font-family: 'Comfortaa', cursive;
   color: var(--main-text-color);
+}
+
+.swagger-ui .download-contents {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .swagger-ui .opblock .opblock-summary-path {
@@ -186,7 +194,7 @@ body {
 
 .swagger-ui .prop-type {
   font-family: 'Comfortaa', cursive;
-  color: var(--section-color);
+  color: greenyellow;
 }
 
 .swagger-ui section.models {

@@ -1,10 +1,12 @@
-import { NestFactory, NestApplication } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { join } from 'path';
-import { readFileSync } from 'fs-extra';
+import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { readFileSync } from 'fs-extra';
+import { join } from 'path';
+
+import { AppModule } from './app.module';
+import { PackageDetailsDto } from './models/package-details.model';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -12,10 +14,13 @@ async function bootstrap() {
     whitelist: true
   }));
 
+  const packageDetails: PackageDetailsDto =
+    await app.get('AppService').getPackageDetails();
+
   const options = new DocumentBuilder()
-    .setTitle('achievibit')
+    .setTitle(packageDetails.name)
     .setDescription('The achievibit API description')
-    .setVersion('1.0')
+    .setVersion(packageDetails.version)
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
