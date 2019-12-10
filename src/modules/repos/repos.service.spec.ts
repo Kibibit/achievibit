@@ -2,7 +2,7 @@ import { REPO_MODEL_NAME, RepoSchema } from '@kb-models/repo.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TestDatabaseModule } from '../../db-test.module';
+import { TestDatabaseModule, closeDatabase } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { ReposService } from './repos.service';
 
@@ -19,6 +19,10 @@ describe('ReposService', () => {
     }).compile();
 
     service = module.get<ReposService>(ReposService);
+  });
+
+  afterEach(async () => {
+    await closeDatabase();
   });
 
   it('should be defined', () => {

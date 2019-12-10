@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { isEqual, includes, find } from 'lodash';
 
-import { TestDatabaseModule } from '../../db-test.module';
+import { TestDatabaseModule, closeDatabase } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { UsersService } from './users.service';
 
@@ -22,6 +22,10 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
+  });
+
+  afterEach(async () => {
+    await closeDatabase();
   });
 
   it('should be defined', async () => {
