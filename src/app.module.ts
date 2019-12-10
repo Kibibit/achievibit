@@ -3,9 +3,10 @@ import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ReposModule } from './modules/repos/repos.module';
 
 @Module({
-  imports: [ UsersModule ],
+  imports: [ UsersModule, ReposModule ],
   controllers: [ AppController ],
   providers: [ AppService ]
 })
