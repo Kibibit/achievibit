@@ -1,0 +1,31 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+node_js:
+  - "8.3"
+notifications:
+  email: false
+script:
+  - npm run test
+stages:
+  # - compile
+  - test
+  - deploy
+jobs:
+  include:
+    - stage: test
+      node_js: lts/*
+      script:
+        - npm run build
+        - npm run test:cov
+        # - npm run coveralls
+    # - stage: release
+    #   node_js: lts/*
+    #   script:
+    #     - npm run build
+    #     - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
