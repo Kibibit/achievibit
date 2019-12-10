@@ -1,9 +1,13 @@
+import { USER_MODEL_NAME, UserSchema } from '@kb-models/user.model';
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { MongooseModule } from '@nestjs/mongoose';
+
 import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
 @Module({
-  providers: [UsersService],
-  controllers: [UsersController]
+  imports: [ MongooseModule.forFeature([ { name: USER_MODEL_NAME, schema: UserSchema } ]) ],
+  providers: [ UsersService ],
+  controllers: [ UsersController ]
 })
-export class UsersModule {}
+export class UsersModule { }

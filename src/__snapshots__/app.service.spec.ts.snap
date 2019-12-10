@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppService should return package info 1`] = `
+Object {
+  "author": "",
+  "browserslist": undefined,
+  "bugs": undefined,
+  "contributors": undefined,
+  "description": "",
+  "engines": undefined,
+  "homepage": undefined,
+  "keywords": undefined,
+  "license": "MIT",
+  "name": "achievibit",
+  "repository": undefined,
+  "version": "0.0.1",
+}
+`;

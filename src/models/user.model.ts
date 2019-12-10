@@ -2,8 +2,14 @@ import { Achievement, AchievementSchema } from '@kb-models/achievement.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Schema } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
+export const USER_MODEL_NAME = 'User';
+
+/** serves as an example for now on how to define this.
+ * This won't actually create users in our public API since we only create
+ * a user "reference" object from\to our github oAuth users.
+ */
 export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
@@ -62,3 +68,12 @@ export const UserSchema = new Schema({
 }, {
   collation: { locale: 'en_US', strength: 2 }
 });
+
+export interface IUser extends Document {
+  readonly username: string;
+  readonly url: string;
+  readonly avatar: string;
+  readonly organization: boolean;
+  readonly users?: string[];
+  readonly repos: string[];
+}
