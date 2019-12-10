@@ -9,6 +9,8 @@ import { PackageDetailsDto } from './models/package-details.model';
 export class AppService {
   private packagePromise: Promise<PackageDetailsDto>;
 
+  appRoot = findRoot(__dirname);
+
   async getPackageDetails(): Promise<PackageDetailsDto> {
     if (this.packagePromise) { return this.packagePromise; }
 
@@ -18,9 +20,9 @@ export class AppService {
   }
 
   private async getPackageDetailsPromise(): Promise<PackageDetailsDto> {
-    const root = findRoot(__dirname);
+    this.appRoot = findRoot(__dirname);
 
-    const packageInfo = await readJSON(join(root, 'package.json'));
+    const packageInfo = await readJSON(join(this.appRoot, 'package.json'));
 
     return new PackageDetailsDto(packageInfo);
   }

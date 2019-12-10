@@ -1,6 +1,6 @@
 import { RepoDto } from '@kb-models/repo.model';
-import { ClassSerializerInterceptor, Controller, Get, Logger, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ClassSerializerInterceptor, Controller, Get, HttpStatus, Logger, UseInterceptors } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { ReposService } from './repos.service';
 
@@ -14,6 +14,12 @@ export class ReposController {
 
   @Get()
   @ApiOperation({ summary: 'Get all repos' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: RepoDto,
+    isArray: true,
+    description: 'returns all existing repos'
+  })
   async getAllRepos(): Promise<RepoDto[]> {
     return this.reposService.findAll();
   }
