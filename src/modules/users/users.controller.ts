@@ -23,7 +23,7 @@ export class UsersController {
 
   @Get('/:username')
   @ApiOperation({ summary: 'Get the user profile page in HTML' })
-  @Render('user-profile')
+  @Render('user-profile.njk')
   async getUser(@Param('username') username: string): Promise<{ user: UserDto, achievements: any[] }> {
     const user = await this.usersService.findOne(username);
 

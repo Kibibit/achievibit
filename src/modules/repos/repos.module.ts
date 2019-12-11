@@ -8,6 +8,7 @@ import { ReposService } from './repos.service';
 @Module({
   imports: [ MongooseModule.forFeature([ { name: REPO_MODEL_NAME, schema: RepoSchema } ]) ],
   providers: [ ReposService ],
-  controllers: [ ReposController ]
+  controllers: [ ReposController ],
+  exports: [ ReposService ]
 })
 export class ReposModule { }

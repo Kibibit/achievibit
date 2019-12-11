@@ -4,10 +4,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'fs-extra';
 import { join } from 'path';
+import nunjucks from 'nunjucks';
 
 import { AppModule } from './app.module';
-import { PackageDetailsDto } from './models/package-details.model';
 import { ConfigService } from './config/config.service';
+import { PackageDetailsDto } from './models/package-details.model';
 
 async function bootstrap() {
   const config = new ConfigService();
@@ -38,7 +39,13 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/public/' });
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
+  // app.setViewEngine('hbs');
+  nunjucks.configure('views', {
+    ext: 'njk',
+    autoescape: true,
+    express: app,
+    watch: true
+  });
 
   await app.listen(config.port);
 }
