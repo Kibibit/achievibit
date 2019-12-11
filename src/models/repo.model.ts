@@ -34,7 +34,7 @@ export class RepoDto extends CreateRepoDto {
   @Exclude()
   readonly _id: string;
   @Exclude()
-  readonly __v: string;
+  readonly __v: number;
 }
 /* tslint:enable */
 

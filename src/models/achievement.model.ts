@@ -1,4 +1,4 @@
-import { IsDate, IsString } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
 import { Schema } from 'mongoose';
 
 export class Achievement {
@@ -18,6 +18,7 @@ export class Achievement {
   relatedPullRequest: string;
 
   @IsDate()
+  @IsOptional()
   grantedOn: Date;
 }
 

@@ -43,7 +43,7 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   repoDto(): RepoDto {
     return {
       _id: chance.mongoObjectId(),
-      __v: '0',
+      __v: 0,
       name: chance.string(),
       fullname: chance.string(),
       organization: chance.company(),

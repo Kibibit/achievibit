@@ -1,9 +1,9 @@
-import { CreateUserDto, USER_MODEL_NAME, UserSchema, UserDto } from '@kb-models/user.model';
+import { USER_MODEL_NAME, UserSchema } from '@kb-models/user.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { isEqual, includes, find } from 'lodash';
+import { isEqual } from 'lodash';
 
-import { TestDatabaseModule, closeDatabase } from '../../db-test.module';
+import { closeDatabase, TestDatabaseModule } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { UsersService } from './users.service';
 
