@@ -7,8 +7,11 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { PackageDetailsDto } from './models/package-details.model';
+import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
+  const config = new ConfigService();
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
@@ -37,6 +40,6 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
-  await app.listen(10101);
+  await app.listen(config.port);
 }
 bootstrap();
