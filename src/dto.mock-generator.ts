@@ -35,7 +35,8 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
       users: isOrg ?
         times(chance.integer({ min: 0, max: 10 }), () => chance.animal()) :
         undefined,
-      achievements: []
+      achievements: [],
+      token: chance.string()
     };
   },
   userDtos(): UserDto[] {

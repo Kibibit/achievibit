@@ -36,6 +36,9 @@ export class CreateUserDto {
   @ApiProperty()
   @IsArray()
   readonly repos: string[];
+
+  @Exclude()
+  readonly token: string;
 }
 
 /* tslint:disable */
