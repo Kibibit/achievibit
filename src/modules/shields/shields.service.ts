@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { BadgeFactory } from 'gh-badges';
 import { keys } from 'lodash';
 import requireAll from 'require-all';
 
 import { AppService } from '../../app.service';
 
-// console.log(badge.BadgeFactory);
-
 @Injectable()
 export class ShieldsService {
-  private achievements: any;
+  private logger: Logger = new Logger('ShieldsService');
   private bf: BadgeFactory;
+
+  achievements: any;
 
   constructor(private readonly appService: AppService) {
     this.achievements = requireAll({
@@ -19,6 +19,9 @@ export class ShieldsService {
       excludeDirs: /^\.(git|svn)$/,
       recursive: true
     });
+
+    this.logger.log('These achievements were registered:');
+    this.logger.log(this.achievements);
 
     this.bf = new BadgeFactory();
   }

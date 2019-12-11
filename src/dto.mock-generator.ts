@@ -1,5 +1,5 @@
 import { Chance } from 'chance';
-import { times } from 'lodash';
+import { times, kebabCase } from 'lodash';
 
 import { UserDto } from './models/user.model';
 import { RepoDto } from '@kb-models/repo.model';
@@ -10,6 +10,7 @@ interface IChanceMixin {
   userDtos: () => UserDto[];
   repoDto: () => RepoDto;
   repoDtos: () => RepoDto[];
+  achievementScripts: (numOfAchievements?: number) => { [ key: string ]: {} };
 }
 
 const chance = new Chance() as Chance.Chance & IChanceMixin;
@@ -52,6 +53,13 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   },
   repoDtos(): RepoDto[] {
     return times(chance.integer({ min: 0, max: 10 }), () => chance.repoDto());
+  },
+  achievementScripts(numOfAchievements: number = chance.integer({ min: 1, max: 25 })): { [ key: string ]: {} } {
+    const scriptsObject = {};
+
+    times(numOfAchievements, () => scriptsObject[ `${ kebabCase(chance.animal()) }.achievement` ] = {});
+
+    return scriptsObject;
   }
 };
 
