@@ -1,5 +1,5 @@
-import { Controller, Get, Header } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Header, Redirect, HttpStatus } from '@nestjs/common';
+import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
 
 import { ShieldsService } from './shields.service';
 
@@ -7,6 +7,14 @@ import { ShieldsService } from './shields.service';
 @ApiTags('Shields')
 export class ShieldsController {
   constructor(private readonly shieldsService: ShieldsService) { }
+
+  @Get()
+  @Redirect('api/shields/achievements', HttpStatus.MOVED_PERMANENTLY)
+  @ApiOperation({ summary: 'Redirects to api/shields/achievements' })
+  @ApiResponse({ status: HttpStatus.MOVED_PERMANENTLY })
+  redirectToGetAchievementsShield() {
+
+  }
 
   @Get('achievements')
   @Header('Content-Type', 'image/svg+xml;charset=utf-8')
