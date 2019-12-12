@@ -70,5 +70,14 @@
   "window.title": "${activeEditorShort}${separator}${rootName} [kibibit]",
   "workbench.colorCustomizations": {
     "titleBar.activeForeground": "#ffdd57"
-  }
+  },
+  "typescriptHero.imports.stringQuoteStyle": "'",
+  "typescriptHero.imports.grouping": [
+    "Plains",
+    "Modules",
+    "/^@kb-/",
+    "Workspace"
+
+  ],
+  "typescriptHero.imports.organizeOnSave": true
 }

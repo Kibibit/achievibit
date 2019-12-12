@@ -18,6 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "generate-barrels": "barrelsby --delete -d ./src -l below -q",
     "coveralls": "cat ./test-results/coverage/lcov.info | coveralls"
   },
   "dependencies": {
@@ -66,6 +67,7 @@
     "@types/mongoose": "^5.5.32",
     "@types/node": "^12.7.5",
     "@types/supertest": "^2.0.8",
+    "barrelsby": "^2.2.0",
     "coveralls": "^3.0.9",
     "jest": "^24.9.0",
     "jest-stare": "^1.25.0",
