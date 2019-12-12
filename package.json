@@ -122,8 +122,8 @@
     "coverageDirectory": "./test-results/coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "^@kb-modules/(.*)$": "<rootDir>/src/modules/$1",
-      "^@kb-models/(.*)$": "<rootDir>/src/models/$1"
+      "^@kb-modules$": "<rootDir>/src/modules",
+      "^@kb-models$": "<rootDir>/src/models"
     }
   },
   "jest-stare": {

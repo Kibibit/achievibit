@@ -12,8 +12,9 @@
     "incremental": true,
     "baseUrl": "./",
     "paths": {
-      "@kb-modules/*": ["src/modules/*"],
-      "@kb-models/*": ["src/models/*"]
+      "@kb-modules": ["src/modules/index"],
+      "@kb-models": ["src/models/index"],
+      "@kb-config": ["src/config/index"]
     }
   },
   "exclude": ["node_modules", "dist"]

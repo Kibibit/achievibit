@@ -1,7 +1,10 @@
-import { UserDto } from '@kb-models/user.model';
 import { ClassSerializerInterceptor, Controller, Get, HttpStatus, Param, Render, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
+import { UserDto } from '@kb-models';
+
 import { UsersService } from './users.service';
+
 
 @Controller('api/users')
 @UseInterceptors(ClassSerializerInterceptor)

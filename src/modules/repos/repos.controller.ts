@@ -1,6 +1,7 @@
-import { RepoDto } from '@kb-models/repo.model';
 import { ClassSerializerInterceptor, Controller, Get, HttpStatus, Logger, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+
+import { RepoDto } from '@kb-models';
 
 import { ReposService } from './repos.service';
 

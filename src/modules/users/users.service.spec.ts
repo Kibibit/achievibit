@@ -1,11 +1,13 @@
-import { USER_MODEL_NAME, UserSchema } from '@kb-models/user.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { isEqual } from 'lodash';
 
+import { USER_MODEL_NAME, UserSchema } from '@kb-models';
+
 import { closeDatabase, TestDatabaseModule } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { UsersService } from './users.service';
+
 
 describe('UsersService', () => {
   let service: UsersService;

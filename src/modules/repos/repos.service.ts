@@ -1,7 +1,8 @@
-import { CreateRepoDto, IRepo, REPO_MODEL_NAME, RepoDto } from '@kb-models/repo.model';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import { CreateRepoDto, IRepo, REPO_MODEL_NAME, RepoDto } from '@kb-models';
 
 @Injectable()
 export class ReposService {

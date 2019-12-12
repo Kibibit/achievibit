@@ -1,8 +1,9 @@
-import { Achievement, AchievementSchema } from '@kb-models/achievement.model';
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Document, Schema } from 'mongoose';
+
+import { Achievement, AchievementSchema } from '@kb-models';
 
 export const USER_MODEL_NAME = 'User';
 

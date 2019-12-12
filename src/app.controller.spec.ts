@@ -1,10 +1,11 @@
-import { ReposService } from '@kb-modules/repos/repos.service';
-import { UsersService } from '@kb-modules/users/users.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
 
+import { ReposService, UsersService } from '@kb-modules';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+
 
 describe('AppController', () => {
   let appController: AppController;

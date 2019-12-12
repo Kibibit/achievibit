@@ -1,8 +1,9 @@
-import { REPO_MODEL_NAME, RepoSchema } from '@kb-models/repo.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { TestDatabaseModule, closeDatabase } from '../../db-test.module';
+import { REPO_MODEL_NAME, RepoSchema } from '@kb-models';
+
+import { closeDatabase, TestDatabaseModule } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { ReposService } from './repos.service';
 

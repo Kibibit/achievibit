@@ -1,9 +1,9 @@
-import { PackageDetailsDto } from '@kb-models/package-details.model';
-import { ReposService } from '@kb-modules/repos/repos.service';
-import { UsersService } from '@kb-modules/users/users.service';
 import { ClassSerializerInterceptor, Controller, Get, HttpStatus, Render, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { groupBy } from 'lodash';
+
+import { PackageDetailsDto } from '@kb-models';
+import { ReposService, UsersService } from '@kb-modules';
 
 import { AppService } from './app.service';
 

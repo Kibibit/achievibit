@@ -1,8 +1,7 @@
 import { Chance } from 'chance';
-import { times, kebabCase } from 'lodash';
+import { kebabCase, times } from 'lodash';
 
-import { UserDto } from './models/user.model';
-import { RepoDto } from '@kb-models/repo.model';
+import { RepoDto, UserDto } from '@kb-models';
 
 interface IChanceMixin {
   mongoObjectId: () => string;

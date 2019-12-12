@@ -1,7 +1,9 @@
-import { CreateUserDto, IUser, USER_MODEL_NAME, UserDto } from '@kb-models/user.model';
-import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import { CreateUserDto, IUser, USER_MODEL_NAME, UserDto } from '@kb-models';
+
 
 @Injectable()
 export class UsersService {
