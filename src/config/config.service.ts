@@ -1,9 +1,10 @@
 import Joi from '@hapi/joi';
+import { Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { ensureFileSync, readFileSync } from 'fs-extra';
 import SmeeClient from 'smee-client';
-import { dtoMockGenerator } from 'src/dto.mock-generator';
-import { Logger } from '@nestjs/common';
+
+import { dtoMockGenerator } from '../dto.mock-generator';
 
 const environment = process.env.NODE_ENV || 'development';
 
