@@ -3,8 +3,8 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'fs-extra';
-import { join } from 'path';
 import nunjucks from 'nunjucks';
+import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { ConfigService } from './config/config.service';
@@ -41,7 +41,6 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   // app.setViewEngine('hbs');
   nunjucks.configure('views', {
-    ext: 'njk',
     autoescape: true,
     express: app,
     watch: true

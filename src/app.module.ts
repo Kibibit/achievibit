@@ -1,5 +1,5 @@
 import { UsersModule } from '@kb-modules/users/users.module';
-import { Module, Logger } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';

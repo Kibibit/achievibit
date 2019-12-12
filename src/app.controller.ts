@@ -25,9 +25,6 @@ export class AppController {
     const users = groupedUsers.undefined;
     const organizations = groupedUsers.true;
 
-    console.log(allUsers);
-    console.log(groupedUsers);
-
     return { repos, users, organizations };
   }
 
