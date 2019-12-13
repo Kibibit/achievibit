@@ -32,14 +32,14 @@ async function bootstrap() {
 
   SwaggerModule.setup('api/docs', app, document, {
     customSiteTitle: `kibibit - achievibit API documentation`,
-    customCss: readFileSync(join(__dirname, '../public/swagger.css'), 'utf8'),
+    customCss: readFileSync(join(__dirname, '../public/swagger.css'), 'utf8')
     // customJs: '../swagger-things/swagger.js',
     // customfavIcon: '../swagger-things/favicon-32.png'
   });
 
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/public/' });
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  // app.setViewEngine('hbs');
+  app.setViewEngine('njk');
   nunjucks.configure('views', {
     autoescape: true,
     express: app,

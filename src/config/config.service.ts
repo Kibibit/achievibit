@@ -1,27 +1,50 @@
-import Joi from '@hapi/joi';
 import { Logger } from '@nestjs/common';
-import * as dotenv from 'dotenv';
-import { ensureFileSync, readFileSync } from 'fs-extra';
+import { classToPlain, Exclude } from 'class-transformer';
+import { validateSync } from 'class-validator';
+import findRoot from 'find-root';
+import { writeJson } from 'fs-extra';
+import { camelCase } from 'lodash';
+import nconf from 'nconf';
+import { join } from 'path';
 import SmeeClient from 'smee-client';
 
-import { dtoMockGenerator } from '../dto.mock-generator';
+import { AchievibitConfig } from '@kb-config';
+import { ConfigValidationError } from '@kb-errors';
 
+const appRoot = findRoot(__dirname);
 const environment = process.env.NODE_ENV || 'development';
-
 const eventLogger: Logger = new Logger('SmeeEvents');
-
 (eventLogger as any).info = eventLogger.log;
+const configFilePath = join(appRoot, `${ environment }.env.json`);
+
+nconf
+  .argv({
+    parseValues: true
+  })
+  .env({
+    lowerCase: true,
+    parseValues: true,
+    transform: transformToLowerCase
+  })
+  .file({ file: configFilePath });
 
 let smee: SmeeClient;
-
 let events: any;
+let configService: ConfigService;
 
-export type EnvConfig = Record<string, any>;
-export class ConfigService {
+type EnvConfig = Record<string, any>;
+
+/**
+ * This is a **Forced Singleton**.
+ * This means that even if you try to create
+ * another ConfigService, you'll always get the
+ * first one.
+ */
+@Exclude()
+export class ConfigService extends AchievibitConfig {
   private readonly logger: Logger = new Logger('ConfigService');
 
   private readonly mode: string = environment;
-  readonly envConfig: EnvConfig;
 
   get smee(): SmeeClient {
     return smee;
@@ -31,28 +54,18 @@ export class ConfigService {
     return events;
   }
 
-  get port(): number {
-    return this.envConfig.PORT;
-  }
+  constructor(passedConfig?: AchievibitConfig) {
+    super();
 
-  get dbUrl(): string {
-    return this.envConfig.DB_URL;
-  }
+    if (configService) { return configService; }
 
-  get webhookProxyUrl(): string {
-    return this.envConfig.WEBHOOK_PROXY_URL;
-  }
+    const config = passedConfig || nconf.get();
+    const envConfig = this.validateInput(config);
 
-  get webhookDestinationUrl(): string {
-    return this.envConfig.WEBHOOK_DESTINATION_URL;
-  }
+    // attach configuration to this service
+    Object.assign(this, envConfig);
 
-  constructor() {
-    ensureFileSync(`${ this.mode }.env`);
-    const config = dotenv.parse(readFileSync(`${ this.mode }.env`));
-    this.envConfig = this.validateInput(config);
-
-    if (environment === 'development') {
+    if (this.mode === 'development') {
       if (!smee) {
         smee = new SmeeClient({
           source: this.webhookProxyUrl,
@@ -66,6 +79,12 @@ export class ConfigService {
         events = this.smee.start();
       }
     }
+
+    if (this.saveToFile) {
+      writeJson(configFilePath, classToPlain(this), { spaces: 2 });
+    }
+
+    configService = this;
   }
 
   closeEvents() {
@@ -77,35 +96,20 @@ export class ConfigService {
    * including the applied default values.
    */
   private validateInput(envConfig: EnvConfig): EnvConfig {
-    const envVarsSchema: Joi.ObjectSchema = Joi.object({
-      NODE_ENV: Joi
-        .string()
-        .valid('development', 'production')
-        .default('development'),
-      PORT: Joi
-        .number()
-        .default(10101),
-      DB_URL: Joi.string(),
-      WEBHOOK_PROXY_URL: Joi
-        .string()
-        .uri({ scheme: 'https' })
-        .regex(/^https:\/\/(?:www.)?smee\.io\//, 'https://smee.io/<sub_path> url')
-        .default(`https://smee.io/achievibit-${ dtoMockGenerator.guid() }`),
-      WEBHOOK_DESTINATION_URL: Joi
-        .string()
-        .regex(/^([\w]+)?(\/[\w-]+)*$/, `PATH-NAME (for example: 'hello/world')`)
-        .replace(/^\//, '')
-        .trim()
-        .default(`events`)
-    });
+    const achievibitConfig = new AchievibitConfig(envConfig);
+    const validationErrors = validateSync(achievibitConfig);
 
-    const { error, value: validatedEnvConfig } = envVarsSchema.validate(
-      envConfig
-    );
-    if (error) {
-      // this.logger.error(`Config validation error: ${ error.message }`);
-      throw new Error(`Config validation error: ${ error.message }`);
+    if (validationErrors.length > 0) {
+      throw new ConfigValidationError(validationErrors);
     }
-    return validatedEnvConfig;
+    return classToPlain(achievibitConfig);
   }
+}
+
+function transformToLowerCase(obj: { key: string; value: string }) {
+  const camelCasedKey = camelCase(obj.key);
+
+  obj.key = camelCasedKey;
+
+  return camelCasedKey && obj;
 }

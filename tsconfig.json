@@ -14,7 +14,8 @@
     "paths": {
       "@kb-modules": ["src/modules/index"],
       "@kb-models": ["src/models/index"],
-      "@kb-config": ["src/config/index"]
+      "@kb-config": ["src/config/index"],
+      "@kb-errors": ["src/errors/index"]
     }
   },
   "exclude": ["node_modules", "dist"]

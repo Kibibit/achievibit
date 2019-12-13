@@ -1,9 +1,15 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@kb-modules$": "<rootDir>/src/modules",
+    "^@kb-models$": "<rootDir>/src/models",
+    "^@kb-config$": "<rootDir>/src/config/index",
+    "^@kb-errors$": "<rootDir>/src/errors/index"
   }
 }
