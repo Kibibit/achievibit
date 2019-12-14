@@ -3,15 +3,16 @@ import { JSDOM } from 'jsdom';
 import { keys, noop } from 'lodash';
 import requireAll from 'require-all';
 
-import { AppService } from '../..//app.service';
-import { dtoMockGenerator } from '../../dto.mock-generator';
+import { DtoMockGenerator } from '@kb-dev-tools';
+
+import { AppService } from '../../app.service';
 import { ShieldsService } from './shields.service';
 
 jest.mock('require-all');
 
 const mocked = requireAll as jest.Mocked<typeof requireAll>;
 
-const mockedAchievements = dtoMockGenerator.achievementScripts();
+const mockedAchievements = DtoMockGenerator.achievementScripts();
 
 mocked.mockReturnValue(mockedAchievements);
 
@@ -34,7 +35,7 @@ describe('ShieldsService', () => {
   });
 
   it('should create an all achievements shield with number of defined achievements', async () => {
-    const twoAchievements = dtoMockGenerator.achievementScripts(2);
+    const twoAchievements = DtoMockGenerator.achievementScripts(2);
     service.achievements = twoAchievements;
     const svgAchievementsShield = await service.createAchievementsShield();
 

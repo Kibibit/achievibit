@@ -20,7 +20,7 @@ async function testDBFactory() {
     })
   ]
 })
-export class TestDatabaseModule {
+export class InMemoryDatabaseModule {
   static async closeDatabase() {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();

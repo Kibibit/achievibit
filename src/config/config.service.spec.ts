@@ -1,8 +1,8 @@
 import { chain, times } from 'lodash';
 
+import { DtoMockGenerator } from '@kb-dev-tools';
 import { ConfigValidationError } from '@kb-errors';
 
-import { dtoMockGenerator } from '../dto.mock-generator';
 import { AchievibitConfig, NODE_ENVIRONMENT_OPTIONS, SMEE_IO_REGEX } from './achievibit-config.model';
 import { ConfigService } from './config.service';
 
@@ -102,7 +102,7 @@ describe('ConfigService', () => {
 
     describe('port', () => {
       it('should ACCEPT numbers', () => {
-        const port = dtoMockGenerator.integer();
+        const port = DtoMockGenerator.integer();
         const service = new ConfigService({ port });
 
         expect(service.port).toBe(port);
@@ -131,7 +131,7 @@ describe('ConfigService', () => {
       });
 
       it('should ACCEPT valid mongodb URLS', () => {
-        const mongodbProtocolUrls = times(10, () => dtoMockGenerator.mongodbUrl());
+        const mongodbProtocolUrls = times(10, () => DtoMockGenerator.mongodbUrl());
 
         chain(mongodbProtocolUrls)
           .keyBy()
@@ -152,7 +152,7 @@ describe('ConfigService', () => {
 
     describe('webhookProxyUrl', () => {
       it('should ACCEPT smee.io URLS', () => {
-        const smeeProtocolUrls = times(10, () => dtoMockGenerator.randexp(SMEE_IO_REGEX).gen());
+        const smeeProtocolUrls = times(10, () => DtoMockGenerator.randexp(SMEE_IO_REGEX).gen());
 
         console.log(smeeProtocolUrls);
 

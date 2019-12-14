@@ -2,10 +2,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { isEqual } from 'lodash';
 
+import { DtoMockGenerator, InMemoryDatabaseModule } from '@kb-dev-tools';
 import { USER_MODEL_NAME, UserSchema } from '@kb-models';
 
-import { TestDatabaseModule } from '../../db-test.module';
-import { dtoMockGenerator } from '../../dto.mock-generator';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -14,7 +13,7 @@ describe('UsersService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestDatabaseModule,
+        InMemoryDatabaseModule,
         MongooseModule.forFeature([ { name: USER_MODEL_NAME, schema: UserSchema } ])
       ],
       providers: [
@@ -26,7 +25,7 @@ describe('UsersService', () => {
   });
 
   afterEach(async () => {
-    await TestDatabaseModule.closeDatabase();
+    await InMemoryDatabaseModule.closeDatabase();
   });
 
   it('should be defined', async () => {
@@ -34,7 +33,7 @@ describe('UsersService', () => {
   });
 
   it('should be able to create and get a user', async () => {
-    const user = dtoMockGenerator.userDto();
+    const user = DtoMockGenerator.userDto();
 
     const createdUser = await service.create(user);
 
@@ -44,8 +43,8 @@ describe('UsersService', () => {
   });
 
   it('should be able to get all users', async () => {
-    const user1 = dtoMockGenerator.userDto();
-    const user2 = dtoMockGenerator.userDto();
+    const user1 = DtoMockGenerator.userDto();
+    const user2 = DtoMockGenerator.userDto();
 
     const createdUser1 = await service.create(user1);
     const createdUser2 = await service.create(user2);

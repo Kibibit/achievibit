@@ -1,10 +1,9 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { DtoMockGenerator, InMemoryDatabaseModule } from '@kb-dev-tools';
 import { REPO_MODEL_NAME, RepoSchema } from '@kb-models';
 
-import { TestDatabaseModule } from '../../db-test.module';
-import { dtoMockGenerator } from '../../dto.mock-generator';
 import { ReposService } from './repos.service';
 
 describe('ReposService', () => {
@@ -13,7 +12,7 @@ describe('ReposService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TestDatabaseModule,
+        InMemoryDatabaseModule,
         MongooseModule.forFeature([ { name: REPO_MODEL_NAME, schema: RepoSchema } ])
       ],
       providers: [ ReposService ]
@@ -23,7 +22,7 @@ describe('ReposService', () => {
   });
 
   afterEach(async () => {
-    await TestDatabaseModule.closeDatabase();
+    await InMemoryDatabaseModule.closeDatabase();
   });
 
   it('should be defined', () => {
@@ -31,7 +30,7 @@ describe('ReposService', () => {
   });
 
   it('should be able to create and get a repo', async () => {
-    const repo = dtoMockGenerator.repoDto();
+    const repo = DtoMockGenerator.repoDto();
 
     const createdRepo = await service.create(repo);
 
@@ -41,8 +40,8 @@ describe('ReposService', () => {
   });
 
   it('should be able to get all repos', async () => {
-    const repo1 = dtoMockGenerator.repoDto();
-    const repo2 = dtoMockGenerator.repoDto();
+    const repo1 = DtoMockGenerator.repoDto();
+    const repo2 = DtoMockGenerator.repoDto();
 
     const createdRepo1 = await service.create(repo1);
     const createdRepo2 = await service.create(repo2);

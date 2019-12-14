@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
 
-import { dtoMockGenerator } from '../../dto.mock-generator';
+import { DtoMockGenerator } from '@kb-dev-tools';
+
 import { ReposController } from './repos.controller';
 import { ReposService } from './repos.service';
 
@@ -24,7 +25,7 @@ describe('Repos Controller', () => {
   });
 
   it('should call service on get all repos', async () => {
-    const findAllResponse = dtoMockGenerator.repoDtos();
+    const findAllResponse = DtoMockGenerator.repoDtos();
 
     const spyFindAll = jest.spyOn(service, 'findAll').mockImplementation(() => Promise.resolve(findAllResponse));
 

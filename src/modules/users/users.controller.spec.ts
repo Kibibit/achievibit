@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
 
-import { dtoMockGenerator } from '../../dto.mock-generator';
+import { DtoMockGenerator } from '@kb-dev-tools';
+
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -25,7 +26,7 @@ describe('Users Controller', () => {
   });
 
   it('should call service on get all users', async () => {
-    const findAllResponse = dtoMockGenerator.userDtos();
+    const findAllResponse = DtoMockGenerator.userDtos();
 
     // console.log('mock result: ', findAllResponse);
 
@@ -38,7 +39,7 @@ describe('Users Controller', () => {
   });
 
   it('should call service on get user', async () => {
-    const findOneResponse = dtoMockGenerator.userDto();
+    const findOneResponse = DtoMockGenerator.userDto();
 
     const spyFindOne = jest.spyOn(usersService, 'findOne').mockImplementation(() => Promise.resolve(findOneResponse));
 
@@ -49,7 +50,7 @@ describe('Users Controller', () => {
   });
 
   it('should render user HTML page', async () => {
-    const findOneResponse = dtoMockGenerator.userDto();
+    const findOneResponse = DtoMockGenerator.userDto();
 
     const spyFindOne = jest.spyOn(usersService, 'findOne').mockImplementation(() => Promise.resolve(findOneResponse));
 

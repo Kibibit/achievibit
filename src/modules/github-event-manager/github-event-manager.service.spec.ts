@@ -1,3 +1,5 @@
+import { Test, TestingModule } from '@nestjs/testing';
+
 import {
   pullRequestAssigneeAddedEvent,
   pullRequestAssigneeRemovedEvent,
@@ -14,8 +16,7 @@ import {
   reviewCommentRemovedEvent,
   reviewSubmittedEvent,
   webhookPingEvent,
-} from '@dev-tools';
-import { Test, TestingModule } from '@nestjs/testing';
+} from '@kb-dev-tools';
 
 import { AchievibitEventName, GithubEventManagerService } from './github-event-manager.service';
 

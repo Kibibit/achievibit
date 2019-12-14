@@ -17,7 +17,7 @@ interface IChanceMixin {
 
 const chance = new Chance() as Chance.Chance & IChanceMixin;
 
-export const dtoMockGenerator: Chance.Chance & IChanceMixin = chance as Chance.Chance & IChanceMixin;
+export const DtoMockGenerator: Chance.Chance & IChanceMixin = chance as Chance.Chance & IChanceMixin;
 
 const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   mongodbUrl(): string {
