@@ -1,8 +1,7 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
 import { IsBoolean, IsIn, IsNumber, IsOptional, IsString, IsUrl, Matches } from 'class-validator';
 import { trim } from 'lodash';
-
-import { dtoMockGenerator } from '../dto.mock-generator';
+import { v1 as uuidv1 } from 'uuid';
 
 export const NODE_ENVIRONMENT_OPTIONS = [ 'development', 'production', 'test' ];
 export const SMEE_IO_REGEX = /^https:\/\/(?:www\.)?smee\.io\/[a-zA-Z0-9_-]+\/?/;
@@ -30,7 +29,7 @@ export class AchievibitConfig {
   @Expose()
   @Matches(SMEE_IO_REGEX)
   @IsUrl()
-  webhookProxyUrl = `https://smee.io/achievibit-${ dtoMockGenerator.guid() }`;
+  webhookProxyUrl = `https://smee.io/achievibit-${ uuidv1() }`;
 
   @Expose()
   @Matches(ENDPONT_PATH_REGEX, null, {
