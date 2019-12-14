@@ -17,6 +17,10 @@ describe('ConfigService', () => {
       });
     });
 
+    afterEach(() => {
+      configService.closeEvents();
+    });
+
     it('should be defined', () => {
       expect(configService).toBeDefined();
     });
@@ -42,6 +46,8 @@ describe('ConfigService', () => {
 
       expect(productionService.smee).toBeUndefined();
       expect(productionService.events).toBeUndefined();
+
+      productionService.closeEvents();
     });
 
     it('should initial smee and events on development', () => {
@@ -51,6 +57,8 @@ describe('ConfigService', () => {
 
       expect(productionService.smee).toBeDefined();
       expect(productionService.events).toBeDefined();
+
+      productionService.closeEvents();
     });
   });
 
@@ -67,6 +75,8 @@ describe('ConfigService', () => {
             const serviceWrapper = () => new ConfigService({ nodeEnv });
 
             expect(serviceWrapper().toPlainObject).toBeDefined();
+
+            serviceWrapper().closeEvents();
           });
         })
         .value();
@@ -112,10 +122,12 @@ describe('ConfigService', () => {
     });
 
     describe('dbUrl', () => {
-      it('should ACCEPT empty value', () => {
+      it('should ACCEPT empty value', async () => {
         const service = new ConfigService({ dbUrl: undefined });
 
         expect(service.dbUrl).toBeUndefined();
+
+        service.closeEvents();
       });
 
       it('should ACCEPT valid mongodb URLS', () => {
@@ -148,6 +160,7 @@ describe('ConfigService', () => {
           .keyBy()
           .mapValues((smeeProtocolUrl) => new ConfigService({ webhookProxyUrl: smeeProtocolUrl }))
           .forEach((configService, smeeProtocolUrl) => {
+            configService.closeEvents();
             expect(configService.webhookProxyUrl).toBe(smeeProtocolUrl);
           })
           .value();
