@@ -3,16 +3,17 @@ import { classToPlain, Exclude } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import findRoot from 'find-root';
 import { writeJson } from 'fs-extra';
-import { camelCase } from 'lodash';
+import { camelCase, get } from 'lodash';
 import nconf from 'nconf';
 import { join } from 'path';
 import SmeeClient from 'smee-client';
 
-import { AchievibitConfig } from '@kb-config';
 import { ConfigValidationError } from '@kb-errors';
 
+import { AchievibitConfig } from './achievibit-config.model';
+
 const appRoot = findRoot(__dirname);
-const environment = process.env.NODE_ENV || 'development';
+const environment = get(process, 'env.NODE_ENV', 'development');
 const eventLogger: Logger = new Logger('SmeeEvents');
 (eventLogger as any).info = eventLogger.log;
 const configFilePath = join(appRoot, `${ environment }.env.json`);
@@ -31,8 +32,6 @@ nconf
 let smee: SmeeClient;
 let events: any;
 let configService: ConfigService;
-
-type EnvConfig = Record<string, any>;
 
 /**
  * This is a **Forced Singleton**.
@@ -54,10 +53,10 @@ export class ConfigService extends AchievibitConfig {
     return events;
   }
 
-  constructor(passedConfig?: AchievibitConfig) {
+  constructor(passedConfig?: Partial<AchievibitConfig>) {
     super();
 
-    if (configService) { return configService; }
+    if (!passedConfig && configService) { return configService; }
 
     const config = passedConfig || nconf.get();
     const envConfig = this.validateInput(config);
@@ -65,7 +64,7 @@ export class ConfigService extends AchievibitConfig {
     // attach configuration to this service
     Object.assign(this, envConfig);
 
-    if (this.mode === 'development') {
+    if (this.mode === 'development' || passedConfig.nodeEnv === 'development') {
       if (!smee) {
         smee = new SmeeClient({
           source: this.webhookProxyUrl,
@@ -78,6 +77,11 @@ export class ConfigService extends AchievibitConfig {
         this.logger.log('Starting to listen to events from Proxy');
         events = this.smee.start();
       }
+    } else {
+      this.closeEvents();
+
+      smee = undefined;
+      events = undefined;
     }
 
     if (this.saveToFile) {
@@ -91,11 +95,15 @@ export class ConfigService extends AchievibitConfig {
     return this.events && this.events.close();
   }
 
+  toPlainObject() {
+    return classToPlain(this);
+  }
+
   /**
    * Ensures all needed variables are set, and returns the validated JavaScript object
    * including the applied default values.
    */
-  private validateInput(envConfig: EnvConfig): EnvConfig {
+  private validateInput(envConfig: Record<string, any>): Partial<AchievibitConfig> {
     const achievibitConfig = new AchievibitConfig(envConfig);
     const validationErrors = validateSync(achievibitConfig);
 

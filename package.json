@@ -78,6 +78,7 @@
     "mongodb": "^3.3.5",
     "mongodb-memory-server": "^6.0.2",
     "prettier": "^1.18.2",
+    "randexp": "^0.5.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.1.1",
@@ -127,7 +128,8 @@
       "^@kb-modules$": "<rootDir>/src/modules",
       "^@kb-models$": "<rootDir>/src/models",
       "^@kb-config$": "<rootDir>/src/config/index",
-      "^@kb-errors$": "<rootDir>/src/errors/index"
+      "^@kb-errors$": "<rootDir>/src/errors/index",
+      "^@dev-tools$": "<rootDir>/src/dev-tools/index"
     }
   },
   "jest-stare": {

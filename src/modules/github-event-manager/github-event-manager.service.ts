@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { isEqual } from 'lodash';
 
-enum GitHubEventName {
+export enum AchievibitEventName {
   NewConnection = 'NewConnection',
   PullRequestOpened = 'PullRequestOpened',
   PullRequestInitialLabeled = 'PullRequestInitialLabeled',
@@ -22,8 +22,10 @@ enum GitHubEventName {
 
 @Injectable()
 export class GithubEventManagerService {
+  logger: Logger = new Logger('GithubEventManagerService');
+
   async postFromWebhook(githubHeader: string, body: any): Promise<any> {
-    console.log('got a post about ' + githubHeader);
+    this.logger.log('got a post about ' + githubHeader);
 
     return await this.notifyAchievements(githubHeader, body);
   }
@@ -32,67 +34,61 @@ export class GithubEventManagerService {
     const eventName = this.translateToEventName(githubEvent, eventData);
 
     switch (eventName) {
-      case GitHubEventName.NewConnection:
-        this.handleNewConnection();
+      case AchievibitEventName.NewConnection:
+        this.logger.debug('handleNewConnection');
         return;
-      case GitHubEventName.PullRequestOpened:
-        this.handlePullRequestOpened();
+      case AchievibitEventName.PullRequestOpened:
+        this.logger.debug('PullRequestOpened');
         return;
-      case GitHubEventName.PullRequestInitialLabeled:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestInitialLabeled:
+        this.logger.debug('PullRequestInitialLabeled');
         return;
-      case GitHubEventName.PullRequestLableAdded:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestLableAdded:
+        this.logger.debug('PullRequestLableAdded');
         return;
-      case GitHubEventName.PullRequestLabelRemoved:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestLabelRemoved:
+        this.logger.debug('PullRequestLabelRemoved');
         return;
-      case GitHubEventName.PullRequestEdited:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestEdited:
+        this.logger.debug('PullRequestEdited');
         return;
-      case GitHubEventName.PullRequestAssigneeAdded:
-      case GitHubEventName.PullRequestAssigneeRemoved:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestAssigneeAdded:
+      case AchievibitEventName.PullRequestAssigneeRemoved:
+        this.logger.debug('PullRequestAssignee');
         return;
-      case GitHubEventName.PullRequestReviewRequestAdded:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewRequestAdded:
+        this.logger.debug('PullRequestReviewRequestAdded');
         return;
-      case GitHubEventName.PullRequestReviewRequestRemoved:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewRequestRemoved:
+        this.logger.debug('PullRequestReviewRequestRemoved');
         return;
-      case GitHubEventName.PullRequestReviewCommentAdded:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewCommentAdded:
+        this.logger.debug('PullRequestReviewCommentAdded');
         return;
-      case GitHubEventName.PullRequestReviewCommentRemoved:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewCommentRemoved:
+        this.logger.debug('PullRequestReviewCommentRemoved');
         return;
-      case GitHubEventName.PullRequestReviewCommentEdited:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewCommentEdited:
+        this.logger.debug('PullRequestReviewCommentEdited');
         return;
-      case GitHubEventName.PullRequestReviewSubmitted:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestReviewSubmitted:
+        this.logger.debug('PullRequestReviewSubmitted');
         return;
-      case GitHubEventName.PullRequestMerged:
-        this.handlePullReuqestInitialLabeled();
+      case AchievibitEventName.PullRequestMerged:
+        this.logger.debug('PullRequestMerged');
         return;
     }
   }
 
-  private handlePullReuqestInitialLabeled() { }
-
-  private handlePullRequestOpened() { }
-
-  private handleNewConnection() { }
-
-  private translateToEventName(eventName: string, eventData: any): GitHubEventName {
+  translateToEventName(eventName: string, eventData: any): AchievibitEventName {
     if (isEqual(eventName, 'ping')) {
-      return GitHubEventName.NewConnection;
+      return AchievibitEventName.NewConnection;
     }
 
     if (isEqual(eventName, 'pull_request') &&
-      //_.isEqual(eventData.action, 'reopened') ?
+      // _.isEqual(eventData.action, 'reopened') ?
       isEqual(eventData.action, 'opened')) {
-      return GitHubEventName.PullRequestOpened;
+      return AchievibitEventName.PullRequestOpened;
     }
 
     if (isEqual(eventName, 'pull_request') &&
@@ -101,68 +97,68 @@ export class GithubEventManagerService {
         eventData.pull_request.updated_at,
         eventData.pull_request.created_at)
     ) {
-      return GitHubEventName.PullRequestInitialLabeled;
+      return AchievibitEventName.PullRequestInitialLabeled;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'labeled')) {
-      return GitHubEventName.PullRequestLableAdded;
+      return AchievibitEventName.PullRequestLableAdded;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'unlabeled')) {
-      return GitHubEventName.PullRequestLabelRemoved;
+      return AchievibitEventName.PullRequestLabelRemoved;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'edited')) {
-      return GitHubEventName.PullRequestEdited;
+      return AchievibitEventName.PullRequestEdited;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'assigned')) {
-      return GitHubEventName.PullRequestAssigneeAdded;
+      return AchievibitEventName.PullRequestAssigneeAdded;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'unassigned')) {
-      return GitHubEventName.PullRequestAssigneeRemoved;
+      return AchievibitEventName.PullRequestAssigneeRemoved;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'review_requested')) {
-      return GitHubEventName.PullRequestReviewRequestAdded;
+      return AchievibitEventName.PullRequestReviewRequestAdded;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'review_request_removed')) {
-      return GitHubEventName.PullRequestReviewRequestRemoved;
+      return AchievibitEventName.PullRequestReviewRequestRemoved;
     }
 
     if (isEqual(eventName, 'pull_request_review_comment') &&
       isEqual(eventData.action, 'created')) {
-      return GitHubEventName.PullRequestReviewCommentAdded;
+      return AchievibitEventName.PullRequestReviewCommentAdded;
     }
 
     if (isEqual(eventName, 'pull_request_review_comment') &&
       isEqual(eventData.action, 'deleted')) {
-      return GitHubEventName.PullRequestReviewCommentRemoved;
+      return AchievibitEventName.PullRequestReviewCommentRemoved;
     }
 
     if (isEqual(eventName, 'pull_request_review_comment') &&
       isEqual(eventData.action, 'edited')) {
-      return GitHubEventName.PullRequestReviewCommentEdited;
+      return AchievibitEventName.PullRequestReviewCommentEdited;
     }
 
     if (isEqual(eventName, 'pull_request_review') &&
       isEqual(eventData.action, 'submitted')) {
-      return GitHubEventName.PullRequestReviewSubmitted;
+      return AchievibitEventName.PullRequestReviewSubmitted;
     }
 
     if (isEqual(eventName, 'pull_request') &&
       isEqual(eventData.action, 'closed') &&
       eventData.pull_request.merged) {
-      return GitHubEventName.PullRequestMerged;
+      return AchievibitEventName.PullRequestMerged;
     }
 
     return;

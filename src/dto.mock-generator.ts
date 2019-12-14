@@ -1,15 +1,18 @@
 import { Chance } from 'chance';
 import { kebabCase, times } from 'lodash';
+import RandExp from 'randexp';
 
 import { RepoDto, UserDto } from '@kb-models';
 
 interface IChanceMixin {
   mongoObjectId: () => string;
+  mongodbUrl: () => string;
   userDto: () => UserDto;
   userDtos: () => UserDto[];
   repoDto: () => RepoDto;
   repoDtos: () => RepoDto[];
   achievementScripts: (numOfAchievements?: number) => { [ key: string ]: {} };
+  randexp: (regex: RegExp) => RandExp;
 }
 
 const chance = new Chance() as Chance.Chance & IChanceMixin;
@@ -17,6 +20,15 @@ const chance = new Chance() as Chance.Chance & IChanceMixin;
 export const dtoMockGenerator: Chance.Chance & IChanceMixin = chance as Chance.Chance & IChanceMixin;
 
 const customMixin: IChanceMixin & Chance.MixinDescriptor = {
+  mongodbUrl(): string {
+    return chance.url({ protocol: 'mongodb' + (chance.bool() ? '+srv' : '') });
+  },
+  randexp(regex: RegExp): RandExp {
+    const randExp = new RandExp(regex);
+    randExp.max = 10;
+
+    return randExp;
+  },
   mongoObjectId(): string {
     return chance.string({ pool: 'abcdefABCDEF123456789', length: 24 });
   },
