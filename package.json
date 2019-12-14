@@ -49,7 +49,9 @@
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
     "swagger-ui-express": "^4.1.2",
-    "smee-client": "^1.1.0"
+    "smee-client": "^1.1.0",
+    "mongodb-memory-server": "^6.0.2",
+    "mongodb": "^3.3.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
@@ -65,8 +67,6 @@
     "@types/jsdom": "^12.2.4",
     "@types/lodash": "^4.14.149",
     "@types/moment": "^2.13.0",
-    "@types/mongodb": "^3.3.12",
-    "@types/mongodb-memory-server": "^2.3.0",
     "@types/mongoose": "^5.5.32",
     "@types/node": "^12.7.5",
     "@types/supertest": "^2.0.8",
@@ -75,8 +75,6 @@
     "jest": "^24.9.0",
     "jest-stare": "^1.25.0",
     "jsdom": "^15.2.1",
-    "mongodb": "^3.3.5",
-    "mongodb-memory-server": "^6.0.2",
     "prettier": "^1.18.2",
     "randexp": "^0.5.3",
     "supertest": "^4.0.2",
@@ -85,7 +83,6 @@
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
-    "typeorm": "^0.2.21",
     "typescript": "^3.6.3"
   },
   "jest": {
