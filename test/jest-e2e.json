@@ -10,6 +10,7 @@
     "^@kb-modules$": "<rootDir>/src/modules",
     "^@kb-models$": "<rootDir>/src/models",
     "^@kb-config$": "<rootDir>/src/config/index",
-    "^@kb-errors$": "<rootDir>/src/errors/index"
+    "^@kb-errors$": "<rootDir>/src/errors/index",
+    "^@dev-tools$": "<rootDir>/src/dev-tools/index"
   }
 }

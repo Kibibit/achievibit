@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfigService Forced Singleton and baypass should set default values to everything that needs one 1`] = `
+Object {
+  "dbUrl": undefined,
+  "nodeEnv": "development",
+  "port": 10101,
+  "saveToFile": false,
+  "webhookDestinationUrl": "events",
+  "webhookProxyUrl": "https://smee.io/achievibit-test",
+}
+`;
+
+exports[`ConfigService Validations dbUrl should REJECT non-mongodb URLS 1`] = `
+"
+============================
+ property: dbUrl
+ value: https://google.com/
+============================
+ - dbUrl should be a valid mongodb URL
+
+"
+`;
+
+exports[`ConfigService Validations nodeEnv should REJECT other values 1`] = `
+"
+==========================
+ property: nodeEnv
+ value: value_not_allowed
+==========================
+ - nodeEnv must be one of the following values: development,production,test
+
+"
+`;
+
+exports[`ConfigService Validations nodeEnv should REJECT other values 2`] = `
+"
+===================
+ property: nodeEnv
+ value: 4
+===================
+ - nodeEnv must be one of the following values: development,production,test
+ - nodeEnv must be a string
+
+"
+`;
+
+exports[`ConfigService Validations port should REJECT values other than numbers 1`] = `
+"
+================
+ property: port
+ value: hello
+================
+ - port must be a number conforming to the specified constraints
+
+"
+`;
+
+exports[`ConfigService Validations port should REJECT values other than numbers 2`] = `
+"
+========================
+ property: port
+ value: [object Object]
+========================
+ - port must be a number conforming to the specified constraints
+
+"
+`;
+
+exports[`ConfigService Validations webhookProxyUrl should REJECT non-URLS 1`] = `
+"
+===========================
+ property: webhookProxyUrl
+ value: hello world
+===========================
+ - webhookProxyUrl must be an URL address
+ - webhookProxyUrl must match /^https:\\\\/\\\\/(?:www\\\\.)?smee\\\\.io\\\\/[a-zA-Z0-9_-]+\\\\/?/ regular expression
+
+"
+`;
+
+exports[`ConfigService Validations webhookProxyUrl should REJECT non-smee URLS 1`] = `
+"
+============================
+ property: webhookProxyUrl
+ value: https://google.com/
+============================
+ - webhookProxyUrl must match /^https:\\\\/\\\\/(?:www\\\\.)?smee\\\\.io\\\\/[a-zA-Z0-9_-]+\\\\/?/ regular expression
+
+"
+`;
