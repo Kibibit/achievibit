@@ -3,9 +3,10 @@ import { JSDOM } from 'jsdom';
 import { keys, noop } from 'lodash';
 import requireAll from 'require-all';
 
+import { AppService } from '@kb-app';
+import { ConfigModule } from '@kb-config';
 import { DtoMockGenerator } from '@kb-dev-tools';
 
-import { AppService } from '../../app.service';
 import { ShieldsService } from './shields.service';
 
 jest.mock('require-all');
@@ -21,6 +22,7 @@ describe('ShieldsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ ConfigModule ],
       providers: [
         { provide: AppService, useValue: { getPackageDetails: noop } },
         ShieldsService

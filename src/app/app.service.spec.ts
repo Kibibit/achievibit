@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { classToPlain } from 'class-transformer';
 
+import { ConfigModule } from '@kb-config';
+
 import { AppService } from './app.service';
 
 describe('AppService', () => {
@@ -8,6 +10,7 @@ describe('AppService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ ConfigModule ],
       providers: [ AppService ]
     }).compile();
 

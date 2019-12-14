@@ -3,7 +3,7 @@ import { BadgeFactory } from 'gh-badges';
 import { keys } from 'lodash';
 import requireAll from 'require-all';
 
-import { AppService } from '../../app.service';
+import { ConfigService } from '@kb-config';
 
 @Injectable()
 export class ShieldsService {
@@ -12,9 +12,9 @@ export class ShieldsService {
 
   achievements: any;
 
-  constructor(private readonly appService: AppService) {
+  constructor(private readonly configService: ConfigService) {
     this.achievements = requireAll({
-      dirname: appService.appRoot + '/achievements',
+      dirname: configService.appRoot + '/achievements',
       filter: /(.+achievement)\.js$/,
       excludeDirs: /^\.(git|svn)$/,
       recursive: true

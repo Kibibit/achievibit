@@ -1,17 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
 
+import { ConfigModule } from '@kb-config';
 import { ReposService, UsersService } from '@kb-modules';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
+      imports: [ ConfigModule ],
       controllers: [ AppController ],
       providers: [
         AppService,

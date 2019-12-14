@@ -6,9 +6,9 @@ import { readFileSync } from 'fs-extra';
 import nunjucks from 'nunjucks';
 import { join } from 'path';
 
-import { AppModule } from './app.module';
-import { ConfigService } from './config/config.service';
-import { PackageDetailsDto } from './models/package-details.model';
+import { AppModule } from '@kb-app';
+import { ConfigService } from '@kb-config';
+import { PackageDetailsDto } from '@kb-models';
 
 async function bootstrap() {
   const config = new ConfigService();

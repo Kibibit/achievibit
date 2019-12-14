@@ -2,13 +2,14 @@ import { Logger } from '@nestjs/common';
 import { classToPlain, Exclude } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import findRoot from 'find-root';
-import { writeJson } from 'fs-extra';
+import { readJSONSync, writeJson } from 'fs-extra';
 import { camelCase, get } from 'lodash';
 import nconf from 'nconf';
 import { join } from 'path';
 import SmeeClient from 'smee-client';
 
 import { ConfigValidationError } from '@kb-errors';
+import { PackageDetailsDto } from '@kb-models';
 
 import { AchievibitConfig } from './achievibit-config.model';
 
@@ -17,6 +18,8 @@ const environment = get(process, 'env.NODE_ENV', 'development');
 const eventLogger: Logger = new Logger('SmeeEvents');
 (eventLogger as any).info = eventLogger.log;
 const configFilePath = join(appRoot, `${ environment }.env.json`);
+
+const packageDetails = new PackageDetailsDto(readJSONSync(join(appRoot, 'package.json')));
 
 nconf
   .argv({
@@ -51,6 +54,14 @@ export class ConfigService extends AchievibitConfig {
 
   get events(): any {
     return events;
+  }
+
+  get packageDetails(): PackageDetailsDto {
+    return packageDetails;
+  }
+
+  get appRoot(): string {
+    return appRoot;
   }
 
   constructor(passedConfig?: Partial<AchievibitConfig>) {
