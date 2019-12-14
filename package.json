@@ -51,7 +51,8 @@
     "swagger-ui-express": "^4.1.2",
     "smee-client": "^1.1.0",
     "mongodb-memory-server": "^6.0.2",
-    "mongodb": "^3.3.5"
+    "mongodb": "^3.3.5",
+    "randexp": "^0.5.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
@@ -76,7 +77,6 @@
     "jest-stare": "^1.25.0",
     "jsdom": "^15.2.1",
     "prettier": "^1.18.2",
-    "randexp": "^0.5.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.1.1",
