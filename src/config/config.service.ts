@@ -60,11 +60,12 @@ export class ConfigService extends AchievibitConfig {
 
     const config = passedConfig || nconf.get();
     const envConfig = this.validateInput(config);
+    const passedConfigNodeEnv = get(passedConfig, 'nodeEnv', '');
 
     // attach configuration to this service
     Object.assign(this, envConfig);
 
-    if (this.mode === 'development' || passedConfig.nodeEnv === 'development') {
+    if (this.mode === 'development' || passedConfigNodeEnv === 'development') {
       if (!smee) {
         smee = new SmeeClient({
           source: this.webhookProxyUrl,
