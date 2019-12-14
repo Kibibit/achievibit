@@ -4,10 +4,9 @@ import { isEqual } from 'lodash';
 
 import { USER_MODEL_NAME, UserSchema } from '@kb-models';
 
-import { closeDatabase, TestDatabaseModule } from '../../db-test.module';
+import { TestDatabaseModule } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { UsersService } from './users.service';
-
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -27,7 +26,7 @@ describe('UsersService', () => {
   });
 
   afterEach(async () => {
-    await closeDatabase();
+    await TestDatabaseModule.closeDatabase();
   });
 
   it('should be defined', async () => {
