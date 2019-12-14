@@ -13,13 +13,6 @@ async function testDBFactory() {
   return { uri };
 }
 
-export async function closeDatabase() {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  await mongod.stop();
-  mongod = null;
-  uri = null;
-}
 @Module({
   imports: [
     MongooseModule.forRootAsync({
@@ -27,4 +20,12 @@ export async function closeDatabase() {
     })
   ]
 })
-export class TestDatabaseModule { }
+export class TestDatabaseModule {
+  static async closeDatabase() {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+    await mongod.stop();
+    mongod = null;
+    uri = null;
+  }
+}

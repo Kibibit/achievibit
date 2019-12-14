@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { REPO_MODEL_NAME, RepoSchema } from '@kb-models';
 
-import { closeDatabase, TestDatabaseModule } from '../../db-test.module';
+import { TestDatabaseModule } from '../../db-test.module';
 import { dtoMockGenerator } from '../../dto.mock-generator';
 import { ReposService } from './repos.service';
 
@@ -23,7 +23,7 @@ describe('ReposService', () => {
   });
 
   afterEach(async () => {
-    await closeDatabase();
+    await TestDatabaseModule.closeDatabase();
   });
 
   it('should be defined', () => {
