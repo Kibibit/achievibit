@@ -55,7 +55,6 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "randexp": "^0.5.3",
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
@@ -76,9 +75,11 @@
     "barrelsby": "^2.2.0",
     "coveralls": "^3.0.9",
     "jest": "^24.9.0",
+    "jest-github-reporter": "^0.3.4",
     "jest-stare": "^1.25.0",
     "jsdom": "^15.2.1",
     "prettier": "^1.18.2",
+    "randexp": "^0.5.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.1.1",
