@@ -96,6 +96,7 @@
       "clover",
       "html"
     ],
+    "verbose": true,
     "reporters": [
       "default",
       "jest-stare"
