@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate-barrels": "barrelsby --delete -d ./src -l below -q",
-    "coveralls": "cat ./test-results/coverage/lcov.info | coveralls"
+    "coveralls": "cat ./test-results/coverage/lcov.info | coveralls",
+    "commit": "npx git-cz"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -55,6 +56,8 @@
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
@@ -73,7 +76,10 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.6",
     "barrelsby": "^2.2.0",
+    "commitizen": "^4.0.3",
     "coveralls": "^3.0.9",
+    "cz-conventional-changelog": "^3.0.2",
+    "husky": "^3.1.0",
     "jest": "^24.9.0",
     "jest-github-reporter": "^0.3.4",
     "jest-stare": "^1.25.0",
@@ -138,5 +144,16 @@
   "jest-stare": {
     "resultDir": "test-results/",
     "coverageLink": "./coverage/index.html"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && (npm run commit -- --hook) || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || (git config commit.template .commit-template && false)"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
