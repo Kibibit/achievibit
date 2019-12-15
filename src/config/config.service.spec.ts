@@ -125,7 +125,7 @@ describe('ConfigService', () => {
       it('should ACCEPT empty value', async () => {
         const service = new ConfigService({ dbUrl: undefined });
 
-        expect(service.dbUrl).toBeUndefined();
+        expect(service.dbUrl).toBeDefined();
 
         service.closeEvents();
       });
