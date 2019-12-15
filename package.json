@@ -99,7 +99,8 @@
     "verbose": true,
     "reporters": [
       "default",
-      "jest-stare"
+      "jest-stare",
+      "jest-github-reporter"
     ],
     "testResultsProcessor": "./node_modules/jest-stare",
     "watchPathIgnorePatterns": [
