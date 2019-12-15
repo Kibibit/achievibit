@@ -18,7 +18,8 @@ import {
   webhookPingEvent,
 } from '@kb-dev-tools';
 
-import { AchievibitEventName, GithubEventManagerService } from './github-event-manager.service';
+import { AchievibitEventNames } from './achievibit-event-names.enum';
+import { GithubEventManagerService } from './github-event-manager.service';
 
 describe('GithubEventManagerService', () => {
   let service: GithubEventManagerService;
@@ -43,7 +44,7 @@ describe('GithubEventManagerService', () => {
           webhookPingEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.NewConnection);
+        expect(result).toBe(AchievibitEventNames.NewConnection);
       });
 
       it('Open Event', () => {
@@ -52,7 +53,7 @@ describe('GithubEventManagerService', () => {
           pullRequestCreatedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestOpened);
+        expect(result).toBe(AchievibitEventNames.PullRequestOpened);
       });
 
       it('Edit Event (title or description edit)', () => {
@@ -61,7 +62,7 @@ describe('GithubEventManagerService', () => {
           pullRequestEditedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestEdited);
+        expect(result).toBe(AchievibitEventNames.PullRequestEdited);
       });
 
       it('Initial Labels (added when pull request is created)', () => {
@@ -70,7 +71,7 @@ describe('GithubEventManagerService', () => {
           pullRequestLabelsInitializedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestInitialLabeled);
+        expect(result).toBe(AchievibitEventNames.PullRequestInitialLabeled);
       });
 
       it('Add Label Event', () => {
@@ -79,7 +80,7 @@ describe('GithubEventManagerService', () => {
           pullRequestLabelAddedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestLableAdded);
+        expect(result).toBe(AchievibitEventNames.PullRequestLableAdded);
       });
 
       it('Removed Label Event', () => {
@@ -88,7 +89,7 @@ describe('GithubEventManagerService', () => {
           pullRequestLabelRemovedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestLabelRemoved);
+        expect(result).toBe(AchievibitEventNames.PullRequestLabelRemoved);
       });
 
       it('Add Assignee Event', () => {
@@ -97,7 +98,7 @@ describe('GithubEventManagerService', () => {
           pullRequestAssigneeAddedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestAssigneeAdded);
+        expect(result).toBe(AchievibitEventNames.PullRequestAssigneeAdded);
       });
 
       it('Remove Assignee Event', () => {
@@ -106,7 +107,7 @@ describe('GithubEventManagerService', () => {
           pullRequestAssigneeRemovedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestAssigneeRemoved);
+        expect(result).toBe(AchievibitEventNames.PullRequestAssigneeRemoved);
       });
 
       it('Merge Pull Request Event', () => {
@@ -115,7 +116,7 @@ describe('GithubEventManagerService', () => {
           pullRequestMergedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestMerged);
+        expect(result).toBe(AchievibitEventNames.PullRequestMerged);
       });
     });
 
@@ -126,7 +127,7 @@ describe('GithubEventManagerService', () => {
           pullReuqestReviewRequestAddedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewRequestAdded);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewRequestAdded);
       });
 
       it('Review Request Removed Event', () => {
@@ -135,7 +136,7 @@ describe('GithubEventManagerService', () => {
           pullRequestReviewRequestRemovedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewRequestRemoved);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewRequestRemoved);
       });
 
       it('Review Comment Added Event', () => {
@@ -144,7 +145,7 @@ describe('GithubEventManagerService', () => {
           reviewCommentAddedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewCommentAdded);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewCommentAdded);
       });
 
       it('Review Comment Removed Event', () => {
@@ -153,7 +154,7 @@ describe('GithubEventManagerService', () => {
           reviewCommentRemovedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewCommentRemoved);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewCommentRemoved);
       });
 
       it('Review Comment Edited Event', () => {
@@ -162,7 +163,7 @@ describe('GithubEventManagerService', () => {
           reviewCommentEditedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewCommentEdited);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewCommentEdited);
       });
 
       it('Review Submitted Event', () => {
@@ -171,7 +172,7 @@ describe('GithubEventManagerService', () => {
           reviewSubmittedEvent.payload
         );
 
-        expect(result).toBe(AchievibitEventName.PullRequestReviewSubmitted);
+        expect(result).toBe(AchievibitEventNames.PullRequestReviewSubmitted);
       });
 
       it.todo('Review Edited Event');
