@@ -40,6 +40,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/public/' });
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('njk');
+  app.set('view engine', 'njk');
   nunjucks.configure('views', {
     autoescape: true,
     express: app,
