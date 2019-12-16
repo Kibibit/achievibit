@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import {
+  DtoMockGenerator,
   pullRequestAssigneeAddedEvent,
   pullRequestAssigneeRemovedEvent,
   pullRequestCreatedEvent,
@@ -17,16 +18,23 @@ import {
   reviewSubmittedEvent,
   webhookPingEvent,
 } from '@kb-dev-tools';
+import { AchievibitEventNames, GithubEventManagerService, UsersService } from '@kb-modules';
 
-import { AchievibitEventNames } from './achievibit-event-names.enum';
-import { GithubEventManagerService } from './github-event-manager.service';
+import { ReposService } from '../repos/repos.service';
+
+const userDto = DtoMockGenerator.userDto();
+const repoDto = DtoMockGenerator.repoDto();
 
 describe('GithubEventManagerService', () => {
   let service: GithubEventManagerService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ GithubEventManagerService ]
+      providers: [
+        GithubEventManagerService,
+        { provide: UsersService, useValue: { create: (...anything) => userDto } },
+        { provide: ReposService, useValue: { create: (...anything) => repoDto } }
+      ]
     }).compile();
 
     service = module.get<GithubEventManagerService>(GithubEventManagerService);

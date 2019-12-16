@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
 
 import { ConfigModule } from '@kb-config';
-import { ReposService, UsersService } from '@kb-modules';
+import { GithubEventManagerService, ReposService, UsersService } from '@kb-modules';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,7 +17,8 @@ describe('AppController', () => {
       providers: [
         AppService,
         { provide: ReposService, useValue: { findAll: noop, findOne: noop, create: noop } },
-        { provide: UsersService, useValue: { findAll: noop, findOne: noop, create: noop } }
+        { provide: UsersService, useValue: { findAll: noop, findOne: noop, create: noop } },
+        { provide: GithubEventManagerService, useValue: { postFromWebhook: (githubHeader: string, body: any) => githubHeader } }
       ]
     }).compile();
 
