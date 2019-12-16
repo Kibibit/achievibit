@@ -53,7 +53,8 @@
     "rxjs": "^6.5.3",
     "smee-client": "^1.1.0",
     "swagger-ui-express": "^4.1.2",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "randexp": "^0.5.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
@@ -85,7 +86,6 @@
     "jest-stare": "^1.25.0",
     "jsdom": "^15.2.1",
     "prettier": "^1.18.2",
-    "randexp": "^0.5.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.1.1",
