@@ -1,18 +1,29 @@
-import { ClassSerializerInterceptor, Controller, Get, HttpStatus, Render, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Headers,
+  HttpStatus,
+  Post,
+  Render,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { groupBy } from 'lodash';
 
 import { PackageDetailsDto } from '@kb-models';
-import { ReposService, UsersService } from '@kb-modules';
+import { GithubEventManagerService, ReposService, UsersService } from '@kb-modules';
 
 import { AppService } from './app.service';
 
-@Controller('')
+@Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly reposService: ReposService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly githubEventManagerService: GithubEventManagerService
   ) { }
 
   @Get()
@@ -38,5 +49,13 @@ export class AppController {
   @UseInterceptors(ClassSerializerInterceptor)
   async getAchievibitPackageInfo(): Promise<PackageDetailsDto> {
     return await this.appService.getPackageDetails();
+  }
+
+  @Post()
+  @ApiOperation({ summary: `Recieve GitHub Webhooks` })
+  async recieveGitHubWebhooks(@Headers('x-github-event') githubEvent: string, @Body() eventBody: any) {
+    await this.githubEventManagerService.postFromWebhook(githubEvent, eventBody);
+
+    return;
   }
 }

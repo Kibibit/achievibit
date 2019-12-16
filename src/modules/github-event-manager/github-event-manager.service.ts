@@ -1,11 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { isEqual } from 'lodash';
 
+import { ReposService } from '../repos/repos.service';
 import { AchievibitEventNames } from './achievibit-event-names.enum';
+import { newConnectionHandler } from './event-handlers/new-connection.handler';
 
 @Injectable()
 export class GithubEventManagerService {
   logger: Logger = new Logger('GithubEventManagerService');
+
+  constructor(private reposService: ReposService) { }
 
   async postFromWebhook(githubHeader: string, body: any): Promise<any> {
     this.logger.log('got a post about ' + githubHeader);
@@ -19,6 +23,8 @@ export class GithubEventManagerService {
     switch (eventName) {
       case AchievibitEventNames.NewConnection:
         this.logger.debug('handleNewConnection');
+        const repoDto = await newConnectionHandler(eventData);
+        await this.reposService.create(repoDto);
         return;
       case AchievibitEventNames.PullRequestOpened:
         this.logger.debug('PullRequestOpened');
