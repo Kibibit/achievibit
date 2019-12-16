@@ -7,6 +7,8 @@ export * from './github-event-manager/github-event-manager.module';
 export * from './github-event-manager/github-event-manager.service.spec';
 export * from './github-event-manager/github-event-manager.service';
 export * from './github-event-manager/github-pr-payload.model';
+export * from './github-event-manager/event-handlers/new-connection.handler';
+export * from './github-event-manager/event-handlers/pull-request-opened.handler';
 export * from './repos/repos.controller.spec';
 export * from './repos/repos.controller';
 export * from './repos/repos.module';

@@ -104,7 +104,13 @@ export class ConfigService extends AchievibitConfig {
   }
 
   closeEvents() {
-    return this.events && this.events.close();
+    const smeeToDelete = smee;
+    const eventsToDelete = events;
+
+    smee = undefined;
+    events = undefined;
+
+    return eventsToDelete && eventsToDelete.close();
   }
 
   toPlainObject() {
