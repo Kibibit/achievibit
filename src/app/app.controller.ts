@@ -5,6 +5,7 @@ import {
   Get,
   Headers,
   HttpStatus,
+  Logger,
   Post,
   Render,
   UseInterceptors,
@@ -19,6 +20,7 @@ import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
+  private logger: Logger = new Logger('AppController');
   constructor(
     private readonly appService: AppService,
     private readonly reposService: ReposService,
@@ -53,9 +55,9 @@ export class AppController {
 
   @Post()
   @ApiOperation({ summary: `Recieve GitHub Webhooks` })
-  async recieveGitHubWebhooks(@Headers('x-github-event') githubEvent: string, @Body() eventBody: any) {
-    await this.githubEventManagerService.postFromWebhook(githubEvent, eventBody);
+  async recieveGitHubWebhooks(@Headers('x-github-event') githubEvent: string, @Body() eventBody: any): Promise<string> {
+    const eventName = await this.githubEventManagerService.postFromWebhook(githubEvent, eventBody);
 
-    return;
+    return eventName;
   }
 }
