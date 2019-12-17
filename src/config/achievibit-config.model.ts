@@ -21,9 +21,9 @@ export class AchievibitConfig {
   @Expose()
   @IsOptional()
   @IsString()
-  @IsUrl({ protocols: [ 'mongodb', 'mongodb+srv' ] }, {
-    message: '$property should be a valid mongodb URL'
-  })
+  // @IsUrl({ protocols: [ 'mongodb', 'mongodb+srv' ],  }, {
+  //   message: '$property should be a valid mongodb URL'
+  // })
   dbUrl: string;
 
   @Expose()
@@ -38,7 +38,6 @@ export class AchievibitConfig {
   @Transform((url) => trim(url, '/'))
   webhookDestinationUrl = 'events';
 
-  @Expose()
   @IsBoolean()
   saveToFile = false;
 
