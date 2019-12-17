@@ -80,5 +80,9 @@
 
   ],
   "typescriptHero.imports.organizeOnSave": true,
-  "tslint.autoFixOnSave": true
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  "tslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  }
 }
