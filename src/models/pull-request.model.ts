@@ -1,12 +1,11 @@
 import { Exclude, Expose } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ObjectId } from 'mongodb';
-import { Document, Schema } from 'mongoose';
+import { Document, Schema, Types } from 'mongoose';
 
 import { UserDto } from '@kb-models';
 
 import { RepoDto } from './repo.model';
-import { UserSchema } from './user.model';
 
 export const PULL_REQUEST_MODEL_NAME = 'PullRequest';
 
@@ -75,7 +74,10 @@ export const PullRequestSchema = new Schema({
   number: { type: Number, required: true },
   title: { type: String, required: true },
   description: String,
-  creator: UserSchema,
+  creator: {
+    id: { type: Types.ObjectId, ref: 'User' },
+    username: String
+  },
   createdOn: { type: Date, required: true },
   labels: { type: [] },
   history: { type: Object }
