@@ -83,6 +83,6 @@
   "typescriptHero.imports.multiLineTrailingComma": false,
   "tslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": false
+    "source.fixAll.eslint": true
   }
 }
