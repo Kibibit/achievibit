@@ -1,17 +1,25 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { isEqual } from 'lodash';
 
+import { GithubEngine } from '@kb-engines';
+
+import { PullRequestsService } from '../pull-requests/pull-requests.service';
 import { ReposService } from '../repos/repos.service';
 import { UsersService } from '../users/users.service';
 import { AchievibitEventNames } from './achievibit-event-names.enum';
-import { newConnectionHandler } from './event-handlers/new-connection.handler';
-import { pullRequestOpenedHandler } from './event-handlers/pull-request-opened.handler';
 
 @Injectable()
 export class GithubEventManagerService {
   logger: Logger = new Logger('GithubEventManagerService');
+  githubEngine: GithubEngine;
 
-  constructor(private reposService: ReposService, private usersService: UsersService) { }
+  constructor(
+    private usersService: UsersService,
+    private reposService: ReposService,
+    private pullRequestsService: PullRequestsService
+  ) {
+    this.githubEngine = new GithubEngine(this.usersService, this.reposService, this.pullRequestsService);
+  }
 
   async postFromWebhook(githubHeader: string, body: any): Promise<any> {
     this.logger.log('got a post about ' + githubHeader);
@@ -25,14 +33,11 @@ export class GithubEventManagerService {
     switch (eventName) {
       case AchievibitEventNames.NewConnection:
         this.logger.debug('handleNewConnection');
-        const repoDto = await newConnectionHandler(eventData);
-        await this.reposService.create(repoDto);
+        await this.githubEngine.handleNewConnection(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestOpened:
         this.logger.debug('PullRequestOpened');
-        const { creator, organization } = await pullRequestOpenedHandler(eventData);
-        await this.usersService.create(creator);
-        if (organization) { await this.usersService.create(organization); }
+        await this.githubEngine.handlePullRequestOpened(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestInitialLabeled:
         this.logger.debug('PullRequestInitialLabeled');

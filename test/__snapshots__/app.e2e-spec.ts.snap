@@ -336,6 +336,25 @@ Array [
 ]
 `;
 
+exports[`AppController (e2e) / (POST) from github pull request created event should create user 3`] = `
+Array [
+  PullRequestDto {
+    "__v": 0,
+    "_id": "5df96f8af44e176864b74d55",
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": Object {
+      "username": "Thatkookooguy",
+    },
+    "description": "",
+    "id": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "labels": Array [],
+    "number": 1,
+    "title": "Create test-event.ts",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
 exports[`AppController (e2e) / (POST) from github pull request created event should create user and organization 1`] = `"PullRequestOpened"`;
 
 exports[`AppController (e2e) / (POST) from github pull request created event should create user and organization 2`] = `

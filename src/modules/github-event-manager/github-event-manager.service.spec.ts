@@ -16,10 +16,12 @@ import {
   reviewCommentEditedEvent,
   reviewCommentRemovedEvent,
   reviewSubmittedEvent,
-  webhookPingEvent,
+  webhookPingEvent
 } from '@kb-dev-tools';
+import { PullRequestDto } from '@kb-models';
 import { AchievibitEventNames, GithubEventManagerService, UsersService } from '@kb-modules';
 
+import { PullRequestsService } from '../pull-requests/pull-requests.service';
 import { ReposService } from '../repos/repos.service';
 
 const userDto = DtoMockGenerator.userDto();
@@ -33,7 +35,8 @@ describe('GithubEventManagerService', () => {
       providers: [
         GithubEventManagerService,
         { provide: UsersService, useValue: { create: (...anything) => userDto } },
-        { provide: ReposService, useValue: { create: (...anything) => repoDto } }
+        { provide: ReposService, useValue: { create: (...anything) => repoDto } },
+        { provide: PullRequestsService, useValue: { create: (...anything) => PullRequestDto } }
       ]
     }).compile();
 

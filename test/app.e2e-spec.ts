@@ -9,13 +9,15 @@ import {
   InMemoryDatabaseModule,
   pullRequestCreatedEvent,
   pullRequestCreatedOrganizationEvent,
-  webhookPingEvent,
+  webhookPingEvent
 } from '@kb-dev-tools';
+import { PullRequestsService } from '@kb-modules';
 
 // new ConfigService({});
 
 describe('AppController (e2e)', () => {
   let app: NestExpressApplication;
+  let pullRequestsService: PullRequestsService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -32,6 +34,7 @@ describe('AppController (e2e)', () => {
     });
 
     await app.init();
+    pullRequestsService = moduleFixture.get(PullRequestsService);
   });
 
   test('/ (GET) should return homepage at root of App', async () => {
@@ -91,6 +94,10 @@ describe('AppController (e2e)', () => {
       .expect(200);
 
     expect(getAllUsersResponse.body).toMatchSnapshot();
+
+    const allPullRequests = await pullRequestsService.findAll();
+
+    expect(allPullRequests).toMatchSnapshot();
   });
 
   test('/ (POST) from github pull request created event should create user and organization', async () => {

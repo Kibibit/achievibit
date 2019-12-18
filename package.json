@@ -138,7 +138,8 @@
       "^@kb-config$": "<rootDir>/src/config/index",
       "^@kb-errors$": "<rootDir>/src/errors/index",
       "^@kb-dev-tools$": "<rootDir>/src/dev-tools/index",
-      "^@kb-app$": "<rootDir>/src/app/index"
+      "^@kb-app$": "<rootDir>/src/app/index",
+      "^@kb-engines$": "<rootDir>/src/engines/index"
     }
   },
   "jest-stare": {

@@ -5,7 +5,6 @@ Object {
   "dbUrl": undefined,
   "nodeEnv": "development",
   "port": 10101,
-  "saveToFile": false,
   "webhookDestinationUrl": "events",
   "webhookProxyUrl": "https://smee.io/achievibit-test",
 }

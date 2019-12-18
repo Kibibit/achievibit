@@ -17,7 +17,8 @@
       "@kb-config": ["src/config/index"],
       "@kb-errors": ["src/errors/index"],
       "@kb-dev-tools": ["src/dev-tools/index"],
-      "@kb-app": ["src/app/index"]
+      "@kb-app": ["src/app/index"],
+      "@kb-engines": ["src/engines/index"]
     }
   },
   "exclude": ["node_modules", "dist"]
