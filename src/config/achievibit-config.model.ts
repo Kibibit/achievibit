@@ -21,9 +21,9 @@ export class AchievibitConfig {
   @Expose()
   @IsOptional()
   @IsString()
-  // @IsUrl({ protocols: [ 'mongodb', 'mongodb+srv' ],  }, {
-  //   message: '$property should be a valid mongodb URL'
-  // })
+  @IsUrl({ protocols: [ 'mongodb', 'mongodb+srv' ], require_tld: false }, {
+    message: '$property should be a valid mongodb URL'
+  })
   dbUrl: string;
 
   @Expose()

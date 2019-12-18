@@ -130,6 +130,14 @@ describe('ConfigService', () => {
         service.closeEvents();
       });
 
+      it('should ACCEPT localhost mongodb URL', () => {
+        const localMongodbUrl = 'mongodb://localhost:27017';
+
+        const configService = new ConfigService({ dbUrl: localMongodbUrl });
+
+        expect(configService.dbUrl).toBe(localMongodbUrl);
+      });
+
       it('should ACCEPT valid mongodb URLS', () => {
         const mongodbProtocolUrls = times(10, () => DtoMockGenerator.mongodbUrl());
 
