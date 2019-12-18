@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 
 import { CreateUserDto, IUser, USER_MODEL_NAME, UserDto } from '@kb-models';
 
-
 @Injectable()
 export class UsersService {
   private logger: Logger = new Logger(`UsersService`);
@@ -18,7 +17,7 @@ export class UsersService {
   }
 
   async findAll(): Promise<UserDto[]> {
-    return await this.userModel.find().exec()
+    return await this.userModel.find().sort({ username: 'desc' }).exec()
       .then((result) => result.map((user) => new UserDto(user.toJSON())));
   }
 

@@ -17,7 +17,7 @@ export class ReposService {
   }
 
   async findAll(): Promise<RepoDto[]> {
-    return await this.userModel.find().exec()
+    return await this.userModel.find().sort({ fullname: 'desc' }).exec()
       .then((result) => result.map((user) => new RepoDto(user.toJSON())));
   }
 

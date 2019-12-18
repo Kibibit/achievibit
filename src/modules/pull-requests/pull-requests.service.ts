@@ -26,7 +26,7 @@ export class PullRequestsService {
   }
 
   async findAll(): Promise<PullRequestDto[]> {
-    return await this.pullRequestModel.find().exec()
+    return await this.pullRequestModel.find().sort({ id: 'desc' }).exec()
       .then((result) => result.map((pullRequest) => new PullRequestDto(pullRequest.toJSON())));
   }
 
