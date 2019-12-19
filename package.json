@@ -21,7 +21,7 @@
     "generate-barrels": "barrelsby --delete -d ./src -l below -q",
     "coveralls": "cat ./test-results/coverage/lcov.info | coveralls",
     "commit": "npx git-cz",
-    "deploy-tests-report": "./deploy-test-results.sh"
+    "deploy-tests-report": "./deploy-test-results.js"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
