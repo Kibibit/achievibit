@@ -64,6 +64,7 @@
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
     "@nestjs/typeorm": "^6.2.0",
+    "@octokit/rest": "^16.35.2",
     "@types/chance": "^1.0.7",
     "@types/depcheck": "^0.9.1",
     "@types/dotenv": "^8.2.0",
