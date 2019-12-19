@@ -13,7 +13,7 @@ if (!travisPullRequest ||
   throw new Error('required environment variables are not set');
 }
 
-exec(`now alias --token=${nowToken} $(now ./test-results --static --no-clipboard --token=${nowToken} --public) achievibit-pr-${ travisPullRequest }`,
+exec(`now alias --token=${nowToken} $(now ./test-results --no-clipboard --token=${nowToken} --public) achievibit-pr-${ travisPullRequest }`,
   (err, stdout, stderr) => {
     if (err) {
       console.error(err);
