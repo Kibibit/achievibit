@@ -21,6 +21,12 @@ describe('PullRequestsService', () => {
     service = module.get<PullRequestsService>(PullRequestsService);
   });
 
+  afterEach(async (done) => {
+    InMemoryDatabaseModule.closeDatabase();
+
+    done();
+  });
+
   it('should be defined', async (done) => {
     expect(service).toBeDefined();
 
