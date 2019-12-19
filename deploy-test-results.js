@@ -6,11 +6,15 @@ const {
 
 const travisPullRequest = process.env.TRAVIS_PULL_REQUEST;
 const nowToken = process.env.NOW_TOKEN;
+const isTravis = process.env.TRAVIS;
 
-if (!travisPullRequest ||
-  !nowToken) {
-  console.error('required environment variables are not set');
-  throw new Error('required environment variables are not set');
+if (!isTravis || !travisPullRequest) {
+  console.info('not running on a travis pull request job. silently quitting...');
+}
+
+if (!nowToken) {
+  console.error('required environment variable NOW_TOKEN is not set');
+  throw new Error('required environment variable NOW_TOKEN is not set');
 }
 
 exec(`now alias --token=${nowToken} $(now ./test-results --no-clipboard --token=${nowToken} --public) achievibit-pr-${ travisPullRequest }`,
@@ -29,11 +33,13 @@ exec(`now alias --token=${nowToken} $(now ./test-results --no-clipboard --token=
 
     const splitted = prSlug.split('\/');
 
+    const testReportUrl = `https://achievibit-pr-${ travisPullRequest }.now.sh`
+
     const comment = {
       repo: splitted[1],
       owner: splitted[0],
       issue_number: travisPullRequest,
-      body: 'very nice, sir!'
+      body: 'Test report is available on ' + testReportUrl
     };
 
     const response = await octokit.issues.createComment(comment);
