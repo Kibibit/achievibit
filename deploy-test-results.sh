@@ -1,3 +1,4 @@
+# Should publish test results report on now
 if [[ -z $TRAVIS_PULL_REQUEST ]]; then
   echo 'not on travis pull request'
 elif [[ -z $NOW_TOKEN ]]; then
