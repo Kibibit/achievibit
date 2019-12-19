@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate-barrels": "barrelsby --delete -d ./src -l below -q",
     "coveralls": "cat ./test-results/coverage/lcov.info | coveralls",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "deploy-tests-report": "./deploy-test-results.sh"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -87,6 +88,7 @@
     "jest-github-reporter": "^0.3.4",
     "jest-stare": "^1.25.0",
     "jsdom": "^15.2.1",
+    "now": "^16.7.0",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
