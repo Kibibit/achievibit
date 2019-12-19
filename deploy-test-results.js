@@ -10,6 +10,7 @@ const isTravis = process.env.TRAVIS;
 
 if (!isTravis || !travisPullRequest) {
   console.info('not running on a travis pull request job. silently quitting...');
+  process.exit(0);
 }
 
 if (!nowToken) {
