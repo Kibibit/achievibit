@@ -21,7 +21,9 @@ describe('PullRequestsService', () => {
     service = module.get<PullRequestsService>(PullRequestsService);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async (done) => {
     expect(service).toBeDefined();
+
+    done();
   });
 });

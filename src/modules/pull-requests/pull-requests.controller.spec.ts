@@ -19,7 +19,9 @@ describe('PullRequests Controller', () => {
     controller = module.get<PullRequestsController>(PullRequestsController);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async (done) => {
     expect(controller).toBeDefined();
+
+    done();
   });
 });

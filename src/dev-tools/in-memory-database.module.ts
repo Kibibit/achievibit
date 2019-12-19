@@ -9,7 +9,10 @@ let uri: string;
 async function testDBFactory() {
   mongod = new MongoMemoryServer();
   uri = await mongod.getConnectionString();
-  await mongoose.connect(uri);
+  await mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
   return { uri };
 }
 

@@ -26,9 +26,11 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return package info', async () => {
+    it('should return package info', async (done) => {
       const packateDetails = await appController.getAchievibitPackageInfo();
       expect(packateDetails).toHaveProperty('name', 'achievibit');
+
+      done();
     });
   });
 });

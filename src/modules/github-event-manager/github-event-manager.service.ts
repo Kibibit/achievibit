@@ -80,7 +80,7 @@ export class GithubEventManagerService {
   }
 
   translateToEventName(eventName: string, eventData: any): AchievibitEventNames {
-    console.log('the event name is:', eventName);
+    // console.log('the event name is:', eventName);
     if (isEqual(eventName, 'ping')) {
       return AchievibitEventNames.NewConnection;
     }

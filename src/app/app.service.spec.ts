@@ -17,20 +17,26 @@ describe('AppService', () => {
     service = module.get<AppService>(AppService);
   });
 
-  it('should be defined', async () => {
+  it('should be defined', async (done) => {
     expect(service).toBeDefined();
+
+    done();
   });
 
-  it('should return package info', async () => {
+  it('should return package info', async (done) => {
     const packageDetails = classToPlain(await service.getPackageDetails());
 
     expect(packageDetails).toMatchSnapshot();
+
+    done();
   });
 
-  it('should re-use the same promise on different calls', async () => {
+  it('should re-use the same promise on different calls', async (done) => {
     const packageDetailsPromiseCall1 = service.getPackageDetails();
     const packageDetailsPromiseCall2 = service.getPackageDetails();
 
     expect(packageDetailsPromiseCall1).toEqual(packageDetailsPromiseCall2);
+
+    done();
   });
 });

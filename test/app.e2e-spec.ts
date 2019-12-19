@@ -55,9 +55,11 @@ describe('AppController (e2e)', () => {
     expect(response.text).toMatchSnapshot();
   });
 
-  afterEach(async () => {
+  afterEach(async (done) => {
     new ConfigService({}).closeEvents();
     await InMemoryDatabaseModule.closeDatabase();
+
+    done();
   });
 
   test('/ (POST) from github ping event should create db repo', async () => {

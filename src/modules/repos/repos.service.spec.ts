@@ -21,8 +21,10 @@ describe('ReposService', () => {
     service = module.get<ReposService>(ReposService);
   });
 
-  afterEach(async () => {
+  afterEach(async (done) => {
     await InMemoryDatabaseModule.closeDatabase();
+
+    done();
   });
 
   it('should be defined', () => {

@@ -24,8 +24,10 @@ describe('UsersService', () => {
     service = module.get<UsersService>(UsersService);
   });
 
-  afterEach(async () => {
+  afterEach(async (done) => {
     await InMemoryDatabaseModule.closeDatabase();
+
+    done();
   });
 
   it('should be defined', async () => {
