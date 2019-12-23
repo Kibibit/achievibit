@@ -28,17 +28,17 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  // SwaggerModule.setup('api/docs', app, document);
+  const swaggerCssFile = join(config.appRoot, './public/swagger.css');
 
   SwaggerModule.setup('api/docs', app, document, {
     customSiteTitle: `kibibit - achievibit API documentation`,
-    customCss: readFileSync(join(__dirname, '../public/swagger.css'), 'utf8')
+    customCss: readFileSync(swaggerCssFile, 'utf8')
     // customJs: '../swagger-things/swagger.js',
     // customfavIcon: '../swagger-things/favicon-32.png'
   });
 
-  app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/public/' });
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.useStaticAssets(join(config.appRoot, './public'), { prefix: '/public/' });
+  app.setBaseViewsDir(join(config.appRoot, './views'));
   app.setViewEngine('njk');
   app.set('view engine', 'njk');
   nunjucks.configure('views', {
