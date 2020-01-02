@@ -4,5 +4,4 @@
 
 export * from './achievibit-config.model';
 export * from './config.module';
-export * from './config.service.spec';
 export * from './config.service';

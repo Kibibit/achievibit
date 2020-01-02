@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate-barrels": "barrelsby --delete -d ./src -l below -q",
+    "generate-barrels": "barrelsby --delete -d ./src -l below -q --exclude spec.ts",
     "coveralls": "cat ./test-results/coverage/lcov.info | coveralls",
     "commit": "npx git-cz",
     "deploy-tests-report": "./deploy-test-results.js"
@@ -48,14 +48,14 @@
     "mongoose": "^5.8.0",
     "nconf": "^0.10.0",
     "nunjucks": "^3.2.0",
+    "randexp": "^0.5.3",
     "reflect-metadata": "^0.1.13",
     "require-all": "^3.0.0",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
     "smee-client": "^1.1.0",
     "swagger-ui-express": "^4.1.2",
-    "uuid": "^3.3.3",
-    "randexp": "^0.5.3"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
