@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
-    "@commitlint/config-angular": "^7.1.2",
+    "@commitlint/config-angular": "^8.3.4",
     "@nestjs/testing": "^5.1.0",
     "@semantic-release/commit-analyzer": "^6.1.0",
     "@semantic-release/git": "^7.0.5",
