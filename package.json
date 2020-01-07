@@ -125,6 +125,10 @@
       "!src/main.ts",
       "!src/*.mock-generator.ts"
     ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",

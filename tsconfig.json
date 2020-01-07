@@ -21,5 +21,5 @@
       "@kb-engines": ["src/engines/index"]
     }
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "__mocks__"]
 }
