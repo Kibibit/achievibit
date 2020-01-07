@@ -1,11 +1,12 @@
 import { Chance } from 'chance';
 import { kebabCase, times } from 'lodash';
+import { ObjectId } from 'mongodb';
 import RandExp from 'randexp';
 
 import { RepoDto, UserDto } from '@kb-models';
 
 interface IChanceMixin {
-  mongoObjectId: () => string;
+  mongoObjectId: () => ObjectId;
   mongodbUrl: () => string;
   userDto: () => UserDto;
   userDtos: () => UserDto[];
@@ -29,13 +30,13 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
 
     return randExp;
   },
-  mongoObjectId(): string {
-    return chance.string({ pool: 'abcdefABCDEF123456789', length: 24 });
+  mongoObjectId(): ObjectId {
+    return new ObjectId(chance.string({ pool: 'abcdefABCDEF123456789', length: 24 }));
   },
   userDto(): UserDto {
     const isOrg = chance.bool();
 
-    return {
+    return new UserDto({
       _id: chance.mongoObjectId(),
       __v: '0',
       username: chance.name(),
@@ -48,20 +49,20 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
         undefined,
       achievements: [],
       token: chance.string()
-    };
+    });
   },
   userDtos(): UserDto[] {
     return times(chance.integer({ min: 0, max: 10 }), () => chance.userDto());
   },
   repoDto(): RepoDto {
-    return {
+    return new RepoDto({
       _id: chance.mongoObjectId(),
       __v: 0,
       name: chance.string(),
       fullname: chance.string(),
       organization: chance.company(),
       url: chance.url()
-    };
+    });
   },
   repoDtos(): RepoDto[] {
     return times(chance.integer({ min: 0, max: 10 }), () => chance.repoDto());

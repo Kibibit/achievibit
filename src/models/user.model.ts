@@ -3,7 +3,7 @@ import { Exclude } from 'class-transformer';
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Document, Schema } from 'mongoose';
 
-import { Achievement, AchievementSchema } from '@kb-models';
+import { Achievement, AchievementSchema, BaseDBModel } from '@kb-models';
 
 export const USER_MODEL_NAME = 'User';
 
@@ -43,18 +43,42 @@ export class CreateUserDto {
 }
 
 /* tslint:disable */
-export class UserDto extends CreateUserDto {
+export class UserDto extends BaseDBModel {
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly username: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly url: string;
+
+  @ApiProperty()
+  @IsString()
+  readonly avatar: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  readonly organization: boolean;
+
+  @ApiProperty({ required: false })
+  @IsArray()
+  @IsOptional()
+  readonly users?: string[];
+
+  @ApiProperty()
+  @IsArray()
+  readonly repos: string[];
+
+  @Exclude()
+  readonly token: string;
+
+  achievements: Achievement[];
+
   constructor(partial: Partial<UserDto>) {
     super();
     Object.assign(this, partial);
   }
-
-  @Exclude()
-  readonly _id: string;
-  @Exclude()
-  readonly __v: string;
-
-  achievements: Achievement[];
 }
 /* tslint:enable */
 

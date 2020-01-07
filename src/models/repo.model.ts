@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Document, Schema } from 'mongoose';
+
+import { BaseDBModel } from '@kb-models';
 
 export const REPO_MODEL_NAME = 'Repo';
 
@@ -25,16 +26,28 @@ export class CreateRepoDto {
 }
 
 /* tslint:disable */
-export class RepoDto extends CreateRepoDto {
+export class RepoDto extends BaseDBModel {
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly fullname: string;
+
+  @ApiProperty()
+  @IsString()
+  readonly url: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  readonly organization: string;
+
   constructor(partial: Partial<RepoDto>) {
     super();
     Object.assign(this, partial);
   }
-
-  @Exclude()
-  readonly _id: string;
-  @Exclude()
-  readonly __v: number;
 }
 /* tslint:enable */
 

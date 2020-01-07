@@ -3,6 +3,7 @@
  */
 
 export * from './achievement.model';
+export * from './base-database.model';
 export * from './engine.model';
 export * from './package-details.model';
 export * from './pull-request.model';

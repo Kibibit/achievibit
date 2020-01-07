@@ -3,14 +3,12 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ObjectId } from 'mongodb';
 import { Document, Schema, Types } from 'mongoose';
 
-import { UserDto } from '@kb-models';
-
-import { RepoDto } from './repo.model';
+import { BaseDBModel, RepoDto, UserDto } from '@kb-models';
 
 export const PULL_REQUEST_MODEL_NAME = 'PullRequest';
 
 @Exclude()
-export class PullRequestDto {
+export class PullRequestDto extends BaseDBModel {
   /* tslint:disable */
   @Exclude()
   _id: ObjectId;
@@ -64,6 +62,7 @@ export class PullRequestDto {
   assignees?: UserDto[];
 
   constructor(partial: Partial<PullRequestDto>) {
+    super();
     Object.assign(this, partial);
   }
 }
