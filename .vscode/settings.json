@@ -84,5 +84,6 @@
   "tslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "jest.showCoverageOnLoad": false
 }
