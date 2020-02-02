@@ -1,0 +1,6 @@
+# GLOBAL
+*       @thatkookooguy
+
+# JavaScript \ TypeScript
+*.js    @development
+*.ts    @development
