@@ -64,11 +64,11 @@ export const UserSchema = new Schema({
   avatar: { type: String, required: true },
   organization: Boolean,
   users: {
-    type: [ String ],
+    type: [String],
     required() { return this.organization === true ? true : false; }
   },
-  repos: { type: [ String ], required: true },
-  achievements: { type: [ AchievementSchema ] }
+  repos: { type: [String], required: true },
+  achievements: { type: [AchievementSchema] }
 }, {
   collation: { locale: 'en_US', strength: 2 }
 });
