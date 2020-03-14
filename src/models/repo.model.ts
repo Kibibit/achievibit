@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ObjectId } from 'mongodb';
 import { Document, Schema } from 'mongoose';
 
 export const REPO_MODEL_NAME = 'Repo';
@@ -32,7 +33,7 @@ export class RepoDto extends CreateRepoDto {
   }
 
   @Exclude()
-  readonly _id: string;
+  readonly _id: ObjectId;
   @Exclude()
   readonly __v: number;
 }

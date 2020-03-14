@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Document, Schema } from 'mongoose';
 
 import { Achievement, AchievementSchema } from '@kb-models';
+import { index, modelOptions, prop, arrayProp } from '@typegoose/typegoose';
+import { BaseDBModel } from './base-database.model';
 
 export const USER_MODEL_NAME = 'User';
 
@@ -11,7 +12,7 @@ export const USER_MODEL_NAME = 'User';
  * This won't actually create users in our public API since we only create
  * a user "reference" object from\to our github oAuth users.
  */
-export class CreateUserDto {
+export class CreateUser {
   @ApiProperty()
   @IsNotEmpty()
   readonly username: string;
@@ -43,41 +44,65 @@ export class CreateUserDto {
 }
 
 /* tslint:disable */
-export class UserDto extends CreateUserDto {
-  constructor(partial: Partial<UserDto>) {
-    super();
-    Object.assign(this, partial);
+@modelOptions({
+  schemaOptions: {
+    collation: { locale: 'en_US', strength: 2 },
+    timestamps: true
   }
+})
+@index({ username: 1 }, { unique: true })
+export class User extends BaseDBModel<User> {
+  readonly defaults = {
+    repos: [],
+    users: [],
+    organization: false,
+    achievements: [],
+    organizations: []
+  };
 
-  @Exclude()
-  readonly _id: string;
-  @Exclude()
-  readonly __v: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  @prop({ required: true, unique: true })
+  readonly username!: string;
 
-  achievements: Achievement[];
-}
-/* tslint:enable */
+  @ApiProperty()
+  @IsNotEmpty()
+  @prop({ required: true })
+  readonly url!: string;
 
-export const UserSchema = new Schema({
-  username: { type: String, required: true, index: { unique: true } },
-  url: { type: String, required: true },
-  avatar: { type: String, required: true },
-  organization: Boolean,
-  users: {
-    type: [ String ],
-    required() { return this.organization === true ? true : false; }
-  },
-  repos: { type: [ String ], required: true },
-  achievements: { type: [ AchievementSchema ] }
-}, {
-  collation: { locale: 'en_US', strength: 2 }
-});
+  @ApiProperty()
+  @IsString()
+  @prop({ required: true })
+  readonly avatar!: string;
 
-export interface IUser extends Document {
-  readonly username: string;
-  readonly url: string;
-  readonly avatar: string;
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  @prop()
   readonly organization: boolean;
+
+  @ApiProperty({ required: false })
+  @IsArray()
+  @IsOptional()
+  @arrayProp({ required() { return this.organization === true ? true : false; }, type: String })
   readonly users?: string[];
+
+  @ApiProperty()
+  @IsArray()
+  @arrayProp({ required: true, type: String })
   readonly repos: string[];
+
+  @Exclude()
+  @prop()
+  readonly token: string;
+
+  @ApiProperty()
+  @IsArray()
+  @arrayProp({ required: true, type: String })
+  readonly organizations: string[];
+
+  @ApiProperty()
+  @IsArray()
+  @arrayProp({ type: Achievement })
+  achievements: Achievement[];
 }

@@ -24,7 +24,7 @@ import { AchievibitEventNames, GithubEventManagerService, UsersService } from '@
 import { PullRequestsService } from '../pull-requests/pull-requests.service';
 import { ReposService } from '../repos/repos.service';
 
-const userDto = DtoMockGenerator.userDto();
+const userDto = DtoMockGenerator.user();
 const repoDto = DtoMockGenerator.repoDto();
 
 describe('GithubEventManagerService', () => {
