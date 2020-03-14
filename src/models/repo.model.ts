@@ -26,7 +26,7 @@ export class CreateRepoDto {
 }
 
 /* tslint:disable */
-export class RepoDto extends BaseDBModel {
+export class RepoDto extends BaseDBModel<RepoDto> {
   @ApiProperty()
   @IsNotEmpty()
   readonly name: string;
@@ -44,10 +44,10 @@ export class RepoDto extends BaseDBModel {
   @IsOptional()
   readonly organization: string;
 
-  constructor(partial: Partial<RepoDto>) {
-    super();
-    Object.assign(this, partial);
-  }
+  // constructor(partial: Partial<RepoDto>) {
+  //   super();
+  //   defaultsDeep(this, partial);
+  // }
 }
 /* tslint:enable */
 

@@ -15,7 +15,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true
+    whitelist: false
   }));
 
   const packageDetails: PackageDetailsDto =

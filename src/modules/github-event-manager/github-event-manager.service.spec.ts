@@ -24,7 +24,7 @@ import { AchievibitEventNames, GithubEventManagerService, UsersService } from '@
 import { PullRequestsService } from '../pull-requests/pull-requests.service';
 import { ReposService } from '../repos/repos.service';
 
-const userDto = DtoMockGenerator.userDto();
+const User = DtoMockGenerator.user();
 const repoDto = DtoMockGenerator.repoDto();
 
 describe('GithubEventManagerService', () => {
@@ -34,7 +34,7 @@ describe('GithubEventManagerService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GithubEventManagerService,
-        { provide: UsersService, useValue: { create: (...anything) => userDto } },
+        { provide: UsersService, useValue: { create: (...anything) => User } },
         { provide: ReposService, useValue: { create: (...anything) => repoDto } },
         { provide: PullRequestsService, useValue: { create: (...anything) => PullRequestDto } }
       ]

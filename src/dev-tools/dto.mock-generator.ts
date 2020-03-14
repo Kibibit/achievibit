@@ -3,13 +3,13 @@ import { kebabCase, times } from 'lodash';
 import { ObjectId } from 'mongodb';
 import RandExp from 'randexp';
 
-import { RepoDto, UserDto } from '@kb-models';
+import { RepoDto, User } from '@kb-models';
 
 interface IChanceMixin {
   mongoObjectId: () => ObjectId;
   mongodbUrl: () => string;
-  userDto: () => UserDto;
-  userDtos: () => UserDto[];
+  user: () => User;
+  users: () => User[];
   repoDto: () => RepoDto;
   repoDtos: () => RepoDto[];
   achievementScripts: (numOfAchievements?: number) => { [ key: string ]: {} };
@@ -33,10 +33,10 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   mongoObjectId(): ObjectId {
     return new ObjectId(chance.string({ pool: 'abcdefABCDEF123456789', length: 24 }));
   },
-  userDto(): UserDto {
+  user(): User {
     const isOrg = chance.bool();
 
-    return new UserDto({
+    return new User({
       _id: chance.mongoObjectId(),
       __v: '0',
       username: chance.name(),
@@ -51,8 +51,8 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
       token: chance.string()
     });
   },
-  userDtos(): UserDto[] {
-    return times(chance.integer({ min: 0, max: 10 }), () => chance.userDto());
+  users(): User[] {
+    return times(chance.integer({ min: 0, max: 10 }), () => chance.user());
   },
   repoDto(): RepoDto {
     return new RepoDto({

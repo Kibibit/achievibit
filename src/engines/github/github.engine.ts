@@ -1,4 +1,4 @@
-import { IEngine, PullRequestDto, RepoDto, UserDto } from '@kb-models';
+import { IEngine, PullRequestDto, RepoDto, User } from '@kb-models';
 import { IGithubPullRequestEvent, PullRequestsService, ReposService, UsersService } from '@kb-modules';
 
 export class GithubEngine implements IEngine<IGithubPullRequestEvent> {
@@ -28,15 +28,15 @@ export class GithubEngine implements IEngine<IGithubPullRequestEvent> {
     const githubCreator = eventData.pull_request.user;
     const githubOwner = eventData.repository.owner;
 
-    const creator = new UserDto({
+    const creator = new User({
       username: githubCreator.login,
       url: githubCreator.html_url,
       avatar: githubCreator.avatar_url
     });
 
-    let organization: UserDto;
+    let organization: User;
     if (githubOwner.type === 'Organization') {
-      organization = new UserDto({
+      organization = new User({
         username: githubOwner.login,
         url: githubOwner.html_url,
         avatar: githubOwner.avatar_url,

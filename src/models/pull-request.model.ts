@@ -3,12 +3,12 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ObjectId } from 'mongodb';
 import { Document, Schema, Types } from 'mongoose';
 
-import { BaseDBModel, RepoDto, UserDto } from '@kb-models';
+import { BaseDBModel, RepoDto, User } from '@kb-models';
 
 export const PULL_REQUEST_MODEL_NAME = 'PullRequest';
 
 @Exclude()
-export class PullRequestDto extends BaseDBModel {
+export class PullRequestDto extends BaseDBModel<PullRequestDto> {
   /* tslint:disable */
   @Exclude()
   _id: ObjectId;
@@ -37,7 +37,7 @@ export class PullRequestDto extends BaseDBModel {
   description: string;
 
   @Expose()
-  creator: UserDto;
+  creator: User;
 
   @Expose()
   createdOn: Date;
@@ -55,16 +55,16 @@ export class PullRequestDto extends BaseDBModel {
 
   @IsOptional()
   @Expose()
-  organization?: UserDto;
+  organization?: User;
 
   @IsOptional()
   @Expose()
-  assignees?: UserDto[];
+  assignees?: User[];
 
-  constructor(partial: Partial<PullRequestDto>) {
-    super();
-    Object.assign(this, partial);
-  }
+  // constructor(partial: Partial<PullRequestDto>) {
+  //   super();
+  //   Object.assign(this, partial);
+  // }
 }
 
 export const PullRequestSchema = new Schema({
@@ -89,13 +89,13 @@ export interface IPullRequest extends Document {
   readonly number: number;
   readonly title: string;
   readonly description: string;
-  readonly creator: UserDto;
+  readonly creator: User;
   readonly createdOn: Date;
   readonly labels: any[];
   readonly history: {
     [ key: string ]: any;
   };
   readonly repository: RepoDto;
-  readonly organization?: UserDto;
-  readonly assignees?: UserDto[];
+  readonly organization?: User;
+  readonly assignees?: User[];
 }

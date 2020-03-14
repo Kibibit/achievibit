@@ -1,10 +1,14 @@
+import { buildSchema } from '@typegoose/typegoose';
 import { classToPlain, Exclude } from 'class-transformer';
 import { IsOptional } from 'class-validator';
+import { defaultsDeep } from 'lodash';
 import { ObjectId } from 'mongodb';
+import { Schema } from 'mongoose';
 
-export class BaseDBModel {
-  // @Expose({ name: 'id' })
-  // @Transform((value) => value && value.toString())
+export class BaseDBModel<T> {
+  @Exclude()
+  defaults: Partial<T> = {};
+
   @Exclude()
   @IsOptional()
   _id: ObjectId;
@@ -13,11 +17,28 @@ export class BaseDBModel {
   @IsOptional()
   __v: string | number;
 
-  toJSON() {
+  // @Exclude()
+  // id: string;
+
+  static schema(): Schema {
+    return buildSchema(this, {
+      timestamps: true,
+      toJSON: {
+        getters: true,
+        virtuals: true
+      }
+    });
+  }
+
+  constructor(partial: Partial<T>) {
+    defaultsDeep(this, partial, this.defaults);
+  }
+
+  toPrettyJSON() {
     return classToPlain(this);
   }
 
   toString() {
-    return JSON.stringify(this.toJSON());
+    return JSON.stringify(this.toPrettyJSON());
   }
 }

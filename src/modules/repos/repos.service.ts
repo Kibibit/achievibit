@@ -10,8 +10,8 @@ export class ReposService {
 
   constructor(@InjectModel(REPO_MODEL_NAME) private readonly userModel: Model<IRepo>) { }
 
-  async create(createUserDto: CreateRepoDto): Promise<RepoDto> {
-    const createdUser = await this.userModel.create(createUserDto);
+  async create(createUser: CreateRepoDto): Promise<RepoDto> {
+    const createdUser = await this.userModel.create(createUser);
 
     return new RepoDto(createdUser.toJSON());
   }
