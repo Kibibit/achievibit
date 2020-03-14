@@ -12,6 +12,7 @@
     "vscode-icons-team.vscode-icons",
     "EliverLara.andromeda",
     "github.vscode-pull-request-github",
-    "coenraads.bracket-pair-colorizer"
+    "coenraads.bracket-pair-colorizer",
+    "rbbit.typescript-hero"
   ]
 }

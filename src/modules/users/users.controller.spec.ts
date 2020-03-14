@@ -12,8 +12,8 @@ describe('Users Controller', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ UsersController ],
-      providers: [ { provide: UsersService, useValue: { findAll: noop, findOne: noop, create: noop } } ]
+      controllers: [UsersController],
+      providers: [{ provide: UsersService, useValue: { findAll: noop, findOne: noop, create: noop } }]
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
@@ -26,7 +26,7 @@ describe('Users Controller', () => {
   });
 
   it('should call service on get all users', async () => {
-    const findAllResponse = DtoMockGenerator.userDtos();
+    const findAllResponse = DtoMockGenerator.users();
 
     // console.log('mock result: ', findAllResponse);
 
@@ -39,7 +39,7 @@ describe('Users Controller', () => {
   });
 
   it('should call service on get user', async () => {
-    const findOneResponse = DtoMockGenerator.userDto();
+    const findOneResponse = DtoMockGenerator.user();
 
     const spyFindOne = jest.spyOn(usersService, 'findOne').mockImplementation(() => Promise.resolve(findOneResponse));
 
@@ -50,7 +50,7 @@ describe('Users Controller', () => {
   });
 
   it('should render user HTML page', async () => {
-    const findOneResponse = DtoMockGenerator.userDto();
+    const findOneResponse = DtoMockGenerator.user();
 
     const spyFindOne = jest.spyOn(usersService, 'findOne').mockImplementation(() => Promise.resolve(findOneResponse));
 
