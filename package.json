@@ -27,7 +27,7 @@
   "dependencies": {
     "@nestjs/common": "^5.1.0",
     "@nestjs/core": "^5.1.0",
-    "@nestjs/swagger": "^2.5.1",
+    "@nestjs/swagger": "^4.5.0",
     "pkginfo": "^0.4.1",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
