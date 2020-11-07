@@ -47,6 +47,12 @@ var dbLibrary = privateConfig.testDB ? 'monkey-js' : 'monk';
 var monk = require(dbLibrary);
 var db = monk(url);
 
+db.then(() =>{
+  console.log("connection success");
+}).catch((e)=>{
+  console.error("Error !",e);
+});
+
 if (!port) {
   port = config.port;
 }
@@ -188,9 +194,12 @@ app.get('/google4fa7ee13a4e70f9c.html', function(req, res) {
  */
 /* NOTE(thatkookooguy): has to be registered after API ROUTES */
 app.get('/', function(req, res) {
+  console.log('loading homepage');
   var users = db.get('users');
   var repos = db.get('repos');
+  console.log('got dbs!');
   users.find({}).then(function(allUsers) {
+    console.log('asked for all the users');
     repos.find({}).then(function(allRepos) {
       var allOrganizations = _.remove(allUsers, 'organization');
 
