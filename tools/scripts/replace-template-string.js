@@ -17,6 +17,12 @@ const readmeFile = {
   to: projectName,
 };
 
+const devcontainerFile = {
+  files: './.devcontainer/devcontainer.json',
+  from: /kb-server-client-template/g,
+  to: projectName,
+};
+
 const contributorsFile = {
   files: './.all-contributorsrc',
   from: /kb-server-client-template/g,
@@ -44,6 +50,7 @@ const packageLockFile = {
     results.push(await replace(packageFile));
     results.push(await replace(packageLockFile));
     results.push(await replace(contributorsFile));
+    results.push(await replace(devcontainerFile));
     console.log('Replacement results:', results);
   }
   catch (error) {

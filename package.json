@@ -1,5 +1,5 @@
 {
-  "name": "@kibibit/kb-server-client-template",
+  "name": "@kibibit/achievibit",
   "version": "0.0.0-development",
   "description": "<DESCRIPTION>",
   "main": "dist/server/main.js",
@@ -67,10 +67,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kibibit/kb-server-client-template.git"
+    "url": "https://github.com/Kibibit/achievibit.git"
   },
   "bugs": {
-    "url": "https://github.com/Kibibit/kb-server-client-template/issues"
+    "url": "https://github.com/Kibibit/achievibit/issues"
   },
   "dependencies": {
     "@kibibit/consologo": "^1.2.0",
