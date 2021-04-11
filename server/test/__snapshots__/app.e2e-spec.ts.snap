@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppController (e2e) /api (GET) API Information 1`] = `
+Object {
+  "author": "thatkookooguy <neilkalman@gmail.com>",
+  "bugs": "https://github.com/Kibibit/kb-server-client-template/issues",
+  "description": "<DESCRIPTION>",
+  "license": "MIT",
+  "name": "@kibibit/kb-server-client-template",
+  "repository": "https://github.com/Kibibit/kb-server-client-template.git",
+  "version": "0.0.0-development",
+}
+`;

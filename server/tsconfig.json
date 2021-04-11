@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "outDir": "../dist/server",
+    "baseUrl": "./",
+    "paths": {
+      "@kb-server": [ "src/*" ],
+      "@kb-models": [ "src/models/index" ],
+      "@kb-abstracts": [ "src/abstracts/index" ],
+      "@kb-decorators": [ "src/decorators/index" ],
+      "@kb-filters": [ "src/filters/index" ],
+      "@kb-events": [ "src/events/index" ],
+      "@kb-tasks": [ "src/tasks/index" ],
+      "@kb-app": [ "src/app/index" ],
+      "@kb-api": [ "src/api/index" ]
+      
+    },
+    "incremental": true,
+    "skipLibCheck": true
+  }
+}

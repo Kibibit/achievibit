@@ -1,0 +1,102 @@
+{
+  "name": "server",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "generate-barrels": "barrelsby --delete -d ./src -l below -q --exclude spec.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint -c ./.eslintrc.js \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:fix": "eslint -c ./.eslintrc.js \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch --verbose",
+    "test:cov": "jest --coverage --verbose",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json --verbose --detectOpenHandles --coverage"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@nestjs/cli": "^7.5.4",
+    "@nestjs/schematics": "^7.2.7",
+    "@nestjs/testing": "^7.6.11",
+    "@types/express": "^4.17.11",
+    "@types/fs-extra": "^9.0.7",
+    "@types/jest": "^26.0.20",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.25",
+    "@types/socket.io-client": "^1.4.36",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
+    "barrelsby": "^2.2.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
+    "jest-mock-req-res": "^1.0.2",
+    "prettier": "^2.2.1",
+    "rxjs-marbles": "^6.0.1",
+    "supertest": "^6.1.3",
+    "ts-jest": "^26.5.0",
+    "ts-loader": "^8.0.16",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.1.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "setupFilesAfterEnv": [
+      "../test-tools/jest.setup.ts"
+    ],
+    "collectCoverageFrom": [
+      "**/*.(t|j)s",
+      "!**/*.decorator.ts",
+      "!**/index.ts",
+      "!**/*.module.ts"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-stare",
+        {
+          "resultDir": "../test-results/server",
+          "reportTitle": "jest-stare!",
+          "additionalResultsProcessors": [
+            "jest-junit"
+          ],
+          "coverageLink": "./coverage/lcov-report/index.html"
+        }
+      ]
+    ],
+    "coverageDirectory": "../../test-results/server/coverage",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@kb-server$": "<rootDir>",
+      "^@kb-models$": "<rootDir>/models/index",
+      "^@kb-abstracts$": "<rootDir>/abstracts/index",
+      "^@kb-decorators$": "<rootDir>/decorators/index",
+      "^@kb-filters$": "<rootDir>/filters/index",
+      "^@kb-api$": "<rootDir>/api/index",
+      "^@kb-events$": "<rootDir>/events/index",
+      "^@kb-app$": "<rootDir>/app/index",
+      "^@kb-tasks": "<rootDir>/tasks/index"
+    }
+  }
+}

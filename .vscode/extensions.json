@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "rbbit.typescript-hero",
+    "coenraads.bracket-pair-colorizer",
+    "wix.vscode-import-cost",
+    "orta.vscode-jest",
+    "dbaeumer.vscode-eslint",
+    "actboy168.tasks",
+    "johnpapa.vscode-peacock",
+    "angular.ng-template",
+    "abhijoybasak.nestjs-files",
+    "eamodio.gitlens",
+    "codeandstuff.package-json-upgrade",
+    "mongodb.mongodb-vscode",
+    "ms-azuretools.vscode-docker",
+    "jock.svg"
+  ]
+}

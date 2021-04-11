@@ -1,0 +1,38 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "setupFilesAfterEnv": [
+    "../test-tools/jest.setup.ts"
+  ],
+  "coverageDirectory": "../../test-results/api/coverage",
+  "reporters": [
+    "default",
+    [
+      "jest-stare",
+      {
+        "resultDir": "../test-results/api",
+        "reportTitle": "jest-stare!",
+        "additionalResultsProcessors": [
+          "jest-junit"
+        ],
+        "coverageLink": "./coverage/lcov-report/index.html"
+      }
+    ]
+  ],
+  "moduleNameMapper": {
+    "^@kb-server$": "<rootDir>/../src",
+    "^@kb-models$": "<rootDir>/../src/models/index",
+    "^@kb-abstracts$": "<rootDir>/../src/abstracts/index",
+    "^@kb-decorators$": "<rootDir>/../src/decorators/index",
+    "^@kb-filters$": "<rootDir>/../src/filters/index",
+    "^@kb-api$": "<rootDir>/../src/api/index",
+    "^@kb-events$": "<rootDir>/../src/events/index",
+    "^@kb-app$": "<rootDir>/../src/app/index",
+    "^@kb-tasks": "<rootDir>/../src/tasks/index"
+  }
+}

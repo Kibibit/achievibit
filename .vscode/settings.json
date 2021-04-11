@@ -1,0 +1,44 @@
+{
+  "peacock.color": "#3334f4",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [80],
+  "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+  "editor.matchBrackets": "always",
+  // Terminal
+  "terminal.integrated.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+  "terminal.integrated.fontSize": 14,
+  // Workbench
+  "workbench.colorTheme": "Andromeda",
+  "workbench.editor.showIcons": true,
+  "workbench.iconTheme": "vs-seti",
+  // Bracket Pair Colorizer
+  "bracketPairColorizer.colorMode": "Consecutive",
+  "bracketPairColorizer.forceUniqueOpeningColor": true,
+  "bracketPairColorizer.showBracketsInGutter": true,
+  "window.title": "${activeEditorShort}${separator}${rootName} [kibibit]",
+  "typescriptHero.imports.stringQuoteStyle": "'",
+  "typescriptHero.imports.grouping": [
+    "Plains",
+    "Modules",
+    "/^@kb-/",
+    "Workspace"
+
+  ],
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  "typescriptHero.imports.multiLineWrapThreshold": 80,
+  "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
+  "typescriptHero.imports.insertSemicolons": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "eslint.format.enable": true,
+  "vsicons.presets.angular": true,
+  "eslint.workingDirectories": [
+    "client/",
+    "server/"
+  ],
+  "svg.preview.background": "black"
+}

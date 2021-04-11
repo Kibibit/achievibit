@@ -1,0 +1,25 @@
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @global-owner1 and @global-owner2 will be requested for
+# review when someone opens a pull request.
+* @thatkookooguy @ortichon @dunaevsky @zimgil
+
+# Server Owners
+/server/ @thatkookooguy
+
+# Client Owners
+/client/ @thatkookooguy
+
+# Achievements Owners
+# These are the people that understand the pattern to create
+# and work with achievements
+/achievements/ @thatkookooguy @ortichon @dunaevsky @zimgil
+
+# Build\Github Actions Owners
+/tools/ @thatkookooguy
+/.github/ @thatkookooguy
+/.devcontainer/ @thatkookooguy
+/.vscode/ @thatkookooguy

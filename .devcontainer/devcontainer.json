@@ -1,0 +1,109 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.158.0/containers/typescript-node
+{
+	"name": "kb-server-client-template",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+	"workspaceFolder": "/workspace",
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/zsh",
+    "peacock.color": "#3334f4",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+    "editor.rulers": [80],
+    "editor.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+    "editor.matchBrackets": "always",
+    // Terminal
+    "terminal.integrated.fontFamily": "Hack, Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.fontSize": 14,
+    // Workbench
+    "workbench.colorTheme": "Andromeda",
+    "workbench.editor.showIcons": true,
+    "workbench.iconTheme": "vs-seti",
+    // Bracket Pair Colorizer
+    "bracketPairColorizer.colorMode": "Consecutive",
+    "bracketPairColorizer.forceUniqueOpeningColor": true,
+    "bracketPairColorizer.showBracketsInGutter": true,
+    "window.title": "${activeEditorShort}${separator}${rootName} [kibibit]",
+    "typescriptHero.imports.stringQuoteStyle": "'",
+    "typescriptHero.imports.grouping": [
+      "Plains",
+      "Modules",
+      "/^@kb-/",
+      "Workspace"
+
+    ],
+    "typescriptHero.imports.organizeOnSave": true,
+    "typescriptHero.imports.multiLineTrailingComma": false,
+    "typescriptHero.imports.multiLineWrapThreshold": 80,
+    "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
+    "typescriptHero.imports.insertSemicolons": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+    },
+    "eslint.format.enable": true,
+    "vsicons.presets.angular": true,
+    "eslint.workingDirectories": [
+      "client/",
+      "server/"
+    ]
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"rbbit.typescript-hero",
+		"coenraads.bracket-pair-colorizer",
+		"orta.vscode-jest",
+		"wix.vscode-import-cost",
+		"actboy168.tasks",
+		"johnpapa.vscode-peacock",
+		"angular.ng-template",
+		"abhijoybasak.nestjs-files",
+		"eamodio.gitlens",
+		"codeandstuff.package-json-upgrade",
+		"mongodb.mongodb-vscode",
+		"ms-azuretools.vscode-docker",
+		"jock.svg"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+    10101, // dev client
+    10102, // dev server
+    27017 // mongodb instance
+  ],
+  "portsAttributes": {
+    "10101": {
+      "label": "Client",
+      "onAutoForward": "notify"
+    },
+    "10102": {
+      "label": "Server",
+      "onAutoForward": "notify"
+    },
+    "27017": {
+      "label": "MongoDB",
+      "onAutoForward": "notify"
+    },
+    "9876": {
+      "label": "TESTS: Client Unit Tests",
+      "onAutoForward": "notify"
+    },
+    "4200": {
+      "label": "TESTS: Client E2E",
+      "onAutoForward": "notify"
+    },
+  },
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+  // "mounts": [
+  //   "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  // ],
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "node"
+}

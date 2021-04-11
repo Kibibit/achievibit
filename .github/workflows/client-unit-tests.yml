@@ -1,0 +1,44 @@
+name: Client Unit Tests
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - 'client/**'
+  push:
+    paths:
+    - 'client/**'
+
+jobs:
+  clientunittest:
+    name: Client Unit Tests
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install
+      - name: Build
+        run: npm run build --if-present
+      - name: Run Client Tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run test:client-unit
+      - name: Archive test Results & Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: server-unit-tests-code-coverage-report
+          path: test-results/client
+      # - name: Code Coverage Report
+      #   uses: romeovs/lcov-reporter-action@v0.2.16
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     lcov-file: coverage/client/report-html/lcov.info
