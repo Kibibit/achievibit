@@ -11,3 +11,5 @@ monkeyDB.json
 mochawesome-report/
 
 privateConfig.json
+package-lock.json
+yarn.lock

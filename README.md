@@ -24,7 +24,7 @@
 4. click on ***add webhook***
 5. paste achievibit's url (`http://achievibit.kibibit.io`) into the ***payload url***
 6. change ***Content type*** to `application/json`
-7. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request`
+7. on ***Which events would you like to trigger this webhook?***, select `Let me select individual events.` and check `Pull request` and `Pull request reviews`
 
 **Maybe sometime later we'll also support repo achievements. open an issue if you're interested :-)**
 
