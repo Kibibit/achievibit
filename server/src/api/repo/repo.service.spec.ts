@@ -1,7 +1,11 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DtoMockGenerator, InMemoryDatabaseModule } from '@kb-dev-tools';
+import {
+  closeInMemoryDatabaseConnection,
+  createInMemoryDatabaseModule,
+  DtoMockGenerator
+} from '@kb-dev-tools';
 import { Repo } from '@kb-models';
 
 import { RepoService } from './repo.service';
@@ -12,7 +16,7 @@ describe('RepoService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        InMemoryDatabaseModule,
+        createInMemoryDatabaseModule(),
         MongooseModule.forFeature([{
           name: Repo.modelName,
           schema: Repo.schema
@@ -25,7 +29,7 @@ describe('RepoService', () => {
   });
 
   afterEach(async () => {
-    await InMemoryDatabaseModule.closeDatabase();
+    await closeInMemoryDatabaseConnection();
   });
 
   it('should be defined', () => {

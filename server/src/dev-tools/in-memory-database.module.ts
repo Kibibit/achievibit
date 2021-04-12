@@ -1,39 +1,22 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
 let mongod: MongoMemoryServer;
-let uri: string;
 
-async function testDBFactory() {
-  mongod = new MongoMemoryServer();
-  uri = await mongod.getUri();
-  try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    // console.log('Database Connected');
-  } catch (err) {
-    console.error(err);
-  }
-  return { uri };
-}
+export const createInMemoryDatabaseModule =
+  (options: MongooseModuleOptions = {}) => MongooseModule.forRootAsync({
+    useFactory: async () => {
+      mongod = new MongoMemoryServer();
+      const mongoUri = await mongod.getUri();
+      return {
+        uri: mongoUri,
+        ...options
+      }
+    }
+  });
 
-@Module({
-  imports: [
-    MongooseModule.forRootAsync({
-      useFactory: testDBFactory 
-    })
-  ]
-})
-export class InMemoryDatabaseModule {
-  static async closeDatabase() {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
-    await mongod.stop();
-    mongod = null;
-    uri = null;
-  }
+export const closeInMemoryDatabaseConnection = async () => {
+  await mongoose.disconnect();
+  if (mongod) await mongod.stop();
 }
