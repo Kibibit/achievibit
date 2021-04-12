@@ -3,11 +3,11 @@
 exports[`AppController (e2e) /api (GET) API Information 1`] = `
 Object {
   "author": "thatkookooguy <neilkalman@gmail.com>",
-  "bugs": "https://github.com/Kibibit/kb-server-client-template/issues",
+  "bugs": "https://github.com/Kibibit/achievibit/issues",
   "description": "<DESCRIPTION>",
   "license": "MIT",
-  "name": "@kibibit/kb-server-client-template",
-  "repository": "https://github.com/Kibibit/kb-server-client-template.git",
+  "name": "@kibibit/achievibit",
+  "repository": "https://github.com/Kibibit/achievibit.git",
   "version": "0.0.0-development",
 }
 `;
