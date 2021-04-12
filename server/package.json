@@ -69,7 +69,10 @@
       "**/*.(t|j)s",
       "!**/*.decorator.ts",
       "!**/index.ts",
-      "!**/*.module.ts"
+      "!**/*.module.ts",
+      "!bootstrap-application.ts",
+      "!swagger.ts",
+      "!main.ts"
     ],
     "reporters": [
       "default",
@@ -96,7 +99,8 @@
       "^@kb-api$": "<rootDir>/api/index",
       "^@kb-events$": "<rootDir>/events/index",
       "^@kb-app$": "<rootDir>/app/index",
-      "^@kb-tasks": "<rootDir>/tasks/index"
+      "^@kb-tasks$": "<rootDir>/tasks/index",
+      "^@kb-dev-tools$": "<rootDir>/dev-tools/index"
     }
   }
 }
