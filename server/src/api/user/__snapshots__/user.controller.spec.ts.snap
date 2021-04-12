@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserController should throw error if user not found 1`] = `"User with username mockusername not found"`;
