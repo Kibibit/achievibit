@@ -12,6 +12,21 @@ RUN curl -sSL "https://www.mongodb.org/static/pgp/server-${MONGO_TOOLS_VERSION}.
     && apt-get install -y mongodb-org-tools mongodb-org-shell \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# ## MONGO IN-MEMORY START ## #
+
+# Download binary, extract and remove archive
+RUN wget http://downloads.mongodb.org/linux/mongodb-linux-x86_64-debian10-v4.2-latest.tgz \
+    && tar -zxvf mongodb-linux-x86_64-debian10-v4.2-latest.tgz \
+    && rm mongodb-linux-x86_64-debian10-v4.2-latest.tgz
+
+# Rename extracted
+RUN mv mongodb-* /etc/mongodb
+
+# Point env variable to binary
+ENV MONGOMS_SYSTEM_BINARY=/etc/mongodb/bin/mongod
+
+# ## MONGO IN-MEMORY END ## #
+
 # Install Chrome Driver
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
