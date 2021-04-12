@@ -9,10 +9,15 @@ let uri: string;
 async function testDBFactory() {
   mongod = new MongoMemoryServer();
   uri = await mongod.getUri();
-  await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    // console.log('Database Connected');
+  } catch (err) {
+    console.error(err);
+  }
   return { uri };
 }
 
@@ -25,7 +30,7 @@ async function testDBFactory() {
 })
 export class InMemoryDatabaseModule {
   static async closeDatabase() {
-    // await mongoose.connection.dropDatabase();
+    await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
     await mongod.stop();
     mongod = null;
