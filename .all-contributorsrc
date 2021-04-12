@@ -24,6 +24,47 @@
         "infra",
         "test"
       ]
+    },
+    {
+      "login": "ortichon",
+      "name": "O T",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10263615?v=4",
+      "profile": "https://github.com/ortichon",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "dunaevsky",
+      "name": "Michael Dunaevsky",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19394324?v=4",
+      "profile": "https://github.com/dunaevsky",
+      "contributions": [
+        "code",
+        "test",
+        "bug"
+      ]
+    },
+    {
+      "login": "andrearosr",
+      "name": "Andrea Rosales",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12634807?v=4",
+      "profile": "https://github.com/andrearosr",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "DanielRuf",
+      "name": "Daniel Ruf",
+      "avatar_url": "https://avatars.githubusercontent.com/u/827205?v=4",
+      "profile": "https://daniel-ruf.de/",
+      "contributions": [
+        "bug",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,

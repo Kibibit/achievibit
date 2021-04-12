@@ -23,7 +23,7 @@
   <img src="https://github.com/Kibibit/achievibit/actions/workflows/e2e-tests.yml/badge.svg?style=flat-square" alt="E2E Tests">
 </a>
  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" alt="All Contributors"></a>
+<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square" alt="All Contributors"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 <p align="center">
@@ -78,6 +78,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars3.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/Kibibit/achievibit/commits?author=Thatkookooguy" title="Code">💻</a> <a href="https://github.com/Kibibit/achievibit/commits?author=Thatkookooguy" title="Documentation">📖</a> <a href="#design-Thatkookooguy" title="Design">🎨</a> <a href="#maintenance-Thatkookooguy" title="Maintenance">🚧</a> <a href="#infra-Thatkookooguy" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/Kibibit/achievibit/commits?author=Thatkookooguy" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/ortichon"><img src="https://avatars.githubusercontent.com/u/10263615?v=4?s=100" width="100px;" alt=""/><br /><sub><b>O T</b></sub></a><br /><a href="https://github.com/Kibibit/achievibit/commits?author=ortichon" title="Code">💻</a> <a href="https://github.com/Kibibit/achievibit/commits?author=ortichon" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/dunaevsky"><img src="https://avatars.githubusercontent.com/u/19394324?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Michael Dunaevsky</b></sub></a><br /><a href="https://github.com/Kibibit/achievibit/commits?author=dunaevsky" title="Code">💻</a> <a href="https://github.com/Kibibit/achievibit/commits?author=dunaevsky" title="Tests">⚠️</a> <a href="https://github.com/Kibibit/achievibit/issues?q=author%3Adunaevsky" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/andrearosr"><img src="https://avatars.githubusercontent.com/u/12634807?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Andrea Rosales</b></sub></a><br /><a href="https://github.com/Kibibit/achievibit/issues?q=author%3Aandrearosr" title="Bug reports">🐛</a> <a href="https://github.com/Kibibit/achievibit/commits?author=andrearosr" title="Code">💻</a></td>
+    <td align="center"><a href="https://daniel-ruf.de/"><img src="https://avatars.githubusercontent.com/u/827205?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Daniel Ruf</b></sub></a><br /><a href="https://github.com/Kibibit/achievibit/issues?q=author%3ADanielRuf" title="Bug reports">🐛</a> <a href="https://github.com/Kibibit/achievibit/commits?author=DanielRuf" title="Documentation">📖</a></td>
   </tr>
 </table>
 
