@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -57,6 +57,9 @@
       "json",
       "ts"
     ],
+    "modulePathIgnorePatterns": [
+      "node_modules"
+    ],
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
@@ -70,6 +73,7 @@
       "!**/*.decorator.ts",
       "!**/index.ts",
       "!**/*.module.ts",
+      "!**/dev-tools/*.ts",
       "!bootstrap-application.ts",
       "!swagger.ts",
       "!main.ts"

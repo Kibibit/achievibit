@@ -31,6 +31,12 @@
   "typescriptHero.imports.multiLineWrapThreshold": 80,
   "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
   "typescriptHero.imports.insertSemicolons": true,
+  "debug.javascript.autoAttachFilter": "smart",
+  "debug.javascript.terminalOptions": {
+    "skipFiles": [
+      "<node_internals>/**"
+    ]
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
   },
@@ -40,5 +46,9 @@
     "client/",
     "server/"
   ],
-  "svg.preview.background": "black"
+  "svg.preview.background": "black",
+  "jest.rootPath": "./server",
+  "jest.autoRun": {"watch": true, "onStartup": ["all-tests"]},
+  "jest.jestCommandLine": "npm run test:cov --",
+  "jest.coverageColors": { "uncovered": "rgba(255,99,71, 0.2)", "partially-covered": "rgba(255,215,0, 0.2)"}
 }

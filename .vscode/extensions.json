@@ -13,6 +13,7 @@
     "codeandstuff.package-json-upgrade",
     "mongodb.mongodb-vscode",
     "ms-azuretools.vscode-docker",
-    "jock.svg"
+    "jock.svg",
+    "firsttris.vscode-jest-runner"
   ]
 }
