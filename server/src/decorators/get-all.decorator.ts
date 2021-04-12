@@ -10,7 +10,7 @@ import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 export function GetAll(model: any, path?: string | string[]) {
   return applyDecorators(
     Get(path),
-    ApiOperation({ summary: `Get all ${ model.name }` }),
+    ApiOperation({ summary: `Get all ${ model.name }s` }),
     ApiOkResponse({ description: `Return a list of all ${ model.name }s` }),
     UseInterceptors(ClassSerializerInterceptor)
   );

@@ -1,7 +1,11 @@
 const nativeConsoleError = global.console.warn;
 
 global.console.warn = (...args) => {
-  if (args.join('').includes('Using Unsupported mongoose version')) {
+  const msg = args.join('');
+  if (
+    msg.includes('Using Unsupported mongoose version') ||
+    msg.includes('Setting "Mixed" for property')
+  ) {
     return;
   }
   return nativeConsoleError(...args);
