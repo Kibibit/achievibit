@@ -67,6 +67,19 @@
     },
     {
       "type": "npm",
+      "script": "generate-barrels",
+      "path": "server/",
+      "problemMatcher": [],
+      "label": "Gen. Barrels",
+      "detail": "Will Generate barrels(index.ts) files for the server",
+      "options": {
+        "statusbar": {
+          "color": "#209CEE"
+        }
+      }
+    },
+    {
+      "type": "npm",
       "script": "test:cov",
       "path": "server/",
       "problemMatcher": [],
