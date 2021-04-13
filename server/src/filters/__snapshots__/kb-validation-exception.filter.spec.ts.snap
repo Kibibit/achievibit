@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KbValidationExceptionFilter should return pretty validation errors 1`] = `
+PublicError {
+  "error": "Bad Request",
+  "name": "BadRequestException",
+  "path": "https://server.com/mock-api-path",
+  "statusCode": 405,
+  "timestamp": "2000-05-04T00:00:00.000Z",
+}
+`;

@@ -11,7 +11,6 @@ import { PublicError } from '@kb-models';
 @Catch(BadRequestException)
 export class KbValidationExceptionFilter implements ExceptionFilter {
   catch(exception: BadRequestException, host: ArgumentsHost) {
-    console.error(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NotFoundExceptionFilterFilter should return HTML file for undefined routes not inside /api/ 1`] = `"app-root/dist/client/index.html"`;
+
+exports[`NotFoundExceptionFilterFilter should return exepction if route starts with /api/ 1`] = `
+Object {
+  "error": "test title",
+  "name": "Error",
+  "statusCode": 404,
+}
+`;

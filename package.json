@@ -61,6 +61,7 @@
     "inquirer": "^8.0.0",
     "jest-stare": "^2.2.1",
     "karma-htmlfile-reporter": "^0.3.8",
+    "mockdate": "^3.0.5",
     "mongodb-memory-server": "^6.9.6",
     "ncp": "^2.0.0",
     "package-name-regex": "^1.0.11",
