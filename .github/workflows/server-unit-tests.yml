@@ -41,6 +41,13 @@ jobs:
         with:
           name: server-unit-tests-code-coverage-report
           path: test-results/server
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: test-results/server/coverage/lcov.info
+          flag-name: Server Unit
+          base-path: server/
       # - name: Code Coverage Report
       #   uses: romeovs/lcov-reporter-action@v0.2.16
       #   with:

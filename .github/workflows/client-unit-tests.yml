@@ -41,8 +41,10 @@ jobs:
         with:
           name: server-unit-tests-code-coverage-report
           path: test-results/client
-      # - name: Code Coverage Report
-      #   uses: romeovs/lcov-reporter-action@v0.2.16
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     lcov-file: coverage/client/report-html/lcov.info
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: test-results/client/coverage/lcov.info
+          flag-name: Client Unit
+          base-path: client/
