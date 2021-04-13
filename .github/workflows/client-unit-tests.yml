@@ -45,6 +45,6 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: test-results/client/coverage/lcov.info
+          path-to-lcov: test-results/client/coverage/report-lcov/lcov.info
           flag-name: Client Unit
           base-path: client/
