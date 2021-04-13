@@ -50,5 +50,6 @@
   "jest.rootPath": "./server",
   "jest.autoRun": {"watch": true, "onStartup": ["all-tests"]},
   "jest.jestCommandLine": "npm run test:cov --",
-  "jest.coverageColors": { "uncovered": "rgba(255,99,71, 0.2)", "partially-covered": "rgba(255,215,0, 0.2)"}
+  "jest.coverageColors": { "uncovered": "rgba(255,99,71, 0.2)", "partially-covered": "rgba(255,215,0, 0.2)"},
+  "jest.showCoverageOnLoad": true
 }
