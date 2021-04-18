@@ -41,7 +41,7 @@ export class RepoController {
     // will log only public fields!
     this.logger.log(repo);
     // DANGER! WILL LOG EVERYTHING!
-    console.log(repo);
+    // console.log(repo);
 
     // will only include exposed fields
     return repo;

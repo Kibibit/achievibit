@@ -18,8 +18,4 @@ export class AppService {
 
     return false;
   })
-
-  getHello(): string {
-    return 'Hello World!';
-  }
 }

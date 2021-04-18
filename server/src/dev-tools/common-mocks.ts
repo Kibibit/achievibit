@@ -1,4 +1,9 @@
-import { ArgumentsHost } from '@nestjs/common';
+import { ArgumentsHost, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { prop as PersistInDb, ReturnModelType } from '@typegoose/typegoose';
+import { Exclude, Expose } from 'class-transformer';
+
+import { BaseModel, BaseService } from '@kb-abstracts';
 
 export const mockResponse = {
   status: jest.fn().mockReturnThis(),
@@ -21,3 +26,32 @@ export const hostMock = (req, res, roles?: string[]): ArgumentsHost => {
 
   return ctx;
 };
+
+@Exclude()
+export class MockModel extends BaseModel {
+  @PersistInDb()
+  mockPrivateAttribute: string;
+
+  @Expose()
+  @PersistInDb({ required: true })
+  mockAttribute: string;
+
+  @Exclude()
+  @PersistInDb()
+  updatedDate?: Date;
+
+  constructor(partial: Partial<MockModel> = {}) {
+    super();
+    Object.assign(this, partial);
+  }
+}
+
+@Injectable()
+export class MockService extends BaseService<MockModel> {
+  constructor(
+    @InjectModel(MockModel.modelName)
+    private readonly injectedModel: ReturnModelType<typeof MockModel>
+  ) {
+    super(injectedModel, MockModel);
+  }
+}
