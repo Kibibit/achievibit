@@ -81,4 +81,30 @@ describe('UserService', () => {
 
     expect(foundUser).toBeUndefined();
   });
+
+  it('should NOT allow creating 2 users with same username', async () => {
+    const user1 = new User({
+      ...DtoMockGenerator.user(),
+      username: 'test-user'
+    });
+    const user2 = new User({
+      ...DtoMockGenerator.user(),
+      username: 'test-user'
+    });
+
+    const createdUser = await service.create(user1);
+    const regex = /([\d\w-]*?.users)/g;
+    let creationError: string;
+    await service.create(user2)
+      .catch((err) => creationError = err.message);
+    creationError = creationError.replace(regex, 'users');
+
+    expect(creationError).toMatchSnapshot();
+
+    const allUsers = await service.findAllUsers();
+    expect(allUsers.length).toBe(1);
+    expect(allUsers[0]).toEqual(expect.objectContaining(createdUser));
+    expect(allUsers[0]._id).toBeDefined()
+    expect(allUsers[0]._id).toEqual(createdUser._id);
+  });
 });

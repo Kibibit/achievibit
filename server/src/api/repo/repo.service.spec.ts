@@ -65,4 +65,30 @@ describe('RepoService', () => {
 
     expect(foundRepo).toBeUndefined();
   });
+
+  it('should NOT allow creating 2 repos with same fullname', async () => {
+    const repo1 = new Repo({
+      ...DtoMockGenerator.repo(),
+      fullname: 'test-user/test-repo'
+    });
+    const repo2 = new Repo({
+      ...DtoMockGenerator.repo(),
+      fullname: 'test-user/test-repo'
+    });
+
+    const createdRepo = await service.create(repo1);
+    const regex = /([\d\w-]*?.repos)/g;
+    let creationError: string;
+    await service.create(repo2)
+      .catch((err) => creationError = err.message);
+    creationError = creationError.replace(regex, 'repos');
+
+    expect(creationError).toMatchSnapshot();
+
+    const allRepos = await service.findAllRepos();
+    expect(allRepos.length).toBe(1);
+    expect(allRepos[0]).toEqual(expect.objectContaining(createdRepo));
+    expect(allRepos[0]._id).toBeDefined()
+    expect(allRepos[0]._id).toEqual(createdRepo._id);
+  });
 });
