@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - master
-      - next
+      - beta
 jobs:
   unittest:
     name: API Tests
