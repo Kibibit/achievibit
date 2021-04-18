@@ -20,7 +20,9 @@
       "@kb-tasks": [ "src/tasks/index" ],
       "@kb-app": [ "src/app/index" ],
       "@kb-api": [ "src/api/index" ],
-      "@kb-dev-tools": [ "src/dev-tools/index" ]
+      "@kb-dev-tools": [ "src/dev-tools/index" ],
+      "@kb-interfaces": [ "src/interfaces/index" ],
+      "@kb-engines": [ "src/engines/index" ]
       
     },
     "incremental": true,
