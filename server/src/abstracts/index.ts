@@ -4,3 +4,4 @@
 
 export * from './base.model.abstract';
 export * from './base.service.abstract';
+export * from './engine.abstract';
