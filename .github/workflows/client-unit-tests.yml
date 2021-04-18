@@ -7,6 +7,9 @@ on:
   push:
     paths:
     - 'client/**'
+    branches:
+      - master
+      - beta
 
 jobs:
   clientunittest:
