@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseService create should fail creating model with missing required attribute 1`] = `"MockModel validation failed: mockAttribute: Path \`mockAttribute\` is required."`;
+
+exports[`BaseService delete item should throw error when deleting a missing item 1`] = `"Cast to ObjectId failed for value \\"???\\" at path \\"_id\\" for model \\"MockModel\\""`;

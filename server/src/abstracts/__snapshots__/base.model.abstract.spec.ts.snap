@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Base Model should obfuscate and convert to string 1`] = `"{\\"mockAttribute\\":\\"nice\\"}"`;
