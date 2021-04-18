@@ -4,7 +4,13 @@ import fs from 'fs-extra';
 import { ApiController } from '@kb-api';
 
 jest.mock('fs-extra');
-jest.mock('@kb-app');
+jest.mock('@kb-app', () => ({
+  AppService: jest.fn(function() {
+    return {
+      appRoot: 'app-root'
+    }
+  })
+}));
 
 describe('ApiController', () => {
   // const MockedAppService = mocked(AppService, true);
