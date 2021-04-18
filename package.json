@@ -67,7 +67,7 @@
     "package-name-regex": "^1.0.11",
     "randexp": "^0.5.3",
     "replace-in-file": "^6.2.0",
-    "semantic-release": "^17.3.8",
+    "semantic-release": "^17.4.2",
     "semantic-release-cli": "^5.4.3",
     "sentencer": "^0.2.1",
     "shelljs": "^0.8.4",
@@ -120,5 +120,17 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "release": {
+    "branches": [
+      {
+        "name": "master"
+      },
+      {
+        "name": "beta",
+        "channel": "beta",
+        "prerelease": "beta"
+      }
+    ]
   }
 }

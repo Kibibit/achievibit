@@ -2,15 +2,15 @@ name: Release
 on:
   push:
     branches:
-      - dummy
-      # - master
-      # - next
+      # - dummy
+      - master
+      - beta
 jobs:
   release:
     name: Release
     runs-on: ubuntu-18.04
     steps:
-      - name: Checkout commit
+      - name: Checkout Commit
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -18,13 +18,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: Install dependencies
-        run: |
-          npm ci
-          npm install
-          npm run build
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.lock') }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npm run build --if-present
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run semantic-release
+        run: npm run semantic-release -- --dry-run
