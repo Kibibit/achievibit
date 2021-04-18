@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { prop as PersistInDb } from '@typegoose/typegoose';
+import { index, modelOptions, prop as PersistInDb } from '@typegoose/typegoose';
 import { Exclude, Expose } from 'class-transformer';
 import {
   IsArray,
@@ -12,24 +12,31 @@ import {
 import { BaseModel } from '@kb-abstracts';
 
 @Exclude()
+@modelOptions({
+  schemaOptions: {
+    collation: { locale: 'en_US', strength: 2 },
+    timestamps: true
+  }
+})
+@index({ username: 1 }, { unique: true })
 export class User extends BaseModel {
   
   @Expose()
   @IsNotEmpty()
   @ApiProperty()
-  @PersistInDb()
+  @PersistInDb({ required: true, unique: true })
   readonly username: string;
 
   @Expose()
   @ApiProperty()
   @IsNotEmpty()
-  @PersistInDb()
+  @PersistInDb({ required: true })
   readonly url: string;
 
   @Expose()
   @ApiProperty()
   @IsString()
-  @PersistInDb()
+  @PersistInDb({ required: true })
   readonly avatar: string;
 
   @Expose()
@@ -43,14 +50,20 @@ export class User extends BaseModel {
   @ApiPropertyOptional()
   @IsArray()
   @IsOptional()
-  @PersistInDb()
+  @PersistInDb({ type: () => [String] })
   readonly users?: string[];
 
   @Expose()
   @ApiPropertyOptional()
   @IsArray()
-  @PersistInDb()
+  @PersistInDb({ type: () => [String] })
   readonly repos: string[];
+
+  @Expose()
+  @ApiPropertyOptional()
+  @IsArray()
+  @PersistInDb({ type: () => [String] })
+  readonly organizations: string[];
 
   @Expose()
   @IsArray()
@@ -58,6 +71,7 @@ export class User extends BaseModel {
   @PersistInDb()
   achievements: any[];
 
+  @Exclude()
   @PersistInDb()
   readonly token: string;
 
