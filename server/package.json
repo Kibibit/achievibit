@@ -92,6 +92,13 @@
         }
       ]
     ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "clover",
+      "html"
+    ],
     "coverageDirectory": "../../test-results/server/coverage",
     "testEnvironment": "node",
     "moduleNameMapper": {

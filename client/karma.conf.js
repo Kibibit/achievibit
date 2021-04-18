@@ -31,7 +31,8 @@ module.exports = function (config) {
       dir : '../test-results/client/coverage',
       reporters: [
         { type: 'lcov', subdir: 'report-lcov' },
-        { type: 'html', subdir: 'report-html' }
+        { type: 'html', subdir: 'report-html' },
+        { type: 'json', subdir: 'report-json' }
       ],
       fixWebpackSourcePaths: true
     },

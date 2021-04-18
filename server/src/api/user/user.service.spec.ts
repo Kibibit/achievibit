@@ -36,7 +36,7 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should be able to get all users', async () => {
+  it('should be able to get all', async () => {
     const user1 = DtoMockGenerator.user();
     const user2 = DtoMockGenerator.user();
 
@@ -44,7 +44,8 @@ describe('UserService', () => {
     const createdUser2 = await service.create(user2);
 
     const foundUsers = await service.findAll();
-    const foundUsersParsed = foundUsers.map((user) => user.toObject());
+    const foundUsersParsed = foundUsers
+      .map((user) => new User(user.toObject()));
 
     expect(foundUsersParsed).toContainEqual(createdUser1);
     expect(foundUsersParsed).toContainEqual(createdUser2);
