@@ -1,12 +1,13 @@
 name: Release
 on:
-  workflow_run:
-    workflows:
-      - API Tests
-      - Client Unit Tests
-      - E2E Tests
-      - Server Unit Tests
-    types: [completed]
+  # workflow_run:
+  #   workflows:
+  #     - API Tests
+  #     - Client Unit Tests
+  #     - E2E Tests
+  #     - Server Unit Tests
+  #   types: [completed]
+  push:
     branches:
       - master
       - beta
