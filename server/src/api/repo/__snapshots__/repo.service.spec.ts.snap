@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`RepoService should NOT allow creating 2 repos with same fullname 1`] = `"E11000 duplicate key error collection: repos index: fullname_1 dup key: { fullname: \\"test-user/test-repo\\" }"`;

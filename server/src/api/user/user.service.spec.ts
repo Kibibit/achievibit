@@ -93,13 +93,12 @@ describe('UserService', () => {
     });
 
     const createdUser = await service.create(user1);
-    const regex = /([\d\w-]*?.users)/g;
     let creationError: string;
     await service.create(user2)
       .catch((err) => creationError = err.message);
-    creationError = creationError.replace(regex, 'users');
 
-    expect(creationError).toMatchSnapshot();
+    expect(creationError).toMatch(/E11000 duplicate key error/);
+    expect(creationError).toMatch(/test-user/);
 
     const allUsers = await service.findAllUsers();
     expect(allUsers.length).toBe(1);

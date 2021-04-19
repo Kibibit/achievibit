@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`UserService should NOT allow creating 2 users with same username 1`] = `"E11000 duplicate key error collection: users index: username_1 dup key: { username: \\"test-user\\" }"`;
