@@ -77,13 +77,12 @@ describe('RepoService', () => {
     });
 
     const createdRepo = await service.create(repo1);
-    const regex = /([\d\w-]*?.repos)/g;
     let creationError: string;
     await service.create(repo2)
       .catch((err) => creationError = err.message);
-    creationError = creationError.replace(regex, 'repos');
 
-    expect(creationError).toMatchSnapshot();
+    expect(creationError).toMatch(/E11000 duplicate key error/);
+    expect(creationError).toMatch(/test-user\/test-repo/);
 
     const allRepos = await service.findAllRepos();
     expect(allRepos.length).toBe(1);
