@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { valid } from 'semver';
 import request from 'supertest';
 
 import { AppModule } from '@kb-app';
@@ -25,6 +26,9 @@ describe('AppController (e2e)', () => {
   test('/api (GET) API Information', async () => {
     const response = await request(server).get('/api');
     expect(response.status).toBe(200);
+    expect(response.body.version).toBeDefined();
+    expect(valid(response.body.version)).toBeTruthy();
+    response.body.version = 'SEMVER';
     expect(response.body).toMatchSnapshot();
   });
 

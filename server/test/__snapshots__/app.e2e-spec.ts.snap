@@ -8,6 +8,6 @@ Object {
   "license": "MIT",
   "name": "@kibibit/achievibit",
   "repository": "https://github.com/Kibibit/achievibit.git",
-  "version": "0.0.0-development",
+  "version": "SEMVER",
 }
 `;
