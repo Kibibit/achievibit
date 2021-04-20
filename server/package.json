@@ -111,7 +111,9 @@
       "^@kb-events$": "<rootDir>/events/index",
       "^@kb-app$": "<rootDir>/app/index",
       "^@kb-tasks$": "<rootDir>/tasks/index",
-      "^@kb-dev-tools$": "<rootDir>/dev-tools/index"
+      "^@kb-dev-tools$": "<rootDir>/dev-tools/index",
+      "^@kb-engines$": "<rootDir>/engines/index",
+      "^@kb-interfaces$": "<rootDir>/interfaces/index"
     }
   }
 }

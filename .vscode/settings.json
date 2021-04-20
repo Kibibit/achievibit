@@ -31,7 +31,7 @@
   "typescriptHero.imports.multiLineWrapThreshold": 80,
   "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
   "typescriptHero.imports.insertSemicolons": true,
-  "debug.javascript.autoAttachFilter": "smart",
+  // "debug.javascript.autoAttachFilter": "smart",
   "debug.javascript.terminalOptions": {
     "skipFiles": [
       "<node_internals>/**"
