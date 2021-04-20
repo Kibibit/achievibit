@@ -1,7 +1,10 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { createInMemoryDatabaseModule } from '@kb-dev-tools';
+import {
+  closeInMemoryDatabaseConnection,
+  createInMemoryDatabaseModule
+} from '@kb-dev-tools';
 import { PullRequest } from '@kb-models';
 
 import { PullRequestService } from './pull-request.service';
@@ -22,6 +25,10 @@ describe('PullRequestService', () => {
     }).compile();
 
     service = module.get<PullRequestService>(PullRequestService);
+  });
+
+  afterEach(async () => {
+    await closeInMemoryDatabaseConnection();
   });
 
   it('should be defined', () => {
