@@ -13,6 +13,7 @@ import { RepoService } from './repo.service';
     ])
   ],
   providers: [RepoService],
-  controllers: [RepoController]
+  controllers: [RepoController],
+  exports: [RepoService]
 })
 export class RepoModule {}
