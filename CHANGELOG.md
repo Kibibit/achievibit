@@ -1,3 +1,10 @@
+# [2.0.0-beta.3](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2021-04-20)
+
+
+### Bug Fixes
+
+* **tests:** add missing database connection closer ([aaff01f](https://github.com/Kibibit/achievibit/commit/aaff01f8c1d52075648fbc9a44a5128d2297b7d0))
+
 # [2.0.0-beta.2](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2021-04-20)
 
 
