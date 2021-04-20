@@ -41,7 +41,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: npm run test:e2e
+        run: npm run test:e2e
       # - name: Upload coverage to Codecov
       #   uses: codecov/codecov-action@v1
       #   with:
