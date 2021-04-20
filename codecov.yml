@@ -2,24 +2,10 @@ flag_management:
   default_rules:
     carryforward: true
     statuses:
-      - name_prefix: api-test
+      - name_prefix: project-
         type: project
         target: auto
         threshold: 2%
-      - name_prefix: e2e-test
-        type: project
-        target: auto
-        threshold: 2%
-      - name_prefix: unit-test-
-        type: project
-        target: auto
-        threshold: 2%
-      - name_prefix: api-test
-        type: patch
-        target: 70%
-      - name_prefix: e2e-test
-        type: patch
-        target: 70%
-      - name_prefix: unit-test-
+      - name_prefix: patch-
         type: patch
         target: 70%
