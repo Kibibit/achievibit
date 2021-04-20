@@ -1,15 +1,29 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "setupFilesAfterEnv": [
-    "../test-tools/jest.setup.ts"
+    "./test-tools/jest.setup.ts"
   ],
-  "coverageDirectory": "../../test-results/api/coverage",
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "src/**/*.(t|j)s",
+    "!src/**/*.decorator.ts",
+    "!src/**/index.ts",
+    "!src/**/dev-tools/*.ts",
+    "!src/bootstrap-application.ts",
+    "!src/swagger.ts",
+    "!src/main.ts"
+  ],
+  "coveragePathIgnorePatterns": [
+    ".module.ts$",
+    ".spec.ts$"
+  ],
+  "coverageDirectory": "../test-results/api/coverage",
   "reporters": [
     "default",
     [
@@ -25,14 +39,15 @@
     ]
   ],
   "moduleNameMapper": {
-    "^@kb-server$": "<rootDir>/../src",
-    "^@kb-models$": "<rootDir>/../src/models/index",
-    "^@kb-abstracts$": "<rootDir>/../src/abstracts/index",
-    "^@kb-decorators$": "<rootDir>/../src/decorators/index",
-    "^@kb-filters$": "<rootDir>/../src/filters/index",
-    "^@kb-api$": "<rootDir>/../src/api/index",
-    "^@kb-events$": "<rootDir>/../src/events/index",
-    "^@kb-app$": "<rootDir>/../src/app/index",
-    "^@kb-tasks": "<rootDir>/../src/tasks/index"
+    "^@kb-server$": "<rootDir>/src",
+    "^@kb-models$": "<rootDir>/src/models/index",
+    "^@kb-abstracts$": "<rootDir>/src/abstracts/index",
+    "^@kb-decorators$": "<rootDir>/src/decorators/index",
+    "^@kb-filters$": "<rootDir>/src/filters/index",
+    "^@kb-api$": "<rootDir>/src/api/index",
+    "^@kb-events$": "<rootDir>/src/events/index",
+    "^@kb-app$": "<rootDir>/src/app/index",
+    "^@kb-tasks": "<rootDir>/src/tasks/index",
+    "^@kb-engines": "<rootDir>/src/engines/index"
   }
 }

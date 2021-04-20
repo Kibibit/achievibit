@@ -30,7 +30,8 @@ ENV MONGOMS_SYSTEM_BINARY=/etc/mongodb/bin/mongod
 # Install Chrome Driver
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list
-RUN apt-get update && apt-get install --no-install-recommends -y google-chrome-stable
+RUN apt-get update && apt-get install --no-install-recommends -y google-chrome-beta
+RUN mv /usr/bin/google-chrome-beta /usr/bin/google-chrome
 
 # Update args in docker-compose.yaml to set the UID/GID of the "node" user.
 ARG USER_UID=1000

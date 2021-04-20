@@ -44,15 +44,11 @@ jobs:
         with:
           name: server-unit-tests-code-coverage-report
           path: test-results/server
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: test-results/server/coverage/lcov.info
-          flag-name: Server Unit
-          base-path: server/
-      # - name: Code Coverage Report
-      #   uses: romeovs/lcov-reporter-action@v0.2.16
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     lcov-file: coverage/server/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./test-results/server/coverage
+          flags: clientunittests
+          fail_ci_if_error: true
+          verbose: true
