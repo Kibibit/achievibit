@@ -3,13 +3,11 @@ import { kebabCase, times } from 'lodash';
 import { ObjectId } from 'mongodb';
 import RandExp from 'randexp';
 
-import { Product, Repo, User } from '@kb-models';
+import { Repo, User } from '@kb-models';
 
 interface IChanceMixin {
   mongoObjectId: () => ObjectId;
   mongodbUrl: () => string;
-  product: () => Product;
-  products: () => Product[];
   user: () => User;
   users: () => User[];
   repo: () => Repo;
@@ -38,16 +36,6 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
       pool: 'abcdefABCDEF123456789',
       length: 24
     }));
-  },
-  product(): Product {
-    return new Product({
-      name: chance.name(),
-      description: chance.paragraph(),
-      price: chance.floating({ min: 0, max: 100, fixed: 2 })
-    });
-  },
-  products(): Product[] {
-    return times(chance.integer({ min: 0, max: 10 }), () => chance.product());
   },
   user(): User {
     const isOrg = chance.bool();
