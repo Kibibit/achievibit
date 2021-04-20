@@ -1,0 +1,16 @@
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - name_prefix: api-test
+        type: api-test
+        target: auto
+        threshold: 2%
+      - name_prefix: e2e-test
+        type: e2e-test
+        target: auto
+        threshold: 2%
+      - name_prefix: unit-test-
+        type: unit-test
+        target: auto
+        threshold: 2%

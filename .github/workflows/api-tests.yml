@@ -47,7 +47,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./test-results/api/coverage
-          flags: apitests
+          flags: api-test
           fail_ci_if_error: true
           verbose: true
       - name: Archive test results & coverage
