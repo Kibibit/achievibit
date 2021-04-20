@@ -1,3 +1,18 @@
+# [2.0.0-beta.2](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2021-04-20)
+
+
+### Bug Fixes
+
+* **deps:** include nest cli as dev dependency ([db36678](https://github.com/Kibibit/achievibit/commit/db366787dbe2a4105f07f3287350543dd2f5a23c))
+
+
+### Features
+
+* **models:** add indexes and uniqueness to db ([5da80ff](https://github.com/Kibibit/achievibit/commit/5da80ffcecd10df26d4cf737391e28dec920c9b0))
+* **api:** add webhook manager and pull request model ([11f138a](https://github.com/Kibibit/achievibit/commit/11f138a6fc03eb3eeacd16424cfd8b22627d09e7))
+* **engines:** implement abstract engine and add pr model ([00c0aaf](https://github.com/Kibibit/achievibit/commit/00c0aaf3686b4332658b12a1f9efccb535794027))
+* **engines:** initialize github engine ([4a6c4cc](https://github.com/Kibibit/achievibit/commit/4a6c4cc385459aaf6ec01a3893ede566f3646a91))
+
 # [2.0.0-beta.1](https://github.com/Kibibit/achievibit/compare/v1.1.0...v2.0.0-beta.1) (2021-04-18)
 
 
