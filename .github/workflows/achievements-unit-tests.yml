@@ -1,19 +1,19 @@
-name: Client Unit Tests
+name: Achievements Unit Tests
 on:
   workflow_dispatch:
   pull_request:
     paths:
-    - 'client/**'
+    - 'achievements/**'
   push:
     paths:
-    - 'client/**'
+    - 'achievements/**'
     branches:
       - master
       - beta
 
 jobs:
-  clientunittest:
-    name: Client Unit Tests
+  achievementsunittest:
+    name: Achievements Unit Tests
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout Commit
@@ -34,21 +34,21 @@ jobs:
           restore-keys: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.lock') }}
       - name: Install Dependencies
         run: npm install
-      - name: Run Client Tests
+      - name: Run Achievements Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run test:client-unit
-      - name: Archive test Results & Coverage
+        run: npm run test:ach-unit
+      - name: Archive test results & coverage
         uses: actions/upload-artifact@v2
         with:
-          name: client-unit-tests
-          path: test-results/client
+          name: achievements-unit-tests
+          path: test-results/achievements
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./test-results/client/coverage/report-json
-          flags: unit-test-client
+          directory: ./test-results/achievements/coverage
+          flags: unit-test-achievements
           fail_ci_if_error: true
           verbose: true

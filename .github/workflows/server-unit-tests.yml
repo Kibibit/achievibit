@@ -42,7 +42,7 @@ jobs:
       - name: Archive test results & coverage
         uses: actions/upload-artifact@v2
         with:
-          name: server-unit-tests-code-coverage-report
+          name: server-unit-tests
           path: test-results/server
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
