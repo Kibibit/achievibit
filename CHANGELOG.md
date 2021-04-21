@@ -1,3 +1,11 @@
+# [2.0.0-beta.4](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2021-04-21)
+
+
+### Features
+
+* **achievements:** integrate achievements into server and build ([307121b](https://github.com/Kibibit/achievibit/commit/307121b46709f5d63fb93c2df7a04ac979bfa85b))
+* **achievements:** update achievements to version 2 ([6849e64](https://github.com/Kibibit/achievibit/commit/6849e644327db9e80bb989af6f93ad45eee0b569))
+
 # [2.0.0-beta.3](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2021-04-20)
 
 
