@@ -26,7 +26,7 @@ describe('UserService', () => {
     }).compile();
 
     service = module.get<UserService>(UserService);
-  });
+  }, 10000);
 
   afterEach(async () => {
     await closeInMemoryDatabaseConnection();

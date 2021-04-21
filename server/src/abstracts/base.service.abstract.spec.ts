@@ -24,7 +24,7 @@ describe('BaseService', () => {
     }).compile();
 
     service = module.get<MockService>(MockService);
-  });
+  }, 10000);
 
   afterEach(async () => {
     await closeInMemoryDatabaseConnection();
