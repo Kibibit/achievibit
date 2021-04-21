@@ -1,8 +1,8 @@
 import { cuttingEdge } from './cutting-edges.achievement';
 import { PullRequest, Shall } from './dev-tools/mocks';
 
-describe('Cutting Edges achievement', function() {
-  it('should not be granted if pull request is not merged', function() {
+describe('Cutting Edges achievement', () => {
+  it('should not be granted if pull request is not merged', () => {
     const testShall = new Shall();
     const pullRequest = new PullRequest();
 
@@ -10,7 +10,7 @@ describe('Cutting Edges achievement', function() {
     expect(testShall.grantedAchievements).toBeUndefined();
   });
 
-  it('should not be granted if pull request was merged with approvals', function() {
+  it('should not be granted if pull request was merged with approvals', () => {
     const testShall = new Shall();
     const pullRequest = new PullRequest();
 
@@ -18,7 +18,7 @@ describe('Cutting Edges achievement', function() {
     pullRequest.reviews = [
       {
         id: 'review',
-        state: 'APPROVED',
+        state: 'APPROVED'
       }
     ];
 
@@ -26,7 +26,7 @@ describe('Cutting Edges achievement', function() {
     expect(testShall.grantedAchievements).toBeUndefined();
   });
 
-  it('should be granted if pull request was merged without approvals', function() {
+  it('should be granted if pull request was merged without approvals', () => {
     const testShall = new Shall();
     const pullRequest = new PullRequest();
 

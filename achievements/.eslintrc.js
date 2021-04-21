@@ -9,10 +9,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
   ],
-  ignorePatterns: [
-    '.eslintrc.js',
-    '**/*.event.ts'
-  ],
+  ignorePatterns: [ '.eslintrc.js' ],
   root: true,
   env: {
     node: true,

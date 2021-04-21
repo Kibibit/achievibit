@@ -32,13 +32,13 @@ export const mrMiyagi: IAchievement = {
 };
 
 function isCoverageTurened100(pullRequest) {
-  var lastCoverageUpdate = findLast(pullRequest.comments,
+  const lastCoverageUpdate = findLast(pullRequest.comments,
     ['author.username', 'coveralls']);
 
-  var lastCoverageUpdateMessage = get(lastCoverageUpdate, 'message');
-  var getTotalPercentageRegexp = /Coverage increased \(.*?\) to (.*?%)/g;
-  var match = getTotalPercentageRegexp.exec(lastCoverageUpdateMessage);
-  var totalCoverageString = get(match, 1);
+  const lastCoverageUpdateMessage = get(lastCoverageUpdate, 'message');
+  const getTotalPercentageRegexp = /Coverage increased \(.*?\) to (.*?%)/g;
+  const match = getTotalPercentageRegexp.exec(lastCoverageUpdateMessage);
+  const totalCoverageString = get(match, 1);
 
   return totalCoverageString === '100.0%';
 

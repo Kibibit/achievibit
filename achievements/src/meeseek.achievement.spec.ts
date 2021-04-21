@@ -3,16 +3,16 @@ import { meeseek } from './meeseek.achievement';
 
 describe('meeseek achievement', () => {
   it('should not be granted if no issues resolved', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     meeseek.check(pullRequest, testShall);
     expect(testShall.grantedAchievements).toBeUndefined();
   });
 
   it('should not be granted if 1 issues resolved', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[resolves #1]'
@@ -23,8 +23,8 @@ describe('meeseek achievement', () => {
   });
 
   it('should not be granted if 2 issues resolved', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[resolves #1]',
@@ -36,8 +36,8 @@ describe('meeseek achievement', () => {
   });
 
   it('should be granted to PR creator if 4 issues resolved', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[resolves #1]',
@@ -52,8 +52,8 @@ describe('meeseek achievement', () => {
   });
 
   it('should not count same issue twice', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[resolves #1]',
@@ -67,8 +67,8 @@ describe('meeseek achievement', () => {
   });
 
   it('should be case insensitive', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[Resolves #1]',
@@ -83,8 +83,8 @@ describe('meeseek achievement', () => {
   });
 
   it('should not count if keyword is between other letters', () => {
-    var testShall = new Shall();
-    var pullRequest = new PullRequest();
+    const testShall = new Shall();
+    const pullRequest = new PullRequest();
 
     pullRequest.description = [
       '[awesomeresolves #1]', // should not be recognized
@@ -101,8 +101,8 @@ describe('meeseek achievement', () => {
 
   describe('Github\'s resolve keywords', () => {
     it('should recognize "close"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[close #1]', // should not be recognized
@@ -117,8 +117,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "closes"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[closes #1]', // should not be recognized
@@ -133,8 +133,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "closed"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[closed #1]', // should not be recognized
@@ -149,8 +149,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "fix"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[fix #1]', // should not be recognized
@@ -165,8 +165,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "fixes"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[fixes #1]', // should not be recognized
@@ -181,8 +181,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "fixed"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[fixed #1]',
@@ -197,8 +197,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "resolve"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[resolve #1]',
@@ -212,8 +212,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "resolves"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[resolves #1]',
@@ -228,8 +228,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize "resolved"', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[resolved #1]',
@@ -244,8 +244,8 @@ describe('meeseek achievement', () => {
       expect(testShall.grantedAchievements.creator).toMatchSnapshot();
     });
     it('should recognize a combination', () => {
-      var testShall = new Shall();
-      var pullRequest = new PullRequest();
+      const testShall = new Shall();
+      const pullRequest = new PullRequest();
 
       pullRequest.description = [
         '[closed #1]',

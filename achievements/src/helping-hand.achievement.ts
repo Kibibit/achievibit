@@ -5,7 +5,7 @@ import { IAchievement, IUserAchievement } from './achievement.abstract';
 export const helpingHand: IAchievement = {
   name: 'Helping Hand',
   check: function(pullRequest, shall) {
-    var committedReviewers = reviewersWhoCommittedToPullRequest(pullRequest);
+    const committedReviewers = reviewersWhoCommittedToPullRequest(pullRequest);
 
     if (!isEmpty(committedReviewers)) {
 

@@ -7,7 +7,7 @@ export const member: IAchievement = {
   check: function(pullRequest, shall) {
     if (isWaitingLongTime(pullRequest)) {
 
-      var achieve = {
+      const achieve = {
         avatar: 'images/achievements/member.achievement.jpg',
         name: 'Member pull request #' + pullRequest.number + '?',
         short: 'Member Commits? member Push? member PR? ohh I member',
@@ -24,8 +24,8 @@ export const member: IAchievement = {
 };
 
 function isWaitingLongTime(pullRequest) {
-  var backThen = moment(pullRequest.createdOn);
-  var now = moment();
+  const backThen = moment(pullRequest.createdOn);
+  const now = moment();
 
   return now.diff(backThen, 'days') > 14;
 }

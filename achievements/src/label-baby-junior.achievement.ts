@@ -4,7 +4,7 @@ export const labelBabyJunior: IAchievement = {
   name: 'Label Baby Junior',
   check: function(pullRequest, shall) {
     if (isManyLabels(pullRequest))  {
-      var achievement = {
+      const achievement = {
         avatar: 'images/achievements/labelBabyJunior.achievement.jpg',
         name: 'The Label Maker',
         short: 'Is this a label maker?',
@@ -21,6 +21,6 @@ export const labelBabyJunior: IAchievement = {
 };
 
 function isManyLabels(pullRequest) {
-  var labels = pullRequest.labels;
+  const labels = pullRequest.labels;
   return labels && labels.length > 5;
 }

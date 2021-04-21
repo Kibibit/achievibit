@@ -32,11 +32,11 @@ function isPrime(n) {
   }
 
   // Now assume that n is prime, we will try to prove that it is not.
-  var isPrime = true;
+  let isPrime = true;
 
   // Now check every whole number from 2 to the square root of n.
 	// If any of these divides n exactly, n cannot be prime.
-  for (var i = 2; i <= Math.sqrt(n); i++) {
+  for (let i = 2; i <= Math.sqrt(n); i++) {
     if (n % i === 0) {isPrime = false;}
   }
 

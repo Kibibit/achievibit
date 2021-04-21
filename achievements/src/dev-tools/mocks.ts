@@ -12,7 +12,7 @@ export class PullRequest {
   id = 'test';
   number: number;
   url = 'url';
-  organization: { username: string; };
+  organization: { username: string };
   description = '';
   creator = {
     username: 'creator'

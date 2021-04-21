@@ -22,7 +22,7 @@ export const hostMock = (req, res, roles?: string[]): ArgumentsHost => {
       getRequest: () => req,
       getResponse: () => res
   });
-  ctx.getHandler = jest.fn().mockReturnValue({ roles }) as Function;
+  ctx.getHandler = jest.fn().mockReturnValue({ roles });
 
   return ctx;
 };

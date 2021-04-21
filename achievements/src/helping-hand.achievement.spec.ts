@@ -28,7 +28,7 @@ describe('helpingHand achievement', () => {
 
     pullRequest.commits.push({
       'author': {
-        'username': 'k1bib0t',
+        'username': 'k1bib0t'
       }
     });
 
@@ -44,7 +44,7 @@ describe('helpingHand achievement', () => {
 
     pullRequest.commits.push({
       'author': {
-        'username': 'reviewer',
+        'username': 'reviewer'
       }
     });
 
@@ -69,7 +69,7 @@ describe('helpingHand achievement', () => {
 
     pullRequest.commits.push({
       'author': {
-        'username': 'reviewer',
+        'username': 'reviewer'
       }
     });
 

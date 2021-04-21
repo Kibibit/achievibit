@@ -29,9 +29,9 @@ export const usedAllReactionsInComment: IAchievement = {
 };
 
 function getCommentAuthorsWithAllReactions(pullRequest) {
-  var allComments = concat(pullRequest.comments, pullRequest.inlineComments);
-  var authors = map(allComments, 'author.username');
-  var AllCommentsReactions = map(allComments, 'reactions');
+  const allComments = concat(pullRequest.comments, pullRequest.inlineComments);
+  const authors = map(allComments, 'author.username');
+  const AllCommentsReactions = map(allComments, 'reactions');
 
     // also add pull request description reactions
   authors.push(pullRequest.creator.username);
@@ -55,7 +55,7 @@ function getOnlyUniqueReactionsWithoutAuthors(AllCommentsReactions, authors) {
 }
 
 function onlyUsersWithAllReactions(authors, AllCommentsReactions) {
-  var commentAuthorsWithAllReactions = [];
+  const commentAuthorsWithAllReactions = [];
 
   forEach(authors, function(author, index) {
     if (AllCommentsReactions[index].length === 6) {

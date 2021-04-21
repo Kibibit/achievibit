@@ -3,7 +3,7 @@ import { IAchievement, IUserAchievement } from './achievement.abstract';
 export const dontYellAtMe: IAchievement = {
   name: 'Don\'t Yell At Me!!!',
   check: function(pullRequest, shall) {
-    var reason = isCreatorJustMean(pullRequest);
+    const reason = isCreatorJustMean(pullRequest);
 
     if (reason) {
 
@@ -21,13 +21,13 @@ export const dontYellAtMe: IAchievement = {
 };
 
 function isCreatorJustMean(pullRequest) {
-  var cleanedTitle = pullRequest.title.replace(/\[.*?\]/g, '');
-  var isTitleContainLetters = /[a-zA-Z]/.test(cleanedTitle);
-  var isNoLowerCase = /^[^a-z]*$/.test(cleanedTitle);
-  var isOverExclamation = /!{3}/.test(cleanedTitle);
+  const cleanedTitle = pullRequest.title.replace(/\[.*?\]/g, '');
+  const isTitleContainLetters = /[a-zA-Z]/.test(cleanedTitle);
+  const isNoLowerCase = /^[^a-z]*$/.test(cleanedTitle);
+  const isOverExclamation = /!{3}/.test(cleanedTitle);
 
-  var reason = '';
-  var comboPotential = '';
+  let reason = '';
+  let comboPotential = '';
 
   if (isTitleContainLetters) {
     if (isNoLowerCase) {

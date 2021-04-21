@@ -15,7 +15,8 @@ export const cuttingEdge: IAchievement = {
           avatar: 'images/achievements/cuttingEdges.achievement.jpg',
           name: 'Cutting Edges',
           short: 'Cutting corners? I also like to live dangerously',
-          description: 'You\'ve merged a pull request without a reviewer confirming',
+          description:
+            'You\'ve merged a pull request without a reviewer confirming',
           relatedPullRequest: pullRequest.id
         };
 
