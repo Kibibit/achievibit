@@ -22,7 +22,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --verbose --detectOpenHandles --coverage"
   },
-  "dependencies": {},
+  "dependencies": {
+    "kb-achievements": "file:../achievements"
+  },
   "devDependencies": {
     "@nestjs/cli": "^7.5.4",
     "@nestjs/schematics": "^7.2.7",
@@ -36,7 +38,6 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
-    "barrelsby": "^2.2.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",

@@ -68,13 +68,25 @@
     {
       "type": "npm",
       "script": "generate-barrels",
-      "path": "server/",
       "problemMatcher": [],
       "label": "Gen. Barrels",
-      "detail": "Will Generate barrels(index.ts) files for the server",
+      "detail": "Will Generate barrels(index.ts) files for all projects",
       "options": {
         "statusbar": {
           "color": "#209CEE"
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test:cov",
+      "path": "achievements/",
+      "problemMatcher": [],
+      "label": "TESTS: Achievements",
+      "detail": "Run Achievements Unit-tests and Coverage",
+      "options": {
+        "statusbar": {
+          "color": "#FFDD57"
         }
       }
     },
