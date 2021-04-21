@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`doubleReview achievement should be granted if 2 reviewers excluding creator 1`] = `
+Object {
+  "avatar": "images/achievements/doubleReview.achievement.gif",
+  "description": "double headed code review.<br>It doesn't matter who added you, apparently, both of you are needed for a one man job 😇",
+  "name": "We're ready, master",
+  "relatedPullRequest": "test",
+  "short": "&quot;This way!&quot;-&quot;No, that way!&quot;",
+}
+`;
+
+exports[`doubleReview achievement should be granted if 2 reviewers excluding creator 2`] = `
+Object {
+  "avatar": "images/achievements/doubleReview.achievement.gif",
+  "description": "double headed code review.<br>It doesn't matter who added you, apparently, both of you are needed for a one man job 😇",
+  "name": "We're ready, master",
+  "relatedPullRequest": "test",
+  "short": "&quot;This way!&quot;-&quot;No, that way!&quot;",
+}
+`;

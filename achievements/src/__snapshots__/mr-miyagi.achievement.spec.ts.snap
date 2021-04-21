@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mrMiyagi achievement should be granted to PR creator if coverage increased to 100% 1`] = `
+Object {
+  "avatar": "images/achievements/mrMiyagi.achievement.jpg",
+  "description": "You're the ultimate zen master. You increased a project coverage to 100%. It was a long journey... but you know...<br><b>First learn stand, then learn fly. Nature rule, creator-san, not mine</b>",
+  "name": "Mr Miyagi",
+  "relatedPullRequest": "test",
+  "short": "Never put passion in front of principle, even if you win, you’ll lose",
+}
+`;

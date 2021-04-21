@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`member achievement should be granted if PR opened more than 2 weeks ago 1`] = `
+Object {
+  "avatar": "images/achievements/member.achievement.jpg",
+  "description": "A pull request you've created 2 weeks ago is finally merged",
+  "name": "Member pull request #undefined?",
+  "relatedPullRequest": "test",
+  "short": "Member Commits? member Push? member PR? ohh I member",
+}
+`;

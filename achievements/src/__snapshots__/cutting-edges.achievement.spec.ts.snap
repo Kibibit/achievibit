@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cutting Edges achievement should be granted if pull request was merged without approvals 1`] = `
+Object {
+  "avatar": "images/achievements/cuttingEdges.achievement.jpg",
+  "description": "You've merged a pull request without a reviewer confirming",
+  "name": "Cutting Edges",
+  "relatedPullRequest": "test",
+  "short": "Cutting corners? I also like to live dangerously",
+}
+`;

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inspectorGadget achievement should be granted to PR creator if coverage increased by 2+ 1`] = `
+Object {
+  "avatar": "images/achievements/inspectorGadget.achievement.jpg",
+  "description": "You've increased a project coverage by +2.6%",
+  "name": "Inspector Gadget",
+  "relatedPullRequest": "test",
+  "short": "I'm always careful, Penny. That's what makes me a great inspector.",
+}
+`;
+
+exports[`inspectorGadget achievement should parse only last coverall comment 1`] = `
+Object {
+  "avatar": "images/achievements/inspectorGadget.achievement.jpg",
+  "description": "You've increased a project coverage by +2.6%",
+  "name": "Inspector Gadget",
+  "relatedPullRequest": "test",
+  "short": "I'm always careful, Penny. That's what makes me a great inspector.",
+}
+`;
+
+exports[`inspectorGadget achievement should write in description last increased percentage 1`] = `
+Object {
+  "avatar": "images/achievements/inspectorGadget.achievement.jpg",
+  "description": "You've increased a project coverage by +10.6%",
+  "name": "Inspector Gadget",
+  "relatedPullRequest": "test",
+  "short": "I'm always careful, Penny. That's what makes me a great inspector.",
+}
+`;
+
+exports[`inspectorGadget achievement should write in description last increased percentage 2`] = `
+Object {
+  "avatar": "images/achievements/inspectorGadget.achievement.jpg",
+  "description": "You've increased a project coverage by +2.6%",
+  "name": "Inspector Gadget",
+  "relatedPullRequest": "test",
+  "short": "I'm always careful, Penny. That's what makes me a great inspector.",
+}
+`;

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`drClaw achievement should be granted to PR creator if coverage decreased by 2+ 1`] = `
+Object {
+  "avatar": "images/achievements/drClaw.achievement.gif",
+  "description": "You've decreased a project coverage by -6.2%",
+  "name": "Dr. Claw",
+  "relatedPullRequest": "test",
+  "short": "I'll get you next time, Gadget... next time!!",
+}
+`;
+
+exports[`drClaw achievement should parse only last coverall comment 1`] = `
+Object {
+  "avatar": "images/achievements/drClaw.achievement.gif",
+  "description": "You've decreased a project coverage by -6.2%",
+  "name": "Dr. Claw",
+  "relatedPullRequest": "test",
+  "short": "I'll get you next time, Gadget... next time!!",
+}
+`;
+
+exports[`drClaw achievement should write in description last decreased percentage 1`] = `
+Object {
+  "avatar": "images/achievements/drClaw.achievement.gif",
+  "description": "You've decreased a project coverage by -10.6%",
+  "name": "Dr. Claw",
+  "relatedPullRequest": "test",
+  "short": "I'll get you next time, Gadget... next time!!",
+}
+`;
+
+exports[`drClaw achievement should write in description last decreased percentage 2`] = `
+Object {
+  "avatar": "images/achievements/drClaw.achievement.gif",
+  "description": "You've decreased a project coverage by -6.2%",
+  "name": "Dr. Claw",
+  "relatedPullRequest": "test",
+  "short": "I'll get you next time, Gadget... next time!!",
+}
+`;

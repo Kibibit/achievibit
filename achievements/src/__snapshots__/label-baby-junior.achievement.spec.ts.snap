@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`labelBabyJunior achievement should be granted to PR creator if more than 5 labels 1`] = `
+Object {
+  "avatar": "images/achievements/labelBabyJunior.achievement.jpg",
+  "description": "You've put many labels, thank you for organizing. You're a gift that keeps on re-giving",
+  "name": "The Label Maker",
+  "relatedPullRequest": "test",
+  "short": "Is this a label maker?",
+}
+`;

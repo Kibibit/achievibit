@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`githubBot achievement should be granted if committer username is web-flow 1`] = `
+Object {
+  "avatar": "images/achievements/useGithubBot.achievement.jpeg",
+  "description": "used github to create a pull request, using the web-flow bot",
+  "name": "Why not bots?",
+  "relatedPullRequest": "test",
+  "short": "Hey sexy mama, wanna kill all humans?",
+}
+`;

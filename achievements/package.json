@@ -1,0 +1,68 @@
+{
+  "name": "achievements",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "prebuild": "rimraf lib",
+    "build": "tsc",
+    "generate-barrels": "barrelsby --delete -d ./src -l top -q --exclude spec.ts",
+    "test": "jest",
+    "test:watch": "jest --coverage --watch --verbose",
+    "test:cov": "jest --coverage --verbose"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.22",
+    "jest": "^26.6.3",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.5",
+    "ts-loader": "^9.0.2",
+    "ts-node": "^9.1.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "modulePathIgnorePatterns": [
+      "node_modules"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s",
+      "!**/index.ts",
+      "!**/dev-tools/**/*.(t|j)s"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-stare",
+        {
+          "resultDir": "../test-results/achievements",
+          "reportTitle": "jest-stare!",
+          "additionalResultsProcessors": [
+            "jest-junit"
+          ],
+          "coverageLink": "./coverage/lcov-report/index.html"
+        }
+      ]
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "clover",
+      "html"
+    ],
+    "coverageDirectory": "../../test-results/achievements/coverage",
+    "testEnvironment": "node"
+  }
+}

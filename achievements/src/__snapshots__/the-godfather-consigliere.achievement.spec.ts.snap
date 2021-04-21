@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`theGodfatherConsigliere achievement should be granted to PR creator if organization is Kibibit 1`] = `
+Object {
+  "avatar": "images/achievements/theGodfatherConsigliere.achievement.jpg",
+  "description": "<p>You have contributed to Kibibit! We really appreciate it!</p><p>Accept this achievement as gift on my daughter's wedding day</p>",
+  "name": "The Godfather Consigliere",
+  "relatedPullRequest": "test",
+  "short": "Great men are not born great, they contribute to Kibibit . . .",
+}
+`;

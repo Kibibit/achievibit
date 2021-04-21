@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reactionOnEveryComment achievement should be granted if PR and existing comments have reactions should work with both PR comments & inline comments 1`] = `
+Object {
+  "avatar": "images/achievements/reactionOnEveryComment.achievement.png",
+  "description": "got for having at least one comment\\\\inline comment, and all of them (including the PR description) had reactions",
+  "name": "royal flush",
+  "relatedPullRequest": "test",
+  "short": "emojis on all of the comments",
+}
+`;
+
+exports[`reactionOnEveryComment achievement should be granted if PR and existing comments have reactions should work with only PR comments 1`] = `
+Object {
+  "avatar": "images/achievements/reactionOnEveryComment.achievement.png",
+  "description": "got for having at least one comment\\\\inline comment, and all of them (including the PR description) had reactions",
+  "name": "royal flush",
+  "relatedPullRequest": "test",
+  "short": "emojis on all of the comments",
+}
+`;
+
+exports[`reactionOnEveryComment achievement should be granted if PR and existing comments have reactions should work with only inline comments 1`] = `
+Object {
+  "avatar": "images/achievements/reactionOnEveryComment.achievement.png",
+  "description": "got for having at least one comment\\\\inline comment, and all of them (including the PR description) had reactions",
+  "name": "royal flush",
+  "relatedPullRequest": "test",
+  "short": "emojis on all of the comments",
+}
+`;

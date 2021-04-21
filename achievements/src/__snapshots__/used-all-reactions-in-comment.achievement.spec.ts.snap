@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`usedAllReactionsInComment achievement should be granted if PR has a message with all reactions should work if all reactions + author reaction 1`] = `
+Object {
+  "avatar": "images/achievements/gladiator.achievement.gif",
+  "description": "Your message got all the possible reactions. Enjoy your 15 minutes of fame",
+  "name": "Gladiator",
+  "relatedPullRequest": "test",
+  "short": "Are you not ENTERTAINED?!",
+}
+`;
+
+exports[`usedAllReactionsInComment achievement should be granted if PR has a message with all reactions should work with PR comments 1`] = `
+Object {
+  "avatar": "images/achievements/gladiator.achievement.gif",
+  "description": "Your message got all the possible reactions. Enjoy your 15 minutes of fame",
+  "name": "Gladiator",
+  "relatedPullRequest": "test",
+  "short": "Are you not ENTERTAINED?!",
+}
+`;
+
+exports[`usedAllReactionsInComment achievement should be granted if PR has a message with all reactions should work with PR description 1`] = `
+Object {
+  "avatar": "images/achievements/gladiator.achievement.gif",
+  "description": "Your message got all the possible reactions. Enjoy your 15 minutes of fame",
+  "name": "Gladiator",
+  "relatedPullRequest": "test",
+  "short": "Are you not ENTERTAINED?!",
+}
+`;
+
+exports[`usedAllReactionsInComment achievement should be granted if PR has a message with all reactions should work with inline comments 1`] = `
+Object {
+  "avatar": "images/achievements/gladiator.achievement.gif",
+  "description": "Your message got all the possible reactions. Enjoy your 15 minutes of fame",
+  "name": "Gladiator",
+  "relatedPullRequest": "test",
+  "short": "Are you not ENTERTAINED?!",
+}
+`;

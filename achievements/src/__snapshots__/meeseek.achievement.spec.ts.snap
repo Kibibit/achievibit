@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`meeseek achievement Github's resolve keywords should recognize "close" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "closed" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "closes" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "fix" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "fixed" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "fixes" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "resolve" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "resolved" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize "resolves" 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement Github's resolve keywords should recognize a combination 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement should be case insensitive 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
+
+exports[`meeseek achievement should be granted to PR creator if 4 issues resolved 1`] = `
+Object {
+  "avatar": "images/achievements/meeseek.achievement.gif",
+  "description": "<p>Congrats on resolving so many issues at ones! Shouldn't pull requests be kept simple?</p><p>Pull requests don't usually have to exist this long. It's getting weird.</p>",
+  "name": "I'm Mr. Meeseeks! Look at me!",
+  "relatedPullRequest": "test",
+  "short": "Knock yourselves out. Just eh-keep your requests simple.",
+}
+`;
