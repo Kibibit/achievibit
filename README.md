@@ -9,7 +9,9 @@
   <a href="https://www.npmjs.com/package/@kibibit/achievibit"><img src="https://img.shields.io/npm/v/@kibibit/achievibit/latest.svg?style=for-the-badge&logo=npm&color=CB3837"></a>
 </p>
 <p align="center">
-<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
+<a href="https://codecov.io/gh/Kibibit/achievibit">
+  <img src="https://codecov.io/gh/Kibibit/achievibit/branch/beta/graph/badge.svg?token=Q3LT2A9EJ6">
+</a>
 <a href="https://github.com/Kibibit/achievibit/actions/workflows/server-unit-tests.yml">
   <img src="https://github.com/Kibibit/achievibit/actions/workflows/server-unit-tests.yml/badge.svg?style=flat-square" alt="Server Unit Tests">
 </a>
@@ -22,6 +24,7 @@
 <a href="https://github.com/Kibibit/achievibit/actions/workflows/e2e-tests.yml">
   <img src="https://github.com/Kibibit/achievibit/actions/workflows/e2e-tests.yml/badge.svg?style=flat-square" alt="E2E Tests">
 </a>
+<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square" alt="All Contributors"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
