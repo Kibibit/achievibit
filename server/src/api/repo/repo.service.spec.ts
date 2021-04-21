@@ -26,7 +26,7 @@ describe('RepoService', () => {
     }).compile();
 
     service = module.get<RepoService>(RepoService);
-  });
+  }, 10000);
 
   afterEach(async () => {
     await closeInMemoryDatabaseConnection();

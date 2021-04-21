@@ -25,7 +25,7 @@ describe('PullRequestService', () => {
     }).compile();
 
     service = module.get<PullRequestService>(PullRequestService);
-  });
+  }, 10000);
 
   afterEach(async () => {
     await closeInMemoryDatabaseConnection();
