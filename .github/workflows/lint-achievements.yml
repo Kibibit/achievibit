@@ -1,0 +1,46 @@
+name: Lint Achievements
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - 'achievements/**'
+  push:
+    paths:
+    - 'achievements/**'
+    branches:
+      - master
+      - beta
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.lock') }}
+      - name: Install Dependencies
+        run: npm install
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          eslint: true
+          # Eslint options
+          eslint_dir: achievements/
