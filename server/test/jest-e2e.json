@@ -14,7 +14,7 @@
     "src/**/*.(t|j)s",
     "!src/**/*.decorator.ts",
     "!src/**/index.ts",
-    "!src/**/dev-tools/*.ts",
+    "!src/**/dev-tools/**/*.ts",
     "!src/bootstrap-application.ts",
     "!src/swagger.ts",
     "!src/main.ts"

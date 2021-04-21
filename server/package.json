@@ -73,7 +73,7 @@
       "!**/*.decorator.ts",
       "!**/index.ts",
       "!**/*.module.ts",
-      "!**/dev-tools/*.ts",
+      "!**/dev-tools/**/*.ts",
       "!bootstrap-application.ts",
       "!swagger.ts",
       "!main.ts"
