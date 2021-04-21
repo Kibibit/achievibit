@@ -44,3 +44,4 @@ jobs:
           eslint: true
           # Eslint options
           eslint_dir: achievements/
+          eslint_extensions: js,ts
