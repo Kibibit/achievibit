@@ -5,6 +5,7 @@
   "main": "dist/server/main.js",
   "scripts": {
     "prune-branches": "node ./tools/scripts/prune-untrackted-branches.js",
+    "analyze-commit": "node ./tools/scripts/monorepo-commit-analyze.js",
     "contributors:all": "cross-env HUSKY_SKIP_HOOKS=1 node ./tools/get-all-contributors.js",
     "contributors:add": "cross-env HUSKY_SKIP_HOOKS=1 all-contributors add",
     "contributors:generate": "cross-env HUSKY_SKIP_HOOKS=1 all-contributors generate",
@@ -93,6 +94,7 @@
     "sentencer": "^0.2.1",
     "shelljs": "^0.8.4",
     "simple-git": "^2.37.0",
+    "staged-git-files": "^1.2.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
