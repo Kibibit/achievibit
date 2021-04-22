@@ -22,7 +22,9 @@
       "@kb-api": [ "src/api/index" ],
       "@kb-dev-tools": [ "src/dev-tools/index" ],
       "@kb-interfaces": [ "src/interfaces/index" ],
-      "@kb-engines": [ "src/engines/index" ]
+      "@kb-engines": [ "src/engines/index" ],
+      "@kb-errors": [ "src/errors/index" ],
+      "@kb-config": [ "src/config/index" ]
       
     },
     "incremental": true,

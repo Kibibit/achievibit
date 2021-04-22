@@ -5,12 +5,14 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { join } from 'path';
 
-import { AppModule, AppService } from '@kb-app';
+import { AppModule } from '@kb-app';
+import { ConfigService } from '@kb-config';
 import { KbNotFoundExceptionFilter } from '@kb-filters';
 
 import { Swagger } from './swagger';
 
-const appRoot = new AppService().appRoot;
+const config = new ConfigService();
+const appRoot = config.appRoot;
 
 export async function bootstrap(): Promise<NestExpressApplication> {
   terminalConsoleLogo('kibibit server template', [
