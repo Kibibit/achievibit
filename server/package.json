@@ -114,7 +114,9 @@
       "^@kb-tasks$": "<rootDir>/tasks/index",
       "^@kb-dev-tools$": "<rootDir>/dev-tools/index",
       "^@kb-engines$": "<rootDir>/engines/index",
-      "^@kb-interfaces$": "<rootDir>/interfaces/index"
+      "^@kb-interfaces$": "<rootDir>/interfaces/index",
+      "^@kb-config$": "<rootDir>/config/index",
+      "^@kb-errors$": "<rootDir>/errors/index"
     }
   }
 }

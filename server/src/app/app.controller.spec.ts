@@ -1,15 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mockResponse } from 'jest-mock-req-res';
 
-import { AppController, AppService } from '@kb-app';
+import { AppController } from '@kb-app';
+import { ConfigModule } from '@kb-config';
 
 describe('AppController', () => {
   let appController: AppController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
-      providers: [AppService]
+      imports: [ ConfigModule ],
+      controllers: [AppController]
     }).compile();
 
     appController = app.get<AppController>(AppController);

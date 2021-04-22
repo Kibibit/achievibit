@@ -1,16 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import findRoot from 'find-root';
 import fs from 'fs-extra';
 
 import { ApiController } from '@kb-api';
+import { ConfigService } from '@kb-config';
 
 jest.mock('fs-extra');
-jest.mock('@kb-app', () => ({
-  AppService: jest.fn(function() {
-    return {
-      appRoot: 'app-root'
-    }
-  })
-}));
+jest.mock('find-root', () => () => 'app-root');
+
+findRoot;
 
 describe('ApiController', () => {
   // const MockedAppService = mocked(AppService, true);
@@ -20,7 +18,15 @@ describe('ApiController', () => {
     // Clears the record of calls to the mock constructor function and its methods
     // MockedAppService.mockClear();
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ApiController]
+      controllers: [ApiController],
+      providers: [
+        {
+          provide: ConfigService,
+          useValue: {
+            appRoot: 'app-root'
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<ApiController>(ApiController);

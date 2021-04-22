@@ -47,7 +47,10 @@
     "^@kb-api$": "<rootDir>/src/api/index",
     "^@kb-events$": "<rootDir>/src/events/index",
     "^@kb-app$": "<rootDir>/src/app/index",
-    "^@kb-tasks": "<rootDir>/src/tasks/index",
-    "^@kb-engines": "<rootDir>/src/engines/index"
+    "^@kb-tasks$": "<rootDir>/src/tasks/index",
+    "^@kb-engines$": "<rootDir>/src/engines/index",
+    "^@kb-dev-tools$": "<rootDir>/src/dev-tools/index",
+    "^@kb-config$": "<rootDir>/src/config/index",
+    "^@kb-errors$": "<rootDir>/src/errors/index"
   }
 }

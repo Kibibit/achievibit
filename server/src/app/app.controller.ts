@@ -3,11 +3,11 @@ import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
 import { join } from 'path';
 
-import { AppService } from './app.service';
+import { ConfigService } from '@kb-config';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   @Get()
   @ApiOperation({ summary: 'Get Web Client (HTML)' })
@@ -15,6 +15,6 @@ export class AppController {
     description: 'Returns the Web Client\'s HTML File'
   })
   sendWebClient(@Res() res: Response): void {
-    res.sendFile(join(this.appService.appRoot, '/dist/client/index.html'));
+    res.sendFile(join(this.configService.appRoot, '/dist/client/index.html'));
   }
 }

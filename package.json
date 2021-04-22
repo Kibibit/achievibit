@@ -62,8 +62,10 @@
     "@types/cron": "^1.7.2",
     "@types/find-root": "^1.1.2",
     "@types/mongoose": "^5.10.3",
+    "@types/nconf": "^0.10.0",
     "@types/semver": "^7.3.4",
     "@types/socket.io": "^2.1.13",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "all-contributors-cli": "^6.20.0",
@@ -125,9 +127,11 @@
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.20",
     "mongoose": "^5.10.19",
+    "nconf": "^0.11.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "smee-client": "^1.2.2",
     "swagger-ui-express": "^4.1.6"
   },
   "config": {
