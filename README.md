@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://achievibit.kibibit.io/" target="blank"><img src="http://Kibibit.io/kibibit-assets/SVG/achievibit-text.svg" width="150" alt="achievibit Logo" />
+  <a href="https://achievibit.kibibit.io/" target="blank"><img src="http://Kibibit.io/kibibit-assets/SVG/achievibit-middle.svg" width="150" alt="achievibit Logo" />
   </a>
   <h2 align="center">
     @kibibit/achievibit
