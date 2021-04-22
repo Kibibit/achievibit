@@ -7,7 +7,6 @@ import { EventsGateway, EventsModule } from '@kb-events';
 import { TasksService } from '@kb-tasks';
 
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -17,6 +16,6 @@ import { AppService } from './app.service';
     ConfigModule
   ],
   controllers: [AppController],
-  providers: [AppService, TasksService, EventsGateway]
+  providers: [TasksService, EventsGateway]
 })
 export class AppModule {}
