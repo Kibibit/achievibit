@@ -1,5 +1,6 @@
 lib
 test-results
+*.env.json
 
 # Logs
 logs

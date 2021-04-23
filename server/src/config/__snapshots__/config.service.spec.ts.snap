@@ -27,7 +27,7 @@ exports[`ConfigService Validations nodeEnv should REJECT other values 1`] = `
  property: nodeEnv
  value: value_not_allowed
 ==========================
- - nodeEnv must be one of the following values: development, production, test
+ - nodeEnv must be one of the following values: development, production, test, devcontainer
 
 "
 `;
@@ -38,7 +38,7 @@ exports[`ConfigService Validations nodeEnv should REJECT other values 2`] = `
  property: nodeEnv
  value: 4
 ===================
- - nodeEnv must be one of the following values: development, production, test
+ - nodeEnv must be one of the following values: development, production, test, devcontainer
  - nodeEnv must be a string
 
 "
