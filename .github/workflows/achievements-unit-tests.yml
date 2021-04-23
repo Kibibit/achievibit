@@ -51,4 +51,3 @@ jobs:
           directory: ./test-results/achievements/coverage
           flags: unit-test-achievements
           fail_ci_if_error: true
-          verbose: true
