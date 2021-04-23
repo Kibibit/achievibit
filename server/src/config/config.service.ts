@@ -2,7 +2,12 @@ import { Logger } from '@nestjs/common';
 import { classToPlain, Exclude } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import findRoot from 'find-root';
-import { pathExistsSync, readJSONSync, writeJson } from 'fs-extra';
+import {
+  pathExistsSync,
+  readJSONSync,
+  writeJson,
+  writeJSONSync
+} from 'fs-extra';
 import { camelCase, get } from 'lodash';
 import nconf from 'nconf';
 import { join } from 'path';
@@ -56,7 +61,7 @@ let configService: ConfigService;
  */
 @Exclude()
 export class ConfigService extends AchievibitConfig {
-  private readonly logger: Logger = new Logger('ConfigService');
+  private logger: Logger = new Logger('ConfigService');
 
   private readonly mode: string = environment;
 
@@ -78,7 +83,6 @@ export class ConfigService extends AchievibitConfig {
 
   constructor(passedConfig?: Partial<AchievibitConfig>) {
     super();
-
     if (!passedConfig && configService) { return configService; }
 
     const config = passedConfig || nconf.get();
@@ -94,7 +98,7 @@ export class ConfigService extends AchievibitConfig {
           source: this.webhookProxyUrl,
           target:
             `http://localhost:${ this.port }/${ this.webhookDestinationUrl }`,
-          logger: console
+          logger: eventLogger as any
         });
       }
 
@@ -113,11 +117,13 @@ export class ConfigService extends AchievibitConfig {
       writeJson(configFilePath, classToPlain(this), { spaces: 2 });
     }
 
+    const schema = this.toJsonSchema();
+    writeJSONSync(join(this.appRoot, 'env.schema.json'), schema);
+
     configService = this;
   }
 
   closeEvents() {
-    const smeeToDelete = smee;
     const eventsToDelete = events;
 
     smee = undefined;

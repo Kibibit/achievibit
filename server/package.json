@@ -20,7 +20,7 @@
     "test:watch": "jest --watch --verbose",
     "test:cov": "jest --coverage --verbose",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --verbose --detectOpenHandles --coverage"
+    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --verbose --detectOpenHandles --coverage"
   },
   "dependencies": {
     "kb-achievements": "file:../achievements"
@@ -38,6 +38,7 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "cross-env": "^7.0.3",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
