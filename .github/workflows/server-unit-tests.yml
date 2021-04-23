@@ -51,4 +51,3 @@ jobs:
           directory: ./test-results/server/coverage
           flags: unit-test-server
           fail_ci_if_error: true
-          verbose: true
