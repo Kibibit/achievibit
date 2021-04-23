@@ -49,7 +49,6 @@ jobs:
           directory: ./test-results/api/coverage
           flags: api-test
           fail_ci_if_error: true
-          verbose: true
       - name: Archive test results & coverage
         uses: actions/upload-artifact@v2
         with:

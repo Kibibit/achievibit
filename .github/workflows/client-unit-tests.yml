@@ -51,4 +51,3 @@ jobs:
           directory: ./test-results/client/coverage/report-json
           flags: unit-test-client
           fail_ci_if_error: true
-          verbose: true
