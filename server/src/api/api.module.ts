@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ConfigModule, ConfigService } from '@kb-config';
 
+import {
+  createInMemoryDatabaseModule
+} from '../dev-tools/in-memory-database.module';
 import { ApiController } from './api.controller';
 import { PullRequestModule } from './pull-request/pull-request.module';
 import { RepoModule } from './repo/repo.module';
@@ -15,7 +18,9 @@ const config = new ConfigService();
 @Module({
   controllers: [ApiController],
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017'),
+    config.dbUrl ?
+      MongooseModule.forRoot(config.dbUrl) :
+      createInMemoryDatabaseModule(),
     UserModule,
     RepoModule,
     WebhookEventManagerModule,
@@ -23,4 +28,15 @@ const config = new ConfigService();
     ConfigModule
   ]
 })
-export class ApiModule {}
+export class ApiModule {
+  logger: Logger = new Logger('ApiModule');
+
+  constructor() {
+    this.logger.log(config.dbUrl ?
+      `Connecting to database: ${ config.dbUrl }` :
+      'No DB address given. Using in-memory DB'
+    );
+  }
+
+  
+}
