@@ -27,45 +27,80 @@ import { UserService } from '../user/user.service';
 import { WebhookEventManagerService } from './webhook-event-manager.service';
 
 const PullRequestEventsCases = [
-  [AchievibitEventNames.NewConnection, webhookPingEvent],
-  [AchievibitEventNames.PullRequestOpened, pullRequestCreatedEvent],
-  [AchievibitEventNames.PullRequestEdited, pullRequestEditedEvent],
+  [AchievibitEventNames.NewConnection, webhookPingEvent, 'handleNewConnection'],
+  [
+    AchievibitEventNames.PullRequestOpened,
+    pullRequestCreatedEvent,
+    'handlePullRequestOpened'
+  ],
+  [
+    AchievibitEventNames.PullRequestEdited,
+    pullRequestEditedEvent,
+    'handlePullRequestEdited'
+  ],
   [
     AchievibitEventNames.PullRequestInitialLabeled,
-    pullRequestLabelsInitializedEvent
+    pullRequestLabelsInitializedEvent,
+    'handlePullRequestInitialLabeled'
   ],
-  [AchievibitEventNames.PullRequestLableAdded, pullRequestLabelAddedEvent],
-  [AchievibitEventNames.PullRequestLabelRemoved, pullRequestLabelRemovedEvent],
+  [
+    AchievibitEventNames.PullRequestLableAdded,
+    pullRequestLabelAddedEvent,
+    'handlePullRequestLabelAdded'
+  ],
+  [
+    AchievibitEventNames.PullRequestLabelRemoved,
+    pullRequestLabelRemovedEvent,
+    'handlePullRequestLabelRemoved'
+  ],
   [
     AchievibitEventNames.PullRequestAssigneeAdded,
-    pullRequestAssigneeAddedEvent
+    pullRequestAssigneeAddedEvent,
+    'handlePullRequestAssigneeAdded'
   ],
   [
     AchievibitEventNames.PullRequestAssigneeRemoved,
-    pullRequestAssigneeRemovedEvent
+    pullRequestAssigneeRemovedEvent,
+    'handlePullRequestAssigneeRemoved'
   ],
-  [AchievibitEventNames.PullRequestMerged, pullRequestMergedEvent]
+  [
+    AchievibitEventNames.PullRequestMerged,
+    pullRequestMergedEvent,
+    'handlePullRequestMerged'
+  ]
 ];
 
 const PullRequestReviewEventsCases = [
   [
     AchievibitEventNames.PullRequestReviewRequestAdded,
-    pullReuqestReviewRequestAddedEvent
+    pullReuqestReviewRequestAddedEvent,
+    'handlePullRequestReviewRequestAdded'
   ],
   [
     AchievibitEventNames.PullRequestReviewRequestRemoved,
-    pullRequestReviewRequestRemovedEvent
+    pullRequestReviewRequestRemovedEvent,
+    'handlePullRequestReviewRequestRemoved'
   ],
-  [AchievibitEventNames.PullRequestReviewCommentAdded, reviewCommentAddedEvent],
+  [
+    AchievibitEventNames.PullRequestReviewCommentAdded,
+    reviewCommentAddedEvent,
+    'handlePullRequestReviewCommentAdded'
+  ],
   [
     AchievibitEventNames.PullRequestReviewCommentRemoved,
-    reviewCommentRemovedEvent
+    reviewCommentRemovedEvent,
+    'handlePullRequestReviewCommentRemoved'
   ],
   [
     AchievibitEventNames.PullRequestReviewCommentEdited,
-    reviewCommentEditedEvent
+    reviewCommentEditedEvent,
+    'handlePullRequestReviewCommentEdited'
   ],
-  [AchievibitEventNames.PullRequestReviewSubmitted, reviewSubmittedEvent]
+  [
+    AchievibitEventNames.PullRequestReviewSubmitted,
+    reviewSubmittedEvent,
+    'handlePullRequestReviewSubmitted'
+  ]
 ];
 
 describe('WebhookEventManagerService', () => {
@@ -103,6 +138,12 @@ describe('WebhookEventManagerService', () => {
 
   describe('Translate GitHubEvents to AchievibitEvents', () => {
     describe('Translate to internal events', () => {
+      it('should ignore unrecognized events', () => {
+        const result = service.translateToEventName('nice', {});
+
+        expect(result).toBeUndefined();
+      });
+
       it.each(PullRequestEventsCases)(
         'should handle %p event',
         (internalEventName, webhookData: any) => {
@@ -132,35 +173,33 @@ describe('WebhookEventManagerService', () => {
   });
 
   describe('notifyAchievements', () => {
-    it('should catch new connections', async () => {
-      jest.spyOn(GithubEngine.prototype, 'handleNewConnection')
-        .mockImplementation(() => Promise.resolve());
-      await service
-        .notifyAchievements(webhookPingEvent.event, webhookPingEvent.payload);
 
-      expect(service.githubEngine.handleNewConnection).toHaveBeenCalledWith(
-        webhookPingEvent.payload
-      );
-      expect(service.githubEngine.handleNewConnection)
-        .toHaveBeenCalledTimes(1);
+    it.each(PullRequestEventsCases)(
+      'should catch %p event',
+      async (internalEventName, webhookData: any, engineFuncName: any) => {
+        jest.spyOn(GithubEngine.prototype, engineFuncName)
+          .mockImplementation(() => Promise.resolve());
+        await service
+          .notifyAchievements(webhookData.event, webhookData.payload);
+
+        expect(service.githubEngine[engineFuncName]).
+          toHaveBeenCalledWith(webhookData.payload);
+        expect(service.githubEngine[engineFuncName])
+          .toHaveBeenCalledTimes(1);
     });
 
-    it('should catch open pull request', async () => {
-      jest.spyOn(GithubEngine.prototype, 'handlePullRequestOpened')
-        .mockImplementation(() => Promise.resolve());
-      await service
-        .notifyAchievements(
-          pullRequestCreatedEvent.event,
-          pullRequestCreatedEvent.payload
-        );
+    it.each(PullRequestReviewEventsCases)(
+      'should catch %p - review event',
+      async (internalEventName, webhookData: any, engineFuncName: any) => {
+        jest.spyOn(GithubEngine.prototype, engineFuncName)
+          .mockImplementation(() => Promise.resolve());
+        await service
+          .notifyAchievements(webhookData.event, webhookData.payload);
 
-      expect(service.githubEngine.handlePullRequestOpened).toHaveBeenCalledWith(
-        pullRequestCreatedEvent.payload
-      );
-      expect(service.githubEngine.handlePullRequestOpened)
-        .toHaveBeenCalledTimes(1);
+        expect(service.githubEngine[engineFuncName]).
+          toHaveBeenCalledWith(webhookData.payload);
+        expect(service.githubEngine[engineFuncName])
+          .toHaveBeenCalledTimes(1);
     });
-
-    
   });
 });
