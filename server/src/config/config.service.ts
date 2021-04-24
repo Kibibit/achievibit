@@ -113,7 +113,7 @@ export class ConfigService extends AchievibitConfig {
       events = undefined;
     }
 
-    if (this.saveToFile) {
+    if (config.saveToFile) {
       writeJson(configFilePath, classToPlain(this), { spaces: 2 });
     }
 

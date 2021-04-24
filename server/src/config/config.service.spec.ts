@@ -21,41 +21,31 @@ describe('ConfigService', () => {
       });
     });
 
-    afterEach(async (done) => {
+    afterEach(() => {
       configService.closeEvents();
-
-      done();
     });
 
-    it('should be defined', async (done) => {
+    it('should be defined', () => {
       expect(configService).toBeDefined();
-
-      done();
     });
 
     it('should return the same instance if initiated without an input',
-    async (done) => {
+    () => {
       expect(new ConfigService()).toBe(configService);
-
-      done();
     });
 
-    it('should create a new instance when passed an override', async (done) => {
+    it('should create a new instance when passed an override', () => {
       expect(new ConfigService({} as AchievibitConfig)).not.toBe(configService);
-
-      done();
     });
 
     it('should set default values to everything that needs one',
-    async (done) => {
+    () => {
       expect(configService.toPlainObject()).toMatchSnapshot();
-
-      done();
     });
   });
 
   describe('Smee & Events', () => {
-    it('should NOT initial smee and events on production', async (done) => {
+    it('should NOT initial smee and events on production', () => {
       const productionService = new ConfigService({
         nodeEnv: 'production'
       });
@@ -64,11 +54,9 @@ describe('ConfigService', () => {
       expect(productionService.events).toBeUndefined();
 
       productionService.closeEvents();
-
-      done();
     });
 
-    it('should initial smee and events on development', async (done) => {
+    it('should initial smee and events on development', () => {
       const productionService = new ConfigService({
         nodeEnv: 'development'
       });
@@ -77,8 +65,6 @@ describe('ConfigService', () => {
       expect(productionService.events).toBeDefined();
 
       productionService.closeEvents();
-
-      done();
     });
   });
 
@@ -91,19 +77,17 @@ describe('ConfigService', () => {
 
       chain(NODE_ENVIRONMENT_OPTIONS)
         .forEach((nodeEnv: string) => {
-          it(`should ACCEPT ${ nodeEnv }`, async (done) => {
+          it(`should ACCEPT ${ nodeEnv }`, () => {
             const serviceWrapper = () => new ConfigService({ nodeEnv });
 
             expect(serviceWrapper().toPlainObject).toBeDefined();
 
             serviceWrapper().closeEvents();
-
-            done();
           });
         })
         .value();
 
-      it('should REJECT other values', async (done) => {
+      it('should REJECT other values', () => {
 
         const nodeEnv = 'value_not_allowed';
 
@@ -119,23 +103,19 @@ describe('ConfigService', () => {
 
         expect(wrongEnvType).toThrowError(ConfigValidationError);
         expect(wrongEnvType).toThrowErrorMatchingSnapshot();
-
-        done();
       });
 
     });
 
     describe('port', () => {
-      it('should ACCEPT numbers', async (done) => {
+      it('should ACCEPT numbers', () => {
         const port = DtoMockGenerator.integer();
         const service = new ConfigService({ port });
 
         expect(service.port).toBe(port);
-
-        done();
       });
 
-      it('should REJECT values other than numbers', async (done) => {
+      it('should REJECT values other than numbers', () => {
         const stringPort = () => new (ConfigService as any)({ port: 'hello' });
         const ObjectPort = () => new (ConfigService as any)({ port: {} });
 
@@ -144,34 +124,28 @@ describe('ConfigService', () => {
 
         expect(ObjectPort).toThrowError(ConfigValidationError);
         expect(ObjectPort).toThrowErrorMatchingSnapshot();
-
-        done();
       });
 
     });
 
     describe('dbUrl', () => {
-      it('should ACCEPT empty value', async (done) => {
+      it('should ACCEPT empty value', () => {
         const service = new ConfigService({ dbUrl: undefined });
 
         expect(service.dbUrl).toBeUndefined();
 
         service.closeEvents();
-
-        done();
       });
 
-      it('should ACCEPT localhost mongodb URL', async (done) => {
+      it('should ACCEPT localhost mongodb URL', () => {
         const localMongodbUrl = 'mongodb://localhost:27017';
 
         const configService = new ConfigService({ dbUrl: localMongodbUrl });
 
         expect(configService.dbUrl).toBe(localMongodbUrl);
-
-        done();
       });
 
-      it('should ACCEPT valid mongodb URLS', async (done) => {
+      it('should ACCEPT valid mongodb URLS', () => {
         const mongodbProtocolUrls =
           times(10, () => DtoMockGenerator.mongodbUrl());
 
@@ -182,27 +156,21 @@ describe('ConfigService', () => {
             expect(configService.dbUrl).toBe(mongodbUrl);
           })
           .value();
-
-        done();
       });
 
-      it('should REJECT non-mongodb URLS', async (done) => {
+      it('should REJECT non-mongodb URLS', () => {
         const invalidUrl =
           () => new ConfigService({ dbUrl: 'https://google.com/' });
 
         expect(invalidUrl).toThrowError(ConfigValidationError);
         expect(invalidUrl).toThrowErrorMatchingSnapshot();
-
-        done();
       });
     });
 
     describe('webhookProxyUrl', () => {
-      it('should ACCEPT smee.io URLS', async (done) => {
+      it('should ACCEPT smee.io URLS', () => {
         const smeeProtocolUrls =
           times(10, () => DtoMockGenerator.randexp(SMEE_IO_REGEX).gen());
-
-        console.log(smeeProtocolUrls);
 
         chain(smeeProtocolUrls)
           .keyBy()
@@ -214,28 +182,22 @@ describe('ConfigService', () => {
             expect(configService.webhookProxyUrl).toBe(smeeProtocolUrl);
           })
           .value();
-
-        done();
       });
 
-      it('should REJECT non-smee URLS', async (done) => {
+      it('should REJECT non-smee URLS', () => {
         const invalidUrl =
           () => new ConfigService({ webhookProxyUrl: 'https://google.com/' });
 
         expect(invalidUrl).toThrowError(ConfigValidationError);
         expect(invalidUrl).toThrowErrorMatchingSnapshot();
-
-        done();
       });
 
-      it('should REJECT non-URLS', async (done) => {
+      it('should REJECT non-URLS', () => {
         const invalidUrl =
           () => new ConfigService({ webhookProxyUrl: 'hello world' });
 
         expect(invalidUrl).toThrowError(ConfigValidationError);
         expect(invalidUrl).toThrowErrorMatchingSnapshot();
-
-        done();
       });
     });
   });
