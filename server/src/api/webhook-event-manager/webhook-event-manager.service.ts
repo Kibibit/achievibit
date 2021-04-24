@@ -25,12 +25,6 @@ export class WebhookEventManagerService {
     );
   }
 
-  async postFromWebhook(githubHeader: string, body: any): Promise<any> {
-    this.logger.log('got a post about ' + githubHeader);
-
-    return await this.notifyAchievements(githubHeader, body);
-  }
-
   async notifyAchievements(githubEvent: string, eventData: any): Promise<any> {
     const eventName = this.translateToEventName(githubEvent, eventData);
 
@@ -45,40 +39,57 @@ export class WebhookEventManagerService {
         return eventName;
       case AchievibitEventNames.PullRequestInitialLabeled:
         this.logger.debug('PullRequestInitialLabeled');
+        await this.githubEngine.handlePullRequestInitialLabeled(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestLableAdded:
         this.logger.debug('PullRequestLableAdded');
+        await this.githubEngine.handlePullRequestLabelAdded(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestLabelRemoved:
         this.logger.debug('PullRequestLabelRemoved');
+        await this.githubEngine.handlePullRequestLabelRemoved(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestEdited:
         this.logger.debug('PullRequestEdited');
+        await this.githubEngine.handlePullRequestEdited(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestAssigneeAdded:
+        this.logger.debug('PullRequestAssignee');
+        await this.githubEngine.handlePullRequestAssigneeAdded(eventData);
+        return eventName;
       case AchievibitEventNames.PullRequestAssigneeRemoved:
         this.logger.debug('PullRequestAssignee');
+        await this.githubEngine.handlePullRequestAssigneeRemoved(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewRequestAdded:
         this.logger.debug('PullRequestReviewRequestAdded');
+        await this.githubEngine.handlePullRequestReviewRequestAdded(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewRequestRemoved:
         this.logger.debug('PullRequestReviewRequestRemoved');
+        await this.githubEngine
+          .handlePullRequestReviewRequestRemoved(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewCommentAdded:
         this.logger.debug('PullRequestReviewCommentAdded');
+        await this.githubEngine.handlePullRequestReviewCommentAdded(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewCommentRemoved:
         this.logger.debug('PullRequestReviewCommentRemoved');
+        await this.githubEngine
+          .handlePullRequestReviewCommentRemoved(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewCommentEdited:
         this.logger.debug('PullRequestReviewCommentEdited');
+        await this.githubEngine.handlePullRequestReviewCommentEdited(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestReviewSubmitted:
         this.logger.debug('PullRequestReviewSubmitted');
+        await this.githubEngine.handlePullRequestReviewSubmitted(eventData);
         return eventName;
       case AchievibitEventNames.PullRequestMerged:
         this.logger.debug('PullRequestMerged');
+        await this.githubEngine.handlePullRequestMerged(eventData);
         return eventName;
     }
   }
