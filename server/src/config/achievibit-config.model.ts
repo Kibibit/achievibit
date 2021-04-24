@@ -91,6 +91,14 @@ export class AchievibitConfig {
       }
     }).AchievibitConfig;
 
+    delete configJsonSchema.properties.nodeEnv;
+    configJsonSchema.required.splice(
+      configJsonSchema.required.indexOf('nodeEnv'),
+      1
+    );
+
+    // console.log(configJsonSchema);
+
     return configJsonSchema;
   }
 }
