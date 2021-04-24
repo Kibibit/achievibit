@@ -1,4 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
+import { defaultMetadataStorage } from 'class-transformer/cjs/storage';
 import {
   IsBoolean,
   IsIn,
@@ -13,8 +14,6 @@ import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { v1 as uuidv1 } from 'uuid';
 
 import { JsonSchema } from './json-schema.validator';
-
-const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 export const NODE_ENVIRONMENT_OPTIONS = [
   'development',
