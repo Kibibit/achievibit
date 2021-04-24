@@ -1,3 +1,10 @@
+# [2.0.0-beta.5](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2021-04-24)
+
+
+### Features
+
+* **config:** add config module to handle global configurations ([64ad998](https://github.com/Kibibit/achievibit/commit/64ad9982c82a07b2aff78cd873f0b474c63e2d8a))
+
 # [2.0.0-beta.4](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.3...v2.0.0-beta.4) (2021-04-21)
 
 
