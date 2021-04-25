@@ -6,9 +6,9 @@
   "scripts": {
     "prune-branches": "node ./tools/scripts/prune-untrackted-branches.js",
     "analyze-commit": "node ./tools/scripts/monorepo-commit-analyze.js",
-    "contributors:all": "cross-env HUSKY_SKIP_HOOKS=1 node ./tools/get-all-contributors.js",
-    "contributors:add": "cross-env HUSKY_SKIP_HOOKS=1 all-contributors add",
-    "contributors:generate": "cross-env HUSKY_SKIP_HOOKS=1 all-contributors generate",
+    "contributors:all": "cross-env HUSKY=0 node ./tools/get-all-contributors.js",
+    "contributors:add": "cross-env HUSKY=0 all-contributors add",
+    "contributors:generate": "cross-env HUSKY=1 all-contributors generate",
     "install": "npm run install:achievements && npm run install:server && npm run install:client",
     "install:achievements": "cd achievements && npm install",
     "install:client": "cd client && npm install",
@@ -39,7 +39,7 @@
     "test:client-unit": "cd client && npm run test:cov",
     "test:api": "cd server && npm run test:e2e",
     "test:e2e": "cd client && npm run e2e",
-    "semantic-release": "cross-env HUSKY_SKIP_HOOKS=1 semantic-release",
+    "semantic-release": "cross-env HUSKY=0 semantic-release",
     "prepare": "husky install"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
