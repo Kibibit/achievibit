@@ -40,7 +40,8 @@
     "test:api": "cd server && npm run test:e2e",
     "test:e2e": "cd client && npm run e2e",
     "semantic-release": "cross-env HUSKY=0 semantic-release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "serve-test-results": "http-server ./test-results -p 10104"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
@@ -81,6 +82,7 @@
     "foswig": "^3.0.1",
     "github-username": "^6.0.0",
     "gitlog": "^4.0.4",
+    "http-server": "^0.12.3",
     "husky": "^6.0.0",
     "inquirer": "^8.0.0",
     "jest-stare": "^2.2.1",
