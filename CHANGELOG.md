@@ -1,3 +1,18 @@
+achievibit changelog
+
+# [2.0.0-beta.6](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2021-04-25)
+
+
+### Bug Fixes
+
+* **config:** don't allow nodeEnv in file + fix save to file ([5db8d95](https://github.com/Kibibit/achievibit/commit/5db8d951301db9d23becd7d6dd4708b3e2fd2056))
+* **release:** don't run husky on release ([2ce76b5](https://github.com/Kibibit/achievibit/commit/2ce76b5ebafecd519b0d7522f74ccfe0dfc712ac))
+
+
+### Features
+
+* **config:** generate json schema from config ([b331909](https://github.com/Kibibit/achievibit/commit/b3319096bb9c635d9b14f07b256693afa74a59ca))
+
 # [2.0.0-beta.5](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.4...v2.0.0-beta.5) (2021-04-24)
 
 
