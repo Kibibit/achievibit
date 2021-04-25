@@ -1,5 +1,12 @@
 achievibit changelog
 
+# [2.0.0-beta.7](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2021-04-25)
+
+
+### Features
+
+* **engines:** implement new connection and pr created methods ([8d68fd8](https://github.com/Kibibit/achievibit/commit/8d68fd89bb50de775222dd0dce5faa03ebab586e))
+
 # [2.0.0-beta.6](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.5...v2.0.0-beta.6) (2021-04-25)
 
 
