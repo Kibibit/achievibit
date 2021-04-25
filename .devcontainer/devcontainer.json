@@ -73,6 +73,7 @@
 	"forwardPorts": [
     10101, // dev client
     10102, // dev server
+    10104, // static test-results
     27017 // mongodb instance
   ],
   "portsAttributes": {
@@ -82,6 +83,10 @@
     },
     "10102": {
       "label": "Server",
+      "onAutoForward": "notify"
+    },
+    "10104": {
+      "label": "Test Results",
       "onAutoForward": "notify"
     },
     "27017": {

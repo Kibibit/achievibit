@@ -1,6 +1,7 @@
 import { Engine } from '@kb-abstracts';
 import { PullRequestService, RepoService, UserService } from '@kb-api';
 import { IGithubPullRequestEvent } from '@kb-interfaces';
+import { PullRequest, Repo, User } from '@kb-models';
 
 
 export class GithubEngine extends Engine<IGithubPullRequestEvent> {
@@ -13,15 +14,75 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     super();
   }
 
-  handleNewConnection(
+  async handleNewConnection(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const repoDto = new Repo({
+      fullname: eventData.repository.full_name,
+      name: eventData.repository.name,
+      url: eventData.repository.html_url,
+      organization: eventData.repository.owner.type === 'Organization' ?
+        eventData.repository.owner.login : undefined
+    });
+
+    await this.reposService.create(repoDto);
+
+    return;
   }
-  handlePullRequestOpened(
+  async handlePullRequestOpened(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
+    const githubPR = eventData.pull_request;
+    const githubCreator = eventData.pull_request.user;
+    const githubOwner = eventData.repository.owner;
+
+    const creator = new User({
+      username: githubCreator.login,
+      url: githubCreator.html_url,
+      avatar: githubCreator.avatar_url
+    });
+
+    let organization: User;
+    if (githubOwner.type === 'Organization') {
+      organization = new User({
+        username: githubOwner.login,
+        url: githubOwner.html_url,
+        avatar: githubOwner.avatar_url,
+        organization: true
+      });
+
+      await this.usersService.create(organization);
+    }
+
+    await this.usersService.create(creator);
+
+    const repository = new Repo({
+      fullname: eventData.repository.full_name,
+      name: eventData.repository.name,
+      url: eventData.repository.html_url,
+      organization: eventData.repository.owner.type === 'Organization' ?
+        eventData.repository.owner.login : undefined
+    });
+
+    await this.reposService.create(repository);
+
+    const pullRequest = new PullRequest({
+      id: `${ repository.fullname }/pull/${ githubPR.number }`,
+      title: githubPR.title,
+      description: githubPR.body,
+      number: githubPR.number,
+      creator: creator.username,
+      createdOn: new Date(githubPR.created_at),
+      url: githubPR.html_url,
+      repository: repository.fullname
+    });
+
+    pullRequest.organization = organization && organization.username;
+
+    await this.pullRequestsService.create(pullRequest);
+
+    return;
   }
   handlePullRequestInitialLabeled(
     eventData: IGithubPullRequestEvent

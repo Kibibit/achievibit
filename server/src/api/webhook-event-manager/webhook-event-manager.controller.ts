@@ -1,5 +1,12 @@
-import { Controller, Logger, UseFilters } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Headers,
+  Logger,
+  Post,
+  UseFilters
+} from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { KbValidationExceptionFilter } from '@kb-filters';
 
@@ -14,4 +21,16 @@ export class WebhookEventManagerController {
   constructor(
     private readonly webhookEventManagerService: WebhookEventManagerService
   ) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Recieve GitHub Webhooks' })
+  async recieveGitHubWebhooks(
+    @Headers('x-github-event') githubEvent: string,
+    @Body() eventBody: any
+  ): Promise<string> {
+    const eventName = await this.webhookEventManagerService
+      .notifyAchievements(githubEvent, eventBody);
+
+    return eventName;
+  }
 }
