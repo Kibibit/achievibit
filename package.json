@@ -39,7 +39,7 @@
     "test:client-unit": "cd client && npm run test:cov",
     "test:api": "cd server && npm run test:e2e",
     "test:e2e": "cd client && npm run e2e",
-    "semantic-release": "semantic-release",
+    "semantic-release": "cross-env HUSKY_SKIP_HOOKS=1 semantic-release",
     "prepare": "husky install"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
