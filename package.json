@@ -113,6 +113,18 @@
     "url": "https://github.com/Kibibit/achievibit/issues"
   },
   "dependencies": {
+    "@angular/animations": "~11.1.2",
+    "@angular/cdk": "^11.1.2",
+    "@angular/common": "~11.1.2",
+    "@angular/compiler": "~11.1.2",
+    "@angular/core": "~11.1.2",
+    "@angular/forms": "~11.1.2",
+    "@angular/material": "^11.1.2",
+    "@angular/platform-browser": "~11.1.2",
+    "@angular/platform-browser-dynamic": "~11.1.2",
+    "@angular/router": "~11.1.2",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.10.2",
     "@kibibit/consologo": "^1.2.0",
     "@kibibit/kb-error": "^1.0.3",
     "@nestjs/common": "^7.6.11",
