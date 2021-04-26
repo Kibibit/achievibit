@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AppController (e2e) / (POST) from github ping event should create db repo 1`] = `"NewConnection"`;
+exports[`AppController (e2e) / (POST) github ping event should create db repo 1`] = `"NewConnection"`;
 
-exports[`AppController (e2e) / (POST) from github ping event should create db repo 2`] = `
+exports[`AppController (e2e) / (POST) github ping event should create db repo 2`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -12,9 +12,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee added 1`] = `"PullRequestAssigneeAdded"`;
+exports[`AppController (e2e) pr events / (POST) github pull request assignee added 1`] = `"PullRequestAssigneeAdded"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee added 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee added 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -29,7 +29,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee added 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee added 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -39,7 +39,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee added 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee added 4`] = `
 Array [
   Object {
     "assignees": Array [
@@ -54,7 +54,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -62,9 +64,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee removed 1`] = `"PullRequestAssigneeRemoved"`;
+exports[`AppController (e2e) pr events / (POST) github pull request assignee removed 1`] = `"PullRequestAssigneeRemoved"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee removed 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee removed 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -79,7 +81,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee removed 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee removed 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -89,7 +91,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request assignee removed 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request assignee removed 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -102,7 +104,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -110,9 +114,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request created event should create user 1`] = `"PullRequestOpened"`;
+exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 1`] = `"PullRequestOpened"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request created event should create user 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -127,7 +131,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request created event should create user 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -137,7 +141,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request created event should create user 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -150,7 +154,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -158,9 +164,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request edited 1`] = `"PullRequestEdited"`;
+exports[`AppController (e2e) pr events / (POST) github pull request edited 1`] = `"PullRequestEdited"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request edited 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request edited 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -175,7 +181,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request edited 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request edited 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -185,7 +191,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request edited 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request edited 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -205,7 +211,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts - title changed!",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -213,9 +221,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request label removed 1`] = `"PullRequestLabelRemoved"`;
+exports[`AppController (e2e) pr events / (POST) github pull request label removed 1`] = `"PullRequestLabelRemoved"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request label removed 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request label removed 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -230,7 +238,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request label removed 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request label removed 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -240,7 +248,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request label removed 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request label removed 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -258,7 +266,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -266,9 +276,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled 1`] = `"PullRequestLableAdded"`;
+exports[`AppController (e2e) pr events / (POST) github pull request labeled 1`] = `"PullRequestLableAdded"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -283,7 +293,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -293,7 +303,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -312,7 +322,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -320,9 +332,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled: init 1`] = `"PullRequestInitialLabeled"`;
+exports[`AppController (e2e) pr events / (POST) github pull request labeled: init 1`] = `"PullRequestInitialLabeled"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled: init 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled: init 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -337,7 +349,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled: init 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled: init 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -347,7 +359,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request labeled: init 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request labeled: init 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -366,7 +378,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -374,9 +388,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request review requested 1`] = `"PullRequestReviewRequestAdded"`;
+exports[`AppController (e2e) pr events / (POST) github pull request review comment add 1`] = `"PullRequestReviewCommentAdded"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request review requested 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment add 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -391,7 +405,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request review requested 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment add 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -401,7 +415,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request review requested 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment add 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -414,9 +428,21 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
-    "reviewers": Array [
-      "norq87",
+    "reviewComments": Array [
+      Object {
+        "apiUrl": "https://api.github.com/repos/Thatkookooguy/test-new-achievibit-events/pulls/comments/620286741",
+        "author": "jaguarBob",
+        "commit": "b937b9965d0d8fd3f7ecc2cefbc8fba8931a4622",
+        "createdOn": "2021-04-26T13:17:34Z",
+        "edited": false,
+        "file": "test-event.ts",
+        "id": 620286741,
+        "message": "this is my review comment!",
+        "reviewId": 644659124,
+      },
     ],
+    "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
@@ -424,9 +450,9 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request reviewer removed 1`] = `"PullRequestReviewRequestRemoved"`;
+exports[`AppController (e2e) pr events / (POST) github pull request review comment del 1`] = `"PullRequestReviewCommentRemoved"`;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request reviewer removed 2`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment del 2`] = `
 Array [
   Object {
     "achievements": Array [],
@@ -441,7 +467,7 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request reviewer removed 3`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment del 3`] = `
 Array [
   Object {
     "fullname": "Thatkookooguy/test-new-achievibit-events",
@@ -451,7 +477,246 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) from github pull request reviewer removed 4`] = `
+exports[`AppController (e2e) pr events / (POST) github pull request review comment del 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "history": Object {
+      "reviewComments": Object {
+        "deleted": Array [
+          620286741,
+        ],
+      },
+    },
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
+    "reviewers": Array [],
+    "reviews": Array [],
+    "title": "Create test-event.ts",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review comment edit 1`] = `"PullRequestReviewCommentEdited"`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review comment edit 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review comment edit 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review comment edit 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "history": Object {
+      "reviewComments": Object {
+        "edited": Array [
+          620286741,
+        ],
+      },
+    },
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [
+      Object {
+        "apiUrl": "https://api.github.com/repos/Thatkookooguy/test-new-achievibit-events/pulls/comments/620286741",
+        "author": "jaguarBob",
+        "body": "this is my review comment!
+
+and now it is edited!",
+        "commit": "b937b9965d0d8fd3f7ecc2cefbc8fba8931a4622",
+        "createdOn": "2021-04-26T13:17:34Z",
+        "edited": true,
+        "file": "test-event.ts",
+        "id": 620286741,
+        "message": "this is my review comment!",
+        "reviewId": 644659124,
+      },
+    ],
+    "reviewers": Array [],
+    "reviews": Array [],
+    "title": "Create test-event.ts",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review requested 1`] = `"PullRequestReviewRequestAdded"`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review requested 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review requested 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review requested 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "history": undefined,
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
+    "reviewers": Array [
+      "norq87",
+    ],
+    "reviews": Array [],
+    "title": "Create test-event.ts",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review submitted 1`] = `"PullRequestReviewSubmitted"`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review submitted 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review submitted 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request review submitted 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "history": undefined,
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
+    "reviewers": Array [],
+    "reviews": Array [
+      Object {
+        "authorAssociation": "COLLABORATOR",
+        "commit": "b937b9965d0d8fd3f7ecc2cefbc8fba8931a4622",
+        "createdOn": "2021-04-26T13:18:03Z",
+        "id": 644659124,
+        "message": "I requeste these changes please",
+        "state": "changes_requested",
+        "user": "jaguarBob",
+      },
+    ],
+    "title": "Create test-event.ts",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request reviewer removed 1`] = `"PullRequestReviewRequestRemoved"`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request reviewer removed 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request reviewer removed 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request reviewer removed 4`] = `
 Array [
   Object {
     "assignees": Array [],
@@ -468,7 +733,9 @@ Array [
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
     "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
     "reviewers": Array [],
+    "reviews": Array [],
     "title": "Create test-event.ts",
     "updatedDate": undefined,
     "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",

@@ -4,7 +4,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 
 import { BaseService } from '@kb-abstracts';
 import { IGithubChanges } from '@kb-interfaces';
-import { PullRequest, User } from '@kb-models';
+import { IReviewComment, PullRequest, User } from '@kb-models';
 
 export interface INewData {
   title?: string;
@@ -75,5 +75,56 @@ export class PullRequestService extends BaseService<PullRequest> {
       changeQuery['$addToSet']['history.deletedReviewers'] = reviewer.username;
     }
     await this.prModel.findOneAndUpdate({ prid }, changeQuery);
+  }
+
+  async addReviewComment(prid: string, comment: IReviewComment) {
+    const changeQuery = {
+      $pull: {} as any,
+      $addToSet: {} as any
+    };
+    const addDelAttr = '$addToSet';
+    changeQuery[addDelAttr].reviewComments = comment;
+    await this.prModel.findOneAndUpdate({ prid }, changeQuery);
+  }
+
+  async removeReviewComment(
+    prid: string,
+    comment: IReviewComment
+  ) {
+    const changeQuery = {
+      $pull: {} as any,
+      $addToSet: {} as any
+    };
+    changeQuery['$pull'].reviewComments = { id: comment.id };
+    changeQuery['$addToSet']
+      ['history.reviewComments.deleted'] = comment.id;
+    await this.prModel.findOneAndUpdate({ prid }, changeQuery);
+  }
+
+  async editReviewComment(prid: string, comment: IReviewComment) {
+    const changeQuery = {
+      $set: {
+        'reviewComments.$.body': comment.message,
+        'reviewComments.$.edited': true
+      },
+      $addToSet: {
+        'history.reviewComments.edited': comment.id
+      }
+    };
+    await this.prModel.findOneAndUpdate({
+      prid,
+      'reviewComments.id': comment.id
+    }, changeQuery);
+  }
+
+  async updateReviewSubmitted(prid: string, review: any) {
+    const changeQuery = {
+      $addToSet: {
+        'reviews': review
+      }
+    };
+    await this.prModel.findOneAndUpdate({
+      prid
+    }, changeQuery);
   }
 }

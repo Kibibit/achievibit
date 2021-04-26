@@ -14,7 +14,11 @@ import {
   pullRequestLabelAddedEvent,
   pullRequestLabelRemovedEvent,
   pullRequestLabelsInitializedEvent,
+  pullRequestReviewCommentAdded,
+  pullRequestReviewCommentEdited,
+  pullRequestReviewCommentRemoved,
   pullRequestReviewRequestRemovedEvent,
+  pullRequestReviewSubmitted,
   pullReuqestReviewRequestAddedEvent,
   webhookPingEvent
 } from '@kb-dev-tools';
@@ -57,7 +61,7 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  test('/ (POST) from github ping event should create db repo', async () => {
+  test('/ (POST) github ping event should create db repo', async () => {
     const server = app.getHttpServer();
     const sendWebhookResponse = await request(server)
       .post('/api/webhook-event-manager')
@@ -76,7 +80,7 @@ describe('AppController (e2e)', () => {
   });
 
   describe('pr events', () => {
-    test('/ (POST) from github pull request created event should create user',
+    test('/ (POST) github pull request created event should create user',
       async () => {
         const server = app.getHttpServer();
         const sendWebhookResponse = await request(server)
@@ -91,7 +95,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
 
-      test('/ (POST) from github pull request labeled: init', async () => {
+      test('/ (POST) github pull request labeled: init', async () => {
         const server = app.getHttpServer();
         await request(server)
             .post('/api/webhook-event-manager')
@@ -111,7 +115,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
 
-      test('/ (POST) from github pull request labeled', async () => {
+      test('/ (POST) github pull request labeled', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -131,7 +135,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
 
-      test('/ (POST) from github pull request label removed', async () => {
+      test('/ (POST) github pull request label removed', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -157,7 +161,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
 
-      test('/ (POST) from github pull request edited', async () => {
+      test('/ (POST) github pull request edited', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -177,7 +181,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       }); 
       
-      test('/ (POST) from github pull request assignee added', async () => {
+      test('/ (POST) github pull request assignee added', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -197,7 +201,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       }); 
 
-      test('/ (POST) from github pull request assignee removed', async () => {
+      test('/ (POST) github pull request assignee removed', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -224,7 +228,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       }); 
 
-      test('/ (POST) from github pull request review requested', async () => {
+      test('/ (POST) github pull request review requested', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -244,7 +248,7 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
       
-      test('/ (POST) from github pull request reviewer removed', async () => {
+      test('/ (POST) github pull request reviewer removed', async () => {
         const server = app.getHttpServer();
         await request(server)
           .post('/api/webhook-event-manager')
@@ -269,6 +273,107 @@ describe('AppController (e2e)', () => {
     
         await confirmPrDataCreated();
       });
+
+      test('/ (POST) github pull request review comment add', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewCommentAdded.reviewCommentAdded.event)
+          .send(pullRequestReviewCommentAdded.reviewCommentAdded.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
+
+      test('/ (POST) github pull request review comment del', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewCommentAdded.reviewCommentAdded.event)
+          .send(pullRequestReviewCommentAdded.reviewCommentAdded.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewCommentRemoved.event)
+          .send(pullRequestReviewCommentRemoved.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
+
+      test('/ (POST) github pull request review comment edit', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewCommentAdded.reviewCommentAdded.event)
+          .send(pullRequestReviewCommentAdded.reviewCommentAdded.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewCommentEdited.event)
+          .send(pullRequestReviewCommentEdited.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
+
+      test('/ (POST) github pull request review submitted', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestReviewSubmitted.event)
+          .send(pullRequestReviewSubmitted.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
+      
+      test.todo('review comment added');
+      test.todo('review comment removed');
 
     async function confirmPrDataCreated() {
       const server = app.getHttpServer();

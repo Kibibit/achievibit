@@ -1,12 +1,16 @@
+import { isEqual } from 'lodash';
+
 import { Engine } from '@kb-abstracts';
 import { PullRequestService, RepoService, UserService } from '@kb-api';
 import {
   IGithubPullRequest,
   IGithubPullRequestEvent,
   IGithubRepo,
+  IGithubReview,
+  IGithubReviewComment,
   IGithubUser
 } from '@kb-interfaces';
-import { PullRequest, Repo, User } from '@kb-models';
+import { IReviewComment, PullRequest, Repo, User } from '@kb-models';
 
 
 export class GithubEngine extends Engine<IGithubPullRequestEvent> {
@@ -216,25 +220,80 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     const reviewer = this.extractUser(eventData.requested_reviewer);
     await this.pullRequestsService.updateReviewers(pr.prid, reviewer, true);
   }
-  handlePullRequestReviewCommentAdded(
+  async handlePullRequestReviewCommentAdded(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const newReviewComment = this.extractReviewComment(eventData.comment);
+    await this.pullRequestsService.addReviewComment(pr.prid, newReviewComment);
   }
-  handlePullRequestReviewCommentRemoved(
+  async handlePullRequestReviewCommentRemoved(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const reviewComment = this.extractReviewComment(eventData.comment);
+    await this.pullRequestsService
+      .removeReviewComment(pr.prid, reviewComment);
   }
-  handlePullRequestReviewCommentEdited(
+  async handlePullRequestReviewCommentEdited(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const reviewComment = this.extractReviewComment(eventData.comment);
+    await this.pullRequestsService
+      .editReviewComment(pr.prid, reviewComment);
   }
-  handlePullRequestReviewSubmitted(
+  async handlePullRequestReviewSubmitted(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const reviewStatus = this.extractReviewStatus(eventData.review);
+    await this.pullRequestsService
+      .updateReviewSubmitted(pr.prid, reviewStatus);
   }
   handlePullRequestMerged(
     eventData: IGithubPullRequestEvent
@@ -275,6 +334,18 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     return repo;
   }
 
+  private extractReviewStatus(review: IGithubReview) {
+    return {
+      id: review.id,
+      user: this.extractUser(review.user).username,
+      message: review.body || '',
+      state: review.state,
+      createdOn: review.submitted_at,
+      commit: review.commit_id,
+      authorAssociation: review.author_association
+    };
+  }
+
   private extractPullRequest(
     githubPR: IGithubPullRequest,
     creator: User,
@@ -295,5 +366,19 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     pullRequest.organization = organization && organization.username;
 
     return pullRequest;
+  }
+
+  private extractReviewComment(comment: IGithubReviewComment): IReviewComment {
+    return {
+      id: comment.id,
+      reviewId: comment.pull_request_review_id,
+      author: this.extractUser(comment.user).username,
+      message: comment.body,
+      createdOn: comment.created_at,
+      edited: isEqual(comment.created_at, comment.updated_at),
+      apiUrl: comment.url,
+      file: comment.path,
+      commit: comment.commit_id
+    };
   }
 }
