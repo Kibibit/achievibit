@@ -2,7 +2,7 @@
   "name": "@kibibit/achievibit",
   "version": "2.0.0-beta.8",
   "description": "<DESCRIPTION>",
-  "main": "dist/server/main.js",
+  "main": "dist/server/src/main.js",
   "scripts": {
     "prune-branches": "node ./tools/scripts/prune-untrackted-branches.js",
     "analyze-commit": "node ./tools/scripts/monorepo-commit-analyze.js",
@@ -17,6 +17,7 @@
     "build:client": "cd ./client && npm run build",
     "build:server": "cd ./server && npm run build",
     "build:achievements": "cd ./achievements && npm run build",
+    "start:": "node ./dist/server/src/main.js",
     "start:client": "cd ./client && npm run start",
     "start:server": "cd ./server && npm run start:dev",
     "init": "node ./tools/replace-template-string.js",
@@ -47,8 +48,8 @@
   "license": "MIT",
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1101.4",
-    "@angular/cli": "^11.1.4",
-    "@angular/compiler-cli": "^11.1.2",
+    "@angular/cli": "^11.2.10",
+    "@angular/compiler-cli": "^11.2.11",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-angular": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
