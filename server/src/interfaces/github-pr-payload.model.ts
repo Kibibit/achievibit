@@ -22,7 +22,7 @@
   site_admin: boolean;
 }
 
-interface IGithubRepo {
+export interface IGithubRepo {
   id: number;
   name: string;
   full_name: string;
@@ -92,7 +92,7 @@ interface IGithubRepo {
   default_branch: string;
 }
 
-interface IGithubPullRequest {
+export interface IGithubPullRequest {
   url: string;
   id: number;
   html_url: string;
@@ -178,4 +178,5 @@ export interface IGithubPullRequestEvent {
   pull_request: IGithubPullRequest;
   repository: IGithubRepo;
   sender: IGithubUser;
+  label?: { name: string };
 }

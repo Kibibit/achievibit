@@ -344,10 +344,10 @@ export const pullRequestLabelAddedEvent = {
       id: 1730326713,
       node_id: 'MDU6TGFiZWwxNzMwMzI2NzEz',
       url: 'https://api.github.com/repos/Thatkookooguy/test-new-achievibit-events/labels/bug',
-      name: 'bug',
+      name: 'pizza',
       color: 'd73a4a',
       default: true,
-      description: 'Something isn\'t working'
+      description: 'cook a pizza'
     },
     repository: {
       id: 227616181,
