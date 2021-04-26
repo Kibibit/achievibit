@@ -92,8 +92,14 @@ export class ConfigService extends AchievibitConfig {
     // attach configuration to this service
     Object.assign(this, envConfig);
 
-    if (this.mode === 'development' || passedConfigNodeEnv === 'development') {
+    const smeeEnvironments = [
+      'development',
+      'devcontainer'
+    ];
+    if (smeeEnvironments.includes(this.mode) ||
+      smeeEnvironments.includes(passedConfigNodeEnv)) {
       if (!smee) {
+        console.log('!!!', this.port);
         smee = new SmeeClient({
           source: this.webhookProxyUrl,
           target:

@@ -179,6 +179,28 @@ export interface IGithubChanges {
     };
 }
 
+export interface IGithubReviewComment {
+  id: string;
+  pull_request_review_id: string;
+  user: IGithubUser;
+  body: string;
+  created_at: string;
+  updated_at: string;
+  url: string;
+  path: string;
+  commit_id: string;
+}
+
+export interface IGithubReview {
+  id: string;
+  user: IGithubUser;
+  body: string;
+  state: string;
+  submitted_at: string;
+  commit_id: string;
+  author_association: string;
+}
+
 /**
  * https://developer.github.com/v3/activity/events/types/#pullrequestevent
  */
@@ -191,5 +213,6 @@ export interface IGithubPullRequestEvent {
   label?: { name: string };
   changes?: IGithubChanges;
   requested_reviewer?: IGithubUser;
-  // assignees?: IGithubUser[];
+  comment?: IGithubReviewComment;
+  review?: IGithubReview;
 }

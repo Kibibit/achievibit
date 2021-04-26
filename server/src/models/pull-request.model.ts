@@ -5,6 +5,17 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { BaseModel } from '../abstracts/base.model.abstract';
 
+export interface IReviewComment {
+  id: string;
+  reviewId: string;
+  author: string;
+  message: string;
+  createdOn: string;
+  edited: boolean;
+  apiUrl: string;
+  file: string;
+  commit: string;
+}
 @Exclude()
 @modelOptions({
   schemaOptions: {
@@ -77,6 +88,16 @@ export class PullRequest extends BaseModel {
   @IsOptional()
   @PersistInDb()
   reviewers?: string[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  reviewComments?: IReviewComment[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  reviews?: any[];
 
   constructor(partial: Partial<PullRequest> = {}) {
     super();
