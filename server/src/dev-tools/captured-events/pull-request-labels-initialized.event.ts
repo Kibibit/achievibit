@@ -3,7 +3,7 @@ export const pullRequestLabelsInitializedEvent = {
   event: 'pull_request',
   payload: {
     action: 'labeled',
-    number: 2,
+    number: 1,
     pull_request: {
       url: 'https://api.github.com/repos/Thatkookooguy/test-new-achievibit-events/pulls/2',
       id: 353189935,
@@ -12,7 +12,7 @@ export const pullRequestLabelsInitializedEvent = {
       diff_url: 'https://github.com/Thatkookooguy/test-new-achievibit-events/pull/2.diff',
       patch_url: 'https://github.com/Thatkookooguy/test-new-achievibit-events/pull/2.patch',
       issue_url: 'https://api.github.com/repos/Thatkookooguy/test-new-achievibit-events/issues/2',
-      number: 2,
+      number: 1,
       state: 'open',
       locked: false,
       title: 'Update README.md',

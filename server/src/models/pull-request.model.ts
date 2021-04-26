@@ -12,14 +12,14 @@ import { BaseModel } from '../abstracts/base.model.abstract';
     timestamps: true
   }
 })
-@index({ id: 1 }, { unique: true })
+@index({ prid: 1 }, { unique: true })
 export class PullRequest extends BaseModel {
   
   @Expose()
   @IsString()
   @ApiProperty()
   @PersistInDb({ required: true, unique: true })
-  id: string;
+  prid: string;
 
   @Expose()
   @IsString()
@@ -51,7 +51,7 @@ export class PullRequest extends BaseModel {
 
   @Expose()
   @PersistInDb()
-  labels: any[];
+  labels: string[];
 
   @Expose()
   @PersistInDb()
