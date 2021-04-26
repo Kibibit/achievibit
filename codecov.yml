@@ -9,6 +9,6 @@ flag_management:
         type: project
         target: auto
         threshold: 2%
-      - name_prefix: patch-
-        type: patch
-        target: 70%
+      # - name_prefix: patch-
+      #   type: patch
+      #   target: 70%
