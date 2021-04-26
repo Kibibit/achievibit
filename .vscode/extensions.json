@@ -15,6 +15,7 @@
     "ms-azuretools.vscode-docker",
     "jock.svg",
     "firsttris.vscode-jest-runner",
-    "wakatime.vscode-wakatime"
+    "wakatime.vscode-wakatime",
+    "cschleiden.vscode-github-actions"
   ]
 }
