@@ -16,6 +16,7 @@
     "jock.svg",
     "firsttris.vscode-jest-runner",
     "wakatime.vscode-wakatime",
-    "cschleiden.vscode-github-actions"
+    "cschleiden.vscode-github-actions",
+    "hirse.vscode-ungit"
   ]
 }

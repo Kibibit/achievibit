@@ -99,7 +99,6 @@ export class ConfigService extends AchievibitConfig {
     if (smeeEnvironments.includes(this.mode) ||
       smeeEnvironments.includes(passedConfigNodeEnv)) {
       if (!smee) {
-        console.log('!!!', this.port);
         smee = new SmeeClient({
           source: this.webhookProxyUrl,
           target:
