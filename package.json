@@ -42,7 +42,9 @@
     "test:e2e": "cd client && npm run e2e",
     "semantic-release": "cross-env HUSKY=0 semantic-release",
     "prepare": "husky install",
-    "serve-test-results": "http-server ./test-results -p 10104"
+    "serve-test-results": "http-server ./test-results -p 10104",
+    "heroku-prebuild": "npm install -g @angular/cli",
+    "heroku-postbuild": "ng build --prod"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
