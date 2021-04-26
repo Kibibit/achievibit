@@ -111,6 +111,7 @@ export interface IGithubPullRequest {
   merged_at: string;
   merge_commit_sha: string;
   assignee: string;
+  assignees: IGithubUser[];
   milestone: string;
   commits_url: string;
   review_comments_url: string;
@@ -189,4 +190,6 @@ export interface IGithubPullRequestEvent {
   sender: IGithubUser;
   label?: { name: string };
   changes?: IGithubChanges;
+  requested_reviewer?: IGithubUser;
+  // assignees?: IGithubUser[];
 }

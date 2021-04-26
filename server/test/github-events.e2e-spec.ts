@@ -7,11 +7,15 @@ import { PullRequestService } from '@kb-api';
 import { AppModule } from '@kb-app';
 import { ConfigService } from '@kb-config';
 import {
+  pullRequestAssigneeAddedEvent,
+  pullRequestAssigneeRemovedEvent,
   pullRequestCreatedEvent,
   pullRequestEditedEvent,
   pullRequestLabelAddedEvent,
   pullRequestLabelRemovedEvent,
   pullRequestLabelsInitializedEvent,
+  pullRequestReviewRequestRemovedEvent,
+  pullReuqestReviewRequestAddedEvent,
   webhookPingEvent
 } from '@kb-dev-tools';
 import { PullRequest } from '@kb-models';
@@ -171,7 +175,100 @@ describe('AppController (e2e)', () => {
         expect(sendWebhookResponse.text).toMatchSnapshot();
     
         await confirmPrDataCreated();
-      });    
+      }); 
+      
+      test('/ (POST) from github pull request assignee added', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestAssigneeAddedEvent.event)
+          .send(pullRequestAssigneeAddedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      }); 
+
+      test('/ (POST) from github pull request assignee removed', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestAssigneeAddedEvent.event)
+          .send(pullRequestAssigneeAddedEvent.payload)
+          .expect(201);
+
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestAssigneeRemovedEvent.event)
+          .send(pullRequestAssigneeRemovedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      }); 
+
+      test('/ (POST) from github pull request review requested', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullReuqestReviewRequestAddedEvent.event)
+          .send(pullReuqestReviewRequestAddedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
+      
+      test('/ (POST) from github pull request reviewer removed', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullReuqestReviewRequestAddedEvent.event)
+          .send(pullReuqestReviewRequestAddedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestReviewRequestRemovedEvent.event)
+          .send(pullRequestReviewRequestRemovedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
 
     async function confirmPrDataCreated() {
       const server = app.getHttpServer();

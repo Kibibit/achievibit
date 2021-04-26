@@ -73,6 +73,11 @@ export class PullRequest extends BaseModel {
   @PersistInDb()
   assignees?: string[];
 
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  reviewers?: string[];
+
   constructor(partial: Partial<PullRequest> = {}) {
     super();
     Object.assign(this, partial);

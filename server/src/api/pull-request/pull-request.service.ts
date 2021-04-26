@@ -4,7 +4,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 
 import { BaseService } from '@kb-abstracts';
 import { IGithubChanges } from '@kb-interfaces';
-import { PullRequest } from '@kb-models';
+import { PullRequest, User } from '@kb-models';
 
 export interface INewData {
   title?: string;
@@ -56,5 +56,24 @@ export class PullRequestService extends BaseService<PullRequest> {
       ...newData,
       ...historyUpdate
     });
+  }
+
+  async updateAssignees(prid: string, assignees: User[]) {
+    await this.prModel.findOneAndUpdate({ prid }, {
+      assignees: assignees.map((user) => user.username)
+    });
+  }
+
+  async updateReviewers(prid: string, reviewer: User, forRemoval?: boolean) {
+    const changeQuery = {
+      $pull: {} as any,
+      $addToSet: {} as any
+    };
+    const addDelAttr = forRemoval ? '$pull' : '$addToSet';
+    changeQuery[addDelAttr].reviewers = reviewer.username;
+    if (forRemoval) {
+      changeQuery['$addToSet']['history.deletedReviewers'] = reviewer.username;
+    }
+    await this.prModel.findOneAndUpdate({ prid }, changeQuery);
   }
 }
