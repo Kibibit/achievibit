@@ -123,8 +123,6 @@
     "@angular/platform-browser": "~11.1.2",
     "@angular/platform-browser-dynamic": "~11.1.2",
     "@angular/router": "~11.1.2",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2",
     "@kibibit/consologo": "^1.2.0",
     "@kibibit/kb-error": "^1.0.3",
     "@nestjs/common": "^7.6.11",
@@ -150,7 +148,10 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "smee-client": "^1.2.2",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "tslib": "^2.0.0",
+    "uuid": "^8.3.2",
+    "zone.js": "~0.10.2"
   },
   "config": {
     "commitizen": {
