@@ -19,7 +19,11 @@ const config = new ConfigService();
   controllers: [ApiController],
   imports: [
     config.dbUrl ?
-      MongooseModule.forRoot(config.dbUrl) :
+      MongooseModule.forRoot(config.dbUrl, {
+        useFindAndModify: false,
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }) :
       createInMemoryDatabaseModule(),
     UserModule,
     RepoModule,
