@@ -44,7 +44,7 @@
     "prepare": "husky install",
     "serve-test-results": "http-server ./test-results -p 10104",
     "heroku-prebuild": "npm install -g @angular/cli",
-    "heroku-postbuild": "cd client && ng build --prod"
+    "heroku-postbuild": "npm run build:achievements && npm run build:server"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
