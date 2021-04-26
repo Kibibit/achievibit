@@ -169,6 +169,15 @@ export interface IGithubPullRequest {
   changed_files: number;
 }
 
+export interface IGithubChanges {
+    title?: {
+      from: string;
+    };
+    body?: {
+      from: string;
+    };
+}
+
 /**
  * https://developer.github.com/v3/activity/events/types/#pullrequestevent
  */
@@ -179,4 +188,5 @@ export interface IGithubPullRequestEvent {
   repository: IGithubRepo;
   sender: IGithubUser;
   label?: { name: string };
+  changes?: IGithubChanges;
 }

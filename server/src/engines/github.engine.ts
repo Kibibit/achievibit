@@ -114,10 +114,26 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
  
     await this.pullRequestsService.removeLabels(pr.prid, eventData.label.name);
   }
-  handlePullRequestEdited(
+  async handlePullRequestEdited(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+    
+    await this.pullRequestsService.editPRData(
+      pr.prid,
+      { title: pr.title, description: pr.description },
+      eventData.changes
+    );
   }
   handlePullRequestAssigneeAdded(
     eventData: IGithubPullRequestEvent

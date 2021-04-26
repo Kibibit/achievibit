@@ -8,6 +8,7 @@ import { AppModule } from '@kb-app';
 import { ConfigService } from '@kb-config';
 import {
   pullRequestCreatedEvent,
+  pullRequestEditedEvent,
   pullRequestLabelAddedEvent,
   pullRequestLabelRemovedEvent,
   pullRequestLabelsInitializedEvent,
@@ -151,6 +152,26 @@ describe('AppController (e2e)', () => {
   
         await confirmPrDataCreated();
       });
+
+      test('/ (POST) from github pull request edited', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestEditedEvent.event)
+          .send(pullRequestEditedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });    
 
     async function confirmPrDataCreated() {
       const server = app.getHttpServer();

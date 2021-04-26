@@ -59,6 +59,60 @@ Array [
 ]
 `;
 
+exports[`AppController (e2e) pr events / (POST) from github pull request edited 1`] = `"PullRequestEdited"`;
+
+exports[`AppController (e2e) pr events / (POST) from github pull request edited 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) from github pull request edited 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) from github pull request edited 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "history": Object {
+      "description": Array [
+        null,
+      ],
+      "title": Array [
+        "Create test-event.ts",
+      ],
+    },
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "title": "Create test-event.ts - title changed!",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
+
 exports[`AppController (e2e) pr events / (POST) from github pull request label removed 1`] = `"PullRequestLabelRemoved"`;
 
 exports[`AppController (e2e) pr events / (POST) from github pull request label removed 2`] = `

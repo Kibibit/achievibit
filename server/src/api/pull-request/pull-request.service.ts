@@ -3,7 +3,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ReturnModelType } from '@typegoose/typegoose';
 
 import { BaseService } from '@kb-abstracts';
+import { IGithubChanges } from '@kb-interfaces';
 import { PullRequest } from '@kb-models';
+
+export interface INewData {
+  title?: string;
+  description?: string;
+}
 
 @Injectable()
 export class PullRequestService extends BaseService<PullRequest> {
@@ -36,5 +42,19 @@ export class PullRequestService extends BaseService<PullRequest> {
       },
       ...historyUpdate
     }).exec();
+  }
+
+  async editPRData(prid: string, newData: INewData, changes: IGithubChanges) {
+    const historyUpdate = {
+      $addToSet: {
+        'history.title': changes.title?.from,
+        'history.description': changes.body?.from
+      }
+    };
+
+    await this.prModel.findOneAndUpdate({ prid }, {
+      ...newData,
+      ...historyUpdate
+    });
   }
 }
