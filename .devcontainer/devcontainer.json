@@ -68,7 +68,8 @@
 		"ms-azuretools.vscode-docker",
 		"jock.svg",
 		"wakatime.vscode-wakatime",
-		"cschleiden.vscode-github-actions"
+		"cschleiden.vscode-github-actions",
+		"hirse.vscode-ungit"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
