@@ -14,6 +14,7 @@
     "mongodb.mongodb-vscode",
     "ms-azuretools.vscode-docker",
     "jock.svg",
-    "firsttris.vscode-jest-runner"
+    "firsttris.vscode-jest-runner",
+    "wakatime.vscode-wakatime"
   ]
 }
