@@ -1,5 +1,19 @@
 achievibit changelog
 
+# [2.0.0-beta.8](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2021-04-26)
+
+
+### Bug Fixes
+
+* **mongoose:** add some missing flags ([70d2e06](https://github.com/Kibibit/achievibit/commit/70d2e0685891136ccd302f388434c13c552af7f5))
+
+
+### Features
+
+* **engine:** handle assignee and reviewer events ([ae2bc97](https://github.com/Kibibit/achievibit/commit/ae2bc97932337cfdb54154cd2d77e944b5cb7d45))
+* **engine:** implement label handlings ([9e42665](https://github.com/Kibibit/achievibit/commit/9e42665e145d79252df37c8f0baeb35e3fc0bdc3))
+* **engine:** implement pr edit ([a3ba8d3](https://github.com/Kibibit/achievibit/commit/a3ba8d35b26969708b28ebfdf12a7412ee40d73b))
+
 # [2.0.0-beta.7](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.6...v2.0.0-beta.7) (2021-04-25)
 
 
