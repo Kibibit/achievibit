@@ -17,6 +17,7 @@
     "build:client": "cd ./client && npm run build",
     "build:server": "cd ./server && npm run build",
     "build:achievements": "cd ./achievements && npm run build",
+    "start": "node ./dist/server/src/main.js",
     "start:client": "cd ./client && npm run start",
     "start:server": "cd ./server && npm run start:dev",
     "init": "node ./tools/replace-template-string.js",
@@ -41,7 +42,8 @@
     "test:e2e": "cd client && npm run e2e",
     "semantic-release": "cross-env HUSKY=0 semantic-release",
     "prepare": "husky install",
-    "serve-test-results": "http-server ./test-results -p 10104"
+    "serve-test-results": "http-server ./test-results -p 10104",
+    "heroku-postbuild": "npm run build:achievements && npm run build:server"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
@@ -72,7 +74,6 @@
     "all-contributors-cli": "^6.20.0",
     "barrelsby": "^2.2.0",
     "chance": "^1.1.7",
-    "class-validator-jsonschema": "^3.0.1",
     "cli-table": "^0.3.6",
     "commitizen": "^4.2.3",
     "cross-env": "^7.0.3",
@@ -88,7 +89,6 @@
     "jest-stare": "^2.2.1",
     "karma-htmlfile-reporter": "^0.3.8",
     "mockdate": "^3.0.5",
-    "mongodb-memory-server": "^6.9.6",
     "ncp": "^2.0.0",
     "package-name-regex": "^1.0.11",
     "randexp": "^0.5.3",
@@ -126,16 +126,19 @@
     "axios": "^0.21.1",
     "class-transformer": "^0.3.2",
     "class-validator": "^0.13.1",
+    "class-validator-jsonschema": "^3.0.1",
     "find-root": "^1.1.0",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.20",
+    "mongodb-memory-server": "^6.9.6",
     "mongoose": "^5.10.19",
     "nconf": "^0.11.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "smee-client": "^1.2.2",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
   },
   "config": {
     "commitizen": {
