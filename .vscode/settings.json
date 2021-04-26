@@ -55,5 +55,7 @@
   "github-actions.workflows.pinned.workflows": [
     ".github/workflows/server-unit-tests.yml",
     ".github/workflows/lint-server.yml"
-  ]
+  ],
+  "github-actions.workflows.pinned.refresh.enabled": true,
+  "github-actions.workflows.pinned.refresh.interval": 30
 }

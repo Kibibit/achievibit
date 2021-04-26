@@ -135,25 +135,86 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       eventData.changes
     );
   }
-  handlePullRequestAssigneeAdded(
+  async handlePullRequestAssigneeAdded(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const githubAssignees = eventData.pull_request.assignees;
+    const assignees = githubAssignees
+      .map((assignee) => this.extractUser(assignee));
+
+    // TODO: need to save these users!!!
+
+    await this.pullRequestsService.updateAssignees(pr.prid, assignees);
   }
-  handlePullRequestAssigneeRemoved(
+  async handlePullRequestAssigneeRemoved(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    const githubAssignees = eventData.pull_request.assignees;
+    const assignees = githubAssignees
+      .map((assignee) => this.extractUser(assignee));
+
+    await this.pullRequestsService.updateAssignees(pr.prid, assignees);
   }
-  handlePullRequestReviewRequestAdded(
+  async handlePullRequestReviewRequestAdded(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+    const reviewer = this.extractUser(eventData.requested_reviewer);
+
+    // TODO: need to save these users!!!
+
+    await this.pullRequestsService.updateReviewers(pr.prid, reviewer);
   }
-  handlePullRequestReviewRequestRemoved(
+  async handlePullRequestReviewRequestRemoved(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    throw new Error('Method not implemented.');
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+    const reviewer = this.extractUser(eventData.requested_reviewer);
+    await this.pullRequestsService.updateReviewers(pr.prid, reviewer, true);
   }
   handlePullRequestReviewCommentAdded(
     eventData: IGithubPullRequestEvent
