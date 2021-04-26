@@ -43,11 +43,16 @@
     "semantic-release": "cross-env HUSKY=0 semantic-release",
     "prepare": "husky install",
     "serve-test-results": "http-server ./test-results -p 10104",
-    "heroku-prebuild": "npm install -g @angular/cli"
+    "heroku-prebuild": "npm install -g @angular/cli",
+    "heroku-postbuild": "cd client && ng build --prod"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1101.4",
+    "@angular/cli": "^11.2.10",
+    "@angular/compiler": "^11.2.11",
+    "@angular/compiler-cli": "^11.2.11",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-angular": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
