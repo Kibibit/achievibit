@@ -17,7 +17,7 @@
     "build:client": "cd ./client && npm run build",
     "build:server": "cd ./server && npm run build",
     "build:achievements": "cd ./achievements && npm run build",
-    "start:": "node ./dist/server/src/main.js",
+    "start": "node ./dist/server/src/main.js",
     "start:client": "cd ./client && npm run start",
     "start:server": "cd ./server && npm run start:dev",
     "init": "node ./tools/replace-template-string.js",
@@ -43,7 +43,6 @@
     "semantic-release": "cross-env HUSKY=0 semantic-release",
     "prepare": "husky install",
     "serve-test-results": "http-server ./test-results -p 10104",
-    "heroku-prebuild": "npm install -g @angular/cli",
     "heroku-postbuild": "npm run build:achievements && npm run build:server"
   },
   "author": "thatkookooguy <neilkalman@gmail.com>",
