@@ -1,5 +1,12 @@
 achievibit changelog
 
+# [2.0.0-beta.9](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2021-04-27)
+
+
+### Features
+
+* **engine:** add more event handlings ([646458d](https://github.com/Kibibit/achievibit/commit/646458dfbafecce03e17d2a22409254772ab40f6))
+
 # [2.0.0-beta.8](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.7...v2.0.0-beta.8) (2021-04-26)
 
 
