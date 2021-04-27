@@ -8,7 +8,7 @@ flag_management:
       - name_prefix: project-
         type: project
         target: auto
-        threshold: 2%
+        threshold: 5%
       # - name_prefix: patch-
       #   type: patch
       #   target: 70%
