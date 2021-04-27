@@ -32,56 +32,59 @@ jobs:
             repo,
             ref: undefined
           });
-          const prRef = refs.data.find((ref) => ref.object.sha === commitRef && ref.ref.startsWith('refs/pull/'));
-          console.log(prRef);
+          const prRefs = refs.data.filter((ref) => ref.object.sha === commitRef && ref.ref.startsWith('refs/pull/'));
+          console.log(prRefs);
 
-          if (prRef) {
-            const prId = +prRef.ref.replace('refs/pull/', '').replace('/head', '');
+          for (const prRef of prRefs) {
 
-            console.log({
-              owner,
-              repo,
-              pull_number: prId
-            });
+            if (prRef) {
+              const prId = +prRef.ref.replace('refs/pull/', '').replace('/head', '');
 
-            const pr = await github.pulls.get({
-              owner,
-              repo,
-              pull_number: prId
-            });
+              console.log({
+                owner,
+                repo,
+                pull_number: prId
+              });
 
-            console.log(pr);
+              const pr = await github.pulls.get({
+                owner,
+                repo,
+                pull_number: prId
+              });
 
-            let body;
-            
-            const demoAppBadge = `[![workflow: Demo App](https://img.shields.io/badge/demo-application-brightgreen?logo=heroku)](${ envUrl })`;
-            const demoApiDocsBadge = `[![workflow: Demo Api Docs](https://img.shields.io/badge/demo-api--docs-brightgreen?logo=swagger)](${ envUrl }api/docs)`;
+              console.log(pr);
 
-            if (pr.data.body.includes('[![workflow: Demo App]')) {
-              body = pr.data.body.replace(
-                /\[!\[workflow:\sDemo\sApp\]\(https:\/\/img\.shields\.io\/badge\/demo\-application\-brightgreen\?logo=heroku\)\]\(.*?\)/,
-                demoAppBadge
-              )
-              .replace(
-                /\[!\[workflow:\sDemo\sApi\sDocs\]\(https:\/\/img\.shields\.io\/badge\/demo\-api\-\-docs\-brightgreen\?logo=swagger\)\]\(.*?\)/,
-                demoApiDocsBadge
-              )
-            } else {
-              body = [
-                demoAppBadge,
-                ' ',
-                demoApiDocsBadge,
-                '\n\n',
-                `${ pr.data.body }`
-              ].join('')
+              let body;
+              
+              const demoAppBadge = `[![workflow: Demo App](https://img.shields.io/badge/demo-application-brightgreen?logo=heroku)](${ envUrl })`;
+              const demoApiDocsBadge = `[![workflow: Demo Api Docs](https://img.shields.io/badge/demo-api--docs-brightgreen?logo=swagger)](${ envUrl }api/docs)`;
+
+              if (pr.data.body.includes('[![workflow: Demo App]')) {
+                body = pr.data.body.replace(
+                  /\[!\[workflow:\sDemo\sApp\]\(https:\/\/img\.shields\.io\/badge\/demo\-application\-brightgreen\?logo=heroku\)\]\(.*?\)/,
+                  demoAppBadge
+                )
+                .replace(
+                  /\[!\[workflow:\sDemo\sApi\sDocs\]\(https:\/\/img\.shields\.io\/badge\/demo\-api\-\-docs\-brightgreen\?logo=swagger\)\]\(.*?\)/,
+                  demoApiDocsBadge
+                )
+              } else {
+                body = [
+                  demoAppBadge,
+                  ' ',
+                  demoApiDocsBadge,
+                  '\n\n',
+                  `${ pr.data.body }`
+                ].join('')
+              }
+
+              await github.pulls.update({
+                owner,
+                repo,
+                pull_number: prId,
+                body
+              });
             }
-
-            await github.pulls.update({
-              owner,
-              repo,
-              pull_number: prId,
-              body
-            });
           }
       env:
         DEPLOYMENT_URL: ${{ github.event.deployment_status.deployment_url }}
