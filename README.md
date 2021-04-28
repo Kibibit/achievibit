@@ -37,6 +37,9 @@
 </p>
 <hr>
 
+[![Production](https://img.shields.io/badge/Production-application-informational?logo=heroku)](https://achievibit.kibibit.io/) [![Production Docs](https://img.shields.io/badge/Production-api--docs-85EA2D?logo=swagger)](https://achievibit.kibibit.io/docs/)
+
+[![Staging](https://img.shields.io/badge/Staging-application-informational?logo=heroku)](https://achievibit-beta.herokuapp.com/) [![Staging Docs](https://img.shields.io/badge/Staging-api--docs-85EA2D?logo=swagger)](https://achievibit-beta.herokuapp.com/api/docs)
 ## Description
 
 - Get achievements on different characteristics of your pull requests
