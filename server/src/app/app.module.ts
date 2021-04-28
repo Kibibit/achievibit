@@ -4,7 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ApiModule } from '@kb-api';
 import { ConfigModule } from '@kb-config';
 import { EventsGateway, EventsModule } from '@kb-events';
-import { TasksService } from '@kb-tasks';
+import { TasksModule } from '@kb-tasks';
 
 import { AppController } from './app.controller';
 
@@ -13,9 +13,10 @@ import { AppController } from './app.controller';
     ApiModule,
     ScheduleModule.forRoot(),
     EventsModule,
-    ConfigModule
+    ConfigModule,
+    TasksModule
   ],
   controllers: [AppController],
-  providers: [TasksService, EventsGateway]
+  providers: [EventsGateway]
 })
 export class AppModule {}

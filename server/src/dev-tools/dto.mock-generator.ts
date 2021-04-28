@@ -3,7 +3,7 @@ import { kebabCase, times } from 'lodash';
 import { ObjectId } from 'mongodb';
 import RandExp from 'randexp';
 
-import { Repo, User } from '@kb-models';
+import { PullRequest, Repo, User } from '@kb-models';
 
 interface IChanceMixin {
   mongoObjectId: () => ObjectId;
@@ -12,6 +12,7 @@ interface IChanceMixin {
   users: () => User[];
   repo: () => Repo;
   repos: () => Repo[];
+  pullRequest: () => PullRequest;
   achievementScripts: (numOfAchievements?: number) => { [ key: string ]: any };
   randexp: (regex: RegExp) => RandExp;
 }
@@ -68,6 +69,16 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   },
   repos(): Repo[] {
     return times(chance.integer({ min: 0, max: 10 }), () => chance.repo());
+  },
+  pullRequest() {
+    return new PullRequest({
+      createdOn: chance.date(),
+      creator: chance.name(),
+      description: chance.paragraph(),
+      number: chance.integer(),
+      prid: chance.guid(),
+      url: chance.url()
+    })
   },
   achievementScripts(
     numOfAchievements: number = chance.integer({ min: 1, max: 25 })
