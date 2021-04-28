@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { index, modelOptions, prop as PersistInDb } from '@typegoose/typegoose';
+import {
+  index,
+  modelOptions,
+  prop as PersistInDb,
+  Severity
+} from '@typegoose/typegoose';
 import { Exclude, Expose } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
@@ -18,6 +23,9 @@ export interface IReviewComment {
 }
 @Exclude()
 @modelOptions({
+  options: {
+    allowMixed: Severity.ALLOW
+  },
   schemaOptions: {
     collation: { locale: 'en_US', strength: 2 },
     timestamps: true
