@@ -1,5 +1,17 @@
 achievibit changelog
 
+# [2.0.0-beta.10](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2021-04-28)
+
+
+### Bug Fixes
+
+* **typegoose:** allow mixed content to disable warning ([1632445](https://github.com/Kibibit/achievibit/commit/1632445e43b770ae9b2da8032dabded33be3d3bd))
+
+
+### Features
+
+* **api:** only load pull request controller in dev environments ([11500ad](https://github.com/Kibibit/achievibit/commit/11500add6b667263e21baf395feb49196ff55dbc))
+
 # [2.0.0-beta.9](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.8...v2.0.0-beta.9) (2021-04-27)
 
 
