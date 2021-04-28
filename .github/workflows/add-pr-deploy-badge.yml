@@ -56,16 +56,16 @@ jobs:
 
               let body;
               
-              const demoAppBadge = `[![workflow: Demo App](https://img.shields.io/badge/demo-application-brightgreen?logo=heroku)](${ envUrl })`;
-              const demoApiDocsBadge = `[![workflow: Demo Api Docs](https://img.shields.io/badge/demo-api--docs-brightgreen?logo=swagger)](${ envUrl }api/docs)`;
+              const demoAppBadge = `[![workflow: Demo App](https://img.shields.io/badge/demo-application-informational?logo=heroku)](${ envUrl })`;
+              const demoApiDocsBadge = `[![workflow: Demo Api Docs](https://img.shields.io/badge/demo-api--docs-85EA2D?logo=swagger)](${ envUrl }api/docs)`;
 
               if (pr.data.body.includes('[![workflow: Demo App]')) {
                 body = pr.data.body.replace(
-                  /\[!\[workflow:\sDemo\sApp\]\(https:\/\/img\.shields\.io\/badge\/demo\-application\-brightgreen\?logo=heroku\)\]\(.*?\)/,
+                  /\[!\[workflow:\sDemo\sApp\]\(https:\/\/img\.shields\.io\/badge\/demo\-application\-informational\?logo=heroku\)\]\(.*?\)/,
                   demoAppBadge
                 )
                 .replace(
-                  /\[!\[workflow:\sDemo\sApi\sDocs\]\(https:\/\/img\.shields\.io\/badge\/demo\-api\-\-docs\-brightgreen\?logo=swagger\)\]\(.*?\)/,
+                  /\[!\[workflow:\sDemo\sApi\sDocs\]\(https:\/\/img\.shields\.io\/badge\/demo\-api\-\-docs\-85EA2D\?logo=swagger\)\]\(.*?\)/,
                   demoApiDocsBadge
                 )
               } else {
