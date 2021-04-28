@@ -3,7 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import MockDate from 'mockdate';
 
 import { PullRequestService } from '@kb-api';
-import { createInMemoryDatabaseModule, DtoMockGenerator } from '@kb-dev-tools';
+import {
+  closeInMemoryDatabaseConnection,
+  createInMemoryDatabaseModule,
+  DtoMockGenerator
+} from '@kb-dev-tools';
 import { PullRequest } from '@kb-models';
 import { TasksService } from '@kb-tasks';
 
@@ -29,6 +33,8 @@ describe('TasksService', () => {
     service = module.get<TasksService>(TasksService);
     prService = module.get<PullRequestService>(PullRequestService);
   });
+
+  afterEach(async () => await closeInMemoryDatabaseConnection());
 
   it('should be defined', () => {
     expect(service).toBeDefined();
