@@ -96,7 +96,7 @@ export class ConfigService extends AchievibitConfig {
       'development',
       'devcontainer'
     ];
-    if (smeeEnvironments.includes(this.mode) ||
+    if (smeeEnvironments.includes(this.nodeEnv) ||
       smeeEnvironments.includes(passedConfigNodeEnv)) {
       if (!smee) {
         smee = new SmeeClient({
