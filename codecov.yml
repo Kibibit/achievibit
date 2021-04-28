@@ -1,25 +1,32 @@
 comment:
   show_carryforward_flags: true
-
 # Setting coverage targets per flag
 coverage:
-  default_rules:
-    carryforward: true
-    threshold: 5%
-    target: auto
   status:
     project:
       default:
         target: 80% #overall project/ repo coverage
       api-tests:
+        threshold: 5%
+        target: auto
         flags:
           - api-test
       unit-test-server:
+        threshold: 5%
+        target: auto
         flags:
           - unit-test-server
       unit-test-client:
+        threshold: 5%
+        target: auto
         flags:
           - unit-test-client
       unit-test-achievements:
+        threshold: 5%
+        target: auto
         flags:
           - unit-test-achievements
+
+flag_management:
+  default_rules:
+     carryforward: true
