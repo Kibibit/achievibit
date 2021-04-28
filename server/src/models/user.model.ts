@@ -1,5 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { index, modelOptions, prop as PersistInDb } from '@typegoose/typegoose';
+import {
+  index,
+  modelOptions,
+  prop as PersistInDb,
+  Severity
+} from '@typegoose/typegoose';
 import { Exclude, Expose } from 'class-transformer';
 import {
   IsArray,
@@ -13,6 +18,9 @@ import { BaseModel } from '@kb-abstracts';
 
 @Exclude()
 @modelOptions({
+  options: {
+    allowMixed: Severity.ALLOW
+  },
   schemaOptions: {
     collation: { locale: 'en_US', strength: 2 },
     timestamps: true
