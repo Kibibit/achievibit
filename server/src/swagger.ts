@@ -37,6 +37,14 @@ export class Swagger {
       ].join('')
     )
     .addTag(
+      'Pull Request',
+      [
+        '**WARNING**: This should not be exposed in production. ',
+        'The entire pull-request controller should appear only in dev ',
+        'environments'
+      ].join('')
+    )
+    .addTag(
       'Webhook Event Manager',
       'Handles webhook event data sent from cloud version control'
     )
