@@ -2,32 +2,47 @@ import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import axios from 'axios';
 
+import { ConfigService } from '@kb-config';
+
 interface ISwaggerMethod {
   get: (attr: string) => string;
 }
 
+const config = new ConfigService();
+
 export class Swagger {
-  static title = 'API Docs example';
+  static title = config.packageDetails.name;
   static swaggerPath = 'api/docs';
   static config = new DocumentBuilder()
     .setTitle(Swagger.title)
-    .setDescription('The API description')
-    .setVersion('1.0')
+    .setDescription(config.packageDetails.description)
+    .setVersion(config.packageDetails.version)
     .setContact(
       'thatkookooguy',
       'github.com/thatkookooguy',
       'thatkookooguy@kibibit.io'
     )
     .addTag(
-      'product',
+      'user',
       [
-        'Product is an example module to show how to ',
-        'add **swagger** documentation'
-      ].join(''),
-      {
-        url: 'https://github.com/kibibit',
-        description: 'See Docs'
-      }
+        'achievibit user endpoints. Users are created by GitHub, ',
+        'so you can only retrieve existing users'
+      ].join('')
+    )
+    .addTag(
+      'repo',
+      [
+        'achievibit repo endpoints. Repos are created by GitHub, ',
+        'so you can only retrieve existing repos'
+      ].join('')
+    )
+    .addTag(
+      'Webhook Event Manager',
+      'Handles webhook event data sent from cloud version control'
+    )
+    .addTag(
+      'default',
+      'utility api endpoints'
     )
     .build();
 
