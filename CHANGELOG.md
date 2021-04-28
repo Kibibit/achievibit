@@ -1,5 +1,12 @@
 achievibit changelog
 
+# [2.0.0-beta.11](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2021-04-28)
+
+
+### Features
+
+* **tasks:** implement stale pr deletion from db ([36061a8](https://github.com/Kibibit/achievibit/commit/36061a87a2bac506244f3a1557650fae0a77649e))
+
 # [2.0.0-beta.10](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.9...v2.0.0-beta.10) (2021-04-28)
 
 
