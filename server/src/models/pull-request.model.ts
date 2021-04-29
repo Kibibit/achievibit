@@ -107,6 +107,31 @@ export class PullRequest extends BaseModel {
   @PersistInDb()
   reviews?: any[];
 
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  comments?: any[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  inlineComments?: any[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  commits?: any[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  files?: any[];
+
+  @Expose()
+  @IsOptional()
+  @PersistInDb()
+  reactions?: any[];
+
   constructor(partial: Partial<PullRequest> = {}) {
     super();
     Object.assign(this, partial);
