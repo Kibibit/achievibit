@@ -17,6 +17,8 @@
     "firsttris.vscode-jest-runner",
     "wakatime.vscode-wakatime",
     "cschleiden.vscode-github-actions",
-    "hirse.vscode-ungit"
+    "hirse.vscode-ungit",
+    "github.vscode-pull-request-github",
+    "wayou.vscode-todo-highlight"
   ]
 }

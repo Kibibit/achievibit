@@ -69,7 +69,9 @@
 		"jock.svg",
 		"wakatime.vscode-wakatime",
 		"cschleiden.vscode-github-actions",
-		"hirse.vscode-ungit"
+		"hirse.vscode-ungit",
+		"github.vscode-pull-request-github",
+		"wayou.vscode-todo-highlight"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
