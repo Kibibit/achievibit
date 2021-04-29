@@ -1,5 +1,12 @@
 achievibit changelog
 
+# [2.0.0-beta.13](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.12...v2.0.0-beta.13) (2021-04-29)
+
+
+### Features
+
+* **tasks:** report healthchecks of cron tasks ([adcbbf2](https://github.com/Kibibit/achievibit/commit/adcbbf2037262405d01dd50aa613d00a61763687))
+
 # [2.0.0-beta.12](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2021-04-29)
 
 
