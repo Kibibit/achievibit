@@ -1,5 +1,13 @@
 achievibit changelog
 
+# [2.0.0-beta.12](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.11...v2.0.0-beta.12) (2021-04-29)
+
+
+### Features
+
+* **models:** add missing PR fields ([eb31d69](https://github.com/Kibibit/achievibit/commit/eb31d69cc69661ae5a6852b4c9aa6558aa19b0dc))
+* **engine:** add pr closed handling ([4716037](https://github.com/Kibibit/achievibit/commit/4716037489b7b972b198dcc52636e4c623b87efe)), closes [#177](https://github.com/Kibibit/achievibit/issues/177)
+
 # [2.0.0-beta.11](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.10...v2.0.0-beta.11) (2021-04-28)
 
 
