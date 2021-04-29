@@ -3,6 +3,7 @@
 exports[`ConfigService Forced Singleton and baypass should set default values to everything that needs one 1`] = `
 Object {
   "dbUrl": undefined,
+  "deletePRsHealthId": undefined,
   "nodeEnv": "development",
   "port": 10101,
   "webhookDestinationUrl": "events",
