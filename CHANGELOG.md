@@ -1,5 +1,13 @@
 achievibit changelog
 
+# [2.0.0-beta.14](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2021-04-29)
+
+
+### Features
+
+* **models:** add status to pr model ([3ca3e6e](https://github.com/Kibibit/achievibit/commit/3ca3e6e05c0bceb497b43de97b6bf9ec333c5984))
+* **app:** persist pr status and delete by it in task ([067b641](https://github.com/Kibibit/achievibit/commit/067b641aa112d8f88d6b88637d2bd411a0a70735)), closes [#340](https://github.com/Kibibit/achievibit/issues/340)
+
 # [2.0.0-beta.13](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.12...v2.0.0-beta.13) (2021-04-29)
 
 
