@@ -10,7 +10,7 @@ import {
   IGithubReviewComment,
   IGithubUser
 } from '@kb-interfaces';
-import { IReviewComment, PullRequest, Repo, User } from '@kb-models';
+import { IReviewComment, PRStatus, PullRequest, Repo, User } from '@kb-models';
 
 
 // TODO@Thatkookooguy: #343 Ensure PR exists in db for every event
@@ -315,16 +315,7 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       this.extractUser(githubOwner)
     );
 
-    /**
-     * TODO@Thatkookooguy: #340 Combine PR deletion to a single task
-     * This should later just flag the PR as closed\merged and should
-     * be dealt with in the task that runs at the start of the week.
-     * This way, we can just make the task also delete closed or merged prs
-     * but give achievements for some actions we want to allow before deleting
-     * all the data. Something like commiting to a branch with a closed pr
-     * or re-opening a pr.
-    */
-    await this.pullRequestsService.deleteAsync({ prid: pr.prid });
+   await this.pullRequestsService.updatePRStatus(pr.prid, pr.status);
   }
 
   private extractGithubEntities(eventData: IGithubPullRequestEvent) {
@@ -386,7 +377,8 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       creator: creator.username,
       createdOn: new Date(githubPR.created_at),
       url: githubPR.html_url,
-      repository: repository.fullname
+      repository: repository.fullname,
+      status: this.getPRStatus(githubPR)
     });
 
     pullRequest.organization = organization && organization.username;
@@ -406,5 +398,11 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       file: comment.path,
       commit: comment.commit_id
     };
+  }
+
+  private getPRStatus(githubPR: IGithubPullRequest) {
+    return githubPR.state === 'open' ?
+    PRStatus.OPEN :
+    (githubPR.merged ? PRStatus.MERGED : PRStatus.CLOSED);
   }
 }

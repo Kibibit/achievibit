@@ -153,7 +153,34 @@ Array [
 ]
 `;
 
-exports[`AppController (e2e) pr events / (POST) github pull request closed 4`] = `Array []`;
+exports[`AppController (e2e) pr events / (POST) github pull request closed 4`] = `
+Array [
+  Object {
+    "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
+    "createdOn": 2019-12-12T13:48:34.000Z,
+    "creator": "Thatkookooguy",
+    "description": "",
+    "files": Array [],
+    "history": undefined,
+    "inlineComments": Array [],
+    "labels": Array [],
+    "number": 1,
+    "organization": undefined,
+    "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
+    "repository": "Thatkookooguy/test-new-achievibit-events",
+    "reviewComments": Array [],
+    "reviewers": Array [],
+    "reviews": Array [],
+    "status": "CLOSED",
+    "title": "Create test-event.ts",
+    "updatedDate": undefined,
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events/pull/1",
+  },
+]
+`;
 
 exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 1`] = `"PullRequestOpened"`;
 

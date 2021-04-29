@@ -4,7 +4,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 
 import { BaseService } from '@kb-abstracts';
 import { IGithubChanges } from '@kb-interfaces';
-import { IReviewComment, PullRequest, User } from '@kb-models';
+import { IReviewComment, PRStatus, PullRequest, User } from '@kb-models';
 
 export interface INewData {
   title?: string;
@@ -126,5 +126,11 @@ export class PullRequestService extends BaseService<PullRequest> {
     await this.prModel.findOneAndUpdate({
       prid
     }, changeQuery);
+  }
+
+  async updatePRStatus(prid: string, newStatus: PRStatus) {
+    return await this.prModel.findOneAndUpdate({ prid }, {
+      status: newStatus
+    });
   }
 }
