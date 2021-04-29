@@ -13,6 +13,9 @@ import {
 import { IReviewComment, PullRequest, Repo, User } from '@kb-models';
 
 
+// TODO@Thatkookooguy: #343 Ensure PR exists in db for every event
+// TODO@Thatkookooguy: #344 Ensure all users exists in db for every event
+// TODO@Thatkookooguy: #345 Ensure repo exists in db for every event
 export class GithubEngine extends Engine<IGithubPullRequestEvent> {
 
   constructor(
@@ -158,8 +161,6 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     const assignees = githubAssignees
       .map((assignee) => this.extractUser(assignee));
 
-    // TODO: need to save these users!!!
-
     await this.pullRequestsService.updateAssignees(pr.prid, assignees);
   }
   async handlePullRequestAssigneeRemoved(
@@ -198,8 +199,6 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       this.extractUser(githubOwner)
     );
     const reviewer = this.extractUser(eventData.requested_reviewer);
-
-    // TODO: need to save these users!!!
 
     await this.pullRequestsService.updateReviewers(pr.prid, reviewer);
   }
