@@ -13,7 +13,8 @@ export enum AchievibitEventNames {
   PullRequestReviewCommentRemoved = 'PullRequestReviewCommentRemoved',
   PullRequestReviewCommentEdited = 'PullRequestReviewCommentEdited',
   PullRequestReviewSubmitted = 'PullRequestReviewSubmitted',
-  PullRequestMerged = 'PullRequestMerged'
+  PullRequestMerged = 'PullRequestMerged',
+  PullRequestClosed = 'PullRequestClosed'
 }
 
 export abstract class Engine<IEventPayload> {
@@ -175,4 +176,6 @@ export abstract class Engine<IEventPayload> {
    * @param eventData the event payload
    */
   abstract handlePullRequestMerged(eventData: IEventPayload): Promise<void>;
+
+  abstract handlePullRequestClosed(eventData: IEventPayload): Promise<void>;
 }

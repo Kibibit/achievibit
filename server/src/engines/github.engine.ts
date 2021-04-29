@@ -301,6 +301,33 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     throw new Error('Method not implemented.');
   }
 
+  async handlePullRequestClosed(
+    eventData: IGithubPullRequestEvent
+  ): Promise<void> {
+    const {
+      githubCreator,
+      githubOwner,
+      githubPR
+    } = this.extractGithubEntities(eventData);
+    const pr = this.extractPullRequest(
+      githubPR,
+      this.extractUser(githubCreator),
+      this.extractRepo(eventData.repository),
+      this.extractUser(githubOwner)
+    );
+
+    /**
+     * TODO@Thatkookooguy: #340 Combine PR deletion to a single task
+     * This should later just flag the PR as closed\merged and should
+     * be dealt with in the task that runs at the start of the week.
+     * This way, we can just make the task also delete closed or merged prs
+     * but give achievements for some actions we want to allow before deleting
+     * all the data. Something like commiting to a branch with a closed pr
+     * or re-opening a pr.
+    */
+    await this.pullRequestsService.deleteAsync({ prid: pr.prid });
+  }
+
   private extractGithubEntities(eventData: IGithubPullRequestEvent) {
     return {
       githubPR: eventData.pull_request,

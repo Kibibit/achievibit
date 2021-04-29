@@ -114,6 +114,35 @@ Array [
 ]
 `;
 
+exports[`AppController (e2e) pr events / (POST) github pull request closed 1`] = `"PullRequestClosed"`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request closed 2`] = `
+Array [
+  Object {
+    "achievements": Array [],
+    "avatar": "https://avatars3.githubusercontent.com/u/10427304?v=4",
+    "organization": false,
+    "organizations": Array [],
+    "repos": Array [],
+    "url": "https://github.com/Thatkookooguy",
+    "username": "Thatkookooguy",
+    "users": Array [],
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request closed 3`] = `
+Array [
+  Object {
+    "fullname": "Thatkookooguy/test-new-achievibit-events",
+    "name": "test-new-achievibit-events",
+    "url": "https://github.com/Thatkookooguy/test-new-achievibit-events",
+  },
+]
+`;
+
+exports[`AppController (e2e) pr events / (POST) github pull request closed 4`] = `Array []`;
+
 exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 1`] = `"PullRequestOpened"`;
 
 exports[`AppController (e2e) pr events / (POST) github pull request created event should create user 2`] = `

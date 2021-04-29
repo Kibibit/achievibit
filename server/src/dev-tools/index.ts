@@ -7,6 +7,7 @@ export * from './dto.mock-generator';
 export * from './in-memory-database.module';
 export * from './captured-events/pull-request-assignee-added.event';
 export * from './captured-events/pull-request-assignee-removed.event';
+export * from './captured-events/pull-request-closed.event';
 export * from './captured-events/pull-request-created-organization.event';
 export * from './captured-events/pull-request-created.event';
 export * from './captured-events/pull-request-edited.event';

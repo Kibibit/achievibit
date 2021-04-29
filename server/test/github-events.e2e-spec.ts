@@ -9,6 +9,7 @@ import { ConfigService } from '@kb-config';
 import {
   pullRequestAssigneeAddedEvent,
   pullRequestAssigneeRemovedEvent,
+  pullRequestClosedEvent,
   pullRequestCreatedEvent,
   pullRequestEditedEvent,
   pullRequestLabelAddedEvent,
@@ -372,8 +373,26 @@ describe('AppController (e2e)', () => {
         await confirmPrDataCreated();
       });
       
-      test.todo('review comment added');
-      test.todo('review comment removed');
+      test('/ (POST) github pull request closed', async () => {
+        const server = app.getHttpServer();
+        await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event', pullRequestCreatedEvent.event)
+          .send(pullRequestCreatedEvent.payload)
+          .expect(201);
+        const sendWebhookResponse = await request(server)
+          .post('/api/webhook-event-manager')
+          .set('Accept', 'application/json')
+          .set('x-github-event',
+            pullRequestClosedEvent.event)
+          .send(pullRequestClosedEvent.payload)
+          .expect(201);
+    
+        expect(sendWebhookResponse.text).toMatchSnapshot();
+    
+        await confirmPrDataCreated();
+      });
 
     async function confirmPrDataCreated() {
       const server = app.getHttpServer();
