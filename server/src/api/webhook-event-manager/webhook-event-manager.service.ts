@@ -91,6 +91,10 @@ export class WebhookEventManagerService {
         this.logger.debug('PullRequestMerged');
         await this.githubEngine.handlePullRequestMerged(eventData);
         return eventName;
+      case AchievibitEventNames.PullRequestClosed:
+        this.logger.debug('PullRequestClosed');
+        await this.githubEngine.handlePullRequestClosed(eventData);
+        return eventName;
     }
   }
 
@@ -177,6 +181,12 @@ export class WebhookEventManagerService {
       isEqual(eventData.action, 'closed') &&
       eventData.pull_request.merged) {
       return AchievibitEventNames.PullRequestMerged;
+    }
+
+    if (isEqual(eventName, 'pull_request') &&
+      isEqual(eventData.action, 'closed') &&
+      !eventData.pull_request.merged) {
+      return AchievibitEventNames.PullRequestClosed;
     }
 
     return;
