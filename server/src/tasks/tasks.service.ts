@@ -2,8 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { PullRequestService } from '@kb-api';
+import { ConfigService } from '@kb-config';
+import { TaskHealthCheck } from '@kb-decorators';
 import { PullRequest } from '@kb-models';
 
+const configService = new ConfigService;
 @Injectable()
 export class TasksService {
   private readonly logger = new Logger(TasksService.name);
@@ -15,6 +18,7 @@ export class TasksService {
   /** At 00:00 on Sunday */
   /** https://crontab.guru/every-week */
   @Cron(CronExpression.EVERY_WEEK)
+  @TaskHealthCheck(configService.deletePRsHealthId)
   async removeStalePullRequests() {
     const deleteBefore = new Date();
     deleteBefore.setDate(deleteBefore.getDate() - 100);

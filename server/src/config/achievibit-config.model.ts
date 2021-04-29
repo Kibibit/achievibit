@@ -76,6 +76,14 @@ export class AchievibitConfig {
   ])
   saveToFile = false;
 
+  @Expose()
+  @IsString()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'cron job monitoring id'
+  ])
+  deletePRsHealthId;
+
   constructor(partial: Partial<AchievibitConfig> = {}) {
     Object.assign(this, partial);
   }
