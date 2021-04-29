@@ -1,0 +1,12 @@
+##### Labeler ##############################################################
+labelPRBasedOnFilePath:
+  Client:
+    - client/**/*
+  Server:
+    - server/**/*
+  achievements:
+    - achievements/**/*
+  tests:
+    - server/**/*.spec.ts
+    - client/**/*.spec.ts
+    - achievements/**/*.spec.ts
