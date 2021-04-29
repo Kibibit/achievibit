@@ -57,5 +57,15 @@
     ".github/workflows/lint-server.yml"
   ],
   "github-actions.workflows.pinned.refresh.enabled": true,
-  "github-actions.workflows.pinned.refresh.interval": 30
+  "github-actions.workflows.pinned.refresh.interval": 30,
+  "todotodohighlight.isEnable": true,
+  "todohighlight.keywordsPattern": "TODO(@\\w+?)?:",
+  "todohighlight.defaultStyle": {
+    "color": "black",
+    "backgroundColor": "rgba(255, 221, 87, .8)",
+    "overviewRulerColor": "rgba(255, 221, 87, .8)",
+    "fontWeight": "bold",
+    "borderRadius": "2px",
+    "isWholeLine": true,
+  }
 }
