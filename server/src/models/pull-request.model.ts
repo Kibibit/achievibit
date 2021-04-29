@@ -10,6 +10,11 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 import { BaseModel } from '../abstracts/base.model.abstract';
 
+export enum PRStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  MERGED = 'MERGED'
+}
 export interface IReviewComment {
   id: string;
   reviewId: string;
@@ -37,7 +42,7 @@ export class PullRequest extends BaseModel {
   @Expose()
   @IsString()
   @ApiProperty()
-  @PersistInDb({ required: true, unique: true })
+  @PersistInDb({ required: true, unique: true, index: true })
   prid: string;
 
   @Expose()
@@ -131,6 +136,10 @@ export class PullRequest extends BaseModel {
   @IsOptional()
   @PersistInDb()
   reactions?: any[];
+
+  @Expose()
+  @PersistInDb({ enum: PRStatus, default: PRStatus.OPEN })
+  status: PRStatus;
 
   constructor(partial: Partial<PullRequest> = {}) {
     super();
