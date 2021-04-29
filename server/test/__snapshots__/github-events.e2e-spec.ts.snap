@@ -45,14 +45,19 @@ Array [
     "assignees": Array [
       "Thatkookooguy",
     ],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -95,14 +100,19 @@ exports[`AppController (e2e) pr events / (POST) github pull request assignee rem
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -174,14 +184,19 @@ exports[`AppController (e2e) pr events / (POST) github pull request created even
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -224,9 +239,12 @@ exports[`AppController (e2e) pr events / (POST) github pull request edited 4`] =
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "description": Array [
         null,
@@ -235,10 +253,12 @@ Array [
         "Create test-event.ts",
       ],
     },
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -281,19 +301,24 @@ exports[`AppController (e2e) pr events / (POST) github pull request label remove
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "labels": Object {
         "added": 1,
         "removed": 1,
       },
     },
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -336,20 +361,25 @@ exports[`AppController (e2e) pr events / (POST) github pull request labeled 4`] 
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "labels": Object {
         "added": 1,
       },
     },
+    "inlineComments": Array [],
     "labels": Array [
       "pizza",
     ],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -392,20 +422,25 @@ exports[`AppController (e2e) pr events / (POST) github pull request labeled: ini
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "labels": Object {
         "added": 1,
       },
     },
+    "inlineComments": Array [],
     "labels": Array [
       "bug",
     ],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -448,14 +483,19 @@ exports[`AppController (e2e) pr events / (POST) github pull request review comme
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [
       Object {
@@ -510,9 +550,12 @@ exports[`AppController (e2e) pr events / (POST) github pull request review comme
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "reviewComments": Object {
         "deleted": Array [
@@ -520,10 +563,12 @@ Array [
         ],
       },
     },
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -566,9 +611,12 @@ exports[`AppController (e2e) pr events / (POST) github pull request review comme
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "reviewComments": Object {
         "edited": Array [
@@ -576,10 +624,12 @@ Array [
         ],
       },
     },
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [
       Object {
@@ -637,14 +687,19 @@ exports[`AppController (e2e) pr events / (POST) github pull request review reque
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [
@@ -689,14 +744,19 @@ exports[`AppController (e2e) pr events / (POST) github pull request review submi
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": undefined,
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
@@ -749,18 +809,23 @@ exports[`AppController (e2e) pr events / (POST) github pull request reviewer rem
 Array [
   Object {
     "assignees": Array [],
+    "comments": Array [],
+    "commits": Array [],
     "createdOn": 2019-12-12T13:48:34.000Z,
     "creator": "Thatkookooguy",
     "description": "",
+    "files": Array [],
     "history": Object {
       "deletedReviewers": Array [
         "norq87",
       ],
     },
+    "inlineComments": Array [],
     "labels": Array [],
     "number": 1,
     "organization": undefined,
     "prid": "Thatkookooguy/test-new-achievibit-events/pull/1",
+    "reactions": Array [],
     "repository": "Thatkookooguy/test-new-achievibit-events",
     "reviewComments": Array [],
     "reviewers": Array [],
