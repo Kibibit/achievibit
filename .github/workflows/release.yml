@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.BOT_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -39,5 +40,9 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GIT_AUTHOR_NAME: k1b1b0t
+          GIT_AUTHOR_EMAIL: k1b1b0t@kibibit.io
+          GIT_COMMITTER_NAME: k1b1b0t
+          GIT_COMMITTER_EMAIL: k1b1b0t@kibibit.io
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run semantic-release
