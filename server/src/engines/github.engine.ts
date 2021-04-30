@@ -1,7 +1,11 @@
+import { Logger } from '@nestjs/common';
+import { createAppAuth, createOAuthUserAuth } from '@octokit/auth-app';
+import { Octokit } from '@octokit/core';
 import { isEqual } from 'lodash';
 
 import { Engine } from '@kb-abstracts';
 import { PullRequestService, RepoService, UserService } from '@kb-api';
+import { ConfigService } from '@kb-config';
 import {
   IGithubPullRequest,
   IGithubPullRequestEvent,
@@ -17,6 +21,8 @@ import { IReviewComment, PRStatus, PullRequest, Repo, User } from '@kb-models';
 // TODO@Thatkookooguy: #344 Ensure all users exists in db for every event
 // TODO@Thatkookooguy: #345 Ensure repo exists in db for every event
 export class GithubEngine extends Engine<IGithubPullRequestEvent> {
+  readonly logger = new Logger(GithubEngine.name);
+  githubApp: Octokit;
 
   constructor(
     private usersService: UserService,
@@ -24,6 +30,47 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
     private pullRequestsService: PullRequestService
   ) {
     super();
+    this.initializeGitHubApp();
+  }
+
+  async initializeGitHubApp() {
+    const config = new ConfigService();
+
+    if (
+      !config.githubAppId ||
+      config.githubPrivateKey ||
+      config.githubClientId ||
+      config.githubClientSecret
+    ) {
+      return;
+    }
+
+    this.logger.debug('GitHub App Connected');
+
+    this.githubApp = new Octokit({
+      authStrategy: createAppAuth,
+      auth: {
+        appId: config.githubAppId,
+        privateKey: config.githubPrivateKey,
+        clientId: config.githubClientId,
+        clientSecret: config.githubClientSecret
+      }
+    });
+  }
+
+  async authenticateAsUser() {
+    const userOctokit = await this.githubApp.auth({
+      type: 'oauth-user',
+      code: 'code123',
+      factor: (options) => {
+        return new Octokit({
+          authStrategy: createOAuthUserAuth,
+          auth: options
+        });
+      }
+    }) as Octokit;
+
+    return userOctokit;
   }
 
   async handleNewConnection(
