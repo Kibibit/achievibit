@@ -1,0 +1,28 @@
+subprojects:
+  - id: Server
+    paths:
+      - "server/**/*"
+    checks:
+      - "Run linters Server"
+      - "Build Production"
+      - "Server Unit Tests"
+      - "API Tests"
+      - "codecov/project"
+      - "codecov/project/unit-test-server"
+      - "codecov/project/api-tests"
+  - id: Client
+    paths:
+      - "clients/**/*"
+    checks:
+      - "Build Production"
+      - "Client Unit Tests"
+      - "codecov/project"
+      - "codecov/project/unit-test-client"
+  - id: Achievements
+    paths:
+      - "achievements/**/*"
+    checks:
+      - "Run linters Achievements"
+      - "Build Production"
+      - "codecov/project"
+      - "codecov/project/unit-test-achievements"

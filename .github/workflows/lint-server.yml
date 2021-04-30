@@ -14,7 +14,7 @@ on:
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Run linters Server
     runs-on: ubuntu-latest
 
     steps:
