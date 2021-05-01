@@ -10,81 +10,16 @@ jobs:
     # only runs this job on successful deploy
     if: github.event.deployment_status.state == 'success'
     steps:
-    - name: comment on PR with deployment link
-      uses: actions/github-script@v3
+    - name: Kb Pull Request Deployment Badges
+      uses: kibibit/kb-badger-action@v2
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          const { DEPLOYMENT_URL } = process.env;
-          const owner = context.repo.owner;
-          const repo = context.repo.repo;
-          console.log(DEPLOYMENT_URL);
-          const deployment_id = +DEPLOYMENT_URL.replace(/^.*deployments\//, '');
-          const deployment = await github.repos.getDeployment({
-            owner,
-            repo,
-            deployment_id
-          });
-          const envUrl = deployment.data.payload.web_url;
-          const commitRef = deployment.data.ref;
-          const refs = await github.git.listMatchingRefs({
-            owner,
-            repo,
-            ref: undefined
-          });
-          const prRefs = refs.data.filter((ref) => ref.object.sha === commitRef && ref.ref.startsWith('refs/pull/'));
-          console.log(prRefs);
-
-          for (const prRef of prRefs) {
-
-            if (prRef) {
-              const prId = +prRef.ref.replace('refs/pull/', '').replace('/head', '');
-
-              console.log({
-                owner,
-                repo,
-                pull_number: prId
-              });
-
-              const pr = await github.pulls.get({
-                owner,
-                repo,
-                pull_number: prId
-              });
-
-              console.log(pr);
-
-              let body;
-              
-              const demoAppBadge = `[![workflow: Demo App](https://img.shields.io/badge/demo-application-informational?logo=heroku)](${ envUrl })`;
-              const demoApiDocsBadge = `[![workflow: Demo Api Docs](https://img.shields.io/badge/demo-api--docs-85EA2D?logo=swagger)](${ envUrl }api/docs)`;
-
-              if (pr.data.body.includes('[![workflow: Demo App]')) {
-                body = pr.data.body.replace(
-                  /\[!\[workflow:\sDemo\sApp\]\(https:\/\/img\.shields\.io\/badge\/demo\-application\-informational\?logo=heroku\)\]\(.*?\)/,
-                  demoAppBadge
-                )
-                .replace(
-                  /\[!\[workflow:\sDemo\sApi\sDocs\]\(https:\/\/img\.shields\.io\/badge\/demo\-api\-\-docs\-85EA2D\?logo=swagger\)\]\(.*?\)/,
-                  demoApiDocsBadge
-                )
-              } else {
-                body = [
-                  demoAppBadge,
-                  ' ',
-                  demoApiDocsBadge,
-                  '\n\n',
-                  `${ pr.data.body }`
-                ].join('')
-              }
-
-              await github.pulls.update({
-                owner,
-                repo,
-                pull_number: prId,
-                body
-              });
-            }
-          }
-      env:
-        DEPLOYMENT_URL: ${{ github.event.deployment_status.deployment_url }}
+        badge-left: demo
+        badge-right: application
+        badge-logo: heroku
+        badge-path: api
+        badge2-left: demo
+        badge2-right: api-docs
+        badge2-color: 85EA2D
+        badge2-logo: swagger
+        badge2-path: api/docs
