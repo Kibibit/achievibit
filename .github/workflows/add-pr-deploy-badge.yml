@@ -11,7 +11,7 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     steps:
     - name: TEST KB-BADGER-ACTION
-      uses: kibibit/kb-badger-action@v1
+      uses: kibibit/kb-badger-action@v1.1
       with:
         badge-left: demo-demo
         badge-right: application
