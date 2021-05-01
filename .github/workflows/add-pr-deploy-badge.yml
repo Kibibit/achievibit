@@ -20,7 +20,7 @@ jobs:
         badge-logo: heroku
         badge-path: api
         badge2-left: demo
-        badge2-right: api--docs
+        badge2-right: api-docs
         badge2-color: 85EA2D
         badge2-logo: swagger
         badge2-path: api/docs
