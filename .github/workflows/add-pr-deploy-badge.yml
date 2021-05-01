@@ -11,7 +11,7 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     steps:
     - name: TEST KB-BADGER-ACTION
-      uses: kibibit/kb-badger-action@v1.8
+      uses: kibibit/kb-badger-action@v1.85
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         position: bottom
