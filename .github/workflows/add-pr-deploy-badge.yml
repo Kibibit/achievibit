@@ -11,7 +11,7 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     steps:
     - name: TEST KB-BADGER-ACTION
-      uses: kibibit/kb-badger-action@v1.1
+      uses: kibibit/kb-badger-action@v1.2
       with:
         badge-left: demo-demo
         badge-right: application
@@ -22,6 +22,7 @@ jobs:
         badge2-color: 85EA2D
         badge2-logo: swagger
         badge2-path: lazagna
+        # github_token: ${{secrets.GITHUB_TOKEN}}
     # - name: comment on PR with deployment link
     #   uses: actions/github-script@v3
     #   with:
