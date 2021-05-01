@@ -1,4 +1,4 @@
-name: "Build"
+name: Build Production
 
 on:
   pull_request:
