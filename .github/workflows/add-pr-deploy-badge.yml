@@ -14,7 +14,6 @@ jobs:
       uses: kibibit/kb-badger-action@v1.85
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
-        position: bottom
         badge-left: demo
         badge-right: application
         badge-logo: heroku
