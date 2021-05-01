@@ -11,9 +11,10 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     steps:
     - name: TEST KB-BADGER-ACTION
-      uses: kibibit/kb-badger-action@v1.71
+      uses: kibibit/kb-badger-action@v1.8
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
+        position: bottom
         badge-left: demo
         badge-right: application
         badge-logo: heroku
