@@ -38,9 +38,9 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
 
     if (
       !config.githubAppId ||
-      config.githubPrivateKey ||
-      config.githubClientId ||
-      config.githubClientSecret
+      !config.githubPrivateKey ||
+      !config.githubClientId ||
+      !config.githubClientSecret
     ) {
       return;
     }
