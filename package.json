@@ -80,6 +80,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "cz-conventional-changelog-emoji": "^0.1.0",
     "eslint": "^7.19.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "foswig": "^3.0.1",
     "github-username": "^6.0.0",
     "gitlog": "^4.0.4",
