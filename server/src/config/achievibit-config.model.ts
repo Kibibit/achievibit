@@ -84,6 +84,38 @@ export class AchievibitConfig {
   ])
   deletePRsHealthId;
 
+  @Expose()
+  @IsNumber()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'GitHub App ID'
+  ])
+  githubAppId: number;
+
+  @Expose()
+  @IsString()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'GitHub App Private Key'
+  ])
+  githubPrivateKey: string;
+
+  @Expose()
+  @IsString()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'GitHub App Client ID'
+  ])
+  githubClientId: string;
+
+  @Expose()
+  @IsString()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'GitHub App Client Secret'
+  ])
+  githubClientSecret: string;
+
   constructor(partial: Partial<AchievibitConfig> = {}) {
     Object.assign(this, partial);
   }
