@@ -27,19 +27,19 @@
     "bracketPairColorizer.forceUniqueOpeningColor": true,
     "bracketPairColorizer.showBracketsInGutter": true,
     "window.title": "${activeEditorShort}${separator}${rootName} [kibibit]",
-    "typescriptHero.imports.stringQuoteStyle": "'",
-    "typescriptHero.imports.grouping": [
-      "Plains",
-      "Modules",
-      "/^@kb-/",
-      "Workspace"
+    // "typescriptHero.imports.stringQuoteStyle": "'",
+    // "typescriptHero.imports.grouping": [
+    //   "Plains",
+    //   "Modules",
+    //   "/^@kb-/",
+    //   "Workspace"
 
-    ],
-    "typescriptHero.imports.organizeOnSave": true,
-    "typescriptHero.imports.multiLineTrailingComma": false,
-    "typescriptHero.imports.multiLineWrapThreshold": 80,
-    "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
-    "typescriptHero.imports.insertSemicolons": true,
+    // ],
+    // "typescriptHero.imports.organizeOnSave": true,
+    // "typescriptHero.imports.multiLineTrailingComma": false,
+    // "typescriptHero.imports.multiLineWrapThreshold": 80,
+    // "typescriptHero.imports.insertSpaceBeforeAndAfterImportBraces": true,
+    // "typescriptHero.imports.insertSemicolons": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true,
     },
@@ -54,7 +54,7 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
-		"rbbit.typescript-hero",
+		// "rbbit.typescript-hero",
 		"coenraads.bracket-pair-colorizer",
 		"orta.vscode-jest",
 		"wix.vscode-import-cost",
