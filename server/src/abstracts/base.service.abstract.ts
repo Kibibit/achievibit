@@ -1,8 +1,9 @@
-import { InternalServerErrorException } from '@nestjs/common';
-import { DocumentType, ReturnModelType } from '@typegoose/typegoose';
-import { AnyParamConstructor } from '@typegoose/typegoose/lib/types';
 import { MongoError } from 'mongodb';
 import { Document, DocumentQuery, Query, Types } from 'mongoose';
+import { DocumentType, ReturnModelType } from '@typegoose/typegoose';
+import { AnyParamConstructor } from '@typegoose/typegoose/lib/types';
+
+import { InternalServerErrorException } from '@nestjs/common';
 
 import { BaseModel } from './base.model.abstract';
 

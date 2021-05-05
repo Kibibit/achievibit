@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { mockResponse } from 'jest-mock-req-res';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppController } from '@kb-app';
 import { ConfigModule } from '@kb-config';

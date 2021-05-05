@@ -1,8 +1,10 @@
-import { Controller, Get, Logger } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { join } from 'path';
+
 import { readJSON } from 'fs-extra';
 import { chain } from 'lodash';
-import { join } from 'path';
+
+import { Controller, Get, Logger } from '@nestjs/common';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
 import { ConfigService } from '@kb-config';
 import { ApiInfo } from '@kb-models';

@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { noop } from 'lodash';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { DtoMockGenerator } from '@kb-dev-tools';
 

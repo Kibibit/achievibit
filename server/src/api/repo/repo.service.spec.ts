@@ -87,7 +87,7 @@ describe('RepoService', () => {
     const allRepos = await service.findAllRepos();
     expect(allRepos.length).toBe(1);
     expect(allRepos[0]).toEqual(expect.objectContaining(createdRepo));
-    expect(allRepos[0]._id).toBeDefined()
+    expect(allRepos[0]._id).toBeDefined();
     expect(allRepos[0]._id).toEqual(createdRepo._id);
   });
 });

@@ -1,5 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { isEqual } from 'lodash';
+
+import { Injectable, Logger } from '@nestjs/common';
 
 import { AchievibitEventNames } from '@kb-abstracts';
 import { GithubEngine } from '@kb-engines';

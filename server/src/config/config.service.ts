@@ -1,4 +1,5 @@
-import { Logger } from '@nestjs/common';
+import { join } from 'path';
+
 import { classToPlain, Exclude } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import findRoot from 'find-root';
@@ -10,8 +11,9 @@ import {
 } from 'fs-extra';
 import { camelCase, get } from 'lodash';
 import nconf from 'nconf';
-import { join } from 'path';
 import SmeeClient from 'smee-client';
+
+import { Logger } from '@nestjs/common';
 
 import { ConfigValidationError } from '@kb-errors';
 import { ApiInfo } from '@kb-models';

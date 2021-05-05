@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import findRoot from 'find-root';
 import fs from 'fs-extra';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { ApiController } from '@kb-api';
 import { ConfigService } from '@kb-config';

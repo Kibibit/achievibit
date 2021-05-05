@@ -1,7 +1,9 @@
+import { join } from 'path';
+
+import { Response } from 'express';
+
 import { Controller, Get, Res } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
-import { Response } from 'express';
-import { join } from 'path';
 
 import { ConfigService } from '@kb-config';
 

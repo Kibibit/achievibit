@@ -1,3 +1,7 @@
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Server } from 'socket.io';
+
 import { Logger } from '@nestjs/common';
 import {
   MessageBody,
@@ -7,9 +11,6 @@ import {
   WebSocketServer,
   WsResponse
 } from '@nestjs/websockets';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Server } from 'socket.io';
 
 @WebSocketGateway()
 export class EventsGateway implements OnGatewayConnection {

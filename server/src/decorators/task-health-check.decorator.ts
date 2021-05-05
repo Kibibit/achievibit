@@ -14,10 +14,10 @@ export const TaskHealthCheck = function (healthCheckId?: string) {
       if (healthCheckId) {
         await pingHealthCheck(healthCheckId);
       }
-    }
+    };
 
     return descriptor;
-  }
+  };
 };
 
 async function pingHealthCheck(healthCheckId: string) {
