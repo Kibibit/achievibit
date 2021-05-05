@@ -103,7 +103,7 @@ describe('UserService', () => {
     const allUsers = await service.findAllUsers();
     expect(allUsers.length).toBe(1);
     expect(allUsers[0]).toEqual(expect.objectContaining(createdUser));
-    expect(allUsers[0]._id).toBeDefined()
+    expect(allUsers[0]._id).toBeDefined();
     expect(allUsers[0]._id).toEqual(createdUser._id);
   });
 });

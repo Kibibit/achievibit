@@ -1,7 +1,8 @@
-import { INestApplication } from '@nestjs/common/interfaces';
-import { TestingModule } from '@nestjs/testing/testing-module';
 import * as bodyParser from 'body-parser';
 import express from 'express';
+
+import { INestApplication } from '@nestjs/common/interfaces';
+import { TestingModule } from '@nestjs/testing/testing-module';
 
 import { SocketService } from './socket.service';
 

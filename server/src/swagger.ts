@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import axios from 'axios';
 
 import { ConfigService } from '@kb-config';
 
@@ -74,7 +75,7 @@ export class Swagger {
       }
 
       return result;
-    }
+    };
   }
 
   static async addSwagger(app: INestApplication) {

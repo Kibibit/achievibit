@@ -6,13 +6,13 @@ import { ConfigModule, ConfigService } from '@kb-config';
 import {
   createInMemoryDatabaseModule
 } from '../dev-tools/in-memory-database.module';
-import { ApiController } from './api.controller';
 import { PullRequestModule } from './pull-request/pull-request.module';
 import { RepoModule } from './repo/repo.module';
 import { UserModule } from './user/user.module';
 import {
   WebhookEventManagerModule
 } from './webhook-event-manager/webhook-event-manager.module';
+import { ApiController } from './api.controller';
 
 const config = new ConfigService();
 @Module({

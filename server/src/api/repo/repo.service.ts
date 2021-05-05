@@ -1,6 +1,7 @@
+import { ReturnModelType } from '@typegoose/typegoose';
+
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ReturnModelType } from '@typegoose/typegoose';
 
 import { BaseService } from '@kb-abstracts';
 import { Repo } from '@kb-models';

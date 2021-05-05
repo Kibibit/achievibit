@@ -1,5 +1,6 @@
-import { BadRequestException, HttpStatus } from '@nestjs/common';
 import MockDate from 'mockdate';
+
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 
 import { hostMock, mockResponse } from '@kb-dev-tools';
 import { KbValidationExceptionFilter } from '@kb-filters';

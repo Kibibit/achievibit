@@ -1,7 +1,8 @@
-import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import { valid } from 'semver';
 import request from 'supertest';
+
+import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppModule } from '@kb-app';
 

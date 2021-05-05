@@ -1,7 +1,8 @@
+import { Exclude, Expose } from 'class-transformer';
+import { prop as PersistInDb, ReturnModelType } from '@typegoose/typegoose';
+
 import { ArgumentsHost, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { prop as PersistInDb, ReturnModelType } from '@typegoose/typegoose';
-import { Exclude, Expose } from 'class-transformer';
 
 import { BaseModel, BaseService } from '@kb-abstracts';
 
@@ -17,7 +18,7 @@ export const mockResponse = {
 };
 
 export const hostMock = (req, res, roles?: string[]): ArgumentsHost => {
-  const ctx: any = {}
+  const ctx: any = {};
   ctx.switchToHttp = jest.fn().mockReturnValue({
       getRequest: () => req,
       getResponse: () => res

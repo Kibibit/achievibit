@@ -1,6 +1,6 @@
-import { buildSchema, prop as PersistInDb } from '@typegoose/typegoose';
 import { classToPlain, Exclude, Expose } from 'class-transformer';
 import { Schema } from 'mongoose';
+import { buildSchema, prop as PersistInDb } from '@typegoose/typegoose';
 
 @Exclude()
 export abstract class BaseModel {

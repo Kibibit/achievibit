@@ -78,7 +78,7 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
       number: chance.integer(),
       prid: chance.guid(),
       url: chance.url()
-    })
+    });
   },
   achievementScripts(
     numOfAchievements: number = chance.integer({ min: 1, max: 25 })

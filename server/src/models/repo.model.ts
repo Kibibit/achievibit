@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { index, modelOptions, prop as PersistInDb } from '@typegoose/typegoose';
 import { Exclude, Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { index, modelOptions, prop as PersistInDb } from '@typegoose/typegoose';
+
+import { ApiProperty } from '@nestjs/swagger';
 
 import { BaseModel } from '@kb-abstracts';
 

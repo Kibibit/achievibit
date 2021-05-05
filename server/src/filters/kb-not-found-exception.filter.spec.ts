@@ -6,7 +6,7 @@ import { KbNotFoundExceptionFilter } from '@kb-filters';
 describe('NotFoundExceptionFilterFilter', () => {
   beforeEach(() => {
     mockResponse.mockClear();
-  })
+  });
 
   it('should be defined', () => {
     expect(new KbNotFoundExceptionFilter('')).toBeDefined();

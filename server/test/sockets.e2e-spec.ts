@@ -1,6 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { observe } from 'rxjs-marbles/jest';
 import { take, tap } from 'rxjs/operators';
+import { observe } from 'rxjs-marbles/jest';
+
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppModule } from '@kb-app';
 

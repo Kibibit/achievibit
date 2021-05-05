@@ -1,12 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { Exclude, Expose } from 'class-transformer';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import {
   index,
   modelOptions,
   prop as PersistInDb,
   Severity
 } from '@typegoose/typegoose';
-import { Exclude, Expose } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+
+import { ApiProperty } from '@nestjs/swagger';
 
 import { BaseModel } from '../abstracts/base.model.abstract';
 

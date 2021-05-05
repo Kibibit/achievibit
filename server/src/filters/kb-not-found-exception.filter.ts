@@ -1,10 +1,11 @@
+import { join } from 'path';
+
 import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
   NotFoundException
 } from '@nestjs/common';
-import { join } from 'path';
 
 @Catch(NotFoundException)
 export class KbNotFoundExceptionFilter implements ExceptionFilter {

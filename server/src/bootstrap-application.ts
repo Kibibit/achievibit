@@ -1,9 +1,11 @@
-import { terminalConsoleLogo } from '@kibibit/consologo';
+import { join } from 'path';
+
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WsAdapter } from '@nestjs/platform-ws';
-import { join } from 'path';
+
+import { terminalConsoleLogo } from '@kibibit/consologo';
 
 import { AppModule } from '@kb-app';
 import { ConfigService } from '@kb-config';
@@ -19,7 +21,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     'change this in server/src/bootstrap-application.ts'
   ]);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useWebSocketAdapter(new WsAdapter(app))
+  app.useWebSocketAdapter(new WsAdapter(app));
   app.useGlobalFilters(new KbNotFoundExceptionFilter(appRoot));
   app.useGlobalPipes(new ValidationPipe());
   app.useStaticAssets(join(appRoot, './dist/client'));
