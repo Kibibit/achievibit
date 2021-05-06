@@ -1,5 +1,13 @@
 achievibit changelog
 
+# [2.0.0-beta.16](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2021-05-06)
+
+
+### Bug Fixes
+
+* **models:** don't use kb-achievements ([4d4fc8b](https://github.com/Kibibit/achievibit/commit/4d4fc8b4a712534a684e1173cd83ffda0d9ecc2c))
+* **sonarcloud:** fix issue ([1da5379](https://github.com/Kibibit/achievibit/commit/1da5379cf2126a47072a7a04b6515491818f9a11))
+
 # [2.0.0-beta.15](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2021-05-06)
 
 
