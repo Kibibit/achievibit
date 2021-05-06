@@ -2,6 +2,17 @@
  * Github Webhook event types
  * https://developer.github.com/v3/activity/events/types/
  */
+
+export enum IGithubCommentAuthorAssociation {
+  COLLABORATOR = 'COLLABORATOR',
+  CONTRIBUTOR = 'CONTRIBUTOR',
+  FIRST_TIMER = 'FIRST_TIMER',
+  FIRST_TIME_CONTRIBUTOR = 'FIRST_TIME_CONTRIBUTOR',
+  MANNEQUIN = 'MANNEQUIN',
+  MEMBER = 'MEMBER',
+  NONE = 'NONE',
+  OWNER = 'OWNER'
+}
  export interface IGithubUser {
   login: string;
   id: number;
@@ -20,6 +31,20 @@
   received_events_url: string;
   type: string;
   site_admin: boolean;
+}
+
+export interface IGithubComment {
+  url: string;
+  html_url: string;
+  issue_url: string;
+  id: number;
+  node_id: string;
+  user: IGithubUser;
+  created_at: string;
+  updated_at: string;
+  author_association: string;
+  body: string;
+  performed_via_github_app: string | null;
 }
 
 export interface IGithubRepo {
@@ -189,6 +214,7 @@ export interface IGithubReviewComment {
   url: string;
   path: string;
   commit_id: string;
+  author_association: IGithubCommentAuthorAssociation;
 }
 
 export interface IGithubReview {
@@ -198,7 +224,35 @@ export interface IGithubReview {
   state: string;
   submitted_at: string;
   commit_id: string;
-  author_association: string;
+  author_association: IGithubCommentAuthorAssociation;
+}
+
+export interface IGithubCommit {
+  sha: string;
+  node_id: string;
+  commit: {
+    author: IGithubUser;
+    committer: IGithubUser;
+    message: string;
+    tree: any;
+    url: string;
+    comment_count: number;
+    verification: any;
+  };
+  url: string;
+  html_url: string;
+  comments_url: string;
+  author: IGithubUser;
+  committer: IGithubUser;
+  parents: any;
+}
+
+export interface IGithubReaction {
+  id: number;
+  node_id: string;
+  user: IGithubUser;
+  content: string;
+  created_at: string;
 }
 
 /**
