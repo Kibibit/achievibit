@@ -9,4 +9,4 @@ global.console.warn = (...args) => {
     return;
   }
   return nativeConsoleError(...args);
-}
+};
