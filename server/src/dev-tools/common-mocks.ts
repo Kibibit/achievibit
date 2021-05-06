@@ -18,6 +18,7 @@ export const mockResponse = {
 };
 
 export const hostMock = (req, res, roles?: string[]): ArgumentsHost => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ctx: any = {};
   ctx.switchToHttp = jest.fn().mockReturnValue({
       getRequest: () => req,

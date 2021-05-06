@@ -89,6 +89,7 @@ describe('ConfigService', () => {
         const nodeEnvNumber = 4;
 
         const wrongEnvType =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           () => new (ConfigService as any)({ nodeEnv: nodeEnvNumber });
 
         expect(wrongEnv).toThrowError(ConfigValidationError);
@@ -109,7 +110,9 @@ describe('ConfigService', () => {
       });
 
       it('should REJECT values other than numbers', () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const stringPort = () => new (ConfigService as any)({ port: 'hello' });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ObjectPort = () => new (ConfigService as any)({ port: {} });
 
         expect(stringPort).toThrowError(ConfigValidationError);

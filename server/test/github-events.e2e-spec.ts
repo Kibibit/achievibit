@@ -29,7 +29,6 @@ import { PullRequest } from '@kb-models';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prService: PullRequestService;
-  let server;
   let db: typeof mongoose;
 
   beforeAll(async () => {
@@ -55,7 +54,6 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    server = app.getHttpServer();
     prService = moduleFixture.get(PullRequestService);
   });
 

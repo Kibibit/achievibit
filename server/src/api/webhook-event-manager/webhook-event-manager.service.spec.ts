@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AchievibitEventNames } from '@kb-abstracts';
@@ -115,15 +116,15 @@ describe('WebhookEventManagerService', () => {
         WebhookEventManagerService,
         {
           provide: UserService,
-          useValue: { create: (...anything) => user }
+          useValue: { create: () => user }
         },
         {
           provide: RepoService,
-          useValue: { create: (...anything) => repo }
+          useValue: { create: () => repo }
         },
         {
           provide: PullRequestService,
-          useValue: { create: (...anything) => pullRequest }
+          useValue: { create: () => pullRequest }
         }
       ]
     }).compile();
