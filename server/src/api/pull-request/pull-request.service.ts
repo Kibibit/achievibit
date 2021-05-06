@@ -18,6 +18,8 @@ export interface IFetchedData {
   reviewComments: any[];
   commits: any[];
   files: any[];
+  reactions: any[];
+  reviews: any[];
 }
 
 @Injectable()

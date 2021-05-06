@@ -21,6 +21,7 @@ import {
   webhookPingEvent
 } from '@kb-dev-tools';
 import { GithubEngine } from '@kb-engines';
+import { IGithubPullRequestEvent } from '@kb-interfaces';
 
 import { PullRequestService } from '../pull-request/pull-request.service';
 import { RepoService } from '../repo/repo.service';
@@ -140,7 +141,8 @@ describe('WebhookEventManagerService', () => {
   describe('Translate GitHubEvents to AchievibitEvents', () => {
     describe('Translate to internal events', () => {
       it('should ignore unrecognized events', () => {
-        const result = service.translateToEventName('nice', {});
+        const result = service
+          .translateToEventName('nice', {} as IGithubPullRequestEvent);
 
         expect(result).toBeUndefined();
       });
