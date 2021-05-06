@@ -1,5 +1,18 @@
 achievibit changelog
 
+# [2.0.0-beta.15](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.14...v2.0.0-beta.15) (2021-05-06)
+
+
+### Bug Fixes
+
+* **env:** remove env config files ([68649f7](https://github.com/Kibibit/achievibit/commit/68649f73894d6953ef442fb6f94eaaaa71f690c3))
+
+
+### Features
+
+* **pr:** add extra pr data to db item ([acaa7df](https://github.com/Kibibit/achievibit/commit/acaa7dff1873d989f4960048f8ab320bd6cd99b6))
+* **config:** add github token config ([c339c30](https://github.com/Kibibit/achievibit/commit/c339c30d8796052ecda056ff3642232e8ab2d674))
+
 # [2.0.0-beta.14](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.13...v2.0.0-beta.14) (2021-04-29)
 
 
