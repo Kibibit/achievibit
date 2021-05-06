@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsString
 } from 'class-validator';
-import { IUserAchievement } from 'kb-achievements';
 import {
   index,
   modelOptions,prop as PersistInDb,
@@ -16,6 +15,14 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 import { BaseModel } from '@kb-abstracts';
+
+export interface IUserAchievement {
+  name: string;
+  avatar: string;
+  short: string;
+  description: string;
+  relatedPullRequest: string;
+}
 
 @Exclude()
 @modelOptions({
