@@ -295,9 +295,9 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
       .updateReviewSubmitted(pr.prid, reviewStatus);
   }
   handlePullRequestMerged(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
-    eventData;
     throw new Error('Method not implemented.');
   }
 
