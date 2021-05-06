@@ -12,6 +12,15 @@ export interface INewData {
   description?: string;
 }
 
+export interface IFetchedData {
+  comments: any[];
+  reviewComments: any[];
+  commits: any[];
+  files: any[];
+  reactions: any[];
+  reviews: any[];
+}
+
 @Injectable()
 export class PullRequestService extends BaseService<PullRequest> {
   constructor(
@@ -132,6 +141,12 @@ export class PullRequestService extends BaseService<PullRequest> {
   async updatePRStatus(prid: string, newStatus: PRStatus) {
     return await this.prModel.findOneAndUpdate({ prid }, {
       status: newStatus
+    });
+  }
+
+  async updatePRExtraData(prid: string, extraData: IFetchedData) {
+    return await this.prModel.findOneAndUpdate({ prid }, {
+      ...extraData
     });
   }
 }
