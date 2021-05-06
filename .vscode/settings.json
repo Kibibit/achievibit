@@ -67,5 +67,11 @@
     "fontWeight": "bold",
     "borderRadius": "2px",
     "isWholeLine": true,
+  },
+  "gitlens.menus": {
+    "editorGroup": {
+        "blame": false,
+        "compare": false
+    }
   }
 }
