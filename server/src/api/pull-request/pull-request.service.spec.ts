@@ -8,7 +8,7 @@ import {
 } from '@kb-dev-tools';
 import { PullRequest } from '@kb-models';
 
-import { PullRequestService } from './pull-request.service';
+import { IFetchedData, PullRequestService } from './pull-request.service';
 
 describe('PullRequestService', () => {
   let service: PullRequestService;
@@ -108,5 +108,22 @@ describe('PullRequestService', () => {
     dbPR = await service.findOneAsync({ prid: mockPr.prid });
     pr = new PullRequest(dbPR.toObject());
     expect(pr.reviewers).not.toContain(mockReviewer.username);
+  });
+
+  it('should add extra PR data', async () => {
+    const mockPr = DtoMockGenerator.pullRequest();
+    await service.create(mockPr);
+    const extraData: IFetchedData = {
+      comments: [{ id: 'comment' }],
+      commits: [{ id: 'commit' }],
+      files: [{ name: 'file.ts' }],
+      reactions: [{ id: 'reaction' }],
+      reviewComments: [{ id: 'review-comment' }],
+      reviews: [{ id: 'review' }]
+    };
+    await service.updatePRExtraData(mockPr.prid, extraData);
+    const dbPR = await service.findOneAsync({ prid: mockPr.prid });
+    const pr = new PullRequest(dbPR.toObject());
+    expect(pr).toEqual(expect.objectContaining(extraData));
   });
 });
