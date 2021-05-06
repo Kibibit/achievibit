@@ -5,6 +5,8 @@ import RandExp from 'randexp';
 
 import { PullRequest, Repo, User } from '@kb-models';
 
+type IAchievementFiles = Record<string, Record<string, unknown>>;
+
 interface IChanceMixin {
   mongoObjectId: () => ObjectId;
   mongodbUrl: () => string;
@@ -13,7 +15,7 @@ interface IChanceMixin {
   repo: () => Repo;
   repos: () => Repo[];
   pullRequest: () => PullRequest;
-  achievementScripts: (numOfAchievements?: number) => { [ key: string ]: any };
+  achievementScripts: (numOfAchievements?: number) => IAchievementFiles;
   randexp: (regex: RegExp) => RandExp;
 }
 
@@ -82,7 +84,7 @@ const customMixin: IChanceMixin & Chance.MixinDescriptor = {
   },
   achievementScripts(
     numOfAchievements: number = chance.integer({ min: 1, max: 25 })
-  ): { [ key: string ]: any } {
+  ): IAchievementFiles {
     const scriptsObject = {};
 
     times(

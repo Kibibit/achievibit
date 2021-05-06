@@ -234,17 +234,17 @@ export interface IGithubCommit {
     author: IGithubUser;
     committer: IGithubUser;
     message: string;
-    tree: any;
+    tree: unknown;
     url: string;
     comment_count: number;
-    verification: any;
+    verification: unknown;
   };
   url: string;
   html_url: string;
   comments_url: string;
   author: IGithubUser;
   committer: IGithubUser;
-  parents: any;
+  parents: unknown;
 }
 
 export interface IGithubReaction {

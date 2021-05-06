@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString
 } from 'class-validator';
+import { IUserAchievement } from 'kb-achievements';
 import {
   index,
   modelOptions,prop as PersistInDb,
@@ -77,7 +78,7 @@ export class User extends BaseModel {
   @IsArray()
   @IsOptional()
   @PersistInDb()
-  achievements: any[];
+  achievements: IUserAchievement[];
 
   @Exclude()
   @PersistInDb()

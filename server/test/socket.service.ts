@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Observable } from 'rxjs';
 import { debounceTime, first, share, tap } from 'rxjs/operators';
 import { connect, Socket } from 'socket.io-client';
