@@ -15,7 +15,6 @@ describe('AppController (e2e)', () => {
   let app: INestApplication;
   let prService: PullRequestService;
   let taskService: TasksService;
-  let server;
   let db: typeof mongoose;
   const d15DaysFromNow = new Date();
   d15DaysFromNow.setDate(d15DaysFromNow.getDate() + 15);
@@ -45,7 +44,6 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    server = app.getHttpServer();
     prService = moduleFixture.get(PullRequestService);
     taskService = moduleFixture.get(TasksService);
   });

@@ -4,6 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { AchievibitEventNames } from '@kb-abstracts';
 import { GithubEngine } from '@kb-engines';
+import { IGithubPullRequestEvent } from '@kb-interfaces';
 
 import { PullRequestService } from '../pull-request/pull-request.service';
 import { RepoService } from '../repo/repo.service';
@@ -26,7 +27,10 @@ export class WebhookEventManagerService {
     );
   }
 
-  async notifyAchievements(githubEvent: string, eventData: any): Promise<any> {
+  async notifyAchievements(
+    githubEvent: string,
+    eventData: IGithubPullRequestEvent
+  ): Promise<string> {
     const eventName = this.translateToEventName(githubEvent, eventData);
 
     switch (eventName) {
@@ -101,7 +105,7 @@ export class WebhookEventManagerService {
 
   translateToEventName(
     eventName: string,
-    eventData: any
+    eventData: IGithubPullRequestEvent
   ): AchievibitEventNames {
     // console.log('the event name is:', eventName);
     if (isEqual(eventName, 'ping')) {

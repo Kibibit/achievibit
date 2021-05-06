@@ -297,6 +297,7 @@ export class GithubEngine extends Engine<IGithubPullRequestEvent> {
   handlePullRequestMerged(
     eventData: IGithubPullRequestEvent
   ): Promise<void> {
+    eventData;
     throw new Error('Method not implemented.');
   }
 

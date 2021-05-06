@@ -35,11 +35,16 @@ const appRoot = findRoot(__dirname, (dir) => {
 });
 const environment = get(process, 'env.NODE_ENV', 'development');
 const eventLogger: Logger = new Logger('SmeeEvents');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (eventLogger as any).info = eventLogger.log;
 const defaultConfigFilePath = join(appRoot, 'defaults.env.json');
 const configFilePath = join(appRoot, `${ environment }.env.json`);
 
 const packageDetails = new ApiInfo(readJSONSync(join(appRoot, 'package.json')));
+
+interface IEvents {
+  close(): void;
+}
 
 nconf
   .argv({
@@ -54,7 +59,7 @@ nconf
   .file('environment', { file: configFilePath });
 
 let smee: SmeeClient;
-let events: any;
+let events: IEvents;
 let configService: ConfigService;
 
 /**
@@ -73,11 +78,11 @@ export class ConfigService extends AchievibitConfig {
     return smee;
   }
 
-  get events(): any {
+  get events(): IEvents {
     return events;
   }
 
-  get packageDetails(): any {
+  get packageDetails(): ApiInfo {
     return packageDetails;
   }
 
@@ -107,6 +112,7 @@ export class ConfigService extends AchievibitConfig {
           source: this.webhookProxyUrl,
           target:
             `http://localhost:${ this.port }/${ this.webhookDestinationUrl }`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           logger: eventLogger as any
         });
       }
@@ -150,7 +156,7 @@ export class ConfigService extends AchievibitConfig {
    * including the applied default values.
    */
   private validateInput(
-    envConfig: Record<string, any>
+    envConfig: Record<string, unknown>
   ): Partial<AchievibitConfig> {
     const achievibitConfig = new AchievibitConfig(envConfig);
     const validationErrors = validateSync(achievibitConfig);

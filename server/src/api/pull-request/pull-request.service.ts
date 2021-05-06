@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReturnModelType } from '@typegoose/typegoose';
 
 import { Injectable } from '@nestjs/common';
@@ -17,8 +18,6 @@ export interface IFetchedData {
   reviewComments: any[];
   commits: any[];
   files: any[];
-  reactions: any[];
-  reviews: any[];
 }
 
 @Injectable()

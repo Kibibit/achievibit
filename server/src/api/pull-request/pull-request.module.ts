@@ -7,7 +7,7 @@ import { PullRequest } from '@kb-models';
 import { PullRequestController } from './pull-request.controller';
 import { PullRequestService } from './pull-request.service';
 
-const devControllers: Type<any>[] = [PullRequestController];
+const devControllers: Type<unknown>[] = [PullRequestController];
 const logger = new Logger('PullRequestModule');
 
 const config = new ConfigService();
