@@ -4,6 +4,7 @@ exports[`ConfigService Forced Singleton and baypass should set default values to
 Object {
   "dbUrl": undefined,
   "deletePRsHealthId": undefined,
+  "githubAccessToken": undefined,
   "nodeEnv": "development",
   "port": 10101,
   "webhookDestinationUrl": "events",

@@ -36,6 +36,7 @@ const appRoot = findRoot(__dirname, (dir) => {
 const environment = get(process, 'env.NODE_ENV', 'development');
 const eventLogger: Logger = new Logger('SmeeEvents');
 (eventLogger as any).info = eventLogger.log;
+const defaultConfigFilePath = join(appRoot, 'defaults.env.json');
 const configFilePath = join(appRoot, `${ environment }.env.json`);
 
 const packageDetails = new ApiInfo(readJSONSync(join(appRoot, 'package.json')));
@@ -49,7 +50,8 @@ nconf
     parseValues: true,
     transform: transformToLowerCase
   })
-  .file({ file: configFilePath });
+  .file('defaults', { file: defaultConfigFilePath })
+  .file('environment', { file: configFilePath });
 
 let smee: SmeeClient;
 let events: any;

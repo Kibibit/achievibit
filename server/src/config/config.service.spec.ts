@@ -10,7 +10,10 @@ import {
 } from './achievibit-config.model';
 import { ConfigService } from './config.service';
 
-// not a jest component so testing it as a node module
+// TODO@Thatkookooguy: #354 manual mock this to test events when created
+jest.mock('smee-client');
+
+// testing it as a node module and not as a nestjs component
 describe('ConfigService', () => {
 
   describe('Forced Singleton and baypass', () => {
@@ -19,10 +22,6 @@ describe('ConfigService', () => {
       configService = new ConfigService({
         webhookProxyUrl: 'https://smee.io/achievibit-test'
       });
-    });
-
-    afterEach(() => {
-      configService.closeEvents();
     });
 
     it('should be defined', () => {
@@ -52,8 +51,6 @@ describe('ConfigService', () => {
 
       expect(productionService.smee).toBeUndefined();
       expect(productionService.events).toBeUndefined();
-
-      productionService.closeEvents();
     });
 
     it('should initial smee and events on development', () => {
@@ -62,9 +59,7 @@ describe('ConfigService', () => {
       });
 
       expect(productionService.smee).toBeDefined();
-      expect(productionService.events).toBeDefined();
-
-      productionService.closeEvents();
+      expect(productionService.smee.start).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -81,8 +76,6 @@ describe('ConfigService', () => {
             const serviceWrapper = () => new ConfigService({ nodeEnv });
 
             expect(serviceWrapper().toPlainObject).toBeDefined();
-
-            serviceWrapper().closeEvents();
           });
         })
         .value();
@@ -133,8 +126,6 @@ describe('ConfigService', () => {
         const service = new ConfigService({ dbUrl: undefined });
 
         expect(service.dbUrl).toBeUndefined();
-
-        service.closeEvents();
       });
 
       it('should ACCEPT localhost mongodb URL', () => {
@@ -178,7 +169,6 @@ describe('ConfigService', () => {
             webhookProxyUrl: smeeProtocolUrl
           }))
           .forEach((configService, smeeProtocolUrl) => {
-            configService.closeEvents();
             expect(configService.webhookProxyUrl).toBe(smeeProtocolUrl);
           })
           .value();

@@ -84,6 +84,14 @@ export class AchievibitConfig {
   ])
   deletePRsHealthId;
 
+  @Expose()
+  @IsString()
+  @IsOptional()
+  @Validate(JsonSchema, [
+    'GitHub Access Token'
+  ])
+  githubAccessToken: string;
+
   constructor(partial: Partial<AchievibitConfig> = {}) {
     Object.assign(this, partial);
   }
