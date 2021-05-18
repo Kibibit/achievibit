@@ -5,6 +5,7 @@ import { chain } from 'lodash';
 import { join } from 'path';
 
 import { ConfigService } from '@kb-config';
+import { KbMeasure } from '@kb-decorators';
 import { ApiInfo } from '@kb-models';
 
 @Controller('api')
@@ -48,7 +49,8 @@ export class ApiController {
   @ApiOperation({
     deprecated: true
   })
+  @KbMeasure(ApiController.name)
   async deprecationTest() {
-    return new Promise((resolve) => setTimeout(() => resolve('hello'), 60000));
+    return new Promise((resolve) => setTimeout(() => resolve('hello'), 6000));
   }
 }
