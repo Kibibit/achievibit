@@ -15,8 +15,6 @@ const omitMeta = [
   'env'
 ];
 
-// console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
-
 export function initializeWinston(rootFolder: string) {
   winstonInstance.logger = createLogger({
     transports: [
