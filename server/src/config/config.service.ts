@@ -133,7 +133,7 @@ export class ConfigService extends AchievibitConfig {
       }
 
       if (!events) {
-        // this.logger.log('Starting to listen to events from Proxy');
+        this.logger.log('Starting to listen to events from Proxy');
         events = this.smee.start();
       }
     } else {
