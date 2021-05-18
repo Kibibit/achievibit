@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "generate-barrels": "barrelsby --delete -d ./src -l below -q --exclude spec.ts",
+    "generate-barrels": "barrelsby --delete -d ./src -l below -q --exclude spec.ts --exclude __mocks__",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

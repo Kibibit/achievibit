@@ -13,12 +13,14 @@ import { camelCase, get } from 'lodash';
 import nconf from 'nconf';
 import SmeeClient from 'smee-client';
 
-import { Logger } from '@nestjs/common';
+import { WinstonLogger } from '@kibibit/nestjs-winston';
 
 import { ConfigValidationError } from '@kb-errors';
 import { ApiInfo } from '@kb-models';
 
 import { AchievibitConfig } from './achievibit-config.model';
+
+import './winston.config';
 
 const appRoot = findRoot(__dirname, (dir) => {
   const packagePath = join(dir, 'package.json');
@@ -34,13 +36,12 @@ const appRoot = findRoot(__dirname, (dir) => {
   return false;
 });
 const environment = get(process, 'env.NODE_ENV', 'development');
-const eventLogger: Logger = new Logger('SmeeEvents');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(eventLogger as any).info = eventLogger.log;
 const defaultConfigFilePath = join(appRoot, 'defaults.env.json');
 const configFilePath = join(appRoot, `${ environment }.env.json`);
 
 const packageDetails = new ApiInfo(readJSONSync(join(appRoot, 'package.json')));
+
+const eventLogger: WinstonLogger = new WinstonLogger('SmeeEvents');
 
 interface IEvents {
   close(): void;
@@ -70,7 +71,7 @@ let configService: ConfigService;
  */
 @Exclude()
 export class ConfigService extends AchievibitConfig {
-  private logger: Logger = new Logger('ConfigService');
+  private logger: WinstonLogger = new WinstonLogger('ConfigService');
 
   private readonly mode: string = environment;
 
@@ -113,12 +114,24 @@ export class ConfigService extends AchievibitConfig {
           target:
             `http://localhost:${ this.port }/${ this.webhookDestinationUrl }`,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          logger: eventLogger as any
+          logger: {
+            error(...data: any[]) {
+              const message = data.shift();
+              console.log(data);
+              const metadata = data.length ? { data } : undefined;
+              eventLogger.error(message, metadata);
+            },
+            info(...data: any[]) {
+              const message = data.shift();
+              const metadata = data.length ? { data } : undefined;
+              eventLogger.info(message, metadata);
+            }
+          }
         });
       }
 
       if (!events) {
-        this.logger.log('Starting to listen to events from Proxy');
+        // this.logger.log('Starting to listen to events from Proxy');
         events = this.smee.start();
       }
     } else {

@@ -115,6 +115,7 @@
   "dependencies": {
     "@kibibit/consologo": "^1.2.0",
     "@kibibit/kb-error": "^1.0.3",
+    "@kibibit/nestjs-winston": "0.5.0",
     "@nestjs/common": "^7.6.11",
     "@nestjs/core": "^7.6.11",
     "@nestjs/mongoose": "^7.0.4",
@@ -139,8 +140,10 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "smee-client": "^1.2.2",
+    "bytes": "^3.1.0",
     "swagger-ui-express": "^4.1.6",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   },
   "config": {
     "commitizen": {
