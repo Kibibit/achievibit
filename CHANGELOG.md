@@ -1,5 +1,22 @@
 achievibit changelog
 
+# [2.0.0-beta.17](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.16...v2.0.0-beta.17) (2021-05-18)
+
+
+### Bug Fixes
+
+* **smells:** fix code smells ([1a79c5f](https://github.com/Kibibit/achievibit/commit/1a79c5f86789dbbd1e893f64f79baefabc085f2e))
+* **winston:** pass appRoot to winston config ([08e9a27](https://github.com/Kibibit/achievibit/commit/08e9a27e1e760542c291df46ea38cc446efcaf61))
+* **smells:** reduce function complexity ([9909875](https://github.com/Kibibit/achievibit/commit/99098757ccf1b4de51016723ef55c031e5aa60c2))
+* **winston:** update dependency ([af3e2b3](https://github.com/Kibibit/achievibit/commit/af3e2b3a693c60e5b54435cdf70bfae4beec1ec7))
+
+
+### Features
+
+* **decorators:** add KbMeasure decorator ([0049de8](https://github.com/Kibibit/achievibit/commit/0049de8439ec3d163eb5acbc042742d9d43b89ab))
+* **winston:** integrate winston logger ([f3793d5](https://github.com/Kibibit/achievibit/commit/f3793d59484e8ee06a9816fc4a8537cc18ff26dd))
+* **winston:** replace logger everywhere ([6af0bdd](https://github.com/Kibibit/achievibit/commit/6af0bddd00a2c5cf14b1112e91bd3f202b3e51e4))
+
 # [2.0.0-beta.16](https://github.com/Kibibit/achievibit/compare/v2.0.0-beta.15...v2.0.0-beta.16) (2021-05-06)
 
 
