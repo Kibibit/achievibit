@@ -4,7 +4,7 @@ import bytes from 'bytes';
 import winston, { createLogger } from 'winston';
 
 import {
-  utilities as nestWinstonModuleUtilities,
+  nestLike,
   winstonInstance
 } from '@kibibit/nestjs-winston';
 
@@ -23,7 +23,7 @@ export function initializeWinston(rootFolder: string) {
         format: winston.format.combine(
           winston.format.timestamp(),
           winston.format.ms(),
-          nestWinstonModuleUtilities.format.nestLike('achievibit', omitMeta),
+          nestLike('achievibit', omitMeta),
         )
       }),
       new winston.transports.File({
