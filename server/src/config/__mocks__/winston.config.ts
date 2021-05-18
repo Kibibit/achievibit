@@ -5,11 +5,15 @@ import {
   winstonInstance
 } from '@kibibit/nestjs-winston';
 
-winstonInstance.logger = createLogger({
-  transports: [
-    new winston.transports.Console({
-      silent: true,
-      level: 'debug'
-    })
-  ]
-});
+export function initializeWinston() {
+  winstonInstance.logger = createLogger({
+    transports: [
+      new winston.transports.Console({
+        silent: true,
+        level: 'debug'
+      })
+    ]
+  });
+}
+
+initializeWinston();

@@ -19,8 +19,7 @@ import { ConfigValidationError } from '@kb-errors';
 import { ApiInfo } from '@kb-models';
 
 import { AchievibitConfig } from './achievibit-config.model';
-
-import './winston.config';
+import { initializeWinston } from './winston.config';
 
 const appRoot = findRoot(__dirname, (dir) => {
   const packagePath = join(dir, 'package.json');
@@ -36,6 +35,9 @@ const appRoot = findRoot(__dirname, (dir) => {
   return false;
 });
 const environment = get(process, 'env.NODE_ENV', 'development');
+
+initializeWinston(appRoot);
+
 const defaultConfigFilePath = join(appRoot, 'defaults.env.json');
 const configFilePath = join(appRoot, `${ environment }.env.json`);
 
