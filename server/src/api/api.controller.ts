@@ -3,8 +3,10 @@ import { join } from 'path';
 import { readJSON } from 'fs-extra';
 import { chain } from 'lodash';
 
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+
+import { WinstonLogger } from '@kibibit/nestjs-winston';
 
 import { ConfigService } from '@kb-config';
 import { ApiInfo } from '@kb-models';
@@ -12,7 +14,7 @@ import { ApiInfo } from '@kb-models';
 @Controller('api')
 export class ApiController {
   readonly appRoot: string;
-  private readonly logger = new Logger(ApiController.name);
+  private readonly logger = new WinstonLogger(ApiController.name);
 
   constructor(private readonly configService: ConfigService) {
     this.appRoot = this.configService.appRoot;
@@ -42,7 +44,7 @@ export class ApiController {
       .mapValues((val) => val.url ? val.url : val)
       .value()
     );
-    this.logger.log('Api information requested');
+    this.logger.info('Api information requested');
     return details;
   }
 
