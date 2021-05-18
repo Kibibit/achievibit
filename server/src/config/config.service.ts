@@ -99,15 +99,29 @@ export class ConfigService extends AchievibitConfig {
 
     const config = passedConfig || nconf.get();
     const envConfig = this.validateInput(config);
-    const passedConfigNodeEnv = get(passedConfig, 'nodeEnv', '');
 
     // attach configuration to this service
     Object.assign(this, envConfig);
 
+    this.initializeSmee(passedConfig);
+
+    if (config.saveToFile) {
+      writeJson(configFilePath, classToPlain(this), { spaces: 2 });
+    }
+
+    const schema = this.toJsonSchema();
+    writeJSONSync(join(this.appRoot, 'env.schema.json'), schema);
+
+    configService = this;
+  }
+
+  initializeSmee(passedConfig?: Partial<AchievibitConfig>) {
     const smeeEnvironments = [
       'development',
       'devcontainer'
     ];
+    const passedConfigNodeEnv = get(passedConfig, 'nodeEnv', '');
+
     if (smeeEnvironments.includes(this.nodeEnv) ||
       smeeEnvironments.includes(passedConfigNodeEnv)) {
       if (!smee) {
@@ -115,20 +129,7 @@ export class ConfigService extends AchievibitConfig {
           source: this.webhookProxyUrl,
           target:
             `http://localhost:${ this.port }/${ this.webhookDestinationUrl }`,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          logger: {
-            error(...data: any[]) {
-              const message = data.shift();
-              console.log(data);
-              const metadata = data.length ? { data } : undefined;
-              eventLogger.error(message, metadata);
-            },
-            info(...data: any[]) {
-              const message = data.shift();
-              const metadata = data.length ? { data } : undefined;
-              eventLogger.info(message, metadata);
-            }
-          }
+          logger: this.getSmeeLogger()
         });
       }
 
@@ -142,15 +143,6 @@ export class ConfigService extends AchievibitConfig {
       smee = undefined;
       events = undefined;
     }
-
-    if (config.saveToFile) {
-      writeJson(configFilePath, classToPlain(this), { spaces: 2 });
-    }
-
-    const schema = this.toJsonSchema();
-    writeJSONSync(join(this.appRoot, 'env.schema.json'), schema);
-
-    configService = this;
   }
 
   closeEvents() {
@@ -180,6 +172,22 @@ export class ConfigService extends AchievibitConfig {
       throw new ConfigValidationError(validationErrors);
     }
     return classToPlain(achievibitConfig);
+  }
+
+  private getSmeeLogger() {
+    return {
+      error(...data: any[]) {
+        const message = data.shift();
+        console.log(data);
+        const metadata = data.length ? { data } : undefined;
+        eventLogger.error(message, metadata);
+      },
+      info(...data: any[]) {
+        const message = data.shift();
+        const metadata = data.length ? { data } : undefined;
+        eventLogger.info(message, metadata);
+      }
+    };
   }
 }
 
