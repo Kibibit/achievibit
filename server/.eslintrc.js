@@ -6,6 +6,7 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint/eslint-plugin',
+    'unused-imports',
     'simple-import-sort',
     'import'
   ],
@@ -23,6 +24,7 @@ module.exports = {
     jest: true,
   },
   rules: {
+    'unused-imports/no-unused-imports': 'error',
     'simple-import-sort/imports': ['error', {
       groups: [
         // 1. built-in node.js modules
