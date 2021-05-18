@@ -1,5 +1,8 @@
+
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+
+import { WinstonModule } from '@kibibit/nestjs-winston';
 
 import { ApiModule } from '@kb-api';
 import { ConfigModule } from '@kb-config';
@@ -10,6 +13,7 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [
+    WinstonModule.forRoot({}),
     ApiModule,
     ScheduleModule.forRoot(),
     EventsModule,

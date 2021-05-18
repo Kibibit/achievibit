@@ -1,3 +1,7 @@
+import '../src/config/winston.config';
+
+jest.mock('../src/config/winston.config');
+
 const nativeConsoleError = global.console.warn;
 
 global.console.warn = (...args) => {
