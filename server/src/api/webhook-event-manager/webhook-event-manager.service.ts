@@ -1,6 +1,8 @@
 import { isEqual } from 'lodash';
 
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+
+import { WinstonLogger } from '@kibibit/nestjs-winston';
 
 import { AchievibitEventNames } from '@kb-abstracts';
 import { GithubEngine } from '@kb-engines';
@@ -12,7 +14,7 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class WebhookEventManagerService {
-  private readonly logger = new Logger('GithubEventManagerService');
+  private readonly logger = new WinstonLogger('GithubEventManagerService');
   githubEngine: GithubEngine;
 
   constructor(

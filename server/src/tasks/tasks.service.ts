@@ -1,5 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+
+import { WinstonLogger } from '@kibibit/nestjs-winston';
 
 import { PullRequestService } from '@kb-api';
 import { ConfigService } from '@kb-config';
@@ -9,10 +11,10 @@ import { PRStatus, PullRequest } from '@kb-models';
 const configService = new ConfigService;
 @Injectable()
 export class TasksService {
-  private readonly logger = new Logger(TasksService.name);
+  private readonly logger = new WinstonLogger(TasksService.name);
 
   constructor(private prService: PullRequestService) {
-    this.logger.log('tasks started');
+    this.logger.log('Tasks Service Initialized');
   }
   
   /** At 00:00 on Sunday */
@@ -61,7 +63,7 @@ export class TasksService {
   private async deletePRsByIds(ids: string[]) {
     if (ids.length) {
       this.logger.log('Removing PRs:');
-      this.logger.log(ids);
+      this.logger.log('IDs', { ids });
       await this.prService.deleteAsync({
         prid: { $in: ids }
       });

@@ -1,5 +1,7 @@
-import { Logger, Module, Type } from '@nestjs/common';
+import { Module, Type } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+
+import { WinstonLogger } from '@kibibit/nestjs-winston';
 
 import { ConfigService } from '@kb-config';
 import { PullRequest } from '@kb-models';
@@ -8,7 +10,7 @@ import { PullRequestController } from './pull-request.controller';
 import { PullRequestService } from './pull-request.service';
 
 const devControllers: Type<unknown>[] = [PullRequestController];
-const logger = new Logger('PullRequestModule');
+const logger = new WinstonLogger('PullRequestModule');
 
 const config = new ConfigService();
 const controllers = (() => {
@@ -16,7 +18,7 @@ const controllers = (() => {
     return [];
   } else {
     logger.log('Not running in production mode!');
-    logger.warn('Attaching Pull Request controller for development');
+    logger.debug('Attaching Pull Request controller for development');
     return devControllers;
   }
 })();
