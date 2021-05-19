@@ -2,7 +2,10 @@ name: Lint Server
 
 on:
   workflow_dispatch:
-  pull_request:
+  pull_request: # Run on local PRs
+    paths:
+    - 'server/**'
+  pull_request_target: # Run on fork PRs
     paths:
     - 'server/**'
   push:
