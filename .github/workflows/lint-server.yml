@@ -40,7 +40,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Run linters
-        uses: wearerequired/lint-action@v1
+        uses: wearerequired/lint-action@v1.9.0
         with:
           github_token: ${{ secrets.github_token }}
           # Enable linters
