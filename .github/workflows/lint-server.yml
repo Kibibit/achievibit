@@ -42,7 +42,7 @@ jobs:
       - name: Run linters
         uses: wearerequired/lint-action@v1.9.0
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.BOT_TOKEN }}
           # Enable linters
           eslint: true
           # Eslint options
