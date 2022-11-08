@@ -47,6 +47,8 @@
 
 ## how to use
 
+pizza
+
 **we're working on implementing GitHub oAuth to support some extra features.**
 
 ***stay tuned***
