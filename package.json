@@ -129,7 +129,7 @@
     "@typegoose/typegoose": "^7.6.0",
     "axios": "^0.21.1",
     "class-transformer": "^0.3.2",
-    "class-validator": "^0.13.1",
+    "class-validator": "^0.14.0",
     "class-validator-jsonschema": "^3.0.1",
     "find-root": "^1.1.0",
     "fs-extra": "^9.1.0",
